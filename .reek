@@ -1,0 +1,2 @@
+NestedIterators:
+  max_allowed_nesting: 3

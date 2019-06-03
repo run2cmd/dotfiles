@@ -1,0 +1,27 @@
+# skip the startup message
+startup_message off
+term xterm-256color
+defscrollback 100000
+nethack on
+nonblock on
+altscreen on
+shell -${SHELL}
+# Display a caption string below, appearing like tabs and
+# displaying the window number and application name (by default).
+#caption always
+caption string "[%= %t %=]"
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{g} %d-%m-%Y %c ]'
+#
+# j to move down a window, k to move up
+bindkey -k k5 focus next
+bindkey -k k6 focus prev
+#
+# disable bell
+vbell off
+#
+# Default screens
+chdir /c/code/
+screen -t 'CMD'
+screen -t 'VIM' vim
+

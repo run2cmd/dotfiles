@@ -1,0 +1,13 @@
+# This is Git's per-user configuration file.
+[user]
+  name = Bugala Piotr
+  email = Piotr.Bugala@igt.com
+[core]
+  autocrlf = input
+  longpaths = true
+[http]
+  sslVerify = false
+[push]
+  default = simple
+[merge]
+  commit = no
