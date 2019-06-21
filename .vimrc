@@ -34,27 +34,27 @@ call vundle#begin('$HOME/.vim/bundle/')
 Plugin 'VundleVim/Vundle.vim'             "Plugin manager
 Plugin 'ctrlpvim/ctrlp.vim'               "Buffer Control
 Plugin 'sgur/ctrlp-extensions.vim'        "Extensions for CtrlP (Yankring)
-Plugin 'vifm/neovim-vifm'                 "Vim like File explorer integration
+Plugin 'sheerun/vim-polyglot'             "Syntax Highlight
 Plugin 'w0rp/ale'                         "Syntax Checker
-Plugin 'rodjek/vim-puppet'                "Puppet syntax support
+Plugin 'vifm/neovim-vifm'                 "Vim like File explorer integration
 Plugin 'tpope/vim-fugitive'               "git support
 Plugin 'mhinz/vim-signify'                "VCS differences in sign column
 Plugin 'tpope/vim-unimpaired'             "Quick switch over mappings
 Plugin 'tpope/vim-surround'               "Easy surround changes
 Plugin 'tpope/vim-dispatch'               "Run async commands
 Plugin 'tpope/vim-eunuch'                 "Unix File operations
+Plugin 'tpope/vim-repeat'                 "Support to repeate
 Plugin 'airblade/vim-rooter'              "Change root to .git directory
 Plugin 'ludovicchabant/vim-gutentags'     "Generate c-tags
 Plugin 'lifepillar/vim-mucomplete'        "Completeion Engine
 Plugin 'godlygeek/tabular'                "auto tab
 Plugin 'terryma/vim-multiple-cursors'     "Multiple cursor support
-Plugin 'plasticboy/vim-markdown'          "Support for markdown docs
+Plugin 'junegunn/vim-easy-align'          "Align text
+Plugin 'Chiel92/vim-autoformat'           "Autoformat
 Plugin 'Yggdroot/indentLine'              "Indent line
 Plugin 'easymotion/vim-easymotion'        "Easy file navigation
 Plugin 'gilsondev/searchtasks.vim'        "Search tasks: TODO, FIXME, etc.
 Plugin 'tpope/vim-endwise'                "Auto end functions
-Plugin 'sukima/xmledit'                   "Xml support
-Plugin 'aklt/plantuml-syntax'             "PlantUML support
 if i_have_vundle == 0
   echo "Installing Vundles, please ignore key map error messages"
   echo ""
@@ -191,6 +191,9 @@ autocmd BufEnter * :syntax sync fromstart
 nnoremap gc :%s/\s\+$//<CR>:noh<CR>
 nnoremap go :tabnew<CR>
 nnoremap <F9> :tab term powershell<CR>
+" Ruby change syntaxt to 2.1
+nnoremap <F8> :%s/\(\w*\)[ ]*=>/\1:/gc<CR>
+
 
 " QuickFixWindow
 autocmd QuickFixCmdPost [^l]* copen 10
@@ -209,11 +212,6 @@ let g:netrw_liststyle      = 1
 let g:netrw_retmap         = 1
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
-
-" Session manager
-set sessionoptions-=blank
-map <F2> :mksession! ~/.vim/vim_session <cr>
-map <F3> :source ~/.vim/vim_session <cr>
 
 " Turn on omni-completion
 set omnifunc=syntaxcomplete#Complete
@@ -248,10 +246,6 @@ let g:ctrlp_custom_ignore = {
 \ }
 nnoremap <C-y> :CtrlPYankring<CR>
 
-" vim-puppet
-" Disable => autointent
-let g:puppet_align_hashes = 0
-
 " Ale checker
 " Does not support puppet options yet, so need to setup '--no-140chars-check' in  ~/.puppet-lint.rc
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
@@ -277,6 +271,9 @@ function! LinterStatus() abort
   \   all_errors
   \)
 endfunction
+let g:ale_fixers = {
+\   'puppet': ['puppetlint', 'trim_whitespace'],
+\}
 
 " Disable folding for .md files
 let g:vim_markdown_folding_disabled = 1
@@ -293,8 +290,11 @@ nnoremap gp :Tab/=><CR>
 let g:rooter_silent_chdir = 1
 
 " ViFM Explorer
-let $MYVIFMRC="~/.vim/vifmrc"
 nnoremap <F6> :edit %:p:h<CR>
+
+" Easy Align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " Filetype support
 autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
@@ -321,9 +321,6 @@ autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -bat
 nnoremap <F7> :Dispatch<CR>
 " Move quickfix window to very bottom
 autocmd FileType qf wincmd J
-
-" Ruby change syntaxt to 2.1
-nnoremap <F8> :%s/\(\w*\)[ ]*=>/\1:/gc<CR>
 
 " Set status line
 set laststatus=2
