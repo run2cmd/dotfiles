@@ -12,55 +12,7 @@ source $VIMRUNTIME/vimrc_example.vim
 
 " Add default Unix path for multip platform support
 set rtp+=$HOME/.vim
-
-" Vundle for plugin management
-" Install if not present
-" IMPORTANT: works in CLI version only.
-cd $HOME
-let i_have_vundle=1
-let vundle_readme=expand('.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme)
-  echo "Installing Vundle.."
-  echo ""
-  silent !mkdir -p .vim/bundle
-  silent !git clone https://github.com/VundleVim/Vundle.vim .vim/bundle/Vundle.vim
-  let i_have_vundle=0
-endif
-
-" Automatic plugin installation
-filetype off
-set rtp+=$HOME/.vim/bundle/Vundle.vim
-call vundle#begin('$HOME/.vim/bundle/')
-Plugin 'VundleVim/Vundle.vim'             "Plugin manager
-Plugin 'ctrlpvim/ctrlp.vim'               "Buffer Control
-Plugin 'sgur/ctrlp-extensions.vim'        "Extensions for CtrlP (Yankring)
-Plugin 'sheerun/vim-polyglot'             "Syntax Highlight
-Plugin 'w0rp/ale'                         "Syntax Checker
-Plugin 'vifm/neovim-vifm'                 "Vim like File explorer integration
-Plugin 'tpope/vim-fugitive'               "git support
-Plugin 'mhinz/vim-signify'                "VCS differences in sign column
-Plugin 'tpope/vim-unimpaired'             "Quick switch over mappings
-Plugin 'tpope/vim-surround'               "Easy surround changes
-Plugin 'tpope/vim-dispatch'               "Run async commands
-Plugin 'tpope/vim-eunuch'                 "Unix File operations
-Plugin 'tpope/vim-repeat'                 "Support to repeate
-Plugin 'airblade/vim-rooter'              "Change root to .git directory
-Plugin 'ludovicchabant/vim-gutentags'     "Generate c-tags
-Plugin 'lifepillar/vim-mucomplete'        "Completeion Engine
-Plugin 'godlygeek/tabular'                "auto tab
-Plugin 'terryma/vim-multiple-cursors'     "Multiple cursor support
-Plugin 'junegunn/vim-easy-align'          "Align text
-Plugin 'Chiel92/vim-autoformat'           "Autoformat
-Plugin 'Yggdroot/indentLine'              "Indent line
-Plugin 'easymotion/vim-easymotion'        "Easy file navigation
-Plugin 'gilsondev/searchtasks.vim'        "Search tasks: TODO, FIXME, etc.
-Plugin 'tpope/vim-endwise'                "Auto end functions
-if i_have_vundle == 0
-  echo "Installing Vundles, please ignore key map error messages"
-  echo ""
-  :PluginInstall
-endif
-call vundle#end()
+set packpath+=$HOME/.vim
 
 " Enable filetype for autocmd
 filetype plugin indent on
