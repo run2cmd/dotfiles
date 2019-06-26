@@ -1,123 +1,86 @@
-" Disable compatible mode
-set nocompatible
+" ~/.vimrc
 
-" Set language
+"
+" Section: Defaults
+"
+set nocompatible
+filetype plugin indent on
+
+source $VIMRUNTIME/vimrc_example.vim
+
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+"
+" Section: Language, file encoding and format
+"
 set langmenu=en_US.UTF-8
+let $LANG = 'en_US'
 if has("win32")
   language en
 endif
 
-" Apply defaults everyone wants
-source $VIMRUNTIME/vimrc_example.vim
-
-" Add default Unix path for multip platform support
-set rtp+=$HOME/.vim
-set packpath+=$HOME/.vim
-
-" Enable filetype for autocmd
-filetype plugin indent on
-
-" Set files and directories
-set directory=~/.vim/tmp
-set backupdir=~/.vim/backup
-set viminfo+='1000,n~/.vim/viminfo
-
-" Enable syntax higlight
-syntax on
-
-" Set background
-set background=dark
-
-" Disable visual bell
-set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb=
-
-" Reread file if was changed
-set autoread
-
-" Enable better histroy
-set history=1000
-
-" Make sure that we confirm on unsaved files
-set confirm
-
-" Better lists
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-
-" Max tab pages
-set tabpagemax=50
-
-" Make sure that undofiles are not scatterd
-set undodir=~/.vim/undofiles
-
-" Make sure that GVim is in English
-set langmenu=en_US
-let $LANG = 'en_US'
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-" Work mostly on unix files
-set fileformat=unix
-set fileformats=unix,dos
-
-" Set font for Gvim
-set guifont=Consolas:h10
-
-" Disable gvim menus ant toolbars
-set guioptions-=m
-set guioptions-=T
-set guioptions-=t
-set guioptions-=r
-set guioptions-=L
-
-" Tab names
-set guitablabel=%F
-set tabline=%F
-
-" Search options
-set hlsearch
-set incsearch
-
-" Setup encoding for cygwin mostly
 setglobal fileencoding=utf-8
 set encoding=utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
 
-" Improve backspace
-set backspace=indent,eol,start
+set fileformat=unix
+set fileformats=unix,dos
 
-" Set update to get faster results with plugins (default i 14400 = 4sec)
-set updatetime=250
 
-" Display completion matches in statusline
-set wildmenu
-
-" Set path to look into all subdirectories
+"
+" Section: Files and directories
+" 
+set rtp+=$HOME/.vim
+set packpath+=$HOME/.vim
+set directory=~/.vim/tmp
+set backupdir=~/.vim/backup
+set viminfo+='1000,n~/.vim/viminfo
+set undodir=~/.vim/undofiles
 set path+=**
 
-" Auto line wrapping
-set tw=220
+"
+" Section: Colors and Fonts
+" 
+syntax on
+set background=dark
+set guifont=Consolas:h10
+colorscheme bugi
 
-" Delete comment character when joining commented lines
+" 
+" Section: File opertaions
+"
+set autoread
+set lazyredraw
+set confirm
+
+"
+" Section: Search and replace
+"
+set hlsearch
+set incsearch
+
+"
+" Section: Tabs
+"
+set tabpagemax=50
+set guitablabel=%F
+set tabline=%F
+
+"
+" Section: Text format
+"
+
+set history=1000
+set textwidth=220
+set backspace=indent,eol,start
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set formatoptions+=j
 
-" Line numbers
-set number
-
-" Set standard textwidth
-set textwidth=220
-
-" Always show one line blow/above cursor
-if !&scrolloff
-  set scrolloff=1
-endif
-if !&sidescrolloff
-  set sidescrolloff=5
-endif
-set display+=lastline
-
-" Tab config
 set smartindent
 set autoindent
 set tabstop=4
@@ -125,33 +88,65 @@ set shiftwidth=4
 set expandtab
 set smarttab
 
-" Lets go PRO. No Arrows movements.
+autocmd BufEnter * :syntax sync fromstart
+
+"
+" Section: Autocompletion
+"
+set omnifunc=syntaxcomplete#Complete
+set completeopt+=longest,menuone,noinsert,noselect
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_DisplayMode = 1
+let OmniCpp_ShowAccess = 1
+set shortmess+=c
+
+set complete-=i
+set complete-=t
+
+"
+" Section: Visual behavior
+"
+set number
+
+set guioptions-=m
+set guioptions-=T
+set guioptions-=t
+set guioptions-=r
+set guioptions-=L
+
+set scrolloff=1
+set sidescrolloff=5
+set display+=lastline
+
+"
+" Section: Performance
+"
+set updatetime=250
+
+"
+" Section: Keybindings
+"
 nnoremap <Up>    <C-W><C-K>
 nnoremap <Down>  <C-W><C-J>
 nnoremap <Left>  <C-W><C-H>
 nnoremap <Right> <C-W><C-L>
 
-" Use <C-L> to clear the highlighting of :set hlsearch.
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-" Syntax Highlight sync
-autocmd BufEnter * :syntax sync fromstart
+nnoremap <C-X> :tabnew<CR>
+nnoremap <C-Tab> :tabnext<CR>
+nnoremap <C-S-Tab> :tabprevious<CR>
 
-" Shortcuts
-nnoremap gc :%s/\s\+$//<CR>:noh<CR>
-nnoremap go :tabnew<CR>
-nnoremap <F9> :tab term powershell<CR>
-" Ruby change syntaxt to 2.1
-nnoremap <F8> :%s/\(\w*\)[ ]*=>/\1:/gc<CR>
-
-
-" QuickFixWindow
 autocmd QuickFixCmdPost [^l]* copen 10
 autocmd QuickFixCmdPost    l* lopen 10
 
-" netrw configuratoin
+" ViFM Explorer
+nnoremap <F6> :edit %:p:h<CR>
+
+"
+" Section: Netrw 
 "nnoremap tf :Explore<CR>
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
@@ -165,22 +160,10 @@ let g:netrw_retmap         = 1
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
 
-" Turn on omni-completion
-set omnifunc=syntaxcomplete#Complete
-set completeopt+=longest,menuone,noinsert,noselect
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_DisplayMode = 1
-let OmniCpp_ShowAccess = 1
-set shortmess+=c
-" Disable to scan inlucdes and tags since it tends to work very slow
-set complete-=i
-set complete-=t
 
-" Set colorscheme
-colorscheme bugi
-"colorscheme torte
-
-" MUcomplete
+"
+" Section: MUcomplete
+"
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
       \ 'default' : ['path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'tags' ],
@@ -190,7 +173,9 @@ let g:mucomplete#chains = {
       \ 'ruby' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'ulti', 'tags' ],
       \ }
 
-" CtrlP
+" 
+" Section: CtrlP
+"
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:30'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
@@ -198,8 +183,11 @@ let g:ctrlp_custom_ignore = {
 \ }
 nnoremap <C-y> :CtrlPYankring<CR>
 
-" Ale checker
-" Does not support puppet options yet, so need to setup '--no-140chars-check' in  ~/.puppet-lint.rc
+" 
+" Section: Ale checker
+"
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
@@ -208,11 +196,11 @@ if has("win32")
 else
   let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
 endif
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
+
 nmap <silent> gj <Plug>(ale_previous_wrap)
 nmap <silent> gk <Plug>(ale_next_wrap)
-" Custom Ale Linter
+
+" Custom Ale Linter in status line
 function! LinterStatus() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
@@ -223,32 +211,59 @@ function! LinterStatus() abort
   \   all_errors
   \)
 endfunction
+
 let g:ale_fixers = {
-\   'puppet': ['puppetlint', 'trim_whitespace'],
+\   'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
+\   'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
+\   'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'trim_whitespace', 'remove_trailing_lines'],
+\   'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+\   'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
 \}
 
-" Disable folding for .md files
+"
+" Section: vim-markdown
+"
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
 
-" Tags
+"
+" Section: GutenTags
+"
 let g:gutentags_cache_dir = '~/.vim/tags'
 let g:gutentags_exclude_project_root = ['fixtures']
 
-" Tabular vim
-nnoremap gp :Tab/=><CR>
-
-" Vim-rooter
+" 
+" Section: vim-rooter
+"
 let g:rooter_silent_chdir = 1
 
-" ViFM Explorer
-nnoremap <F6> :edit %:p:h<CR>
 
-" Easy Align
+" 
+" Section: easyalign
+"
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" Filetype support
+
+"
+" Section: vim-dispatch
+"
+let g:dispatch_no_job_make = 1
+
+autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
+autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
+autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
+autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
+autocmd Filetype yaml,yml let b:dispatch = "bash.exe --login -c \"ansible-lint '%'\""
+autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
+
+nnoremap <F7> :Dispatch<CR>
+
+autocmd FileType qf wincmd J
+
+"
+" Section: Filetype support
+"
 autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
 autocmd BufNewFile,BufReadPost Gemfile* setlocal tabstop=2 shiftwidth=2 filetype=ruby syntax=ruby
 autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
@@ -262,19 +277,10 @@ autocmd BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml
 autocmd BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
 autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
 
-" Run Tests with vim-dispatch
-autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
-autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
-autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
-autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
-autocmd Filetype yaml,yml let b:dispatch = "bash.exe --login -c \"ansible-lint '%'\""
-" Require Putty jenkins-lint profile setup
-autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
-nnoremap <F7> :Dispatch<CR>
-" Move quickfix window to very bottom
-autocmd FileType qf wincmd J
-
-" Set status line
+"
+" Section: Statusline
+"
+set wildmenu
 set laststatus=2
 set statusline=
 set statusline+=%F\ %y[%{&ff}]
