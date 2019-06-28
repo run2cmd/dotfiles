@@ -248,18 +248,22 @@ nmap ga <Plug>(EasyAlign)
 "
 " Section: vim-dispatch
 "
-let g:dispatch_no_job_make = 1
-
-autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
+autocmd BufWinEnter * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
+autocmd BufWinEnter *_spec.rb let b:dispatch = "bash.exe -lc 'rspec " . b:unix_path . "'"
 autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
 autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
 autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
-autocmd Filetype yaml,yml let b:dispatch = "bash.exe --login -c \"ansible-lint '%'\""
+autocmd BufWinEnter *.yaml,*.yml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
 autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
 
 nnoremap <F7> :Dispatch<CR>
 
 autocmd FileType qf wincmd J
+
+"
+" Section: indentLine
+"
+let g:indentLine_char = '┊'
 
 "
 " Section: Filetype support
