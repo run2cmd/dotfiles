@@ -1,5 +1,4 @@
 " ~/.vimrc
-
 "
 " Section: Defaults
 "
@@ -12,7 +11,6 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb=
 
 "
 " Section: Language, file encoding and format
@@ -30,7 +28,6 @@ set termencoding=utf-8
 
 set fileformat=unix
 set fileformats=unix,dos
-
 
 "
 " Section: Files and directories
@@ -65,6 +62,11 @@ set hlsearch
 set incsearch
 
 "
+" Secion: Diff options
+"
+set diffopt=vertical,internal,filler
+
+"
 " Section: Tabs
 "
 set tabpagemax=50
@@ -74,7 +76,6 @@ set tabline=%F
 "
 " Section: Text format
 "
-
 set history=1000
 set textwidth=220
 set backspace=indent,eol,start
@@ -87,8 +88,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set smarttab
-
-autocmd BufEnter * :syntax sync fromstart
 
 "
 " Section: Autocompletion
@@ -139,11 +138,46 @@ nnoremap <C-X> :tabnew<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-autocmd QuickFixCmdPost [^l]* copen 10
-autocmd QuickFixCmdPost    l* lopen 10
-
 " ViFM Explorer
 nnoremap <F6> :edit %:p:h<CR>
+
+" 
+" Section: Custom Autocommands
+"
+augroup vimrcAuCmd
+  autocmd!
+
+  autocmd GUIEnter * set visualbell t_vb=
+  autocmd BufEnter * :syntax sync fromstart
+
+  " vim-dispatch auto commands
+  autocmd BufWinEnter * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
+  autocmd BufWinEnter *_spec.rb let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
+  autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
+  autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
+  autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
+  autocmd Filetype *.yaml,*.yml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
+  autocmd Filetype Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
+
+  " Quickfix window behavior
+  autocmd QuickFixCmdPost [^l]* copen 10
+  autocmd QuickFixCmdPost    l* lopen 10
+  autocmd FileType qf wincmd J
+
+  " Filetype support
+  autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufReadPost Gemfile* setlocal tabstop=2 shiftwidth=2 filetype=ruby syntax=ruby
+  autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
+  autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+  autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
+  autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=2 shiftwidth=2 syntax=xml filetype=xml
+  autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+  autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+  autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
+  autocmd BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
+  autocmd BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
+  autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
+augroup END
 
 "
 " Section: Netrw 
@@ -159,7 +193,6 @@ let g:netrw_liststyle      = 1
 let g:netrw_retmap         = 1
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
-
 
 "
 " Section: MUcomplete
@@ -237,28 +270,16 @@ let g:gutentags_exclude_project_root = ['fixtures']
 "
 let g:rooter_silent_chdir = 1
 
-
 " 
 " Section: easyalign
 "
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-
 "
 " Section: vim-dispatch
 "
-autocmd BufWinEnter * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
-autocmd BufWinEnter *_spec.rb let b:dispatch = "bash.exe -lc 'rspec " . b:unix_path . "'"
-autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
-autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
-autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
-autocmd BufWinEnter *.yaml,*.yml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
-autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
-
 nnoremap <F7> :Dispatch<CR>
-
-autocmd FileType qf wincmd J
 
 "
 " Section: indentLine
@@ -266,29 +287,21 @@ autocmd FileType qf wincmd J
 let g:indentLine_char = '┊'
 
 "
-" Section: Filetype support
-"
-autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
-autocmd BufNewFile,BufReadPost Gemfile* setlocal tabstop=2 shiftwidth=2 filetype=ruby syntax=ruby
-autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
-autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
-autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=2 shiftwidth=2 syntax=xml filetype=xml
-autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
-autocmd BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
-autocmd BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
-autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
-
-"
 " Section: Statusline
 "
 set wildmenu
 set laststatus=2
 set statusline=
-set statusline+=%F\ %y[%{&ff}]
+set statusline+=%#StatusLine#
+set statusline+=%<[%{FugitiveHead()}]
+set statusline+=%#StatusLineNC#
+set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
+set statusline+=%#TabLineSel#
 set statusline+=\ [Ale(%{LinterStatus()})]
-set statusline+=%<\ %{fugitive#statusline()}
+set statusline+=%#StatusLineNC#
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
