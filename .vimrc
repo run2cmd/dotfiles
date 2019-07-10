@@ -45,6 +45,7 @@ set path+=**
 " 
 syntax on
 set background=dark
+"set guifont=Source_Code_Pro:h11
 set guifont=Consolas:h10
 colorscheme bugi
 
@@ -84,8 +85,8 @@ set formatoptions+=j
 
 set smartindent
 set autoindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set smarttab
 
@@ -101,6 +102,14 @@ set shortmess+=c
 
 set complete-=i
 set complete-=t
+
+"
+" Section: The Silver Searcher (AG)
+" 
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 "
 " Section: Visual behavior
@@ -138,6 +147,9 @@ nnoremap <C-X> :tabnew<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
+" Find word in root
+nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
 " ViFM Explorer
 nnoremap <F6> :edit %:p:h<CR>
 
@@ -170,7 +182,7 @@ augroup vimrcAuCmd
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
   autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
-  autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=2 shiftwidth=2 syntax=xml filetype=xml
+  autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
   autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
