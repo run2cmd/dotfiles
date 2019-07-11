@@ -84,6 +84,7 @@ set diffopt=vertical,internal,filler
 set tabpagemax=50
 set guitablabel=%F
 set tabline=%F
+set switchbuf=useopen,usetab
 
 "
 " Section: Text format
