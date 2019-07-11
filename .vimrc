@@ -194,16 +194,15 @@ augroup vimrcAuCmd
   " Filetype support
   autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
   autocmd BufNewFile,BufReadPost Gemfile* setlocal tabstop=2 shiftwidth=2 filetype=ruby syntax=ruby
-  autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
+  autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
-  autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
+  autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500
   autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-  autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
-  autocmd BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
+  autocmd BufNewFile,BufReadPost *.yaml,*.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml textwidth=220
   autocmd BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
-  autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
+  autocmd BufNewFile,BufReadPost *.md setlocal spell
 augroup END
 
 "
