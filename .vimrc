@@ -89,11 +89,11 @@ set switchbuf=useopen,usetab
 "
 " Section: Text format
 "
-set history=1000
-set textwidth=220
+set textwidth=80
 set backspace=indent,eol,start
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set formatoptions+=j
+set lbr
 
 set smartindent
 set autoindent
