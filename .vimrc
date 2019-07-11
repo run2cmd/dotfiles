@@ -34,19 +34,22 @@ set fileformats=unix,dos
 " 
 set rtp+=$HOME/.vim
 set packpath+=$HOME/.vim
+" TODO: Probobly needs to delete backup and temp dirs
 set directory=~/.vim/tmp
 set backupdir=~/.vim/backup
 set viminfo+='1000,n~/.vim/viminfo
 set undodir=~/.vim/undofiles
 set path+=**
 
+set undofile
+set history=1000
+
 "
 " Section: Colors and Fonts
 " 
 syntax on
 set background=dark
-"set guifont=Source_Code_Pro:h11
-set guifont=Consolas:h10
+set guifont=Consolas:h10,Source_Code_Pro:h11,Hack:h11,Monospace:h11
 colorscheme bugi
 
 " 
