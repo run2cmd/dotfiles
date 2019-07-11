@@ -105,7 +105,7 @@ set smarttab
 "
 " Section: Autocompletion
 "
-set omnifunc=syntaxcomplete#Complete
+set omnifunc=ale#completion#OmniFunc
 set completeopt+=longest,menuone,noinsert,noselect
 let OmniCpp_GlobalScopeSearch = 1
 let OmniCpp_DisplayMode = 1
@@ -146,6 +146,8 @@ set updatetime=250
 "
 " Section: Keybindings
 "
+let mapleader = ","
+
 nnoremap <Up>    <C-W><C-K>
 nnoremap <Down>  <C-W><C-J>
 nnoremap <Left>  <C-W><C-H>
@@ -155,7 +157,7 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-nnoremap <C-X> :tabnew<CR>
+nnoremap <C-K> :tabnew<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
