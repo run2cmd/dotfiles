@@ -207,6 +207,7 @@ augroup END
 
 "
 " Section: Netrw 
+"
 "nnoremap tf :Explore<CR>
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
@@ -241,6 +242,7 @@ let g:ctrlp_custom_ignore = {
 \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
 \ }
 nnoremap <C-y> :CtrlPYankring<CR>
+nnoremap <C-h> :CtrlPBuffer<CR>
 
 " 
 " Section: Ale checker
