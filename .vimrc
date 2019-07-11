@@ -148,7 +148,7 @@ set updatetime=250
 "
 let mapleader = ","
 
-map <leader>ba :bufdo bd<cr>
+map <leader>db :bufdo bd<CR>
 
 nnoremap <Up>    <C-W><C-K>
 nnoremap <Down>  <C-W><C-J>
