@@ -58,12 +58,20 @@ colorscheme bugi
 set autoread
 set lazyredraw
 set confirm
+set hidden
+
+if has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
 
 "
 " Section: Search and replace
 "
 set hlsearch
 set incsearch
+set magic
 
 "
 " Secion: Diff options
