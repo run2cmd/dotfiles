@@ -134,7 +134,7 @@ set guioptions-=t
 set guioptions-=r
 set guioptions-=L
 
-set scrolloff=1
+set scrolloff=2
 set sidescrolloff=5
 set display+=lastline
 
