@@ -33,6 +33,7 @@ set fileformats=unix,dos
 " Section: Files and directories
 " 
 set rtp+=$HOME/.vim
+" TODO: add automatic doc generation
 set packpath+=$HOME/.vim
 " TODO: Probobly needs to delete backup and temp dirs
 set directory=~/.vim/tmp
@@ -58,7 +59,6 @@ colorscheme bugi
 set autoread
 set lazyredraw
 set confirm
-set hidden
 
 if has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
@@ -147,6 +147,8 @@ set updatetime=250
 " Section: Keybindings
 "
 let mapleader = ","
+
+map <leader>ba :bufdo bd<cr>
 
 nnoremap <Up>    <C-W><C-K>
 nnoremap <Down>  <C-W><C-J>
