@@ -174,6 +174,9 @@ augroup vimrcAuCmd
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
 
+  " Set cursor at last position when opening files
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
   " vim-dispatch auto commands
   autocmd BufWinEnter * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
   autocmd BufWinEnter *_spec.rb let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
