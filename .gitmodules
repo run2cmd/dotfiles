@@ -10,9 +10,6 @@
 [submodule ".vim\\pack\\run2cmd\\start\\vim-polyglot"]
 	path = .vim\\pack\\run2cmd\\start\\vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot.git
-[submodule ".vim\\pack\\run2cmd\\start\\neovim-vifm"]
-	path = .vim\\pack\\run2cmd\\start\\neovim-vifm
-	url = https://github.com/vifm/neovim-vifm.git
 [submodule ".vim\\pack\\run2cmd\\start\\vim-fugitive"]
 	path = .vim\\pack\\run2cmd\\start\\vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git

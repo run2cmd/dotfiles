@@ -166,9 +166,6 @@ nnoremap <C-S-Tab> :tabprevious<CR>
 " Find word in root
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
-" ViFM Explorer
-nnoremap <F6> :edit %:p:h<CR>
-
 " 
 " Section: Custom Autocommands
 "
