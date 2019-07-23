@@ -299,12 +299,6 @@ let g:gutentags_exclude_project_root = ['fixtures']
 "
 let g:rooter_silent_chdir = 1
 
-" 
-" Section: easyalign
-"
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
 "
 " Section: vim-dispatch
 "

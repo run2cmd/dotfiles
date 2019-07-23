@@ -43,9 +43,6 @@
 [submodule ".vim\\pack\\run2cmd\\start\\vim-multiple-cursors"]
 	path = .vim\\pack\\run2cmd\\start\\vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule ".vim\\pack\\run2cmd\\start\\vim-easy-align"]
-	path = .vim\\pack\\run2cmd\\start\\vim-easy-align
-	url = https://github.com/junegunn/vim-easy-align.git
 [submodule ".vim\\pack\\run2cmd\\start\\vim-autoformat"]
 	path = .vim\\pack\\run2cmd\\start\\vim-autoformat
 	url = https://github.com/Chiel92/vim-autoformat.git
