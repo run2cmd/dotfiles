@@ -340,7 +340,19 @@ nnoremap <F7> :Dispatch<CR>
 nnoremap <C-y> :CtrlPYankring<CR>
 nnoremap <C-h> :CtrlPBuffer<CR>
 
-"
+" Repeat in visual mode
+vnoremap . :normal .<CR>
+
+" Terminal helper to open on the bottom
+nnoremap <leader>t :bo term<CR><C-W>:res 10<CR>
+
+" Find word under cursor in CWD recursively
+nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" Search on visual selection
+vnoremap <silent> * :<C-u>call VisualSelection()<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
