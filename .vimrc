@@ -371,4 +371,3 @@ set statusline+=%=
 set statusline+=%#CursorColumn#
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
-
