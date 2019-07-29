@@ -50,6 +50,7 @@ set history=1000
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 set background=dark
+set guifont=Consolas:h10,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
 colorscheme bugi
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
