@@ -135,7 +135,10 @@ set shiftwidth=2
 set expandtab
 set smarttab
 
+set nojoinspaces
 
+" Pretty indention look
+let g:indentLine_char = '┊'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Visual behavior
