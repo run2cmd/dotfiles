@@ -20,6 +20,7 @@ let $LANG = 'en_US'
 if has("win32")
   language en
 endif
+set spelllang=en_us
 
 setglobal fileencoding=utf-8
 set encoding=utf-8
