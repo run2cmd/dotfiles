@@ -34,7 +34,6 @@ set fileformats=unix,dos
 " Section: Files and directories
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set rtp+=$HOME/.vim
-" TODO: add automatic doc generation
 set packpath+=$HOME/.vim
 " TODO: Probobly needs to delete backup and temp dirs
 set directory=~/.vim/tmp
@@ -45,6 +44,8 @@ set path+=**
 
 set undofile
 set history=1000
+
+" TODO: add automatic doc generation
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Colors and Fonts
@@ -100,10 +101,8 @@ function! VisualSelection() range
 endfunction
 
 " TODO: Write function to load grep into arglist for project code refactoring
-":grep accounting::install manifests\*.pp spec\defines\**\*_spec.rb spec\classes\**\*_spec.rb
-":cdo %s/myclass::permit/myclass::params/ge | update
-"function! ReplaceOnVisual() range
-"endfunction
+":Ggrep accounting::install
+":cdo %s/myclass::permit/myclass::params/ge | 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff options
@@ -321,6 +320,9 @@ let mapleader = ","
 
 map <leader>db :bufdo bd<CR>
 
+" Display all lines with keyword under cursor and ask which one to jump to
+nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+
 nnoremap <Up>    <C-W><C-K>
 nnoremap <Down>  <C-W><C-J>
 nnoremap <Left>  <C-W><C-H>
@@ -352,6 +354,25 @@ nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " Search on visual selection
 vnoremap <silent> * :<C-u>call VisualSelection()<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Projects
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:projectionist_heuristics = {
+\ "*": {
+\   "manifests/*.pp": { 
+\     "alternate": [
+\       "spec/classes/{dirname}/{}_spec.rb", 
+\       "spec/defines/{dirname}/{}_spec.rb", 
+\     ],
+\     "type": "source" 
+\   },
+\   "spec/classes/*_spec.rb": { "type": "test" },
+\   "spec/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
+\   "spec/acceptance/*_spec.rb": { "type": "acceptance" },
+\  }
+\}
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline

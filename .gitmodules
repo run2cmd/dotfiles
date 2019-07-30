@@ -61,3 +61,6 @@
 [submodule ".vim\\pack\\run2cmd\\start\\searchtasks.vim"]
 	path = .vim\\pack\\run2cmd\\start\\searchtasks.vim
 	url = https://github.com/gilsondev/searchtasks.vim.git
+[submodule ".vim\\pack\\run2cmd\\start\\vim-projectionist"]
+	path = .vim\\pack\\run2cmd\\start\\vim-projectionist
+	url = https://github.com/tpope/vim-projectionist.git
