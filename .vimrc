@@ -188,6 +188,7 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType ruby setlocal re=1
+  "TODO: Fix DoGe pattern for Puppet
   autocmd FileType puppet let b:doge_patterns = {
   \  'match': '\m^(class\|define)\s\+\%([^=(!]\+\)[=!]\?\s*(\(.\{-}\))',
   \  'match_group_names': ['parameters'],
@@ -401,6 +402,11 @@ let g:projectionist_heuristics = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:doge_mapping_comment_jump_forward = '<Leader>n'
 let g:doge_mapping_comment_jump_backward = '<Leader>p'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Startup Screen
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"TODO: make usefoulf of vim-startify
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
