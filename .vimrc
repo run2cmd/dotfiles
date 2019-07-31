@@ -35,7 +35,6 @@ set fileformats=unix,dos
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set rtp+=$HOME/.vim
 set packpath+=$HOME/.vim
-" TODO: Probobly needs to delete backup and temp dirs
 set directory=~/.vim/tmp
 set nobackup
 set viminfo+='1000,n~/.vim/viminfo
