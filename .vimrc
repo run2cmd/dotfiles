@@ -363,14 +363,14 @@ let g:projectionist_heuristics = {
 \ "*": {
 \   "manifests/*.pp": { 
 \     "alternate": [
-\       "spec/classes/{dirname}/{}_spec.rb", 
-\       "spec/defines/{dirname}/{}_spec.rb", 
+\       "spec/classes/{}_spec.rb", 
+\       "spec/defines/{}_spec.rb", 
 \     ],
 \     "type": "source" 
 \   },
-\   "spec/classes/*_spec.rb": { "type": "test" },
-\   "spec/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
-\   "spec/acceptance/*_spec.rb": { "type": "acceptance" },
+\   "spec/defines/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
+\   "spec/classes/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
+\   "spec/acceptance/*_spec.rb": { "type": "accept" },
 \  }
 \}
 
