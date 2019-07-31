@@ -37,7 +37,7 @@ set rtp+=$HOME/.vim
 set packpath+=$HOME/.vim
 " TODO: Probobly needs to delete backup and temp dirs
 set directory=~/.vim/tmp
-set backupdir=~/.vim/backup
+set nobackup
 set viminfo+='1000,n~/.vim/viminfo
 set undodir=~/.vim/undofiles
 set path+=**
