@@ -45,8 +45,6 @@ set path+=**
 set undofile
 set history=1000
 
-" TODO: add automatic doc generation
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -171,6 +169,9 @@ let g:rooter_silent_chdir = 1
 augroup vimrcAuCmd
   autocmd!
 
+  " Automatic doc generation for vim modules
+  autocmd VimEnter :helptags ALL
+
   " Disable bell and blink 
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
@@ -188,27 +189,10 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType ruby setlocal re=1
+
   "TODO: Fix DoGe pattern for Puppet
-  autocmd FileType puppet let b:doge_patterns = {
-  \  'match': '\m^(class\|define)\s\+\%([^=(!]\+\)[=!]\?\s*(\(.\{-}\))',
-  \  'match_group_names': ['parameters'],
-  \  'parameters': {
-  \    'match': '\m\([[:alnum:]_]\+\)\%(\s*=\s*[^,]\+\)\?',
-  \    'match_group_names': ['name'],
-  \    'format': {
-  \      'yard': '@param {name} !description',
-  \    },
-  \  },
-  \  'comment': {
-  \    'insert': 'above',
-  \    'template': {
-  \      'yard': [
-  \        '# !description',
-  \        '%(parameters|# {parameters})%',
-  \      ],
-  \    },
-  \  },
-  \}
+  " Put ticket for DoGe
+  "autocmd FileType puppet let b:doge_patterns = {}
   autocmd BufWinEnter *_spec.rb 
   \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
@@ -379,7 +363,7 @@ vnoremap <silent> * :<C-u>call VisualSelection()<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
 
 " Search tasks in current file
-nnoremap <leader>s :Ggrep! "TODO\\|FIXME"<CR>
+nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Projects
