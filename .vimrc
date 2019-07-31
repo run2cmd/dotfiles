@@ -107,6 +107,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff options
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: check Vim 8 diffopts
 set diffopt=vertical,internal,filler
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,6 +188,26 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType ruby setlocal re=1
+  autocmd FileType puppet let b:doge_patterns = {
+  \  'match': '\m^(class\|define)\s\+\%([^=(!]\+\)[=!]\?\s*(\(.\{-}\))',
+  \  'match_group_names': ['parameters'],
+  \  'parameters': {
+  \    'match': '\m\([[:alnum:]_]\+\)\%(\s*=\s*[^,]\+\)\?',
+  \    'match_group_names': ['name'],
+  \    'format': {
+  \      'yard': '@param {name} !description',
+  \    },
+  \  },
+  \  'comment': {
+  \    'insert': 'above',
+  \    'template': {
+  \      'yard': [
+  \        '# !description',
+  \        '%(parameters|# {parameters})%',
+  \      ],
+  \    },
+  \  },
+  \}
   autocmd BufWinEnter *_spec.rb 
   \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
@@ -375,6 +396,11 @@ let g:projectionist_heuristics = {
 \  }
 \}
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Documentation
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:doge_mapping_comment_jump_forward = '<Leader>n'
+let g:doge_mapping_comment_jump_backward = '<Leader>p'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
