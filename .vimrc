@@ -378,6 +378,9 @@ nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 vnoremap <silent> * :<C-u>call VisualSelection()<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
 
+" Search tasks in current file
+nnoremap <leader>s :Ggrep! "TODO\\|FIXME"<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Projects
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
