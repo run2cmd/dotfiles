@@ -248,11 +248,7 @@ set wildmenu
 
 set omnifunc=ale#completion#OmniFunc
 set completeopt+=longest,menuone,noinsert,noselect
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_DisplayMode = 1
-let OmniCpp_ShowAccess = 1
 set shortmess+=cm
-
 set complete-=i
 set complete-=t
 
