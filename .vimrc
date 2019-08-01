@@ -254,12 +254,12 @@ set complete-=t
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-\ 'default' : ['path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'tags' ],
-\ 'vim' : [ 'path', 'cmd', 'keyn', 'keyp' ],
-\ 'puppet' : [ 'path', 'omni', 'keyn', 'keyp', 'tags', 'c-n', 'c-p', 'uspl', 'ulti' ],
-\ 'python' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'ulti', 'tags' ],
-\ 'ruby' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'ulti', 'tags' ],
-\ 'markdown' : [ 'keyn', 'keyp', 'c-n', 'c-p' ],
+\ 'default' : ['path', 'omni', 'c-n', 'tags' ],
+\ 'vim' : [ 'path', 'cmd', 'c-n' ],
+\ 'puppet' : [ 'path', 'omni', 'c-n', 'tags' ],
+\ 'python' : [ 'path', 'omni', 'c-n', 'tags' ],
+\ 'ruby' : [ 'path', 'omni', 'c-n',  'tags' ],
+\ 'markdown' : [ 'keyn', 'c-n', 'tags' ],
 \ }
 
 let g:gutentags_cache_dir = '~/.vim/tags'
@@ -288,18 +288,6 @@ if has("win32")
 else
   let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
 endif
-
-" Custom Ale Linter in status line
-function! LinterStatus() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? 'OK' : printf(
-  \ '%dW %dE',
-  \ all_non_errors,
-  \ all_errors
-  \)
-endfunction
 
 let g:ale_fixers = {
 \ 'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
@@ -335,7 +323,7 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-nnoremap <C-K> :tabnew<CR>
+nnoremap <C-O> :tabnew<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
@@ -359,6 +347,10 @@ vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
 
 " Search tasks in current file
 nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
+
+" Switch between completion methods
+imap <c-j> <plug>(MUcompleteCycFwd)
+imap <c-k> <plug>(MUcompleteCycBwd)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Projects
@@ -393,6 +385,21 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! MUCompleteStatusLine()
+  return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
+endf
+
+function! ALELinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? 'OK' : printf(
+  \ '%dW %dE',
+  \ all_non_errors,
+  \ all_errors
+  \)
+endfunction
+
 set laststatus=2
 set statusline=
 set statusline+=%#StatusLine#
@@ -402,9 +409,11 @@ set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
 set statusline+=%#TabLineSel#
-set statusline+=\ [Ale(%{LinterStatus()})]
+set statusline+=\ [Ale(%{ALELinterStatus()})]
 set statusline+=%#StatusLineNC#
 set statusline+=%=
+set statusline+=[MU\ %{MUCompleteStatusLine()}]
+set statusline+=\ [GT\ %{gutentags#statusline()}]
 set statusline+=%#CursorColumn#
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
