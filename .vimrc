@@ -263,7 +263,6 @@ let g:mucomplete#chains = {
 \ }
 
 let g:gutentags_cache_dir = '~/.vim/tags'
-let g:gutentags_exclude_project_root = ['fixtures']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: FuzzyFinder and MRU
@@ -356,6 +355,8 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 " Section: Projects
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
+let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
+let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 let g:projectionist_heuristics = {
 \ "*": {
 \   "manifests/*.pp": { 
