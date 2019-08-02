@@ -68,8 +68,6 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Jump between functions: if,else,do,end,{},(), etc. Both in normal and visual mode
-" jump to the previous function
 set mouse=""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -96,10 +94,6 @@ function! VisualSelection() range
   let @/ = l:pattern
   let @" = l:saved_reg
 endfunction
-
-" TODO: Write function to load grep into arglist for project code refactoring
-":Ggrep accounting::install
-":cdo %s/myclass::permit/myclass::params/ge | 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff options
@@ -239,11 +233,6 @@ let g:netrw_special_syntax = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Needs autocompletion to:
-"   1. Show completeion on class/definition when new line starts (or after
-"      include/class/define, etc)
-"   2. Need to look for words in else conditions
-"
 set wildmenu
 
 set omnifunc=ale#completion#OmniFunc
