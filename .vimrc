@@ -83,18 +83,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" Search on visual selection
-function! VisualSelection() range
-  let l:saved_reg = @"
-  execute "normal! vgvy"
-
-  let l:pattern = escape(@", "\\/.*'$^~[]")
-  let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-  let @/ = l:pattern
-  let @" = l:saved_reg
-endfunction
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff options
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
