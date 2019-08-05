@@ -182,9 +182,8 @@ augroup vimrcAuCmd
   autocmd FileType Jenkinsfile setlocal tabstop=4 shiftwidth=4
   autocmd FileType Jenkinsfile 
   \ let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
-  autocmd FileType xml
-  \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500
-  \ let b:dispatch = 'mvn clean install -f % -DskipTests'
+  autocmd FileType xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500
+  autocmd FileType xml let b:dispatch = 'mvn clean install -f % -DskipTests'
   autocmd FileType markdown setlocal spell 
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
