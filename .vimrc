@@ -86,7 +86,6 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff options
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: check Vim 8 diffopts
 set diffopt=vertical,internal,filler
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,6 +298,7 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
+" TODO: fix new tab
 nnoremap <C-S-O> :tabnew<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
