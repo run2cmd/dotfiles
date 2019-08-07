@@ -1,5 +1,14 @@
 " Maintainer: Piotr Bugała <https://github.com/run2cmd>
 "
+"        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       
+"       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \       
+"       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \     
+"        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   
+"         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  
+"          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ 
+"           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| 
+"
+"
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
@@ -120,6 +129,8 @@ set nojoinspaces
 
 " Pretty indention look
 let g:indentLine_char = '┊'
+let g:indentLine_fileTypeExclude = ['startify', 'markdown']
+let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Visual behavior
@@ -135,6 +146,9 @@ set guioptions-=L
 set scrolloff=2
 set sidescrolloff=5
 set display+=lastline
+
+set lines=37
+set columns=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Performance
@@ -161,7 +175,7 @@ augroup vimrcAuCmd
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
-  \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+        \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Convert path to Unix for WSL support
   if has('win32')
@@ -177,14 +191,14 @@ augroup vimrcAuCmd
   " Put ticket for DoGe
   "autocmd FileType puppet let b:doge_patterns = {}
   autocmd BufWinEnter *_spec.rb 
-  \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
+        \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy let b:dispatch = 'gradlew clean test build --info'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
   autocmd FileType Jenkinsfile setlocal tabstop=4 shiftwidth=4
   autocmd FileType Jenkinsfile 
-  \ let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
+        \ let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
   autocmd FileType xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500
   autocmd FileType xml let b:dispatch = 'mvn clean install -f % -DskipTests'
   autocmd FileType markdown setlocal spell 
@@ -232,13 +246,13 @@ set complete-=t
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-\ 'default' : ['path', 'omni', 'c-n', 'tags' ],
-\ 'vim' : [ 'path', 'cmd', 'c-n' ],
-\ 'puppet' : [ 'path', 'omni', 'c-n', 'tags' ],
-\ 'python' : [ 'path', 'omni', 'c-n', 'tags' ],
-\ 'ruby' : [ 'path', 'omni', 'c-n',  'tags' ],
-\ 'markdown' : [ 'keyn', 'c-n', 'tags' ],
-\ }
+      \  'default' : ['path', 'omni', 'c-n', 'tags' ],
+      \  'vim' : [ 'path', 'cmd', 'c-n' ],
+      \  'puppet' : [ 'path', 'omni', 'c-n', 'tags' ],
+      \  'python' : [ 'path', 'omni', 'c-n', 'tags' ],
+      \  'ruby' : [ 'path', 'omni', 'c-n',  'tags' ],
+      \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
+      \}
 
 let g:gutentags_cache_dir = '~/.vim/tags'
 
@@ -248,8 +262,8 @@ let g:gutentags_cache_dir = '~/.vim/tags'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:30'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-\ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
-\ }
+      \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
+      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntaxt and Lint
@@ -267,15 +281,15 @@ else
 endif
 
 let g:ale_fixers = {
-\ 'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
-\ 'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
-\ 'python': [
-\   'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
-\   'trim_whitespace', 'remove_trailing_lines'
-\ ],
-\ 'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-\ 'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-\}
+      \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'python': [
+      \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
+      \    'trim_whitespace', 'remove_trailing_lines'
+      \  ],
+      \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \}
 
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
@@ -336,19 +350,19 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
 let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 let g:projectionist_heuristics = {
-\ '*': {
-\   'manifests/*.pp': { 
-\     'alternate': [
-\       'spec/classes/{}_spec.rb', 
-\       'spec/defines/{}_spec.rb', 
-\     ],
-\     'type': 'source' 
-\   },
-\   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-\   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-\   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
-\  }
-\}
+      \ '*': {
+      \   'manifests/*.pp': { 
+      \     'alternate': [
+      \       'spec/classes/{}_spec.rb', 
+      \       'spec/defines/{}_spec.rb', 
+      \     ],
+      \     'type': 'source' 
+      \   },
+      \   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+      \   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+      \   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
+      \  }
+      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Documentation
@@ -360,10 +374,26 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 " Section: Startup Screen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_lists = [
-\ { 'type': 'files', 'header': [' MRU'] },
-\ { 'type': 'bookmarks', 'header': [' Bookmarks'] },
-\ { 'type': 'commands', 'header': [' Commands'] },
-\ ]
+      \  { 'type': 'files', 'header': [' MRU'] },
+      \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
+      \]
+
+let g:startify_bookmarks = [
+      \  {'c': '~/.vimrc'}, 
+      \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
+      \]
+
+let g:startify_custom_header = [
+      \ '        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       ',
+      \ '       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \     ',  
+      \ '       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \    ', 
+      \ '        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   ',
+      \ '         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  ',
+      \ '          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ ',
+      \ '           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| ',
+      \ '',
+      \ '                                           Vim ' . v:versionlong,
+      \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
@@ -377,10 +407,10 @@ function! ALELinterStatus() abort
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
   return l:counts.total == 0 ? 'OK' : printf(
-  \ '%dW %dE',
-  \ all_non_errors,
-  \ all_errors
-  \)
+        \  '%dW %dE',
+        \  all_non_errors,
+        \  all_errors
+        \)
 endfunction
 
 set laststatus=2
