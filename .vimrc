@@ -1,4 +1,6 @@
-" ~/.vimrc
+" Maintainer: Piotr Bugała <https://github.com/run2cmd>
+"
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -17,13 +19,14 @@ set noerrorbells visualbell t_vb=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
-if has("win32")
+if has('win32')
   language en
 endif
 set spelllang=en_us
 
 setglobal fileencoding=utf-8
 set encoding=utf-8
+scriptencoding utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
 
@@ -59,7 +62,7 @@ set autoread
 set lazyredraw
 set confirm
 
-if has("win32")
+if has('win32')
   set wildignore+=.git\*,.hg\*,.svn\*
 else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
@@ -104,7 +107,7 @@ set textwidth=100
 set backspace=indent,eol,start
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set formatoptions+=j
-set lbr
+set linebreak
 
 set smartindent
 set autoindent
@@ -257,7 +260,7 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
-if has("win32")
+if has('win32')
   let g:ale_ruby_rubocop_options = '-c %USERPROFILE%\.rubocop.yaml'
 else
   let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
@@ -280,7 +283,7 @@ let g:vim_markdown_conceal = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = ","
+let mapleader = ','
 
 map <leader>db :bufdo bd<CR>
 
@@ -333,17 +336,17 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
 let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 let g:projectionist_heuristics = {
-\ "*": {
-\   "manifests/*.pp": { 
-\     "alternate": [
-\       "spec/classes/{}_spec.rb", 
-\       "spec/defines/{}_spec.rb", 
+\ '*': {
+\   'manifests/*.pp': { 
+\     'alternate': [
+\       'spec/classes/{}_spec.rb', 
+\       'spec/defines/{}_spec.rb', 
 \     ],
-\     "type": "source" 
+\     'type': 'source' 
 \   },
-\   "spec/defines/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
-\   "spec/classes/*_spec.rb": { "alternate": "manifests/{}.pp", "type": "rspec" },
-\   "spec/acceptance/*_spec.rb": { "type": "accept" },
+\   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+\   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+\   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
 \  }
 \}
 
@@ -356,7 +359,11 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"TODO: make usefoulf of vim-startify
+let g:startify_lists = [
+\ { 'type': 'files', 'header': [' MRU'] },
+\ { 'type': 'bookmarks', 'header': [' Bookmarks'] },
+\ { 'type': 'commands', 'header': [' Commands'] },
+\ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
