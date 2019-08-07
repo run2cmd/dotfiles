@@ -187,8 +187,7 @@ augroup vimrcAuCmd
   " Filetype support
   autocmd FileType ruby setlocal re=1
 
-  "TODO: Fix DoGe pattern for Puppet
-  " Put ticket for DoGe
+  "TODO: Fix DoGe pattern for Puppet. Put ticket for DoGe
   "autocmd FileType puppet let b:doge_patterns = {}
   autocmd BufWinEnter *_spec.rb 
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
@@ -216,6 +215,7 @@ augroup vimrcAuCmd
   autocmd QuickFixCmdPost [^l]* copen 10
   autocmd QuickFixCmdPost    l* lopen 10
   autocmd FileType qf wincmd J
+
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -314,7 +314,7 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-nnoremap <leader>o :tabnew<CR>
+nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
@@ -364,7 +364,7 @@ let g:projectionist_heuristics = {
       \  }
       \}
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:doge_mapping_comment_jump_forward = '<Leader>n'
