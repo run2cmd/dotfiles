@@ -291,9 +291,6 @@ let g:ale_fixers = {
       \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
       \}
 
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_conceal = 0
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -376,6 +373,12 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 let g:startify_lists = [
       \  { 'type': 'files', 'header': [' MRU'] },
       \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
+      \]
+
+let g:startify_skiplist = [
+      \ escape(fnamemodify($HOME, ':p'), '\') .'AppData',
+      \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
+      \ escape(fnamemodify($HOME, ':p'), '\') .'.vim\\pack',
       \]
 
 let g:startify_bookmarks = [
