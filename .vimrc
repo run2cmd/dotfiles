@@ -136,7 +136,7 @@ set lazyredraw
 set number
 
 set list
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set listchars=trail:-,conceal:^,nbsp:+
 set linebreak
 
 set guioptions-=m
