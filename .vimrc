@@ -17,11 +17,15 @@ set nocompatible
 filetype plugin indent on
 
 source $VIMRUNTIME/vimrc_example.vim
-
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set noerrorbells visualbell t_vb=
+
+set runtimepath+=$HOME/.vim
+set packpath+=$HOME/.vim
+set viminfo+='1000,n~/.vim/viminfo
+set history=1000
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
@@ -33,6 +37,7 @@ if has('win32')
 endif
 set spelllang=en_us
 
+" Order matters 
 setglobal fileencoding=utf-8
 set encoding=utf-8
 scriptencoding utf-8
@@ -43,20 +48,6 @@ set fileformat=unix
 set fileformats=unix,dos
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Files and directories
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set rtp+=$HOME/.vim
-set packpath+=$HOME/.vim
-set directory=~/.vim/tmp
-set nobackup
-set viminfo+='1000,n~/.vim/viminfo
-set undodir=~/.vim/undofiles
-set path+=**
-
-set undofile
-set history=1000
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
@@ -65,10 +56,15 @@ set guifont=Consolas:h10,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:
 colorscheme bugi
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: File opertaions
+" Section: Files and directories
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set directory=~/.vim/tmp
+set undodir=~/.vim/undofiles
+set path+=**
+
+set undofile
+set nobackup
 set autoread
-set lazyredraw
 set confirm
 
 if has('win32')
@@ -80,10 +76,11 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set backspace=indent,eol,start
 set mouse=""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Search and replace
+" Section: Find and replace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hlsearch
 set incsearch
@@ -95,8 +92,14 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:30'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
+      \}
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Secion: Diff options
+" Secion: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt=vertical,internal,filler
 
@@ -113,10 +116,10 @@ set noequalalways
 " Section: Text format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set textwidth=100
-set backspace=indent,eol,start
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-set formatoptions+=j
-set linebreak
+set formatoptions+=jn
+set formatoptions-=o
+" TODO: set proper formatting options per filetype to enable automatic formatting
+" set formatoptions+=a
 
 set smartindent
 set autoindent
@@ -124,18 +127,17 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set smarttab
-
 set nojoinspaces
-
-" Pretty indention look
-let g:indentLine_char = '┊'
-let g:indentLine_fileTypeExclude = ['startify', 'markdown']
-let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Visual behavior
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set lazyredraw
 set number
+
+set list
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set linebreak
 
 set guioptions-=m
 set guioptions-=T
@@ -150,15 +152,14 @@ set display+=lastline
 set lines=37
 set columns=100
 
+let g:indentLine_char = '┊'
+let g:indentLine_fileTypeExclude = ['startify', 'markdown']
+let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Performance
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set updatetime=250
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Workspace
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:rooter_silent_chdir = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Custom Autocommands
@@ -236,6 +237,10 @@ let g:netrw_special_syntax = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: completion method features:
+" - react on keywords (include, contain, require, etc)
+" - methods completion
+"
 set wildmenu
 
 set omnifunc=ale#completion#OmniFunc
@@ -243,6 +248,10 @@ set completeopt+=longest,menuone,noinsert,noselect
 set shortmess+=cm
 set complete-=i
 set complete-=t
+
+let g:gutentags_cache_dir = '~/.vim/tags'
+let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
+let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
@@ -252,17 +261,6 @@ let g:mucomplete#chains = {
       \  'python' : [ 'path', 'omni', 'c-n', 'tags' ],
       \  'ruby' : [ 'path', 'omni', 'c-n',  'tags' ],
       \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
-      \}
-
-let g:gutentags_cache_dir = '~/.vim/tags'
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: FuzzyFinder and MRU
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:30'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
       \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -340,12 +338,18 @@ nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
+let g:doge_mapping_comment_jump_forward = '<Leader>n'
+let g:doge_mapping_comment_jump_backward = '<Leader>p'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Projects
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Project workspace
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rooter_silent_chdir = 1
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
-let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
-let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 let g:projectionist_heuristics = {
       \ '*': {
       \   'manifests/*.pp': { 
@@ -360,12 +364,6 @@ let g:projectionist_heuristics = {
       \   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
       \  }
       \}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Documentation
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:doge_mapping_comment_jump_forward = '<Leader>n'
-let g:doge_mapping_comment_jump_backward = '<Leader>p'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
