@@ -136,7 +136,7 @@ set lazyredraw
 set number
 
 set list
-set listchars=trail:-,conceal:^,nbsp:+
+set listchars=conceal:^,nbsp:+
 set linebreak
 
 set guioptions-=m
@@ -326,10 +326,6 @@ nnoremap <leader>t :bo term<CR><C-W>:res 10<CR>
 
 " Find word under cursor in CWD recursively
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-" Search on visual selection
-vnoremap <silent> * :<C-u>call VisualSelection()<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection()<CR>?<C-R>=@/<CR><CR>
 
 " Search tasks in current file
 nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
