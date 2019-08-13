@@ -349,6 +349,7 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rooter_silent_chdir = 1
+let g:startify_change_to_dir = 0
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 let g:projectionist_heuristics = {
       \ '*': {
