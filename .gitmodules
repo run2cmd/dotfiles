@@ -1,12 +1,6 @@
 [submodule ".vim/pack/run2cmd/start/ale"]
 	path = .vim/pack/run2cmd/start/ale
 	url = https://github.com/w0rp/ale.git
-[submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
-	path = .vim/pack/run2cmd/start/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim.git
-[submodule ".vim/pack/run2cmd/start/ctrlp-extensions.vim"]
-	path = .vim/pack/run2cmd/start/ctrlp-extensions.vim
-	url = https://github.com/sgur/ctrlp-extensions.vim.git
 [submodule ".vim/pack/run2cmd/start/vim-polyglot"]
 	path = .vim/pack/run2cmd/start/vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot.git
@@ -25,12 +19,6 @@
 [submodule ".vim/pack/run2cmd/start/vim-dispatch"]
 	path = .vim/pack/run2cmd/start/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule ".vim/pack/run2cmd/start/vim-eunuch"]
-	path = .vim/pack/run2cmd/start/vim-eunuch
-	url = https://github.com/tpope/vim-eunuch.git
-[submodule ".vim/pack/run2cmd/start/vim-repeat"]
-	path = .vim/pack/run2cmd/start/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
 [submodule ".vim/pack/run2cmd/start/vim-gutentags"]
 	path = .vim/pack/run2cmd/start/vim-gutentags
 	url = https://github.com/ludovicchabant/vim-gutentags.git
@@ -40,21 +28,12 @@
 [submodule ".vim/pack/run2cmd/start/tabular"]
 	path = .vim/pack/run2cmd/start/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule ".vim/pack/run2cmd/start/vim-multiple-cursors"]
-	path = .vim/pack/run2cmd/start/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors.git
 [submodule ".vim/pack/run2cmd/start/vim-autoformat"]
 	path = .vim/pack/run2cmd/start/vim-autoformat
 	url = https://github.com/Chiel92/vim-autoformat.git
 [submodule ".vim/pack/run2cmd/start/indentLine"]
 	path = .vim/pack/run2cmd/start/indentLine
 	url = https://github.com/Yggdroot/indentLine.git
-[submodule ".vim/pack/run2cmd/start/vim-easymotion"]
-	path = .vim/pack/run2cmd/start/vim-easymotion
-	url = https://github.com/easymotion/vim-easymotion.git
-[submodule ".vim/pack/run2cmd/start/vim-endwise"]
-	path = .vim/pack/run2cmd/start/vim-endwise
-	url = https://github.com/tpope/vim-endwise.git
 [submodule ".vim/pack/run2cmd/start/vim-signify"]
 	path = .vim/pack/run2cmd/start/vim-signify
 	url = https://github.com/mhinz/vim-signify.git

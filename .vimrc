@@ -76,6 +76,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: automatic marks
 set backspace=indent,eol,start
 set mouse=""
 
@@ -89,14 +90,7 @@ set magic
 " Enable The Silver Searcher (AG)
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:30'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
-      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff mode
@@ -222,6 +216,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: Need better File explorer and files view.
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
 let g:netrw_preview        = 1
@@ -315,8 +310,9 @@ nnoremap <C-S-Tab> :tabprevious<CR>
 
 nnoremap <F7> :Dispatch<CR>
 
-nnoremap <C-y> :CtrlPYankring<CR>
-nnoremap <C-h> :CtrlPBuffer<CR>
+"TODO: native yankring: registers
+nnoremap <C-y> :registers<CR>
+nnoremap <C-h> :buffers<CR>
 
 " Repeat in visual mode
 vnoremap . :normal .<CR>
