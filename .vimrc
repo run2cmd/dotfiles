@@ -408,7 +408,11 @@ function! MUCompleteStatusLine()
   return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
 endf
 
-function! ALELinterStatus() abort
+function! BufferNumberStatusLine()
+  return len(filter(range(1,bufnr('$')), 'buflisted(v:val)'))
+endf
+
+function! ALELinterStatusLine() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
@@ -421,18 +425,14 @@ endfunction
 
 set laststatus=2
 set statusline=
-set statusline+=%#StatusLine#
-set statusline+=%<[%{FugitiveHead()}]
-set statusline+=%#StatusLineNC#
+set statusline+=%<[%{BufferNumberStatusLine()}]
+set statusline+=[%{FugitiveHead()}]
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
-set statusline+=%#TabLineSel#
-set statusline+=\ [Ale(%{ALELinterStatus()})]
-set statusline+=%#StatusLineNC#
+set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
 set statusline+=%=
 set statusline+=[MU\ %{MUCompleteStatusLine()}]
 set statusline+=\ [GT\ %{gutentags#statusline()}]
-set statusline+=%#CursorColumn#
 set statusline+=\ %p%%
-set statusline+=\ %l:%c
+set statusline+=\ %l/%L:%c
