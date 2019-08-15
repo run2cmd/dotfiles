@@ -263,24 +263,26 @@ augroup vimrcAuCmd
   autocmd BufWinEnter *_spec.rb 
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
-  autocmd FileType groovy setlocal tabstop=4 shiftwidth=4
-  autocmd FileType groovy let b:dispatch = 'gradlew clean test build --info'
+  autocmd FileType groovy 
+        \ setlocal tabstop=4 shiftwidth=4 |
+        \ groovy let b:dispatch = 'gradlew clean test build --info'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
-  autocmd FileType Jenkinsfile setlocal tabstop=4 shiftwidth=4
-  autocmd FileType Jenkinsfile 
+  autocmd FileType Jenkinsfile
+        \ setlocal tabstop=4 shiftwidth=4 |
         \ let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
-  autocmd FileType xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500
-  autocmd FileType xml let b:dispatch = 'mvn clean install -f % -DskipTests'
+  autocmd FileType xml 
+        \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
+        \ let b:dispatch = 'mvn clean install -f % -DskipTests'
   autocmd FileType markdown setlocal spell 
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype yaml setlocal syntax=yaml filetype=yaml textwidth=220
+  autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
   autocmd BufWinEnter yaml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
   autocmd BufNewFile,BufReadPost Gemfile* setlocal filetype=ruby syntax=ruby re=1
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
   autocmd BufNewFile,BufReadPost *.gradle setlocal syntax=groovy filetype=groovy
-  autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
 
   " Quickfix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
