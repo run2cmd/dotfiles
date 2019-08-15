@@ -156,6 +156,77 @@ let g:indentLine_fileTypeExclude = ['startify', 'markdown']
 let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: File Explorer
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: Need better File explorer and files view.
+let g:netrw_fastbrowse     = 0
+let g:netrw_banner         = 0
+let g:netrw_preview        = 1
+let g:netrw_winsize        = 25
+let g:netrw_altv           = 1
+let g:netrw_fastbrowse     = 2
+let g:netrw_keepdir        = 0
+let g:netrw_liststyle      = 1
+let g:netrw_retmap         = 1
+let g:netrw_silent         = 1
+let g:netrw_special_syntax = 1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Autocompletion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: completion method features:
+" - react on keywords (include, contain, require, etc)
+" - methods completion
+"
+" TODO: needs feature for puppet ot look up through tags from .fixtures.yaml or metadata.json
+" This is to mimic vim include option.
+"
+set wildmenu
+
+set omnifunc=syntaxcomplete#Complete
+set completeopt+=longest,menuone,noinsert,noselect
+set shortmess+=cm
+set complete-=i
+set complete-=t
+
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+
+let g:gutentags_cache_dir = '~/.vim/tags'
+let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
+let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
+
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#chains = {
+      \  'default' : ['path', 'omni', 'c-n', 'incl', 'tags' ],
+      \  'puppet' : ['path', 'omni', 'c-n', 'tags'],
+      \  'vim' : [ 'path', 'cmd', 'c-n' ],
+      \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
+      \}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Project workspace
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rooter_silent_chdir = 1
+let g:startify_change_to_dir = 0
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
+let g:projectionist_heuristics = {
+      \ '*': {
+      \   'manifests/*.pp': { 
+      \     'alternate': [
+      \       'spec/classes/{}_spec.rb', 
+      \       'spec/defines/{}_spec.rb', 
+      \     ],
+      \     'type': 'source' 
+      \   },
+      \   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+      \   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
+      \   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
+      \  }
+      \}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Performance
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set updatetime=250
@@ -217,51 +288,6 @@ augroup vimrcAuCmd
   autocmd FileType qf wincmd J
 
 augroup END
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: File Explorer
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Need better File explorer and files view.
-let g:netrw_fastbrowse     = 0
-let g:netrw_banner         = 0
-let g:netrw_preview        = 1
-let g:netrw_winsize        = 25
-let g:netrw_altv           = 1
-let g:netrw_fastbrowse     = 2
-let g:netrw_keepdir        = 0
-let g:netrw_liststyle      = 1
-let g:netrw_retmap         = 1
-let g:netrw_silent         = 1
-let g:netrw_special_syntax = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Autocompletion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: completion method features:
-" - react on keywords (include, contain, require, etc)
-" - methods completion
-"
-set wildmenu
-
-set omnifunc=ale#completion#OmniFunc
-set completeopt+=longest,menuone,noinsert,noselect
-set shortmess+=cm
-set complete-=i
-set complete-=t
-
-let g:gutentags_cache_dir = '~/.vim/tags'
-let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
-let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
-
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = {
-      \  'default' : ['path', 'omni', 'c-n', 'tags' ],
-      \  'vim' : [ 'path', 'cmd', 'c-n' ],
-      \  'puppet' : [ 'path', 'omni', 'c-n', 'tags' ],
-      \  'python' : [ 'path', 'omni', 'c-n', 'tags' ],
-      \  'ruby' : [ 'path', 'omni', 'c-n',  'tags' ],
-      \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
-      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntaxt and Lint
@@ -341,27 +367,6 @@ let g:doge_mapping_comment_jump_backward = '<Leader>p'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Project workspace
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:rooter_silent_chdir = 1
-let g:startify_change_to_dir = 0
-let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
-let g:projectionist_heuristics = {
-      \ '*': {
-      \   'manifests/*.pp': { 
-      \     'alternate': [
-      \       'spec/classes/{}_spec.rb', 
-      \       'spec/defines/{}_spec.rb', 
-      \     ],
-      \     'type': 'source' 
-      \   },
-      \   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-      \   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-      \   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
-      \  }
-      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
