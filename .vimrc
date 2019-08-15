@@ -1,4 +1,3 @@
-" Maintainer: Piotr Bugała <https://github.com/run2cmd>
 "
 "        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       
 "       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \       
@@ -9,6 +8,12 @@
 "           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| 
 "
 "
+"
+" Name: Bugi VIM
+" Scriptname: bugi.vim
+" Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/bugi.vim.git>
+" For GVim: Yes
+" License: The Vim License (this command will show it: ':help copyright')
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
