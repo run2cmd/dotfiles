@@ -117,8 +117,6 @@ set noequalalways
 set textwidth=100
 set formatoptions+=jn
 set formatoptions-=o
-" TODO: set proper formatting options per filetype to enable automatic formatting
-" set formatoptions+=a
 
 set smartindent
 set autoindent
@@ -273,7 +271,7 @@ augroup vimrcAuCmd
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
-  autocmd FileType markdown setlocal spell 
+  autocmd FileType markdown setlocal spell formatoptions+=a
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype yaml setlocal syntax=yaml filetype=yaml textwidth=220
