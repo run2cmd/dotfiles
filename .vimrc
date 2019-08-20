@@ -169,7 +169,6 @@ let g:netrw_retmap         = 1
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -259,7 +258,7 @@ augroup vimrcAuCmd
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy 
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ groovy let b:dispatch = 'gradlew clean test build --info'
+        \ let b:dispatch = 'gradlew clean test build --info'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
   autocmd FileType Jenkinsfile
         \ setlocal tabstop=4 shiftwidth=4 |
