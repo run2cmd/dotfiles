@@ -147,7 +147,7 @@ set sidescrolloff=5
 set display+=lastline
 
 set lines=37
-set columns=100
+set columns=110
 
 let g:indentLine_char = '┊'
 let g:indentLine_fileTypeExclude = ['startify', 'markdown']
