@@ -177,9 +177,6 @@ let g:netrw_special_syntax = 1
 " - react on keywords (include, contain, require, etc)
 " - methods completion
 "
-" TODO: needs feature for puppet ot look up through tags from .fixtures.yaml or metadata.json
-" This is to mimic vim include option.
-"
 set wildmenu
 
 set omnifunc=syntaxcomplete#Complete
@@ -197,8 +194,7 @@ let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-      \  'default' : ['path', 'omni', 'c-n', 'incl', 'tags' ],
-      \  'puppet' : ['path', 'omni', 'c-n', 'tags'],
+      \  'default' : ['path', 'omni', 'c-n', 'tags' ],
       \  'vim' : [ 'path', 'cmd', 'c-n' ],
       \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
       \}
