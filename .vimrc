@@ -155,7 +155,7 @@ let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Need better File explorer and files view.
+let g:nerw_home = $HOME
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
 let g:netrw_preview        = 1
@@ -164,7 +164,7 @@ let g:netrw_altv           = 1
 let g:netrw_fastbrowse     = 2
 let g:netrw_keepdir        = 0
 let g:netrw_liststyle      = 1
-let g:netrw_retmap         = 1
+let g:netrw_sizestyle      = "H"
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
 
