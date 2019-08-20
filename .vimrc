@@ -338,7 +338,7 @@ nnoremap <F7> :Dispatch<CR>
 
 "TODO: native yankring: registers
 nnoremap <C-y> :registers<CR>
-nnoremap <C-h> :buffers<CR>
+nnoremap <C-h> :buffers<CR>:b
 
 " Repeat in visual mode
 vnoremap . :normal .<CR>
