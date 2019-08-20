@@ -375,6 +375,7 @@ let g:startify_skiplist = [
       \ escape(fnamemodify($HOME, ':p'), '\') .'AppData',
       \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
       \ escape(fnamemodify($HOME, ':p'), '\') .'.vim\\pack',
+      \ escape(fnamemodify($HOME, ':p'), '\') .'.vimrc',
       \]
 
 let g:startify_bookmarks = [
