@@ -265,7 +265,7 @@ augroup vimrcAuCmd
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
-  autocmd FileType markdown setlocal spell formatoptions+=a
+  autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype yaml setlocal syntax=yaml filetype=yaml textwidth=220
