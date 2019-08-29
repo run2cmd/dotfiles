@@ -11,3 +11,5 @@
   default = simple
 [merge]
   commit = no
+[log]
+  decorate = auto
