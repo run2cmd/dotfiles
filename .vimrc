@@ -15,7 +15,7 @@
 " For GVim: Yes
 " License: The Vim License (this command will show it: ':help copyright')
 "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
@@ -203,20 +203,6 @@ let g:mucomplete#chains = {
 let g:rooter_silent_chdir = 1
 let g:startify_change_to_dir = 0
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
-let g:projectionist_heuristics = {
-      \ '*': {
-      \   'manifests/*.pp': { 
-      \     'alternate': [
-      \       'spec/classes/{}_spec.rb', 
-      \       'spec/defines/{}_spec.rb', 
-      \     ],
-      \     'type': 'source' 
-      \   },
-      \   'spec/defines/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-      \   'spec/classes/*_spec.rb': { 'alternate': 'manifests/{}.pp', 'type': 'rspec' },
-      \   'spec/acceptance/*_spec.rb': { 'type': 'accept' },
-      \  }
-      \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Performance
@@ -280,6 +266,15 @@ augroup vimrcAuCmd
   autocmd QuickFixCmdPost [^l]* copen 10
   autocmd QuickFixCmdPost    l* lopen 10
   autocmd FileType qf wincmd J
+
+  " Quickly jump through project files
+  autocmd BufWinLeave *.pp,*.py,*.java,Vagrantfile,*.groovy mark C
+  autocmd BufWinLeave *.rb if @% =~ '_spec.rb' | mark T | else | mark C | endif
+  autocmd BufWinLeave *.yaml,yml mark H
+  autocmd BufWinLeave *.gradle,*.xml mark P
+  autocmd BufWinLeave Jenkinsfile mark J
+  autocmd BufWinleave *.md,*.markdown mark D
+  autocmd BufWinLeave *.bat,*.sh mark S
 
 augroup END
 
