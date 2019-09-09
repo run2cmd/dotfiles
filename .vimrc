@@ -247,16 +247,16 @@ augroup vimrcAuCmd
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
   autocmd FileType Jenkinsfile
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
+        \ let b:dispatch = "type % | ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 polumaint11 -p 57326 declarative-linter"
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd Filetype yaml setlocal syntax=yaml filetype=yaml textwidth=220
+  autocmd Filetype yaml setlocal syntax=yaml filetype=yaml
   autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
-  autocmd BufWinEnter yaml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
+  autocmd BufWinEnter *.yaml,*.yml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
   autocmd BufNewFile,BufReadPost Gemfile* setlocal filetype=ruby syntax=ruby re=1
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
@@ -289,8 +289,10 @@ let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
 if has('win32')
   let g:ale_ruby_rubocop_options = '-c %USERPROFILE%\.rubocop.yaml'
+  let g:ale_yaml_yamllint_options = '-c %USERPROFILE%\.yamllint'
 else
   let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
+  let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
 endif
 
 let g:ale_fixers = {
