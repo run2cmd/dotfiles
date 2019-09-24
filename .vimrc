@@ -65,7 +65,7 @@ colorscheme bugi
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set directory=~/.vim/tmp
 set undodir=~/.vim/undofiles
-set path+=**
+"set path+=**
 
 set undofile
 set nobackup
@@ -94,7 +94,22 @@ set magic
 " Enable The Silver Searcher (AG)
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
+  let g:find_my_file_exec = 'ag . -l --nocolor -g '
+else
+  if has('win32')
+    let g:find_my_file_exec = 'dir /b/s '
+  else
+    let g:find_my_file_exec = 'find . -name '
+  endif
 endif
+
+" Find file in current working directory and load result list to quickfix window
+function! s:FindMyFile(pattern) 
+  let l:file = system(g:find_my_file_exec . a:pattern)
+  cexpr l:file
+  copen
+endf
+command! -nargs=1 FF call s:FindMyFile('<args>')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff mode
@@ -191,9 +206,9 @@ let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-      \  'default' : ['path', 'omni', 'c-n', 'tags' ],
-      \  'vim' : [ 'path', 'cmd', 'c-n' ],
-      \  'markdown' : [ 'keyn', 'c-n', 'tags' ],
+      \  'default' : ['path', 'omni', 'c-n', 'keyn', 'tags' ],
+      \  'vim' : [ 'path', 'cmd', 'c-n', 'keyn' ],
+      \  'markdown' : [ 'keyn', 'c-n', 'keyn', 'tags' ],
       \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -242,15 +257,16 @@ augroup vimrcAuCmd
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy 
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = 'gradlew clean test build --info'
+        \ let b:dispatch = 'gradlew clean test build'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
+  " TODO: add jlint support of linux
   autocmd FileType Jenkinsfile
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = "type % | ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 polumaint11 -p 57326 declarative-linter"
+        \ let b:dispatch = $HOME . "\\scripts\\jlint.bat % polumaint11 57326"
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
-  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown setlocal spell tw=80
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype yaml setlocal syntax=yaml filetype=yaml
@@ -310,7 +326,7 @@ let g:ale_fixers = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ','
 
-map <leader>db :bufdo bd<CR>
+map <leader>db :bufdo %bd<CR>
 
 " Display all lines with keyword under cursor and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
