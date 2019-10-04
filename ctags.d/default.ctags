@@ -3,5 +3,7 @@
 --tag-relative=yes
 --exclude=*.git*
 --exclude=*.svn*
---exclude=*.java
---exclude=*.js
+--exclude=*.css
+--exclude=*.md
+--exclude=*.markdown
+
