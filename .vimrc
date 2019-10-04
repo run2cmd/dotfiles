@@ -105,9 +105,20 @@ endif
 
 " Find file in current working directory and load result list to quickfix window
 function! s:FindMyFile(pattern) 
-  let l:file = system(g:find_my_file_exec . a:pattern)
-  cexpr l:file
-  copen
+  let l:output = system(g:find_my_file_exec . a:pattern)
+  let l:flist = split(l:output, '\n')
+  let l:qlist = []
+
+  for f in l:flist
+    let l:dic = { 'filename': f, 'lnum': 1 }
+    call add(l:qlist, l:dic)
+  endfor
+
+  call setqflist(l:qlist)
+  cfirst
+  if len(getqflist()) > 1
+    copen
+  endif
 endf
 command! -nargs=1 FF call s:FindMyFile('<args>')
 
