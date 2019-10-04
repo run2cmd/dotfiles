@@ -211,15 +211,16 @@ set complete-=t
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 
+" TODO: more usefoult tags for puppet variables
 let g:gutentags_cache_dir = '~/.vim/tags'
 let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
-let g:gutentags_exclude_project_root = ['fixtures', 'coverage', '.yardoc']
+let g:gutentags_exclude_project_root = ['fixtures']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
       \  'default' : ['path', 'omni', 'c-n', 'keyn', 'tags' ],
       \  'vim' : [ 'path', 'cmd', 'c-n', 'keyn' ],
-      \  'markdown' : [ 'keyn', 'c-n', 'keyn', 'tags' ],
+      \  'markdown' : [ 'keyn', 'c-n', 'keyn' ],
       \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -359,6 +360,7 @@ nnoremap <C-S-Tab> :tabprevious<CR>
 nnoremap <F7> :Dispatch<CR>
 
 "TODO: native yankring: registers
+"Write yank register to a-j
 nnoremap <C-y> :registers<CR>
 nnoremap <C-h> :buffers<CR>:b
 
