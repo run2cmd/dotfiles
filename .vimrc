@@ -358,7 +358,7 @@ nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-nnoremap <leader>d :Dispatch<CR>
+nnoremap <leader>t :Dispatch<CR>
 
 "TODO: native yankring: registers
 "Write yank register to a-j
@@ -369,7 +369,7 @@ nnoremap <C-h> :buffers<CR>:b
 vnoremap . :normal .<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>t :bo term<CR><C-W>:res 10<CR>
+nnoremap <leader>c :bo term<CR><C-W>:res 10<CR>
 
 " Find word under cursor in CWD recursively
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
