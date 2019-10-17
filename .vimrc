@@ -275,7 +275,7 @@ augroup vimrcAuCmd
   " TODO: add jlint support of linux
   autocmd FileType Jenkinsfile
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = $HOME . "\\scripts\\jlint.bat % polumaint11 57326"
+        \ let b:dispatch = $HOME . "\\scripts\\jlint.bat % pbugala polumaint11 57326"
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
