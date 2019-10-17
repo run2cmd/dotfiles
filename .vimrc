@@ -57,7 +57,7 @@ set fileformats=unix,dos
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 set background=dark
-set guifont=Consolas:h10,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
+set guifont=Consolas:h11,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
 colorscheme bugi
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -69,6 +69,7 @@ set undodir=~/.vim/undofiles
 
 set undofile
 set nobackup
+set noswapfile
 set autoread
 set confirm
 
@@ -357,7 +358,7 @@ nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-nnoremap <F7> :Dispatch<CR>
+nnoremap <leader>d :Dispatch<CR>
 
 "TODO: native yankring: registers
 "Write yank register to a-j
