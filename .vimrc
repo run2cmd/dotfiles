@@ -182,7 +182,7 @@ let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:nerw_home = $HOME
+let g:netrw_home = $HOME
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
 let g:netrw_preview        = 1
@@ -339,7 +339,7 @@ let g:ale_fixers = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ','
 
-map <leader>db :bufdo %bd<CR>
+map <leader>db :bufdo %bd \| Startify<CR>
 
 " Display all lines with keyword under cursor and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
