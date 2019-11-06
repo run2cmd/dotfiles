@@ -212,9 +212,16 @@ set complete-=t
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 
-" TODO: more usefoult tags for puppet variables
+" TODO: ignore '::' in front of puppet lines
+"let g:gutentags_trace = 1
+if has('win32') 
+  let gitls = $HOME . "\\scripts\\tag_file_list.bat"
+else
+  let gitls = 'git ls-files && find . -type f spec/fixtures/modules -name *.pp' 
+endif
+
 let g:gutentags_cache_dir = '~/.vim/tags'
-let g:gutentags_file_list_command = { 'markers': { '.git': 'git ls-files' } }
+let g:gutentags_file_list_command = { 'markers': { '.git': gitls } }
 let g:gutentags_exclude_project_root = ['fixtures']
 
 let g:mucomplete#enable_auto_at_startup = 1
@@ -339,7 +346,7 @@ let g:ale_fixers = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ','
 
-map <leader>db :bufdo %bd \| Startify<CR>
+map <leader>bd :bufdo %bd \| Startify<CR>
 
 " Display all lines with keyword under cursor and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
