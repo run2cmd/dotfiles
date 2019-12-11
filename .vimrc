@@ -269,9 +269,9 @@ augroup vimrcAuCmd
 
   " Convert path to Unix for WSL support
   if has('win32')
-    autocmd BufWinEnter * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
+    autocmd BufReadPre * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
   else
-    let b:unix_path = expand('%')
+    autocmd BufReadPre * let b:unix_path = expand('%')
   endif
 
   " Filetype support
@@ -279,13 +279,18 @@ augroup vimrcAuCmd
 
   "TODO: Fix DoGe pattern for Puppet. Put ticket for DoGe
   "autocmd FileType puppet let b:doge_patterns = {}
+  autocmd BufWinEnter *acceptance_spec.rb 
+        \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd BufWinEnter *_spec.rb 
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
+  autocmd BufWinEnter *.{yaml,yml} set filetype=yaml syntax=yaml
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy 
         \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = 'gradlew clean test build'
+        \ let b:dispatch = 'gradlew clean build'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
+  autocmd Filetype yaml setlocal syntax=yaml filetype=yaml |
+        \ let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'" |
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
@@ -302,9 +307,7 @@ augroup vimrcAuCmd
   autocmd FileType markdown setlocal spell tw=80
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd Filetype yaml setlocal syntax=yaml filetype=yaml
   autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
-  autocmd BufWinEnter *.yaml,*.yml let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'"
   autocmd BufNewFile,BufReadPost Gemfile* setlocal filetype=ruby syntax=ruby re=1
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
