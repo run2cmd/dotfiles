@@ -32,6 +32,13 @@ set packpath+=$HOME/.vim
 set viminfo+='1000,n~/.vim/viminfo
 set history=1000
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Constants
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let jenkins_node = 'polumaint11'
+let jenkins_port = '57326'
+let user_name = 'pbugala'
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -279,13 +286,19 @@ augroup vimrcAuCmd
         \ setlocal tabstop=4 shiftwidth=4 |
         \ let b:dispatch = 'gradlew clean test build'
   autocmd FileType java setlocal tabstop=4 shiftwidth=4
-  " TODO: add jlint support of linux
-  autocmd FileType Jenkinsfile
-        \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = $HOME . "\\scripts\\jlint.bat % pbugala polumaint11 57326"
   autocmd FileType xml 
         \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
         \ let b:dispatch = 'mvn clean install -f % -DskipTests'
+  autocmd FileType Jenkinsfile
+        \ setlocal tabstop=4 shiftwidth=4 |
+        \ if has('win32') |
+        \   let b:dispatch = $HOME . "\\scripts\\jlint.bat % "
+        \                    . user_name . " " . jenkins_node . " " . jenkins_port |
+        \ else |
+        \   let b:dispatch = "ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -l "
+        \                    . user_name . " " . jenkins_node . "-p " . jenkins_port . 
+        \                    " declarative-linter < %" |
+        \ endif
   autocmd FileType markdown setlocal spell tw=80
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
