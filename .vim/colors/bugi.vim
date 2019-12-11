@@ -17,16 +17,16 @@ set background=dark
 
 " Default Highliting
 " Mostly for Ruby, Bash, Python
-hi Normal ctermfg=LightGray guifg=Gray80 guibg=#282828
-hi Comment ctermfg=DarkGray guifg=Gray40 
+hi Normal ctermfg=LightGray guifg=Gray80 guibg=#383838
+hi Comment ctermfg=DarkGray guifg=Gray40 term=italic gui=italic
 hi Constant ctermfg=DarkYellow guifg=#d79921
-hi String ctermfg=LightRed guifg=#fb4934
+hi String ctermfg=LightRed guifg=#fc7869
 hi Special ctermfg=DarkYellow guifg=#d79921
 hi Delimiter ctermfg=LightGray guifg=Gray80
-hi Identifier ctermfg=Cyan guifg=Cyan gui=NONE
+hi Identifier ctermfg=Cyan guifg=#66b5e5 gui=NONE
 hi Statement ctermfg=Yellow guifg=#fabd2f
 hi PreProc ctermfg=LightBlue guifg=#83a598
-hi Define ctermfg=Blue cterm=bold guifg=CornflowerBlue gui=bold
+hi Define ctermfg=Blue cterm=bold guifg=#8a8ed0 gui=bold
 hi Include ctermfg=Blue guifg=CornflowerBlue
 hi Keyword ctermfg=Yellow guifg=#fabd2f
 hi Type ctermfg=DarkGreen guifg=#98971a

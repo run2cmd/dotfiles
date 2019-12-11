@@ -66,3 +66,9 @@
 	path = .vim/pack/run2cmd/start/vim-markdown-toc
 	url = https://github.com/mzlogin/vim-markdown-toc.git
 	branch = master
+[submodule "vim/pack/run2cmd/start/gruvbox"]
+	path = vim/pack/run2cmd/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/pack/run2cmd/start/gruvbox"]
+	path = .vim/pack/run2cmd/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
