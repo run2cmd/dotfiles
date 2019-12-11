@@ -318,7 +318,7 @@ augroup vimrcAuCmd
   " Quickly jump through project files
   autocmd BufWinLeave *.pp,*.py,*.java,Vagrantfile,*.groovy mark C
   autocmd BufWinLeave *.rb if @% =~ '_spec.rb' | mark T | else | mark C | endif
-  autocmd BufWinLeave *.yaml,yml mark H
+  autocmd BufWinLeave *.yaml,*.yml mark H
   autocmd BufWinLeave *.gradle,*.xml mark P
   autocmd BufWinLeave Jenkinsfile mark J
   autocmd BufWinleave *.md,*.markdown mark D
