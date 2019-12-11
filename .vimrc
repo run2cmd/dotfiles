@@ -324,6 +324,9 @@ augroup vimrcAuCmd
   autocmd BufWinleave *.md,*.markdown mark D
   autocmd BufWinLeave *.bat,*.sh mark S
 
+  " Close hidden buffers for Netrw
+  autocmd FileType netrw setl bufhidden=wipe
+
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
