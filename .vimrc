@@ -10,8 +10,8 @@
 "
 "
 " Name: Bugi VIM
-" Scriptname: bugi.vim
-" Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/bugi.vim.git>
+" Scriptname: .vimrc
+" Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
 " For GVim: Yes
 " License: The Vim License (this command will show it: ':help copyright')
 "
