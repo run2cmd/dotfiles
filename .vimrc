@@ -219,7 +219,6 @@ set complete-=t
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 
-" TODO: ignore '::' in front of puppet lines
 "let g:gutentags_trace = 1
 if has('win32') 
   let gitls = $HOME . "\\scripts\\tag_file_list.bat"
