@@ -142,7 +142,6 @@ set tabpagemax=50
 set guitablabel=%F
 set tabline=%F
 set switchbuf=useopen,usetab
-set noequalalways
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Text format
