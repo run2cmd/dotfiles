@@ -384,10 +384,6 @@ nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-nnoremap <leader>t :Dispatch<CR>
-
-"TODO: native yankring: registers
-"Write yank register to a-j
 nnoremap <C-y> :registers<CR>
 nnoremap <C-h> :buffers<CR>:b
 
