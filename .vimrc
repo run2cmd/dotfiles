@@ -241,6 +241,7 @@ let g:mucomplete#chains = {
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rooter_silent_chdir = 1
+let g:rooter_excludes = ['fixtures']
 let g:startify_change_to_dir = 0
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 
