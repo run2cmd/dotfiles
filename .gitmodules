@@ -66,3 +66,11 @@
 	path = .vim/pack/run2cmd/start/vim-markdown-toc
 	url = https://github.com/mzlogin/vim-markdown-toc.git
 	branch = master
+[submodule ".vim/pack/run2cmd/start/vim-orgmode"]
+	path = .vim/pack/run2cmd/start/vim-orgmode
+	url = https://github.com/jceb/vim-orgmode.git
+	branch = master
+[submodule ".vim/pack/run2cmd/start/vim-speeddating"]
+	path = .vim/pack/run2cmd/start/vim-speeddating
+	url = https://github.com/tpope/vim-speeddating.git
+	branch = master

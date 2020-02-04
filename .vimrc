@@ -282,7 +282,7 @@ augroup vimrcAuCmd
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd BufWinEnter *_spec.rb 
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
-  autocmd BufWinEnter *.{yaml,yml} set filetype=yaml syntax=yaml
+  autocmd BufWinEnter *.{yaml,yml} setlocal filetype=yaml syntax=yaml
   autocmd Filetype python setlocal tabstop=4 shiftwidth=4
   autocmd FileType groovy 
         \ setlocal tabstop=4 shiftwidth=4 |
@@ -327,7 +327,7 @@ augroup vimrcAuCmd
   autocmd BufWinLeave *.bat,*.sh mark S
 
   " Close hidden buffers for Netrw
-  autocmd FileType netrw setl bufhidden=wipe
+  autocmd FileType netrw setlocal bufhidden=wipe
 
 augroup END
 
@@ -347,6 +347,7 @@ else
   let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
   let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
 endif
+let g:ale_sh_shellcheck_options = '-e SC2086' 
 
 let g:ale_fixers = {
       \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
@@ -357,6 +358,7 @@ let g:ale_fixers = {
       \  ],
       \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
       \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -427,6 +429,7 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
       \  {'c': '~/.vimrc'}, 
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
+      \  {'n': '~/.vim/notes.org'}, 
       \]
 
 let g:startify_custom_header = [
