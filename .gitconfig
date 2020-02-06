@@ -5,6 +5,7 @@
 [core]
   autocrlf = input
   longpaths = true
+  editor = vim
 [http]
   sslVerify = false
 [push]
