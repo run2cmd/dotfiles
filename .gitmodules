@@ -74,3 +74,7 @@
 	path = .vim/pack/run2cmd/start/vim-speeddating
 	url = https://github.com/tpope/vim-speeddating.git
 	branch = master
+[submodule ".vim/pack/run2cmd/start/vim-eunuch"]
+	path = .vim/pack/run2cmd/start/vim-eunuch
+	url = https://github.com/tpope/vim-eunuch.git
+	branch = master
