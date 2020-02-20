@@ -35,9 +35,9 @@ set history=1000
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Constants
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let jenkins_node = 'polumaint11'
-let jenkins_port = '57326'
-let user_name = 'pbugala'
+let jenkins_node = 'localhost'
+let jenkins_port = '52222'
+let user_name = 'admin'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
@@ -299,7 +299,7 @@ augroup vimrcAuCmd
         \   let b:dispatch = $HOME . "\\scripts\\jlint.bat % "
         \                    . user_name . " " . jenkins_node . " " . jenkins_port |
         \ else |
-        \   let b:dispatch = "ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -l "
+        \   let b:dispatch = "ssh -o StrictHostKeyChecking=no -l "
         \                    . user_name . " " . jenkins_node . "-p " . jenkins_port . 
         \                    " declarative-linter < %" |
         \ endif
