@@ -200,6 +200,12 @@ let g:netrw_sizestyle      = 'H'
 let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
 
+if has('win32')
+  let g:netrw_browsex_viewer = 'start chrome.exe'
+else
+  let g:netrw_browsex_viewer = 'xdg-open'
+endif
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -303,7 +309,9 @@ augroup vimrcAuCmd
         \                    . user_name . " " . jenkins_node . "-p " . jenkins_port . 
         \                    " declarative-linter < %" |
         \ endif
-  autocmd FileType markdown setlocal spell tw=80
+  autocmd FileType markdown 
+        \ setlocal spell tw=80 |
+        \ let b:dispatch = g:netrw_browsex_viewer . ' %'
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
