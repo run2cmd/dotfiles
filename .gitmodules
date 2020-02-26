@@ -84,6 +84,3 @@
 [submodule ".vim/pack/run2cmd/start/vim-easymotion"]
 	path = .vim/pack/run2cmd/start/vim-easymotion
 	url = https://github.com/easymotion/vim-easymotion.git
-[submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
-	path = .vim/pack/run2cmd/start/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim.git
