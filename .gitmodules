@@ -38,10 +38,6 @@
 	path = .vim/pack/run2cmd/start/tabular
 	url = https://github.com/godlygeek/tabular.git
 	branch = master
-[submodule ".vim/pack/run2cmd/start/vim-autoformat"]
-	path = .vim/pack/run2cmd/start/vim-autoformat
-	url = https://github.com/Chiel92/vim-autoformat.git
-	branch = master
 [submodule ".vim/pack/run2cmd/start/indentLine"]
 	path = .vim/pack/run2cmd/start/indentLine
 	url = https://github.com/Yggdroot/indentLine.git
@@ -53,10 +49,6 @@
 [submodule ".vim/pack/run2cmd/start/editorconfig-vim"]
 	path = .vim/pack/run2cmd/start/editorconfig-vim
 	url = https://github.com/editorconfig/editorconfig-vim.git
-	branch = master
-[submodule ".vim/pack/run2cmd/start/vim-doge"]
-	path = .vim/pack/run2cmd/start/vim-doge
-	url = https://github.com/kkoomen/vim-doge.git
 	branch = master
 [submodule ".vim/pack/run2cmd/start/vim-startify"]
 	path = .vim/pack/run2cmd/start/vim-startify
@@ -81,6 +73,6 @@
 [submodule ".vim/pack/run2cmd/start/vim-fanfingtastic"]
 	path = .vim/pack/run2cmd/start/vim-fanfingtastic
 	url = https://github.com/dahu/vim-fanfingtastic.git
-[submodule ".vim/pack/run2cmd/start/vim-easymotion"]
-	path = .vim/pack/run2cmd/start/vim-easymotion
-	url = https://github.com/easymotion/vim-easymotion.git
+[submodule ".vim/pack/run2cmd/start/ultisnips"]
+	path = .vim/pack/run2cmd/start/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
