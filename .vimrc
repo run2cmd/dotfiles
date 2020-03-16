@@ -80,12 +80,6 @@ set noswapfile
 set autoread
 set confirm
 
-if has('win32')
-  set wildignore+=.git\*,.hg\*,.svn\*
-else
-  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -214,6 +208,13 @@ endif
 " - methods completion
 "
 set wildmenu
+set wildcharm=<Tab>
+
+if has('win32')
+  set wildignore+=.git\*,.hg\*,.svn\*
+else
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
 
 set omnifunc=syntaxcomplete#Complete
 set completeopt+=longest,menuone,noinsert,noselect
@@ -237,10 +238,13 @@ let g:gutentags_exclude_project_root = ['fixtures']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-      \  'default' : ['path', 'omni', 'c-n', 'keyn', 'tags' ],
-      \  'vim' : [ 'path', 'cmd', 'c-n', 'keyn' ],
-      \  'markdown' : [ 'keyn', 'c-n', 'keyn' ],
+      \  'default' : ['ulti', 'path', 'omni', 'c-n', 'keyn', 'tags'],
+      \  'vim' : ['path', 'cmd', 'c-n', 'keyn'],
+      \  'markdown' : ['keyn', 'c-n', 'keyn'],
       \}
+
+let g:UltiSnipsExpandTrigger = "<f5>"
+let g:UltiSnipsJumpForwardTrigger = "<c-b>"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project workspace
@@ -282,8 +286,6 @@ augroup vimrcAuCmd
   " Filetype support
   autocmd FileType ruby setlocal re=1
 
-  "TODO: Fix DoGe pattern for Puppet. Put ticket for DoGe
-  "autocmd FileType puppet let b:doge_patterns = {}
   autocmd BufWinEnter *acceptance_spec.rb 
         \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd BufWinEnter *_spec.rb 
@@ -372,7 +374,7 @@ let g:ale_fixers = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = ','
+let mapleader = '\'
 
 map <leader>bd :bufdo %bd \| Startify<CR>
 
@@ -393,9 +395,6 @@ nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-nnoremap <C-y> :registers<CR>
-nnoremap <C-h> :buffers<CR>:b
-
 " Repeat in visual mode
 vnoremap . :normal .<CR>
 
@@ -412,8 +411,13 @@ nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
-let g:doge_mapping_comment_jump_forward = '<Leader>n'
-let g:doge_mapping_comment_jump_backward = '<Leader>p'
+" Remap wildmenu navigation
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
+
+inoremap <silent> <expr> <plug>MyCR
+      \ mucomplete#ultisnips#expand_snippet("\<cr>")
+imap <cr> <plug>MyCR
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
