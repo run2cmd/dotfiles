@@ -70,9 +70,3 @@
 	path = .vim/pack/run2cmd/start/vim-eunuch
 	url = https://github.com/tpope/vim-eunuch.git
 	branch = master
-[submodule ".vim/pack/run2cmd/start/vim-fanfingtastic"]
-	path = .vim/pack/run2cmd/start/vim-fanfingtastic
-	url = https://github.com/dahu/vim-fanfingtastic.git
-[submodule ".vim/pack/run2cmd/start/ultisnips"]
-	path = .vim/pack/run2cmd/start/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
