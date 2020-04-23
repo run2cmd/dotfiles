@@ -7,6 +7,6 @@ Layout/EndOfLine:
 Metrics/LineLength:
   Enabled: false
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context', 'configure'] 
+  ExcludedMethods: ['describe', 'context', 'configure']
 Style/FormatStringToken:
   EnforcedStyle: template

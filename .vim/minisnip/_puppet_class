@@ -1,0 +1,10 @@
+#
+# @summay {{+class summary+}}
+# 
+# @example {{+example usage+}}
+#
+# @param {{+class parameter+}}
+#
+class {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
+  {{++}}
+}

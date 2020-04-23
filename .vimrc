@@ -18,6 +18,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: plugins to test
+"   - far.vim
+"
 set nocompatible
 filetype plugin indent on
 
@@ -35,9 +38,10 @@ set history=1000
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Constants
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let jenkins_node = 'localhost'
-let jenkins_port = '52222'
-let user_name = 'admin'
+" docker run -p 52222:52222 jenkins-env
+let g:jenkins_node = 'localhost'
+let g:jenkins_port = '52222'
+let g:jenkins_user = 'admin'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
@@ -72,7 +76,6 @@ colorscheme bugi
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set directory=~/.vim/tmp
 set undodir=~/.vim/undofiles
-"set path+=**
 
 set undofile
 set nobackup
@@ -81,7 +84,7 @@ set autoread
 set confirm
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Movement
+" Section: Motion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set backspace=indent,eol,start
 set mouse=""
@@ -96,34 +99,13 @@ set magic
 " Enable The Silver Searcher (AG)
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-  let g:find_my_file_exec = 'ag . -l --nocolor -g '
-else
-  if has('win32')
-    let g:find_my_file_exec = 'dir /b/s '
-  else
-    let g:find_my_file_exec = 'find . -name '
-  endif
+  let g:find_file_quickfix_command = 'ag . -l --nocolor -g'
 endif
 
-" Find file in current working directory and load result list to quickfix window
-function! s:FindMyFile(pattern) 
-  let l:output = system(g:find_my_file_exec . a:pattern)
-  let l:flist = split(l:output, '\n')
-  let l:qlist = []
+" Find file with regex
+command! -nargs=1 FF call FindFileQuickfix('<args>')
 
-  for f in l:flist
-    let l:dic = { 'filename': f, 'lnum': 1 }
-    call add(l:qlist, l:dic)
-  endfor
-
-  call setqflist(l:qlist)
-  cfirst
-  if len(getqflist()) > 1
-    copen
-  endif
-endf
-command! -nargs=1 FF call s:FindMyFile('<args>')
-
+" TODO: Switch between quickfix windows to see older results of tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -133,8 +115,8 @@ set diffopt=vertical,internal,filler
 " Section: Tabs and windows
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabpagemax=50
-set guitablabel=%F
-set tabline=%F
+set guitablabel=%t
+set tabline=%t
 set switchbuf=useopen,usetab
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -208,6 +190,7 @@ endif
 " - methods completion
 "
 set wildmenu
+set wildmode=list:full
 set wildcharm=<Tab>
 
 if has('win32')
@@ -227,7 +210,7 @@ let g:rubycomplete_classes_in_global = 1
 
 "let g:gutentags_trace = 1
 if has('win32') 
-  let gitls = $HOME . "\\scripts\\tag_file_list.bat"
+  let gitls = 'scripts\tag_file_list.bat'
 else
   let gitls = 'git ls-files && find . -type f spec/fixtures/modules -name *.pp' 
 endif
@@ -238,13 +221,13 @@ let g:gutentags_exclude_project_root = ['fixtures']
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-      \  'default' : ['ulti', 'path', 'omni', 'c-n', 'keyn', 'tags'],
-      \  'vim' : ['path', 'cmd', 'c-n', 'keyn'],
+      \  'default' : ['path', 'omni', 'c-n', 'keyn', 'tags'],
+      \  'vim' : ['path', 'omni', 'cmd', 'c-n', 'keyn'],
       \  'markdown' : ['keyn', 'c-n', 'keyn'],
       \}
 
-let g:UltiSnipsExpandTrigger = "<f5>"
-let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+" Minisnip
+let g:minisnip_trigger = '<C-t>'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project workspace
@@ -272,48 +255,22 @@ augroup vimrcAuCmd
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
 
+  " Set titlestring
+  autocmd BufEnter * let &titlestring = ' ' . getcwd()
+
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Convert path to Unix for WSL support
   if has('win32')
-    autocmd BufReadPre * let b:unix_path = substitute(expand('%'), '\', '/', 'g')
+    autocmd BufReadPre * let g:unix_path = substitute(expand('%'), '\', '/', 'g')
   else
-    autocmd BufReadPre * let b:unix_path = expand('%')
+    autocmd BufReadPre * let g:unix_path = expand('%')
   endif
 
   " Filetype support
-  autocmd FileType ruby setlocal re=1
-
-  autocmd BufWinEnter *acceptance_spec.rb 
-        \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
-  autocmd BufWinEnter *_spec.rb 
-        \ let b:dispatch = "bash.exe -lc 'rspec --format progress " . b:unix_path . "'"
   autocmd BufWinEnter *.{yaml,yml} setlocal filetype=yaml syntax=yaml
-  autocmd Filetype python setlocal tabstop=4 shiftwidth=4
-  autocmd FileType groovy 
-        \ setlocal tabstop=4 shiftwidth=4 |
-        \ let b:dispatch = 'gradlew clean build'
-  autocmd FileType java setlocal tabstop=4 shiftwidth=4
-  autocmd Filetype yaml setlocal syntax=yaml filetype=yaml |
-        \ let b:dispatch = "bash.exe -lc 'ansible-lint " . b:unix_path . "'" |
-  autocmd FileType xml 
-        \ setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml textwidth=500 |
-        \ let b:dispatch = 'mvn clean install -f % -DskipTests'
-  autocmd FileType Jenkinsfile
-        \ setlocal tabstop=4 shiftwidth=4 |
-        \ if has('win32') |
-        \   let b:dispatch = $HOME . "\\scripts\\jlint.bat % "
-        \                    . user_name . " " . jenkins_node . " " . jenkins_port |
-        \ else |
-        \   let b:dispatch = "ssh -o StrictHostKeyChecking=no -l "
-        \                    . user_name . " " . jenkins_node . "-p " . jenkins_port . 
-        \                    " declarative-linter < %" |
-        \ endif
-  autocmd FileType markdown 
-        \ setlocal spell tw=80 |
-        \ let b:dispatch = g:netrw_browsex_viewer . ' %'
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
@@ -328,8 +285,6 @@ augroup vimrcAuCmd
   autocmd FileType qf wincmd J
 
   " Quickly jump through project files
-  autocmd BufWinLeave *.pp,*.py,*.java,Vagrantfile,*.groovy mark C
-  autocmd BufWinLeave *.rb if @% =~ '_spec.rb' | mark T | else | mark C | endif
   autocmd BufWinLeave *.yaml,*.yml mark H
   autocmd BufWinLeave *.gradle,*.xml mark P
   autocmd BufWinLeave Jenkinsfile mark J
@@ -338,7 +293,6 @@ augroup vimrcAuCmd
 
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
-
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -392,20 +346,20 @@ if maparg('<C-L>', 'n') ==# ''
 endif
 
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
-nnoremap <C-Tab> :tabnext<CR>
-nnoremap <C-S-Tab> :tabprevious<CR>
+nnoremap <C-Tab> :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
+nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
 
 " Repeat in visual mode
 vnoremap . :normal .<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>c :bo term<CR><C-W>:res 15<CR>
+nnoremap <leader>c :bo term<CR><C-W>:res 10<CR>
 
 " Find word under cursor in CWD recursively
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Search tasks in current file
-nnoremap <leader>s :silent Ggrep "TODO\\|FIXME"<CR>
+nnoremap <leader>t :silent Ggrep "TODO\\|FIXME"<CR>
 
 " Switch between completion methods
 imap <c-j> <plug>(MUcompleteCycFwd)
@@ -414,10 +368,6 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
-
-inoremap <silent> <expr> <plug>MyCR
-      \ mucomplete#ultisnips#expand_snippet("\<cr>")
-imap <cr> <plug>MyCR
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
@@ -441,7 +391,7 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
       \  {'c': '~/.vimrc'}, 
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
-      \  {'n': '~/.vim/notes.org'}, 
+      \  {'n': '~/.vim/notes.md'}, 
       \]
 
 let g:startify_custom_header = [
@@ -459,14 +409,12 @@ let g:startify_custom_header = [
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! MUCompleteStatusLine()
-  return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
-endf
-
+" Buffer number in statusline
 function! BufferNumberStatusLine()
   return len(filter(range(1,bufnr('$')), 'buflisted(v:val)'))
 endf
 
+" ALE status output in statusline
 function! ALELinterStatusLine() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
@@ -481,13 +429,12 @@ endfunction
 set laststatus=2
 set statusline=
 set statusline+=%<[%{BufferNumberStatusLine()}]
-set statusline+=[%{FugitiveHead()}]
+set statusline+=\ [%{FugitiveHead()}]
+set statusline+=\ %f
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
 set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
 set statusline+=%=
-set statusline+=[MU\ %{MUCompleteStatusLine()}]
-set statusline+=\ [GT\ %{gutentags#statusline()}]
 set statusline+=\ %p%%
 set statusline+=\ %l/%L:%c

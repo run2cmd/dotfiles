@@ -1,0 +1,94 @@
+// Branching
+def devBranch = 'develop'
+def relBranch = 'master'
+def supportBranch = 'release_'
+
+// Set default versions to failed for MS Teams to send notificaiton at any time.
+// They change after successfull builds
+buildVersion = 'failed'
+
+node({++node name++}) {
+
+    properties(
+        [
+            buildDiscarder(
+                logRotator(daysToKeepStr: '7', numToKeepStr: '3')
+            ),
+            disableConcurrentBuilds(),
+        ]
+    )
+
+    try {
+        
+        checkout scm
+
+        if (env.BRANCH_NAME in devBranch) {
+            buildVersion = buildPomVersion()
+        } else if (env.BRANCH_NAME in [relBranch, supportBranch]) {
+            buildVersion = "${buildPomVersion()}-1"
+        } else {
+            buildVersion = buildPomVersion()
+        }
+
+        stage('Build') {
+            {{++}}
+        }
+
+        currentBuild.result = "SUCCESS"
+        officeConnectorStatus = "<span style=\"color:green\">*${currentBuild.result}*</span>"
+
+    } catch (e) {
+
+        currentBuild.result = "FAILURE"
+        officeConnectorStatus = "<span style=\"color:red\">*${currentBuild.result}*</span>"
+        throw e
+    } finally {
+
+        // Message wrapper with simple Markdown
+        wrap([$class: 'BuildUser']) {
+            officeConnectorMessage = officeConnectorMessageParser(
+                buildVersion: buildVersion,
+                startTime: new Date(currentBuild.startTimeInMillis),
+                duration: currentBuild.durationString.replace('and counting', ''),
+                developers: humanAuthor()
+            )
+        }
+
+        // Push notifications to MS Teams
+        if (env.BRANCH_NAME == 'master') {
+            office365ConnectorSend message: officeConnectorMessage, status: officeConnectorStatus, webhookUrl: msTeamsRelChannel
+        } else {
+            office365ConnectorSend message: officeConnectorMessage, status: officeConnectorStatus, webhookUrl: msTeamsDevChannel
+        }
+    }
+}
+
+@NonCPS
+def officeConnectorMessageParser(Map valuesList) {
+    def message = """
+__Build version__ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *${valuesList.buildVersion}*
+
+__Start Time__ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *${valuesList.startTime}*
+
+__Duration__ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *${valuesList.duration}*
+
+__Developers__ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *${valuesList.developers}*
+"""
+    return message
+}
+
+def buildPomVersion() {
+    version = sh(
+        script: 'xmllint --xpath "//*[local-name()=\'project\']/*[local-name()=\'version\']/text()" pom.xml',
+        returnStdout: true
+    ).trim()
+    return version
+}
+
+@NonCPS
+def humanAuthor() {
+    changeAuthors = currentBuild.changeSets.collect { set ->
+        set.collect { entry -> entry.author.fullName }
+    }.unique().join(',')
+    return changeAuthors
+}
