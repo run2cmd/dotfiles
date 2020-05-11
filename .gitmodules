@@ -62,6 +62,9 @@
   path = .vim/pack/run2cmd/start/vim-eunuch
   url = https://github.com/tpope/vim-eunuch.git
   branch = master
-[submodule ".vim\\pack\\run2cmd\\start\\vim-dirdiff"]
+[submodule ".vim/pack/run2cmd/start/vim-dirdiff"]
   path = .vim/pack/run2cmd/start/vim-dirdiff
   url = https://github.com/will133/vim-dirdiff.git
+[submodule ".vim/pack/run2cmd/start/vim-minisnip"]
+  path = .vim/pack/run2cmd/start/vim-minisnip
+  url = https://github.com/tckmn/vim-minisnip.git
