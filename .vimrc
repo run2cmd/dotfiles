@@ -18,9 +18,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Defaults
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: plugins to test
-"   - far.vim
-"
 set nocompatible
 filetype plugin indent on
 
@@ -392,6 +389,7 @@ let g:startify_bookmarks = [
       \  {'c': '~/.vimrc'}, 
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
       \  {'n': '~/.vim/notes.md'}, 
+      \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
       \]
 
 let g:startify_custom_header = [
