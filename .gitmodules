@@ -68,6 +68,3 @@
 [submodule ".vim/pack/run2cmd/start/vim-minisnip"]
   path = .vim/pack/run2cmd/start/vim-minisnip
   url = https://github.com/tckmn/vim-minisnip.git
-[submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
-  path = .vim/pack/run2cmd/start/ctrlp.vim
-  url = https://github.com/ctrlpvim/ctrlp.vim.git
