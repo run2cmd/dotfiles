@@ -427,7 +427,7 @@ endfunction
 set laststatus=2
 set statusline=
 set statusline+=%<[%{BufferNumberStatusLine()}]
-set statusline+=\ [%{FugitiveStatusline()}]
+set statusline+=\ [%{FugitiveHead(7)}]
 set statusline+=\ %f
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
