@@ -31,7 +31,9 @@ function! FindFileQuickfix(pattern)
   if len(l:qlist) > 0
     call setqflist(l:qlist)
     cfirst
-    copen
+    if len(l:qlist) > 1
+      copen
+    endif
   else
     echo 'No matches found'
   endif
