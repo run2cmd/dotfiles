@@ -187,7 +187,7 @@ endif
 " - methods completion
 "
 set wildmenu
-set wildmode=list:full
+set wildmode=list:longest,full
 set wildcharm=<Tab>
 
 if has('win32')
