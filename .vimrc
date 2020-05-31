@@ -92,6 +92,7 @@ set mouse=""
 set hlsearch
 set incsearch
 set magic
+set path+=**
 
 " Enable The Silver Searcher (AG)
 if executable('ag')
@@ -99,8 +100,6 @@ if executable('ag')
   let g:find_file_quickfix_command = 'ag . -l --nocolor -g'
 endif
 
-" Find file with regex
-command! -nargs=1 FF call FindFileQuickfix('<args>')
 
 " TODO: Switch between quickfix windows to see older results of tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
