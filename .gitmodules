@@ -54,14 +54,6 @@
   path = .vim/pack/run2cmd/start/vim-startify
   url = https://github.com/mhinz/vim-startify.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/vim-markdown-toc"]
-  path = .vim/pack/run2cmd/start/vim-markdown-toc
-  url = https://github.com/mzlogin/vim-markdown-toc.git
-  branch = master
-[submodule ".vim/pack/run2cmd/start/vim-eunuch"]
-  path = .vim/pack/run2cmd/start/vim-eunuch
-  url = https://github.com/tpope/vim-eunuch.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-dirdiff"]
   path = .vim/pack/run2cmd/start/vim-dirdiff
   url = https://github.com/will133/vim-dirdiff.git
