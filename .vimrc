@@ -21,9 +21,8 @@
 set nocompatible
 filetype plugin indent on
 
+" Load VIM defaults
 source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
 
 set noerrorbells visualbell t_vb=
 
