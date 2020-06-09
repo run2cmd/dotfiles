@@ -173,10 +173,6 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: completion method features:
-" - react on keywords (include, contain, require, etc)
-" - methods completion
-"
 set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
@@ -187,14 +183,11 @@ else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
-set omnifunc=syntaxcomplete#Complete
+set omnifunc=ale#completion#OmniFunc
 set completeopt+=longest,menuone,noinsert,noselect
 set shortmess+=cm
-set complete-=i
 set complete-=t
-
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
+set complete-=i
 
 "let g:gutentags_trace = 1
 if has('win32') 
