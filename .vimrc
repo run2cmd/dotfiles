@@ -24,20 +24,14 @@ filetype plugin indent on
 " Load VIM defaults
 source $VIMRUNTIME/vimrc_example.vim
 
+" No sounds
 set noerrorbells visualbell t_vb=
 
+" Support both unix and windows paths
 set runtimepath+=$HOME/.vim
 set packpath+=$HOME/.vim
 set viminfo+='1000,n~/.vim/viminfo
 set history=1000
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Constants
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" docker run -p 52222:52222 jenkins-env
-let g:jenkins_node = 'localhost'
-let g:jenkins_port = '52222'
-let g:jenkins_user = 'admin'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
@@ -56,6 +50,7 @@ scriptencoding utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
 
+" Favor unix format
 set fileformat=unix
 set fileformats=unix,dos
 
@@ -73,16 +68,18 @@ colorscheme bugi
 set directory=~/.vim/tmp
 set undodir=~/.vim/undofiles
 
+" Do not use backup or swapfiles. Undo is enough
 set undofile
 set nobackup
 set noswapfile
 set autoread
+
+" Popup confirmation on write or quit with changes
 set confirm
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Motion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set backspace=indent,eol,start
 set mouse=""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -96,20 +93,17 @@ set path+=**
 " Enable The Silver Searcher (AG)
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-  let g:find_file_quickfix_command = 'ag . -l --nocolor -g'
 endif
 
-
-" TODO: Switch between quickfix windows to see older results of tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set diffopt=vertical,internal,filler
+set diffopt+=vertical
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Tabs and windows
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabpagemax=50
+"set tabpagemax=50
 set guitablabel=%t
 set tabline=%t
 set switchbuf=useopen,usetab
@@ -132,8 +126,8 @@ set nojoinspaces
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Visual behavior
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set lazyredraw
 set number
+set relativenumber
 
 set list
 set listchars=conceal:^,nbsp:+
@@ -149,9 +143,6 @@ set scrolloff=2
 set sidescrolloff=5
 set display+=lastline
 
-set lines=37
-set columns=110
-
 let g:indentLine_char = '┊'
 let g:indentLine_fileTypeExclude = ['startify', 'markdown']
 let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
@@ -160,15 +151,15 @@ let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:netrw_home = $HOME
-let g:netrw_fastbrowse     = 0
-let g:netrw_banner         = 0
-let g:netrw_preview        = 1
-let g:netrw_winsize        = 25
-let g:netrw_altv           = 1
-let g:netrw_keepdir        = 0
-let g:netrw_liststyle      = 1
-let g:netrw_sizestyle      = 'H'
-let g:netrw_silent         = 1
+let g:netrw_fastbrowse = 0
+let g:netrw_banner = 0
+let g:netrw_preview = 1
+let g:netrw_winsize = 25
+let g:netrw_altv = 1
+let g:netrw_keepdir = 0
+let g:netrw_liststyle = 1
+let g:netrw_sizestyle = 'H'
+let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
 
 if has('win32')
@@ -280,11 +271,9 @@ augroup vimrcAuCmd
   autocmd FileType qf wincmd J
 
   " Quickly jump through project files
-  autocmd BufWinLeave *.yaml,*.yml mark H
   autocmd BufWinLeave *.gradle,*.xml mark P
   autocmd BufWinLeave Jenkinsfile mark J
   autocmd BufWinleave *.md,*.markdown mark D
-  autocmd BufWinLeave *.bat,*.sh mark S
 
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
@@ -325,6 +314,7 @@ let g:ale_fixers = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = '\'
 
+" Clear all buffers and run Startify
 map <leader>bd :bufdo %bd \| Startify<CR>
 
 " Display all lines with keyword under cursor and ask which one to jump to
@@ -340,6 +330,7 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
+" Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
 nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
@@ -356,10 +347,6 @@ nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " Search tasks in current file
 nnoremap <leader>t :silent Ggrep "TODO\\|FIXME"<CR>
 
-" Switch between completion methods
-imap <c-j> <plug>(MUcompleteCycFwd)
-imap <c-k> <plug>(MUcompleteCycBwd)
-
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
@@ -371,6 +358,10 @@ cnoremap <C-j> <Down>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set screen size for Startify to fit
+set lines=37
+set columns=110
+
 let g:startify_lists = [
       \  { 'type': 'files', 'header': [' MRU'] },
       \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
