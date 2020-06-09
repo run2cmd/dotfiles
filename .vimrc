@@ -237,7 +237,7 @@ augroup vimrcAuCmd
   autocmd BufEnter * :syntax sync fromstart
 
   " Set titlestring
-  autocmd BufEnter * let &titlestring = ' ' . getcwd()
+  autocmd BufEnter,BufWinEnter * let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
