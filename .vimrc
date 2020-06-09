@@ -277,7 +277,6 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntaxt and Lint
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Puppet syntax check using puppet command doest not works for END lines. Reported BUG to ALE.
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
@@ -315,14 +314,15 @@ map <leader>bd :bufdo %bd \| Startify<CR>
 " Display all lines with keyword under cursor and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
-nnoremap <Up>    <C-W><C-K>
-nnoremap <Down>  <C-W><C-J>
-nnoremap <Left>  <C-W><C-H>
-nnoremap <Right> <C-W><C-L>
+" Do not use arrow keys for movement. Remap to resize commands
+nnoremap <Up> :resize +2<CR>
+nnoremap <Down> :resize -2<CR>
+nnoremap <Left> :vert resize +2<CR> 
+nnoremap <Right> :vert resize -2<CR>
 
 " Clear search and diff
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+if maparg('<ESC>', 'n') ==# ''
+  nnoremap <silent> <ESC> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
 " Tab enchantments
