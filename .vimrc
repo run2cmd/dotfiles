@@ -162,6 +162,7 @@ let g:netrw_liststyle = 1
 let g:netrw_sizestyle = 'H'
 let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 
 if has('win32')
   let g:netrw_browsex_viewer = 'start chrome.exe'
