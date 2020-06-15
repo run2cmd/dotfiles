@@ -314,8 +314,8 @@ nnoremap <Left> :vert resize +2<CR>
 nnoremap <Right> :vert resize -2<CR>
 
 " Clear search and diff
-if maparg('<ESC>', 'n') ==# ''
-  nnoremap <silent> <ESC> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+if maparg('<c-l>', 'n') ==# ''
+  nnoremap <silent> <c-l> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
 " Tab enchantments
