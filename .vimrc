@@ -243,13 +243,6 @@ augroup vimrcAuCmd
   autocmd BufReadPost * 
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-  " Convert path to Unix for WSL support
-  if has('win32')
-    autocmd BufReadPre * let g:unix_path = substitute(expand('%'), '\', '/', 'g')
-  else
-    autocmd BufReadPre * let g:unix_path = expand('%')
-  endif
-
   " Filetype support
   autocmd BufWinEnter *.{yaml,yml} setlocal filetype=yaml syntax=yaml
   autocmd FileType gitcommit setlocal tw=72

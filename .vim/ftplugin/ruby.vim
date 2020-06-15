@@ -29,7 +29,7 @@ if rubyAlterFile != '' && match(expand('%:p'), 'git') != -1
 endif
 
 if match(expand('%:t'), "_spec.rb$") > -1
-  let b:dispatch = "bash.exe -lc 'rspec --format progress " . g:unix_path . "'"
+  let b:dispatch = "bash.exe -lc 'rspec --format progress %:gs?\\\\?/?'"
 else
   let b:dispatch = "ruby %"
 endif
