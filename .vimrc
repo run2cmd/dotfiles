@@ -90,6 +90,8 @@ set noballooneval
 set hlsearch
 set incsearch
 set magic
+
+" Include files in CWD
 set path+=**
 
 " Enable The Silver Searcher (AG)
@@ -106,7 +108,6 @@ let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.git,.svn"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Tabs and windows
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set tabpagemax=50
 set guitablabel=%t
 set tabline=%t
 set switchbuf=useopen,usetab
@@ -114,12 +115,10 @@ set switchbuf=useopen,usetab
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Text format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set textwidth=100
-set formatoptions+=jn
+set formatoptions+=jnM
 set formatoptions-=o
 
-set smartindent
-set autoindent
+set cindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -178,6 +177,10 @@ endif
 set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
+set completeopt=menu,preview,longest,menuone,noinsert,noselect
+set shortmess+=cm
+set complete-=t
+set complete-=i
 
 if has('win32')
   set wildignore+=.git\*,.hg\*,.svn\*
@@ -185,13 +188,10 @@ else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
+" Enable ALE LSP completion 
 set omnifunc=ale#completion#OmniFunc
-set completeopt+=longest,menuone,noinsert,noselect
-set shortmess+=cm
-set complete-=t
-set complete-=i
 
-"let g:gutentags_trace = 1
+" Exclude artifacts and dependencies from :Ggrep
 if has('win32') 
   let gitls = 'scripts\tag_file_list.bat'
 else
@@ -209,7 +209,6 @@ let g:mucomplete#chains = {
       \  'markdown' : ['keyn', 'c-n', 'keyn'],
       \}
 
-" Minisnip
 let g:minisnip_trigger = '<C-t>'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -246,7 +245,6 @@ augroup vimrcAuCmd
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Filetype support
-  autocmd BufWinEnter *.{yaml,yml} setlocal filetype=yaml syntax=yaml
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
@@ -254,6 +252,15 @@ augroup vimrcAuCmd
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
   autocmd BufNewFile,BufReadPost *.gradle setlocal syntax=groovy filetype=groovy
+
+  " Ansible support
+  autocmd BufNewFile,BufReadPost *.{yaml,yml}
+        \ for strMatch in ["- hosts:", "- name:", "- tasks"] |
+        \   if match(readfile(expand('%:p')), strMatch) > -1 | 
+        \     setlocal filetype=ansible syntax=yaml | 
+        \     break |
+        \   endif |
+        \ endfor
 
   " Quickfix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
@@ -267,6 +274,9 @@ augroup vimrcAuCmd
 
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
+
+  " Autosave
+  autocmd CursorHold * if &modified != 0 && &buftype != "terminal" | write | endif
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -274,6 +284,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
+let g:ale_hover_to_preview = 1
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
@@ -285,6 +296,9 @@ else
   let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
 endif
 let g:ale_sh_shellcheck_options = '-e SC2086' 
+
+" Enable pyls for Python
+let g:ale_linters = { 'python': ['pylint', 'pyls'] }
 
 let g:ale_fixers = {
       \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
@@ -306,6 +320,11 @@ let mapleader = '\'
 " Clear all buffers and run Startify
 map <leader>bd :bufdo %bd \| Startify<CR>
 
+" Clear search and diff
+if maparg('<c-l>', 'n') ==# ''
+  nnoremap <silent> <c-l> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
 " Display all lines with keyword under cursor and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
@@ -315,18 +334,10 @@ nnoremap <Down> :resize -2<CR>
 nnoremap <Left> :vert resize +2<CR> 
 nnoremap <Right> :vert resize -2<CR>
 
-" Clear search and diff
-if maparg('<c-l>', 'n') ==# ''
-  nnoremap <silent> <c-l> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
-
 " Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
 nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
-
-" Repeat in visual mode
-vnoremap . :normal .<CR>
 
 " Terminal helper to open on the bottom
 nnoremap <leader>c :bo term<CR><C-W>:res 10<CR>
@@ -340,6 +351,15 @@ nnoremap <leader>t :silent Ggrep "TODO\\|FIXME"<CR>
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
+
+" LSP support
+nnoremap <leader>k :ALEHover<CR>
+nnoremap <leader>d :ALEGoToDefinition<CR>
+nnoremap <leader>r :ALERename<CR>
+
+" Switch between completion methods
+imap <c-j> <plug>(MUcompleteCycFwd)
+imap <c-k> <plug>(MUcompleteCycBwd)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
@@ -403,6 +423,11 @@ function! ALELinterStatusLine() abort
         \)
 endfunction
 
+" Completeion method used in statusline
+function! MUCompleteStatusLine()
+  return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
+endf
+
 set laststatus=2
 set statusline=
 set statusline+=%<[%{BufferNumberStatusLine()}]
@@ -413,5 +438,7 @@ set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
 set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
 set statusline+=%=
+set statusline+=[MU\ %{MUCompleteStatusLine()}]
+set statusline+=\ [GT\ %{gutentags#statusline()}]
 set statusline+=\ %p%%
 set statusline+=\ %l/%L:%c
