@@ -177,19 +177,22 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Autocompletion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Command line completion
 set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
-set completeopt=menu,preview,longest,menuone,noinsert,noselect
-set shortmess+=cm
-set complete-=t
-set complete-=i
 
 if has('win32')
   set wildignore+=.git\*,.hg\*,.svn\*
 else
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
+
+" Vim build-in completion
+set completeopt=menu,preview,longest,menuone,noinsert,noselect
+set shortmess+=cm
+set complete-=t
+set complete-=i
 
 " Enable ALE LSP completion 
 set omnifunc=ale#completion#OmniFunc
@@ -338,6 +341,9 @@ nnoremap <Right> :vert resize -2<CR>
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <C-Tab> :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
 nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
+
+" Close quickfix
+nnoremap <C-W>gq :cclose<CR>
 
 " Terminal helper to open on the bottom
 nnoremap <leader>c :bo term<CR><C-W>:res 10<CR>
