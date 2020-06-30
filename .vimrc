@@ -21,8 +21,8 @@
 set nocompatible
 filetype plugin indent on
 
-" Load VIM defaults
-source $VIMRUNTIME/vimrc_example.vim
+" Load matchit
+packadd! matchit
 
 " No sounds
 set noerrorbells visualbell t_vb=
