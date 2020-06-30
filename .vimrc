@@ -38,9 +38,7 @@ set history=1000
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
-if has('win32')
-  language en
-endif
+language en
 set spelllang=en_us
 
 " Order matters 
