@@ -199,8 +199,13 @@ else
 endif
 
 let g:gutentags_cache_dir = '~/.vim/tags'
-let g:gutentags_file_list_command = { 'markers': { '.git': gitls } }
-let g:gutentags_exclude_project_root = ['fixtures']
+
+" Dummy function to use vim-rooter settings for tags generation
+function FindGutentagsRootDirectory(path)
+  return FindRootDirectory()
+endf
+
+let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {

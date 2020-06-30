@@ -11,8 +11,8 @@
   url = https://github.com/tpope/vim-fugitive.git
   branch = master
 [submodule ".vim/pack/run2cmd/start/vim-rooter"]
-  path = .vim/pack/run2cmd/start/vim-rooter
-  url = https://github.com/airblade/vim-rooter.git
+	path = .vim/pack/run2cmd/start/vim-rooter
+	url = https://github.com/run2cmd/vim-rooter.git
   branch = master
 [submodule ".vim/pack/run2cmd/start/vim-unimpaired"]
   path = .vim/pack/run2cmd/start/vim-unimpaired
