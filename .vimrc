@@ -97,9 +97,9 @@ set magic
 " Include files in CWD
 set path+=**
 
-" Enable The Silver Searcher (AG)
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
+" Enable RipGrep
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ -S
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -194,13 +194,10 @@ endif
 " Enable ALE LSP completion 
 set omnifunc=ale#completion#OmniFunc
 
-" Exclude artifacts and dependencies from :Ggrep
-if has('win32') 
-  let gitls = 'scripts\tag_file_list.bat'
-else
-  let gitls = 'git ls-files && find . -type f spec/fixtures/modules -name *.pp' 
+" TODO: add rg support for Linux
+if executable('rg') 
+  let g:gutentags_file_list_command = $HOME . '/.vim/scripts/tag_file_list.bat' 
 endif
-
 let g:gutentags_cache_dir = '~/.vim/tags'
 
 " Dummy function to use vim-rooter settings for tags generation
