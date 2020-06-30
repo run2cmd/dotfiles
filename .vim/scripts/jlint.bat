@@ -1,8 +1,25 @@
 @echo off
+
+:dockerRun
 for /f %%i in ('docker run -d -p 52222:52222 jenkins-env') do set dockerid=%%i
-ssh-keygen -R [localhost]:52222 > nul
-echo "Waiting 30 seconds for Jenkins on docker to come up"
-timeout 30 > nul
-type %1 | ssh -l admin -o StrictHostKeyChecking=no localhost -p 52222 declarative-linter
+echo %dockerid%
+
+:sshClean
+ssh-keygen -R [localhost]:52222 1> nul 2>&1
+
+:dockerWait
+echo Waiting 30 seconds for Jenkins on docker to come up
+timeout 20 > nul
+set /A count=0
+
+:testJenkins
+set /A count=%count%+1
+if %count% gtr 10 goto dockerCleanup
+timeout 10 > nul
+echo %count% test attempt
+call type %1 | ssh -l admin -o StrictHostKeyChecking=no localhost -p 52222 declarative-linter
+if %errorlevel% gtr 0 (goto testJenkins) else (goto dockerCleanup)
+
+:dockerCleanup
 docker kill %dockerid% > nul
 docker rm %dockerid% > nul

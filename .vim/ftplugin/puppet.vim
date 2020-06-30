@@ -1,1 +1,1 @@
-let b:dispatch = 'puppet apply --noop -t %'
+let b:dispatch = 'puppet apply --noop --color=false %'

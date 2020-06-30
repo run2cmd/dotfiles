@@ -3,8 +3,6 @@
 # 
 # @example {{+example usage+}}
 #
-# @param {{+define parameter+}}
-#
 define {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
   {{++}}
 }

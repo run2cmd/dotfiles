@@ -1,3 +1,4 @@
 @ECHO OFF
+rg --files 
 rem Add fixtures for puppet files
-git ls-files & git ls-files -o spec\\fixtures\\modules\\*.pp
+rg --files --type puppet spec/fixtures/modules --no-messages
