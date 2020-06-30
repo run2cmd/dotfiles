@@ -272,11 +272,6 @@ augroup vimrcAuCmd
   autocmd QuickFixCmdPost    l* lopen 10
   autocmd FileType qf wincmd J
 
-  " Quickly jump through project files
-  autocmd BufWinLeave *.gradle,*.xml mark P
-  autocmd BufWinLeave Jenkinsfile mark J
-  autocmd BufWinleave *.md,*.markdown mark D
-
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
 
