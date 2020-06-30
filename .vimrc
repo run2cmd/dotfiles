@@ -80,7 +80,12 @@ set confirm
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable mouse
 set mouse=""
+
+" Disable mouse tooltips
 set noballooneval
+
+" Fix backspace
+set backspace=indent,eol,start
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
