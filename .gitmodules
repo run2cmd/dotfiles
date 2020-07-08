@@ -54,9 +54,11 @@
   path = .vim/pack/run2cmd/start/vim-startify
   url = https://github.com/mhinz/vim-startify.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/vim-dirdiff"]
-  path = .vim/pack/run2cmd/start/vim-dirdiff
-  url = https://github.com/will133/vim-dirdiff.git
 [submodule ".vim/pack/run2cmd/start/vim-minisnip"]
   path = .vim/pack/run2cmd/start/vim-minisnip
   url = https://github.com/tckmn/vim-minisnip.git
+  branch = master
+[submodule ".vim/pack/run2cmd/start/ZFVimDirDiff"]
+  path = .vim/pack/run2cmd/start/ZFVimDirDiff
+  url = https://github.com/ZSaberLv0/ZFVimDirDiff.git
+  branch = master

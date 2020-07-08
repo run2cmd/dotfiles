@@ -106,7 +106,8 @@ endif
 " Secion: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt+=vertical
-let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.git,.svn"
+let g:ZFDirDiffFileExclude = "CVS,.git,.svn"
+let g:ZFDirDiffShowSameFile = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Tabs and windows
