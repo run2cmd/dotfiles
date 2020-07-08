@@ -205,7 +205,7 @@ endif
 let g:gutentags_cache_dir = '~/.vim/tags'
 
 " Dummy function to use vim-rooter settings for tags generation
-function FindGutentagsRootDirectory(path)
+function! FindGutentagsRootDirectory(path)
   return FindRootDirectory()
 endf
 
