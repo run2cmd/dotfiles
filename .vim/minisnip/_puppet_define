@@ -1,8 +1,9 @@
 #
 # @summay {{+define summary+}}
 # 
-# @example {{+example usage+}}
+# @example 
+#   {{+~substitute(substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g'), 'puppet-', '', 'g')+}} { {{+title+}}: }
 #
-define {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
+define {{+~substitute(substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g'), 'puppet-', '', 'g')+}} {
   {{++}}
 }
