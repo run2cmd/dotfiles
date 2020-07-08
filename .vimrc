@@ -208,7 +208,6 @@ let g:gutentags_cache_dir = '~/.vim/tags'
 function! FindGutentagsRootDirectory(path)
   return FindRootDirectory()
 endf
-
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
 
 let g:mucomplete#enable_auto_at_startup = 1
@@ -261,15 +260,18 @@ augroup vimrcAuCmd
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
   autocmd BufNewFile,BufReadPost *.gradle setlocal syntax=groovy filetype=groovy
+  autocmd BufNewFile,BufReadPost .vimlocal setlocal syntax=vim filetype=vim
 
   " Ansible support
   autocmd BufNewFile,BufReadPost *.{yaml,yml}
-        \ for strMatch in ["- hosts:", "- name:", "- tasks"] |
-        \   if match(readfile(expand('%:p')), strMatch) > -1 | 
-        \     setlocal filetype=ansible syntax=yaml | 
-        \     break |
-        \   endif |
-        \ endfor
+        \ if match(expand('%:p'), 'fugitive') == -1 |
+        \   for strMatch in ["- hosts:", "- name:", "- tasks"] |
+        \     if match(readfile(expand('%:p')), strMatch) > -1 | 
+        \       setlocal filetype=ansible syntax=yaml | 
+        \       break |
+        \     endif |
+        \   endfor |
+        \ endif
 
   " Quickfix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
@@ -449,3 +451,6 @@ set statusline+=[MU\ %{MUCompleteStatusLine()}]
 set statusline+=\ [GT\ %{gutentags#statusline()}]
 set statusline+=\ %p%%
 set statusline+=\ %l/%L:%c
+
+" Source local changes. They are either OS or project specific and should not be in repository
+source $HOMEPATH/.vimlocal
