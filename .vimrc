@@ -246,7 +246,7 @@ augroup vimrcAuCmd
   autocmd BufEnter * :syntax sync fromstart
 
   " Set titlestring
-  autocmd BufEnter,BufWinEnter * let &titlestring = ' ' . getcwd()
+  autocmd BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
@@ -282,7 +282,7 @@ augroup vimrcAuCmd
   autocmd FileType netrw setlocal bufhidden=wipe
 
   " Autosave
-  autocmd CursorHold * if &modified != 0 && &buftype != "terminal" | write | endif
+  autocmd CursorHold * if &modified != 0 && (&buftype != "terminal" && &buftype != "nofile" && bufname('%') != "") | write | endif
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -374,6 +374,9 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 if executable('fzf')
   nnoremap <C-p> :FZF<CR>
 endif
+
+command GTtodo :e ~/.vim/notes.md
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -457,4 +460,4 @@ set statusline+=\ %p%%
 set statusline+=\ %l/%L:%c
 
 " Source local changes. They are either OS or project specific and should not be in repository
-source $HOMEPATH/.vimlocal
+source $HOME/.vimlocal
