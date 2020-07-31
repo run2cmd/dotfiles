@@ -223,7 +223,7 @@ let g:minisnip_trigger = '<C-t>'
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rooter_silent_chdir = 1
-let g:rooter_excludes = ['fixtures']
+let g:rooter_patterns = ['!^fixtures', '.git', '.svn']
 let g:startify_change_to_dir = 0
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 
