@@ -1,1 +1,45 @@
-*
+# Do not track all files and directories
+/*
+
+# VIM files
+!.vimrc
+!.vim/
+.vim/tags/
+.vim/notes.md
+.vim/undofiles/*
+!.vim/undofiles/README.md
+.vim/viminfo
+!.vintrc.yaml
+
+# Git config
+!.gitattributes
+!.gitconfig
+!.gitignore
+!.gitmodules
+
+# Shell stuff
+!.bash_profile
+!.bashrc
+!.screenrc
+!.tmux.conf
+!rc.cmd
+
+# Ruby
+!.irbrc
+!.reek
+!.rubocop.yaml
+!Gemfile
+
+# Min-tty
+!.minttyrc
+
+# Puppet
+!.puppet/
+.puppet/*
+!.puppet/puppet.conf
+!.puppet-lint.rc
+
+# Universal Ctags
+!ctags.d
+ctags.d/*
+!ctags.d/default.ctags
