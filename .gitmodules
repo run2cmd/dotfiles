@@ -12,7 +12,7 @@
   branch = master
 [submodule ".vim/pack/run2cmd/start/vim-rooter"]
   path = .vim/pack/run2cmd/start/vim-rooter
-  url = https://github.com/run2cmd/vim-rooter.git
+  url = https://github.com/airblade/vim-rooter.git
   branch = master
 [submodule ".vim/pack/run2cmd/start/vim-unimpaired"]
   path = .vim/pack/run2cmd/start/vim-unimpaired
@@ -61,4 +61,8 @@
 [submodule ".vim/pack/run2cmd/start/ZFVimDirDiff"]
   path = .vim/pack/run2cmd/start/ZFVimDirDiff
   url = https://github.com/ZSaberLv0/ZFVimDirDiff.git
+  branch = master
+[submodule ".vim/pack/run2cmd/start/fzf"]
+  path = .vim/pack/run2cmd/start/fzf
+  url = https://github.com/junegunn/fzf.git
   branch = master

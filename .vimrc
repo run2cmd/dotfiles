@@ -100,6 +100,10 @@ set path+=**
 " Enable RipGrep
 if executable('rg')
   set grepprg=rg\ --vimgrep\ -S
+  let g:ctrlp_user_command='rg %s --files -S'
+  let g:ctrlp_use_caching=0
+  let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
+  let $FZF_DEFAULT_COMMAND='rg --files -S'
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -198,10 +202,6 @@ set complete-=i
 " Enable ALE LSP completion 
 set omnifunc=ale#completion#OmniFunc
 
-" TODO: add rg support for Linux
-if executable('rg') 
-  let g:gutentags_file_list_command = $HOME . '/.vim/scripts/tag_file_list.bat' 
-endif
 let g:gutentags_cache_dir = '~/.vim/tags'
 
 " Dummy function to use vim-rooter settings for tags generation
@@ -370,6 +370,10 @@ nnoremap <leader>r :ALERename<CR>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
+" Enable FZF
+if executable('fzf')
+  nnoremap <C-p> :FZF<CR>
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
