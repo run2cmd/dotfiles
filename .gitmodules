@@ -66,3 +66,11 @@
   path = .vim/pack/run2cmd/start/fzf
   url = https://github.com/junegunn/fzf.git
   branch = master
+[submodule ".vim/pack/run2cmd/start/vim-endwise"]
+  path = .vim/pack/run2cmd/start/vim-endwise
+  url = https://github.com/tpope/vim-endwise.git
+  branch = master
+[submodule ".vim/pack/run2cmd/start/auto-pairs"]
+  path = .vim/pack/run2cmd/start/auto-pairs
+  url = https://github.com/jiangmiao/auto-pairs.git
+  branch = master

@@ -87,6 +87,9 @@ set noballooneval
 " Fix backspace
 set backspace=indent,eol,start
 
+" Easy type after pairs completion
+let g:AutoPairsFlyMode = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -373,6 +376,8 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 " Enable FZF
 if executable('fzf')
   nnoremap <C-p> :FZF<CR>
+  let g:fzf_layout = {'down': '15%'}
+  let $FZF_DEFAULT_OPTS='--inline-info'
 endif
 
 command GTtodo :e ~/.vim/notes.md
