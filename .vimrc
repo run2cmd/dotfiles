@@ -375,8 +375,6 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 
 " Enable FZF
 if executable('fzf')
-  nnoremap <C-p> :FZF<CR>
-  let g:fzf_layout = {'down': '15%'}
   nnoremap <C-p> :Files<CR>
   nnoremap <C-h> :Buffers<CR>
   let $FZF_DEFAULT_OPTS='--inline-info'
