@@ -197,7 +197,8 @@ else
 endif
 
 " Vim build-in completion
-set completeopt=menu,preview,longest,menuone,noinsert,noselect
+set completeopt=menu,popup,longest,menuone,noinsert,noselect
+set completepopup=border:off
 set shortmess+=cm
 set complete-=t
 set complete-=i

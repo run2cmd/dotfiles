@@ -64,6 +64,10 @@ hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=bold guifg=Gray40 guibg=#45858
 hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=bold guifg=Gray80 guibg=#b57614
 hi DiffText ctermfg=Red ctermbg=Yellow cterm=bold guifg=#cc241d guibg=#fabd2f
 
+" Popup Menu
+hi Pmenu ctermfg=LightGray ctermbg=DarkGray guifg=Gray40 guibg=Gray80
+hi PmenuSel ctermfg=DarkGray ctermbg=LightGray guifg=Gray80 guibg=Gray40
+
 " Puppet
 hi puppetVariable ctermfg=LightBlue guifg=#83a598
 
