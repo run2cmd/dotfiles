@@ -8,14 +8,14 @@ echo %dockerid%
 ssh-keygen -R [localhost]:52222 1> nul 2>&1
 
 :dockerWait
-echo Waiting 30 seconds for Jenkins on docker to come up
-timeout 20 > nul
+echo Waiting 20 seconds for Jenkins on docker to come up
+ping -n 10 127.0.0.1 > nul
 set /A count=0
 
 :testJenkins
 set /A count=%count%+1
 if %count% gtr 10 goto dockerCleanup
-timeout 10 > nul
+ping -n 10 127.0.0.1 > nul
 echo %count% test attempt
 call type %1 | ssh -l admin -o StrictHostKeyChecking=no localhost -p 52222 declarative-linter
 if %errorlevel% gtr 0 (goto testJenkins) else (goto dockerCleanup)
