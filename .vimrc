@@ -103,10 +103,10 @@ set path+=**
 " Enable RipGrep
 if executable('rg')
   set grepprg=rg\ --vimgrep\ -S
-  let g:ctrlp_user_command='rg %s --files -S'
+  let g:ctrlp_user_command='rg %s --files'
   let g:ctrlp_use_caching=0
   let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
-  let $FZF_DEFAULT_COMMAND='rg --files -S'
+  let $FZF_DEFAULT_COMMAND='rg --files'
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -377,10 +377,24 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 if executable('fzf')
   nnoremap <C-p> :FZF<CR>
   let g:fzf_layout = {'down': '15%'}
+  nnoremap <C-p> :Files<CR>
+  nnoremap <C-h> :Buffers<CR>
   let $FZF_DEFAULT_OPTS='--inline-info'
+  let g:fzf_layout = {'down': '15%'}
+  let g:fzf_preview_window = ''
 endif
 
 command GTtodo :e ~/.vim/notes.md
+
+" Easy terminal jobs
+command -nargs=* Cmd :terminal cmd /c <args>
+command -nargs=* Bash :terminal bash -lc <args>
+
+" Run async tests
+function! RunTerminalTest(params)
+  execute 'terminal '. a:params 
+endfunction
+command RunTest call RunTerminalTest(b:dispatch)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation

@@ -22,10 +22,6 @@
   path = .vim/pack/run2cmd/start/vim-surround
   url = https://github.com/tpope/vim-surround.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/vim-dispatch"]
-  path = .vim/pack/run2cmd/start/vim-dispatch
-  url = https://github.com/tpope/vim-dispatch.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-gutentags"]
   path = .vim/pack/run2cmd/start/vim-gutentags
   url = https://github.com/ludovicchabant/vim-gutentags.git
@@ -73,4 +69,8 @@
 [submodule ".vim/pack/run2cmd/start/auto-pairs"]
   path = .vim/pack/run2cmd/start/auto-pairs
   url = https://github.com/jiangmiao/auto-pairs.git
+  branch = master
+[submodule ".vim/pack/run2cmd/start/fzf.vim"]
+  path = .vim/pack/run2cmd/start/fzf.vim
+  url = https://github.com/junegunn/fzf.vim.git
   branch = master
