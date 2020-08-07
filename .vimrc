@@ -353,7 +353,7 @@ nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
 nnoremap <C-W>gq :cclose<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>c :bo term<CR><C-W>:res 10<CR>
+nnoremap <leader>c :bo terminal<CR><C-W>:res 10<CR>
 
 " Find word under cursor in CWD recursively
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -386,14 +386,16 @@ endif
 command GTtodo :e ~/.vim/notes.md
 
 " Easy terminal jobs
-command -nargs=* Cmd :terminal cmd /c <args>
-command -nargs=* Bash :terminal bash -lc <args>
+command -nargs=* Cmd call RunTerminalTest('cmd /c "<args>"')
+command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
 
 " Run async tests
 function! RunTerminalTest(params)
-  execute 'terminal '. a:params 
+  execute 'bo' . ' terminal '. a:params 
+  execute 'res 10'
 endfunction
 command RunTest call RunTerminalTest(b:dispatch)
+nnoremap `<CR> :RunTest<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
