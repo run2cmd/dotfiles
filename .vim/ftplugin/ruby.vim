@@ -5,5 +5,5 @@ let bash_formatter_path = '/mnt/' . substitute(substitute(substitute($HOME . '\.
 if match(expand('%:p'), '_spec.rb') > -1
   let b:dispatch = "bash.exe -lc 'rspec --require " . bash_formatter_path . " --format VimFormatter %:gs?\\\\?/?'"
 else 
-  let b:dispatch = "ruby %"
+  let b:dispatch = "cmd /c ruby %"
 endif

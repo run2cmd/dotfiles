@@ -58,10 +58,6 @@
   path = .vim/pack/run2cmd/start/ZFVimDirDiff
   url = https://github.com/ZSaberLv0/ZFVimDirDiff.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/fzf"]
-  path = .vim/pack/run2cmd/start/fzf
-  url = https://github.com/junegunn/fzf.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-endwise"]
   path = .vim/pack/run2cmd/start/vim-endwise
   url = https://github.com/tpope/vim-endwise.git
@@ -70,7 +66,6 @@
   path = .vim/pack/run2cmd/start/auto-pairs
   url = https://github.com/jiangmiao/auto-pairs.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/fzf.vim"]
-  path = .vim/pack/run2cmd/start/fzf.vim
-  url = https://github.com/junegunn/fzf.vim.git
-  branch = master
+[submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
+  path = .vim/pack/run2cmd/start/ctrlp.vim
+  url = https://github.com/ctrlpvim/ctrlp.vim.git

@@ -1,2 +1,2 @@
 setlocal tabstop=4 shiftwidth=4
-let b:dispatch = 'python %'
+let b:dispatch = 'cmd /c python %'

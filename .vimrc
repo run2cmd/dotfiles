@@ -106,7 +106,6 @@ if executable('rg')
   let g:ctrlp_user_command='rg %s --files'
   let g:ctrlp_use_caching=0
   let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
-  let $FZF_DEFAULT_COMMAND='rg --files'
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -197,7 +196,7 @@ else
 endif
 
 " Vim build-in completion
-set completeopt=menu,popup,longest,menuone,noinsert,noselect
+set completeopt=menu,popup,menuone,noinsert,noselect
 set completepopup=border:off
 set shortmess+=cm
 set complete-=t
@@ -259,11 +258,10 @@ augroup vimrcAuCmd
   " Filetype support
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
+  autocmd Filetype uml,plantuml,pu let b:dispatch = 'cmd /c plantuml %'
   autocmd BufNewFile,BufReadPost Gemfile* setlocal filetype=ruby syntax=ruby re=1
   autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
   autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
-  autocmd BufNewFile,BufReadPost *.gradle setlocal syntax=groovy filetype=groovy
   autocmd BufNewFile,BufReadPost .vimlocal setlocal syntax=vim filetype=vim
 
   " Ansible support
@@ -290,8 +288,9 @@ augroup vimrcAuCmd
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Syntaxt and Lint
+" Section: Syntaxt, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_set_balloons = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_hover_to_preview = 1
@@ -322,8 +321,14 @@ let g:ale_fixers = {
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
+" Run async tests
+function! RunTerminalTest(params)
+  execute 'bo' . ' terminal '. a:params 
+  execute 'res 10'
+endfunction
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Keybindings
+" Section: Keybindings and commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = '\'
 
@@ -374,15 +379,6 @@ nnoremap <leader>r :ALERename<CR>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
-" Enable FZF
-if executable('fzf')
-  nnoremap <C-p> :Files<CR>
-  nnoremap <C-h> :Buffers<CR>
-  let $FZF_DEFAULT_OPTS='--inline-info'
-  let g:fzf_layout = {'down': '15%'}
-  let g:fzf_preview_window = ''
-endif
-
 command GTtodo :e ~/.vim/notes.md
 
 " Easy terminal jobs
@@ -397,7 +393,7 @@ endfunction
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

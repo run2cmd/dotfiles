@@ -1,2 +1,2 @@
 setlocal tabstop=4 shiftwidth=4
-let b:dispatch = 'gradlew clean build'
+let b:dispatch = 'cmd /c gradlew clean build'
