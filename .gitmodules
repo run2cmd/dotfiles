@@ -2,10 +2,6 @@
   path = .vim/pack/run2cmd/start/ale
   url = https://github.com/dense-analysis/ale.git
   branch = master
-[submodule ".vim/pack/run2cmd/start/vim-polyglot"]
-  path = .vim/pack/run2cmd/start/vim-polyglot
-  url = https://github.com/sheerun/vim-polyglot.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-fugitive"]
   path = .vim/pack/run2cmd/start/vim-fugitive
   url = https://github.com/tpope/vim-fugitive.git
@@ -69,3 +65,9 @@
 [submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
   path = .vim/pack/run2cmd/start/ctrlp.vim
   url = https://github.com/ctrlpvim/ctrlp.vim.git
+[submodule ".vim\\pack\\run2cmd\\start\\vim-puppet"]
+	path = .vim\\pack\\run2cmd\\start\\vim-puppet
+	url = https://github.com/rodjek/vim-puppet.git
+[submodule ".vim\\pack\\run2cmd\\start\\Jenkinsfile-vim-syntax"]
+	path = .vim\\pack\\run2cmd\\start\\Jenkinsfile-vim-syntax
+	url = https://github.com/martinda/Jenkinsfile-vim-syntax.git
