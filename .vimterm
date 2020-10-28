@@ -1,0 +1,57 @@
+" Vim like Terminal
+set nocompatible
+
+" Set proper enoding 
+set langmenu=en_US.UTF-8
+let $LANG = 'en_US'
+language en
+set spelllang=en_us
+setglobal fileencoding=utf-8
+set encoding=utf-8
+scriptencoding utf-8
+set fileencodings=utf-8
+set termencoding=utf-8
+
+" Colors and fonts
+set background=dark
+set guifont=Consolas:h11,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
+hi Normal ctermfg=LightGray guifg=Gray80 guibg=#383838
+
+" Disable writing files
+set undofile
+set nobackup
+set noswapfile
+
+" Disable mouse
+set mouse=""
+set noballooneval
+
+" Better search
+set hlsearch
+set incsearch
+set magic
+
+" Show line numbers
+set number
+set relativenumber
+
+" Disable gui menus
+set guioptions-=m
+set guioptions-=T
+set guioptions-=t
+set guioptions-=r
+set guioptions-=L
+set scrolloff=2
+set sidescrolloff=5
+
+" Shortcuts
+let mapleader = '\'
+tmap <C-W><leader>c <C-W>:tab term cmd /k clink inject<CR>
+tmap <C-Tab> <C-W>:tabnext<CR>
+tmap <C-S-Tab> <C-W>:tabprevious<CR>
+nmap <C-W><leader>c <C-W>:tab term cmd /k clink inject<CR>
+nmap <C-Tab> <C-W>:tabnext<CR>
+nmap <C-S-Tab> <C-W>:tabprevious<CR>
+
+" Set pwd to homepath
+execute "cd ~/"

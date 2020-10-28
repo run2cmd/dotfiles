@@ -260,7 +260,7 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufReadPost .vimlocal setlocal syntax=vim filetype=vim
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm setlocal syntax=vim filetype=vim
 
   " Ansible support
   autocmd BufNewFile,BufReadPost *.{yaml,yml}
