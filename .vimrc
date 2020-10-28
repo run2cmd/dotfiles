@@ -205,7 +205,7 @@ set shortmess+=cm
 set complete-=t
 set complete-=i
 
-" Enable ALE LSP completion 
+" Enable ALE completion 
 set omnifunc=ale#completion#OmniFunc
 
 let g:gutentags_cache_dir = '~/.vim/tags'
@@ -357,9 +357,6 @@ nnoremap <leader>c :bo terminal<CR><C-W>:res 10<CR>
 " Find word under cursor in CWD recursively
 nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
-" Search tasks in current file
-nnoremap <leader>t :silent Ggrep "TODO\\|FIXME"<CR>
-
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
@@ -373,6 +370,8 @@ nnoremap <leader>r :ALERename<CR>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
+" CtrlP
+nnoremap <C-h> :CtrlPBuffer<CR>
 command GTtodo :e ~/.vim/notes.md
 
 " Easy terminal jobs
