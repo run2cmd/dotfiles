@@ -88,7 +88,7 @@ set noballooneval
 set backspace=indent,eol,start
 
 " Easy type after pairs completion
-let g:AutoPairsFlyMode = 1
+"let g:AutoPairsFlyMode = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
