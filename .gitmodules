@@ -77,6 +77,6 @@
 [submodule ".vim/pack/run2cmd/start/vim-ruby"]
   path = .vim/pack/run2cmd/start/vim-ruby
   url = https://github.com/vim-ruby/vim-ruby.git
-[submodule ".vim\\pack\\run2cmd\\start\\vim-markdown"]
-	path = .vim\\pack\\run2cmd\\start\\vim-markdown
-	url = https://github.com/plasticboy/vim-markdown.git
+[submodule ".vim/pack/run2cmd/start/vim-markdown"]
+  path = .vim/pack/run2cmd/start/vim-markdown
+  url = https://github.com/plasticboy/vim-markdown.git
