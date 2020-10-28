@@ -104,9 +104,12 @@ set path+=**
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-ignore\ -S
   let g:ctrlp_user_command='rg %s --files'
-  let g:ctrlp_use_caching=0
   let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
 endif
+
+let g:ctrlp_prompt_mappings = {
+    \ 'PrtClearCache()':      ['<c-c>'],
+    \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Secion: Diff mode
@@ -290,6 +293,8 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntaxt, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LSP is slower then ctags with Puppet and Ruby. It can fail on Python too.
+let g:ale_disable_lsp = 1
 let g:ale_set_balloons = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
