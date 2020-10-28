@@ -259,12 +259,7 @@ augroup vimrcAuCmd
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " Filetype support
-  autocmd FileType gitcommit setlocal tw=72
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd Filetype uml,plantuml,pu let b:dispatch = 'cmd /c plantuml %'
-  autocmd BufNewFile,BufReadPost Gemfile* setlocal filetype=ruby syntax=ruby re=1
-  autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000 spell
-  autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal syntax=ruby filetype=ruby re=1
   autocmd BufNewFile,BufReadPost .vimlocal setlocal syntax=vim filetype=vim
 
   " Ansible support
