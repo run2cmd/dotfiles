@@ -321,12 +321,6 @@ let g:ale_fixers = {
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
-" Run async tests
-function! RunTerminalTest(params)
-  execute 'bo' . ' terminal '. a:params 
-  execute 'res 10'
-endfunction
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -382,16 +376,18 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 command GTtodo :e ~/.vim/notes.md
 
 " Easy terminal jobs
-command -nargs=* Cmd call RunTerminalTest('cmd /c "<args>"')
-command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
+command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
+command -nargs=* Bash call RunTerminalTest('bash -lc <args>')
 
 " Run async tests
 function! RunTerminalTest(params)
   execute 'bo' . ' terminal '. a:params 
   execute 'res 10'
+  let g:run_terminal_test_buffer_nr = bufnr('%')
 endfunction
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
+nnoremap <leader>t :execute ':bd ' . g:run_terminal_test_buffer_nr<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
