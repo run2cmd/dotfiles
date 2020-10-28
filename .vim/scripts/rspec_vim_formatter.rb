@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-# RSpec formatter for vim-dispatch
+require 'rspec/core/formatters/console_codes'
+
+# Vim rspec formatter
 class VimFormatter
   RSpec::Core::Formatters.register self, :dump_failures, :dump_summary, :close
 
@@ -21,7 +23,8 @@ class VimFormatter
   end
 
   def dump_summary(notification)
-    @output << "\n\nFinished in #{RSpec::Core::Formatters::Helpers.format_duration(notification.duration)}\n"
+    @output << "\n\nPassed #{notification.example_count - notification.failure_count} / #{notification.example_count} examples\n"
+    @output << "\nFinished in #{RSpec::Core::Formatters::Helpers.format_duration(notification.duration)}\n"
   end
 
   def close(*)
