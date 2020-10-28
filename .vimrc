@@ -241,6 +241,9 @@ set updatetime=250
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Custom Autocommands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let ignoredAutoWriteFileTypes = ["gitcommit", "startify"]
+let ignoredAutoWriteBufferTypes = ["terminal", "nofile"]
+
 augroup vimrcAuCmd
   autocmd!
 
@@ -282,7 +285,12 @@ augroup vimrcAuCmd
   autocmd FileType netrw setlocal bufhidden=wipe
 
   " Autosave
-  autocmd CursorHold * if &modified != 0 && (&buftype != "terminal" && &buftype != "nofile" && bufname('%') != "") | write | endif
+  autocmd CursorHold * 
+        \ if &modified != 0 && bufname('%') != "" && 
+        \ index(ignoredAutoWriteBufferTypes, &buftype) < 0 &&
+        \ index(ignoredAutoWriteFileTypes, &filetype) < 0 |
+        \   write |
+        \ endif
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
