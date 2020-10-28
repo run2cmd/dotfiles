@@ -241,8 +241,6 @@ set updatetime=250
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Custom Autocommands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let ignoredAutoWriteFileTypes = ["gitcommit", "startify"]
-let ignoredAutoWriteBufferTypes = ["terminal", "nofile"]
 
 augroup vimrcAuCmd
   autocmd!
@@ -287,8 +285,8 @@ augroup vimrcAuCmd
   " Autosave
   autocmd CursorHold * 
         \ if &modified != 0 && bufname('%') != "" && 
-        \ index(ignoredAutoWriteBufferTypes, &buftype) < 0 &&
-        \ index(ignoredAutoWriteFileTypes, &filetype) < 0 |
+        \ index(["terminal", "nofile"], &buftype) < 0 &&
+        \ index(["gitcommit", "startify"], &filetype) < 0 |
         \   write |
         \ endif
 augroup END
