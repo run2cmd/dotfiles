@@ -102,7 +102,7 @@ set path+=**
 
 " Enable RipGrep
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ -S
+  set grepprg=rg\ --vimgrep\ --no-ignore\ -S
   let g:ctrlp_user_command='rg %s --files'
   let g:ctrlp_use_caching=0
   let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
