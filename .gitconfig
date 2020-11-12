@@ -8,9 +8,13 @@
   editor = vim
 [http]
   sslVerify = false
+[pull]
+  rebase = false
 [push]
   default = current
 [merge]
   commit = no
 [log]
   decorate = auto
+[credential]
+  helper = manager

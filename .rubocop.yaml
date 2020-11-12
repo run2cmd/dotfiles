@@ -10,3 +10,5 @@ Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context', 'configure']
 Style/FormatStringToken:
   EnforcedStyle: template
+Lint/EmptyFile:
+  Enabled: false

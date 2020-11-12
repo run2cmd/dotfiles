@@ -1,67 +1,51 @@
 [submodule ".vim/pack/run2cmd/start/ale"]
   path = .vim/pack/run2cmd/start/ale
   url = https://github.com/dense-analysis/ale.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-fugitive"]
   path = .vim/pack/run2cmd/start/vim-fugitive
   url = https://github.com/tpope/vim-fugitive.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-rooter"]
   path = .vim/pack/run2cmd/start/vim-rooter
   url = https://github.com/airblade/vim-rooter.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-unimpaired"]
   path = .vim/pack/run2cmd/start/vim-unimpaired
   url = https://github.com/tpope/vim-unimpaired.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-surround"]
   path = .vim/pack/run2cmd/start/vim-surround
   url = https://github.com/tpope/vim-surround.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-gutentags"]
   path = .vim/pack/run2cmd/start/vim-gutentags
   url = https://github.com/ludovicchabant/vim-gutentags.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-mucomplete"]
   path = .vim/pack/run2cmd/start/vim-mucomplete
   url = https://github.com/lifepillar/vim-mucomplete.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/tabular"]
   path = .vim/pack/run2cmd/start/tabular
   url = https://github.com/godlygeek/tabular.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/indentLine"]
   path = .vim/pack/run2cmd/start/indentLine
   url = https://github.com/Yggdroot/indentLine.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-signify"]
   path = .vim/pack/run2cmd/start/vim-signify
   url = https://github.com/mhinz/vim-signify.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/editorconfig-vim"]
   path = .vim/pack/run2cmd/start/editorconfig-vim
   url = https://github.com/editorconfig/editorconfig-vim.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-startify"]
   path = .vim/pack/run2cmd/start/vim-startify
   url = https://github.com/mhinz/vim-startify.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-minisnip"]
   path = .vim/pack/run2cmd/start/vim-minisnip
   url = https://github.com/tckmn/vim-minisnip.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/ZFVimDirDiff"]
   path = .vim/pack/run2cmd/start/ZFVimDirDiff
   url = https://github.com/ZSaberLv0/ZFVimDirDiff.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/vim-endwise"]
   path = .vim/pack/run2cmd/start/vim-endwise
   url = https://github.com/tpope/vim-endwise.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/auto-pairs"]
   path = .vim/pack/run2cmd/start/auto-pairs
   url = https://github.com/jiangmiao/auto-pairs.git
-  branch = master
 [submodule ".vim/pack/run2cmd/start/ctrlp.vim"]
   path = .vim/pack/run2cmd/start/ctrlp.vim
   url = https://github.com/ctrlpvim/ctrlp.vim.git
@@ -74,9 +58,12 @@
 [submodule ".vim/pack/run2cmd/start/plantuml-syntax"]
   path = .vim/pack/run2cmd/start/plantuml-syntax
   url = https://github.com/aklt/plantuml-syntax.git
-[submodule ".vim/pack/run2cmd/start/vim-ruby"]
-  path = .vim/pack/run2cmd/start/vim-ruby
-  url = https://github.com/vim-ruby/vim-ruby.git
 [submodule ".vim/pack/run2cmd/start/vim-markdown"]
   path = .vim/pack/run2cmd/start/vim-markdown
   url = https://github.com/plasticboy/vim-markdown.git
+[submodule ".vim/pack/run2cmd/start/vim-commentary"]
+  path = .vim/pack/run2cmd/start/vim-commentary
+  url = https://github.com/tpope/vim-commentary.git
+[submodule ".vim/pack/run2cmd/start/vifm.vim"]
+  path = .vim/pack/run2cmd/start/vifm.vim
+  url = https://github.com/vifm/vifm.vim.git

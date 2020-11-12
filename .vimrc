@@ -56,7 +56,6 @@ set fileformats=unix,dos
 " Section: Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-set background=dark
 set guifont=Consolas:h11,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
 colorscheme bugi
 
@@ -165,6 +164,12 @@ let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Disable Netrw over VimFM
+let g:vifm_replace_netrw = 1
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
+
+" Netrw pretty
 let g:netrw_home = $HOME
 let g:netrw_fastbrowse = 0
 let g:netrw_banner = 0
@@ -178,6 +183,7 @@ let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 
+" Use chrome as default browser
 if has('win32')
   let g:netrw_browsex_viewer = 'start chrome.exe'
 else
@@ -229,7 +235,8 @@ let g:minisnip_trigger = '<C-t>'
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rooter_silent_chdir = 1
-let g:rooter_patterns = ['!^fixtures', '.git', '.svn']
+let g:rooter_patterns = ['!^fixtures', '.git', '.svn', '.rooter']
+let g:rooter_change_directory_for_non_project_files = 'current'
 let g:startify_change_to_dir = 0
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 
@@ -327,7 +334,10 @@ let g:ale_fixers = {
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Disable markdonw autofold
+let g:vim_markdown_folding_disabled=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = '\'
@@ -383,16 +393,11 @@ command GTtodo :e ~/.vim/notes.md
 " Easy terminal jobs
 command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc <args>')
-
-" Run async tests
-function! RunTerminalTest(params)
-  execute 'bo' . ' terminal '. a:params 
-  execute 'res 10'
-  let g:run_terminal_test_buffer_nr = bufnr('%')
-endfunction
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
-nnoremap <leader>t :execute ':bd ' . g:run_terminal_test_buffer_nr<CR>
+
+" Use ViFM over netrw 
+command Ex :Vifm
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
@@ -461,6 +466,7 @@ function! MUCompleteStatusLine()
   return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
 endf
 
+set cmdheight=1
 set laststatus=2
 set statusline=
 set statusline+=%<[%{BufferNumberStatusLine()}]
