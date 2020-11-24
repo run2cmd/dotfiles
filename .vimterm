@@ -1,6 +1,9 @@
 " Vim like Terminal
 set nocompatible
 
+" Disable ~/.vim suport
+set runtimepath=$VIMRUNTIME/vimfiles,$VIMRUNTIME
+
 " Set proper enoding 
 set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
