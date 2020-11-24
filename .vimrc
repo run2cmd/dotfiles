@@ -183,9 +183,9 @@ let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 
-" Use chrome as default browser
+" Set default browser
 if has('win32')
-  let g:netrw_browsex_viewer = 'start chrome.exe'
+  let g:netrw_browsex_viewer = 'start qutebrowser'
 else
   let g:netrw_browsex_viewer = 'xdg-open'
 endif
