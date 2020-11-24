@@ -377,11 +377,6 @@ nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
-" LSP support
-nnoremap <leader>k :ALEHover<CR>
-nnoremap <leader>d :ALEGoToDefinition<CR>
-nnoremap <leader>r :ALERename<CR>
-
 " Switch between completion methods
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
