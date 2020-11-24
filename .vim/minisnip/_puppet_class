@@ -2,8 +2,8 @@
 # @summary {{+class summary+}}
 # 
 # @example 
-#   contain {{+~substitute(substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g'), 'puppet-', '', 'g')+}}
+#   contain {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}}
 #
-class {{+~substitute(substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g'), 'puppet-', '', 'g')+}} {
+class {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
   {{++}}
 }

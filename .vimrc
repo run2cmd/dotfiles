@@ -390,6 +390,9 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 nnoremap <C-h> :CtrlPBuffer<CR>
 command GTtodo :e ~/.vim/notes.md
 
+" Jump to test file
+nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
+
 " Easy terminal jobs
 command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc <args>')
