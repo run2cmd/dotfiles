@@ -101,17 +101,17 @@ set bell-style none
 #=====================================
 #               VIM SETUP
 #=====================================
-if [ ! -e ~/.vim/bundle/ide.vim ] ;then
-  mkdir -p ~/.vim/bundle
-  cd ~/.vim/bundle
-  git clone https://github.com/run2cmd/ide.vim.git
-fi
-if [ ! -e ~/.vim/backup ] ;then
-  mkdir -p ~/.vim/backup
-fi
-if [ ! -e ~/.vim/tmp ] ;then
-  mkdir -p ~/.vim/tmp
-fi
+#if [ ! -e ~/.vim/bundle/ide.vim ] ;then
+#  mkdir -p ~/.vim/bundle
+#  cd ~/.vim/bundle
+#  git clone https://github.com/run2cmd/ide.vim.git
+#fi
+#if [ ! -e ~/.vim/backup ] ;then
+#  mkdir -p ~/.vim/backup
+#fi
+#if [ ! -e ~/.vim/tmp ] ;then
+#  mkdir -p ~/.vim/tmp
+#fi
 
 #=====================================
 #               TMUX
