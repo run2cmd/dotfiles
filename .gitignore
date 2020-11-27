@@ -10,6 +10,8 @@
 !.vim/undofiles/README.md
 .vim/viminfo
 !.vintrc.yaml
+.vim/tmp
+.vim/pack
 
 # Git config
 !.gitattributes
