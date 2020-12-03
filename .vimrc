@@ -86,8 +86,12 @@ set noballooneval
 " Fix backspace
 set backspace=indent,eol,start
 
-" Easy type after pairs completion
-"let g:AutoPairsFlyMode = 1
+" MuComplete AutoPairs integration
+let g:AutoPairsMapSpace = 0
+map <silent> <expr> <space> pumvisible()
+   \ ? "<space>"
+   \ : "<c-r>=AutoPairsSpace()<cr>"
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
@@ -197,6 +201,7 @@ endif
 set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
+set noinfercase
 
 if has('win32')
   set wildignore+=.git\*,.hg\*,.svn\*
