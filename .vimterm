@@ -48,13 +48,13 @@ set scrolloff=2
 set sidescrolloff=5
 
 " Shortcuts
-let mapleader = '\'
+let mapleader = ' '
 tmap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
-tmap <C-W>n <C-W>:tabnext<CR>
-tmap <C-W>p <C-W>:tabprevious<CR>
+tmap <C-W>k <C-W>:tabnext<CR>
+tmap <C-W>j <C-W>:tabprevious<CR>
 nmap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
-nmap <C-W>n <C-W>:tabnext<CR>
-nmap <C-W>p <C-W>:tabprevious<CR>
+nmap <C-W>k <C-W>:tabnext<CR>
+nmap <C-W>j <C-W>:tabprevious<CR>
 
 " Set pwd to homepath
 execute "cd ~/"

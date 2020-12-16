@@ -340,7 +340,7 @@ let g:vim_markdown_folding_disabled=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = '\'
+let mapleader = ' '
 
 " Clear all buffers and run Startify
 map <leader>bd :bufdo %bd \| Startify<CR>
@@ -361,17 +361,17 @@ nnoremap <Right> :vert resize -2<CR>
 
 " Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
-nnoremap <C-Tab> :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
-nnoremap <C-S-Tab> :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
+nnoremap <leader>k :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
+nnoremap <leader>j :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
 
 " Close quickfix
-nnoremap <C-W>gq :cclose<CR>
+nnoremap <leader>gq :cclose<CR>
 
 " Terminal helper to open on the bottom
 nnoremap <leader>c :bo terminal<CR><C-W>:res 10<CR>
 
 " Find word under cursor in CWD recursively
-nnoremap <C-S> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap <leader>s :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
