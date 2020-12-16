@@ -64,6 +64,3 @@
 [submodule ".vim/pack/run2cmd/start/vim-commentary"]
   path = .vim/pack/run2cmd/start/vim-commentary
   url = https://github.com/tpope/vim-commentary.git
-[submodule ".vim/pack/run2cmd/start/vifm.vim"]
-  path = .vim/pack/run2cmd/start/vifm.vim
-  url = https://github.com/vifm/vifm.vim.git

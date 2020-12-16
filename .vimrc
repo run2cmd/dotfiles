@@ -168,11 +168,6 @@ let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable Netrw over VimFM
-let g:vifm_replace_netrw = 1
-let g:loaded_netrw       = 1
-let g:loaded_netrwPlugin = 1
-
 " Netrw pretty
 let g:netrw_home = $HOME
 let g:netrw_fastbrowse = 0
@@ -398,9 +393,6 @@ command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc <args>')
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
-
-" Use ViFM over netrw 
-command Ex :Vifm
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
