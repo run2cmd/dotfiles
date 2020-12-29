@@ -17,4 +17,4 @@
 [log]
   decorate = auto
 [credential]
-  helper = manager
+  helper = manager-core
