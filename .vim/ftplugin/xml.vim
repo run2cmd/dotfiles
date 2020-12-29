@@ -1,2 +1,5 @@
 setlocal tabstop=4 shiftwidth=4
-let b:dispatch = 'cmd /c mvn clean install -f %'
+
+if match(expand('%:p:t'), 'pom.xml')
+  let b:dispatch = 'cmd /c mvn clean install -f %'
+endif
