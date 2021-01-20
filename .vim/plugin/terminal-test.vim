@@ -4,7 +4,7 @@ function! RunTerminalTest(params)
     execute 'bd ' . t:test_window_buffer_number
   endif
   execute 'bo' . ' terminal '. a:params 
-  execute 'res 10'
+  execute 'res 15'
   let t:terminal_window_buffer_number = bufnr('%')
   execute "normal! \<C-W>w"
   let t:test_window_buffer_number = t:terminal_window_buffer_number 
