@@ -260,18 +260,21 @@ augroup vimrcAuCmd
   autocmd BufEnter * :syntax sync fromstart
 
   " Set titlestring
-  autocmd BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
+  autocmd BufFilePre,BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+  " Project support
+  autocmd BufFilePre,BufEnter,BufWinEnter * let b:dispatch = ProjectDiscovery()
 
   " Filetype support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm setlocal syntax=vim filetype=vim
 
   " Ansible support
-  autocmd BufNewFile,BufReadPost *.{yaml,yml}
+  autocmd BufFilePre,BufEnter,BufWinEnter *.{yaml,yml}
         \ if match(expand('%:p'), 'fugitive') == -1 |
         \   for strMatch in ["- hosts:", "- name:", "- tasks"] |
         \     if match(readfile(expand('%:p')), strMatch) > -1 | 
@@ -383,7 +386,6 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 
 " CtrlP
 nnoremap <C-h> :CtrlPBuffer<CR>
-command GTtodo :e ~/.vim/notes.md
 
 " Jump to test file
 nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
@@ -393,6 +395,9 @@ command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
+
+" Todo list
+abbreviate todo ~/.vim/notes.md
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
