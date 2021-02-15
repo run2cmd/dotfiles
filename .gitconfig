@@ -17,7 +17,7 @@
 [log]
   decorate = auto
 [credential]
-  helper = manager-core
+	helper = manager-core
 [filesystem "Oracle Corporation|11.0.2|1521163497"]
   timestampResolution = 3000 microseconds
   minRacyThreshold = 0 nanoseconds

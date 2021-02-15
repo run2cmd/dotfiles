@@ -41,6 +41,7 @@ Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'tckmn/vim-minisnip'
+"Plug 'neoclide/coc.nvim'
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -372,8 +373,8 @@ nnoremap <Right> :vert resize -2<CR>
 
 " Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
-nnoremap <leader>k :tabnext<Bar>let &titlestring = ' ' . getcwd()<CR>
-nnoremap <leader>j :tabprevious<Bar>let &titlestring = ' ' . getcwd()<CR>
+nnoremap <leader>k :tabnext<CR>
+nnoremap <leader>j :tabprevious<CR>
 
 " Close quickfix
 nnoremap <leader>gq :cclose<CR>
@@ -402,8 +403,11 @@ nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
 " Easy terminal jobs
 command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
+
+" Test automation
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
+nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 
 " Todo list
 abbreviate todo ~/notes.md
@@ -429,7 +433,7 @@ let g:startify_skiplist = [
 
 let g:startify_bookmarks = [
       \  {'c': $MYVIMRC}, 
-      \  {'t': '~/AppData/Local/nvim/terminal.vim'},
+      \  {'t': '~/.config/nvim/terminal.vim'},
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
       \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
       \  {'n': '~/notes.md'},
