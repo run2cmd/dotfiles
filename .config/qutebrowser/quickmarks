@@ -30,3 +30,5 @@ polumaint11-jenkins https://polumaint11.mis.gtech.com/
 xxmr50build-jenkins http://xxmr50build:8080/
 cijenkins http://cijenkinsmaster/
 Sharepoint https://gtechcorp.sharepoint.com/sites/OneIGT
+k8s-jenkins https://jenkins.inf4407.igt.com/
+infra-jenkins https://infra-jenkins.inf4407.igt.com

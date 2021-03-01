@@ -7,7 +7,10 @@
 config_version: 2
 settings:
   content.notifications:
+    https://calendar.google.com: true
+    https://www.facebook.com: true
     https://www.reddit.com: false
+    https://www.youtube.com: false
     https://xxgit1.gtech.com: true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: false
