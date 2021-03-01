@@ -268,9 +268,6 @@ augroup vimrcAuCmd
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
 
-  " Set titlestring
-  autocmd BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
-
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -377,9 +374,6 @@ nnoremap <leader>o :tabnew<Bar>Startify<CR>
 nnoremap <leader>k :tabnext<CR>
 nnoremap <leader>j :tabprevious<CR>
 
-" Close quickfix
-nnoremap <leader>gq :cclose<CR>
-
 " Terminal helper to open on the bottom
 nnoremap <leader>c :bo split term://cmd<CR>:res 10<CR>i
 tnoremap <Esc> <C-\><C-n>
@@ -454,10 +448,6 @@ let g:startify_custom_header = [
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Buffer number in statusline
-function! BufferNumberStatusLine()
-  return len(filter(range(1,bufnr('$')), 'buflisted(v:val)'))
-endf
 
 " ALE status output in statusline
 function! ALELinterStatusLine() abort
@@ -478,9 +468,8 @@ endf
 
 set cmdheight=1
 set statusline=
-set statusline+=%<[%{BufferNumberStatusLine()}]
-set statusline+=\ [%{FugitiveHead(7)}]
-set statusline+=\ %f
+set statusline+=[%{FugitiveHead(7)}]
+set statusline+=\ %F
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
