@@ -21,7 +21,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin(stdpath('data') . '/plugged')
 
-" File search
+" File manager
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 
@@ -39,7 +39,6 @@ Plug 'jiangmiao/auto-pairs'
 "Plug 'godlygeek/tabular'
 Plug 'tommcdo/vim-lion'
 Plug 'tckmn/vim-minisnip'
-"Plug 'neoclide/coc.nvim'
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -448,7 +447,6 @@ let g:startify_custom_header = [
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " ALE status output in statusline
 function! ALELinterStatusLine() abort
   let l:counts = ale#statusline#Count(bufnr(''))
