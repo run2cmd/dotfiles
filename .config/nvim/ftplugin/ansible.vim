@@ -1,1 +1,1 @@
-let b:dispatch = "bash.exe -lc 'ansible-lint %:gs?\\\\?/?'"
+let b:dispatch = "bash -lc 'ansible-lint %:gs?\\\\?/?'"
