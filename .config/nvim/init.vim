@@ -397,7 +397,7 @@ nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
 
 " Easy terminal jobs
 command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
-command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
+command -nargs=* Bash call RunTerminalTest('bash -lc \"<args>\"')
 
 " Test automation
 command RunTest call RunTerminalTest(b:dispatch)
