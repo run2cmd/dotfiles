@@ -386,6 +386,9 @@ cnoremap <C-j> <Down>
 imap <c-j> <plug>(MUcompleteCycFwd)
 imap <c-k> <plug>(MUcompleteCycBwd)
 
+" Copy file path to + register
+nnoremap <leader>y :let @+=expand('%:p')<CR>
+
 " CtrlP
 nnoremap <C-h> :CtrlPBuffer<CR>
 
