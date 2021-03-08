@@ -3,6 +3,7 @@ set adblocker=update
 set favicons=30day
 set ignorecase
 set fontsize=12
+set mouse
 "set windowtitle=title
 
 " Enable media
@@ -20,7 +21,7 @@ set redirecttohttp
 set firefoxmode=google
 
 " Set Neovim as default editor
-set vimcommand=nvim-qt
+set vimcommand=gvim
 
 " Clear search mode
 nmap <C-l> <action.emptySearch>
@@ -44,9 +45,9 @@ command harborUS <action.toExploreMode>https://xxdocrep1.gtk.gtech.com/harbor/si
 command trafeik <action.toExploreMode>https://traefik.inf4407.igt.com/dashboard/<CR>
 command upsource <action.toExploreMode>http://polumaint05:8080/<CR>
 command anywhereWiki <action.toExploreMode>https://wiki.gtech.com/display/ESA/Home<CR>
-command developmentEnvironments <action.toExploreMode>https://wiki.gtech.com/display/IE/ICHA+Product+development+environments<CR>
+command productEnvironments <action.toExploreMode>https://wiki.gtech.com/display/IE/ICHA+Product+development+environments<CR>
 command flexdrawWiki <action.toExploreMode>https://wiki.gtech.com/display/ES/FLEXdraw<CR>
-command community-environments <action.toExploreMode>https://wiki.gtech.com/display/PD/Community+Environments<CR>
+command communityEnvironments <action.toExploreMode>https://wiki.gtech.com/display/PD/Community+Environments<CR>
 command biInstallProcess <action.toExploreMode>https://wiki.gtech.com/display/ESR/BI+5.4+Release+Process?pageId=238391229&run_1_sitecode=czh&run_1_sitename=Czech&run_1_rdscip=10.17.32.37&run_1_rdscnode=D1RDSC1&run_1_rdscdbuser=gtkinst1&run_1_rdscdbpass=gtkinst1&run_1_rdscappuser=gtkappl1&run_1_datastgip=10.17.47.83&run_1_datastgnode=D1DSTGA1&run_1_boip=10.17.47.85&run_1_bonode=D1ARIAC1&run_1_bouser=Administrator&run_1_bopass=ATEsrdb08&run_1_tableauip=XX.XX.XX.XX&run_1_tableauuser=administrator&run_1_tableaupass=1%40bleau&run_1_catalogesdb=yes&run_1_esdbname=ESDB&run_1_esdbip=10.17.33.146&run_1_esdbnode=D1ARDB1&run_1_catesdbTwo=no&run_1_esdbTwoip=&run_1_esdbTwonode=&run_1_catalogips=yes&run_1_ipsdbname=IPS_DB&run_1_ipsip=10.17.33.170&run_1_ipsnode=D1ARTE1&run_1_catipsTwo=no&run_1_ipsTwoip=&run_1_ipsTwonode=&run_1_dbenv=dev&run_1_deployloadmonitor=1&run_1_deploydatastage=1&run_1_deploylivealert=2&run_1_deploysinglesignon=1&run_1_lspXML=no&run_1=run<CR>
 command biServerChecklist <action.toExploreMode>https://wiki.gtech.com/pages/viewpage.action?spaceKey=ESR&title=BI+-+Verify+DATASTG+Server+Checklist<CR>
 command ichaDocs <action.toExploreMode>https://git.gtech.com/projects/ASDF/repos/icha-docs/browse<CR>

@@ -11,6 +11,7 @@
 .vim/viminfo
 !.vintrc.yaml
 .vim/tmp
+.vim/plugged
 
 # Git config
 !.gitattributes
