@@ -40,7 +40,6 @@ set history=1000
 call plug#begin('~/.vim/plugged')
 
 " File manager
-"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -322,7 +321,7 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,viebrc setlocal syntax=vim filetype=vim
   autocmd FileType groovy let b:dispatch = 'cmd /c groovy %'
   if has('win32')
     autocmd Filetype Jenkinsfile let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
@@ -416,8 +415,8 @@ nnoremap <Right> :vert resize -2<CR>
 
 " Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
-nnoremap <leader>k :tabnext<CR>
-nnoremap <leader>j :tabprevious<CR>
+nnoremap <leader>j :tabnext<CR>
+nnoremap <leader>k :tabprevious<CR>
 
 " Terminal helper to open on the bottom
 nnoremap <leader>c :bo terminal<CR><C-W>:res 10<CR>
