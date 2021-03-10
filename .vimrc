@@ -235,7 +235,7 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 
 " Set default browser
 if has('win32')
-  let g:netrw_browsex_viewer = 'start qutebrowser'
+  let g:netrw_browsex_viewer = 'start vieb'
 else
   let g:netrw_browsex_viewer = 'xdg-open'
 endif
