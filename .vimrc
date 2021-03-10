@@ -40,6 +40,7 @@ set history=1000
 call plug#begin('~/.vim/plugged')
 
 " File manager
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'

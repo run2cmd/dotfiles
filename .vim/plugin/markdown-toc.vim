@@ -1,3 +1,6 @@
+"
+" Automatically update TOC in markdown files
+"
 function! s:FindHeaders()
   let l:winview = winsaveview()
   let l:flags = "Wc"

@@ -1,4 +1,5 @@
-" Determine project type
+" 
+"  Sets test commands based on project type.
 "
 function! ProjectDiscovery()
 
