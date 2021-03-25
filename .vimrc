@@ -140,6 +140,8 @@ map <silent> <expr> <space> pumvisible()
    \ ? "<space>"
    \ : "<c-r>=AutoPairsSpace()<cr>"
 
+" Squeeze spaces when using Lion
+let g:lion_squeeze_spaces = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
