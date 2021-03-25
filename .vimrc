@@ -322,7 +322,7 @@ augroup vimrcAuCmd
 
   " Filetype support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,viebrc setlocal syntax=vim filetype=vim
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
   autocmd FileType groovy let b:dispatch = 'cmd /c groovy %'
   if has('win32')
     autocmd Filetype Jenkinsfile let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
@@ -483,6 +483,7 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
       \  {'c': '~/.vimrc'}, 
       \  {'t': '~/.vimterm'},
+      \  {'v': '~/.viebrc'},
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
       \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
       \  {'n': '~/notes.md'},
