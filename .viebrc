@@ -1,0 +1,27 @@
+" Some sane defaults
+set adblocker=update
+set favicons=30day
+set ignorecase
+set fontsize=12
+set mouse
+"set windowtitle=title
+
+" Enable media
+set permissioncamera=ask
+set permissionmediadevices=allow
+set permissionmicrophone=ask
+set permissiongeolocation=ask
+set permissionmidi=ask
+set permissionmidisysex=ask
+
+" Use http if no https
+set redirecttohttp
+
+" Fake we are trusted Google browser ;)
+set firefoxmode=google
+
+" Set Neovim as default editor
+set vimcommand=gvim
+
+" Clear search mode
+nmap <C-l> <action.emptySearch>
