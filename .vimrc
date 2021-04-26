@@ -134,12 +134,6 @@ set noballooneval
 " Fix backspace
 set backspace=indent,eol,start
 
-" MuComplete AutoPairs integration
-let g:AutoPairsMapSpace = 0
-map <silent> <expr> <space> pumvisible()
-   \ ? "<space>"
-   \ : "<c-r>=AutoPairsSpace()<cr>"
-
 " Squeeze spaces when using Lion
 let g:lion_squeeze_spaces = 1
 
@@ -431,9 +425,7 @@ imap <c-k> <plug>(MUcompleteCycBwd)
 " Copy file path to + register
 nnoremap <leader>y :let @+=expand('%:p')<CR>
 
-" CtrlP
-"nnoremap <C-h> :CtrlPBuffer<CR>
-"nnoremap <leader>h :LeaderfBuffer<CR>
+" FZF
 nnoremap <C-p> :Files<CR>
 nnoremap <C-h> :Buffers<CR>
 
