@@ -323,7 +323,7 @@ augroup vimrcAuCmd
   if has('win32')
     autocmd Filetype Jenkinsfile let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
   endif
-  autocmd FileType plantuml let b:dispatch = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:gs?puml?png?"'
+  autocmd FileType plantuml let b:dispatch = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:p:gs?puml?png?"'
   autocmd FileType python let b:dispatch = 'cmd /c python %'
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
 
