@@ -71,7 +71,7 @@ Plug 'dense-analysis/ale'
 Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
-Plug 'plasticboy/vim-markdown'
+Plug 'gabrielelana/vim-markdown'
 
 " Diff
 Plug 'ZSaberLv0/ZFVimDirDiff'
@@ -389,9 +389,6 @@ let g:ale_fixers = {
       \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
-
-" Disable markdonw autofold
-let g:vim_markdown_folding_disabled=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
