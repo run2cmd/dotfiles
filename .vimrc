@@ -58,6 +58,10 @@ Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tommcdo/vim-lion'
 Plug 'tckmn/vim-minisnip'
+Plug 'Shougo/echodoc.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'dkarter/bullets.vim'
+Plug 'dhruvasagar/vim-table-mode'
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -72,6 +76,9 @@ Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
 Plug 'gabrielelana/vim-markdown'
+
+" Database
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Diff
 Plug 'ZSaberLv0/ZFVimDirDiff'
@@ -230,6 +237,7 @@ let g:netrw_special_syntax = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 
 " Set default browser
+" TODO: need to see netrw_filehandler
 if has('win32')
   let g:netrw_browsex_viewer = 'start vieb'
 else
@@ -277,6 +285,10 @@ let g:mucomplete#chains = {
       \}
 
 let g:minisnip_trigger = '<C-t>'
+
+" View function parameters in popup window
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'echo'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project workspace
@@ -512,7 +524,7 @@ function! MUCompleteStatusLine()
   return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
 endf
 
-set cmdheight=1
+set cmdheight=2
 set laststatus=2
 set statusline=
 set statusline+=[%{FugitiveHead(7)}]
