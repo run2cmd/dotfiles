@@ -1,10 +1,11 @@
 AllCops:
+  NewCops: enable
   DisplayCopNames: true
   TargetRubyVersion: 2.4
 
 Layout/EndOfLine:
   EnforcedStyle: lf
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context', 'configure']
