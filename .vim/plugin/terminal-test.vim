@@ -8,7 +8,7 @@ function! RunTerminalTest(params)
   endif
   execute 'bo terminal '. a:params 
   execute 'res 15'
-  "execute '$' 
+  tnoremap <ESC> <C-w>N 
   let t:terminal_window_buffer_number = bufnr('%')
   let t:test_window_buffer_number = t:terminal_window_buffer_number 
 endfunction

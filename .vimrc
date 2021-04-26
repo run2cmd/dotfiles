@@ -341,8 +341,7 @@ augroup vimrcAuCmd
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
 
-  " Easier to manage terminal
-  autocmd TerminalOpen * tnoremap <ESC> <C-w>N
+  " Easy escape on FZF
   autocmd FileType fzf tnoremap <ESC> <C-c>
 
   " Autosave
@@ -419,11 +418,7 @@ nnoremap <leader>j :tabnext<CR>
 nnoremap <leader>k :tabprevious<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>c :bo terminal<CR><C-W>:res 10<CR>
-tnoremap <Esc> <C-\><C-n>
-
-" Find word under cursor in CWD recursively
-nnoremap <leader>s :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap <leader>c :Cmd cmd<CR>
 
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
@@ -448,11 +443,16 @@ nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
 " Easy terminal jobs
 command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
 command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
+command -nargs=* R echo system('<args>')
 
 " Test automation
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
 nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
+
+" Terminal support
+nnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
+tnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
 
 " Todo list
 abbreviate todo ~/notes.md
