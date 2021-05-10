@@ -65,8 +65,6 @@ Plug 'dhruvasagar/vim-table-mode'
 " Project support
 Plug 'airblade/vim-rooter'
 Plug 'editorconfig/editorconfig-vim'
-
-" Movement
 Plug 'ludovicchabant/vim-gutentags'
 
 " Syntax and Lint
@@ -74,7 +72,6 @@ Plug 'dense-analysis/ale'
 Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
-Plug 'gabrielelana/vim-markdown'
 
 " Database
 Plug 'kristijanhusak/vim-dadbod-ui'
