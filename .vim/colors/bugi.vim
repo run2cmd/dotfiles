@@ -21,18 +21,14 @@ hi Normal ctermfg=LightGray guifg=Gray80 guibg=#383838
 hi Comment ctermfg=DarkGray guifg=Gray40 term=italic gui=italic
 hi Constant ctermfg=DarkYellow guifg=#d79921
 hi String ctermfg=LightRed guifg=#fc7869
-hi Special ctermfg=DarkYellow guifg=#d79921
 hi Delimiter ctermfg=LightGray guifg=Gray80
 hi Identifier ctermfg=Cyan guifg=#66b5e5 gui=NONE
 hi Statement ctermfg=Yellow guifg=#fabd2f
 hi PreProc ctermfg=LightBlue guifg=#83a598
 hi Define ctermfg=Blue cterm=bold guifg=#8a8ed0 gui=bold
 hi Include ctermfg=Blue guifg=CornflowerBlue
-hi Keyword ctermfg=Yellow guifg=#fabd2f
 hi Type ctermfg=DarkGreen guifg=#98971a
 hi Function ctermfg=LightGreen guifg=#689d6a
-hi Repeat ctermfg=DarkYellow guifg=#d79921
-hi Conditional ctermfg=Yellow guifg=#fabd2f
 hi Operator ctermfg=Red guifg=#cc241d
 hi Ignore ctermfg=DarkRed guifg=#cc241d
 hi Error ctermfg=White ctermbg=Red cterm=reverse guifg=#fbf1c7 guibg=#cc241d gui=reverse 
@@ -40,7 +36,6 @@ hi Todo ctermfg=Black ctermbg=Yellow guifg=#282828 guibg=#fabd2f
 hi Visual ctermfg=Black ctermbg=LightGray guifg=#282828 guibg=LightGray
 hi Search ctermfg=Black ctermbg=Red guifg=#282828 guibg=#cc241d
 hi Linenr ctermfg=DarkGray guifg=Gray40 
-hi CursorLineNr ctermfg=Yellow guifg=#fabd2f
 hi CursorLine cterm=none gui=none guibg=NONE
 hi link Character Constant
 hi link Number Constant
@@ -57,6 +52,11 @@ hi link Tag Special
 hi link SpecialChar Special
 hi link SpecialComment Special
 hi link Debug Special
+hi link Keyword Statement
+hi link Conditional Statement
+hi link CursorLineNr Statement
+hi link Special Constant
+hi link Repeat Constant
 
 " Vimdiff
 hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=bold guifg=Gray80 guibg=#458588
@@ -84,7 +84,7 @@ hi WarningMsg ctermfg=DarkRed guifg=#cc241d
 highlight SignColumn ctermbg=NONE cterm=NONE guibg=NONE gui=NONE
 
 " Vim Signify
-hi SignifySignAdd ctermfg=DarkGreen guifg=#689d6a
+hi link SignifySignAdd Type
 hi SignifySignChange ctermfg=DarkYellow guifg=#d79921
 hi SignifySignDelete ctermfg=DarkRed guifg=#cc241d
 
@@ -92,3 +92,7 @@ hi SignifySignDelete ctermfg=DarkRed guifg=#cc241d
 hi ALEInfoSign ctermfg=DarkGreen guifg=#689d6a
 hi ALEWarningSign ctermfg=DarkYellow ctermbg=DarkGray guifg=#d79921 guibg=Gray40
 hi link ALEErrorSign Error
+
+" Markdown(build-in)
+hi link markdownCode String
+hi link markdownCodeDelimiter String
