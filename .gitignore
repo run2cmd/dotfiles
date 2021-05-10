@@ -7,11 +7,12 @@
 .vim/tags/
 .vim/notes.md
 .vim/undofiles/*
-!.vim/undofiles/README.md
+.vim/backupfiles/*
 .vim/viminfo
 !.vintrc.yaml
 .vim/tmp
 .vim/plugged
+.vim/autoload/plug.vim.old
 
 # Git config
 !.gitattributes

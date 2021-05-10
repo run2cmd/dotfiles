@@ -118,6 +118,7 @@ colorscheme bugi
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set directory=~/.vim/tmp
 set undodir=~/.vim/undofiles
+set backupdir=~/.vim/backupfiles
 
 " Do not use backup or swapfiles. Undo is enough
 set undofile
