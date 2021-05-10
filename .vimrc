@@ -404,12 +404,12 @@ let g:ale_fixers = {
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ' '
 
 " Clear all buffers and run Startify
-map <leader>bd :bufdo %bd \| Startify<CR>
-map <leader>bc :call ClearBuffersNotInPWD()<CR>
+map <leader>l :bufdo %bd \| Startify<CR>
+map <leader>gc :call ClearBuffersNotInPWD()<CR>
 
 " Clear search and diff
 if maparg('<c-l>', 'n') ==# ''
@@ -427,8 +427,8 @@ nnoremap <Right> :vert resize -2<CR>
 
 " Tab enchantments
 nnoremap <leader>o :tabnew<Bar>Startify<CR>
-nnoremap <leader>j :tabnext<CR>
-nnoremap <leader>k :tabprevious<CR>
+nnoremap <leader>w :tabnext<CR>
+nnoremap <leader>b :tabprevious<CR>
 
 " Terminal helper to open on the bottom
 nnoremap <leader>c :Cmd cmd<CR>
