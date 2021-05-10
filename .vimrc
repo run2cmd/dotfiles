@@ -457,14 +457,12 @@ command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
 command -nargs=* R echo system('<args>')
 
 " Test automation
-command RunTest call RunTerminalTest(b:dispatch)
-nnoremap `<CR> :RunTest<CR>
 command RunProjectTest call RunTerminalTest(b:dispatch)
 command RunAlternativeTest call RunTerminalTest(b:dispatch_alt)
 command RunFile call RunTerminalTest(b:dispatch_file)
-nnoremap `<CR> :RunProjectTest<CR>
-nnoremap `t :RunAlternativeTest<CR>
-nnoremap `e :RunTest<CR>
+nnoremap `t :RunProjectTest<CR>
+nnoremap `a :RunAlternativeTest<CR>
+nnoremap `f :RunFile<CR>
 nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 
 " Terminal support
