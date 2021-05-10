@@ -471,6 +471,11 @@ nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 nnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
 tnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
 
+" Jump to Git conflicts
+nnoremap <leader>gb /^<<<<<<CR>
+nnoremap <leader>gm /^=====<CR>
+nnoremap <leader>ge /^>>>>><CR>
+
 " Todo list
 abbreviate todo ~/notes.md
 
