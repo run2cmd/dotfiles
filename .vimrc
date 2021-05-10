@@ -324,13 +324,27 @@ augroup vimrcAuCmd
   " Filetype support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
-  autocmd FileType groovy let b:dispatch = 'cmd /c groovy %'
-  if has('win32')
-    autocmd Filetype Jenkinsfile let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
-  endif
-  autocmd FileType plantuml let b:dispatch = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:p:gs?puml?png?"'
-  autocmd FileType python let b:dispatch = 'cmd /c python %'
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
+
+  " Automatic file run
+  autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
+  autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
+  autocmd FileType plantuml 
+        \ let b:dispatch_file = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:p:gs?puml?png?"'
+  autocmd FileType python let b:dispatch_file = 'cmd /c python %'
+  autocmd FileType ruby let b:dispatch_file = 'cmd /c ruby %'
+  autocmd FileType markdown let b:dispatch_file =  'vieb ' . expand('%:p')
+  autocmd FileType puppet 
+        \ let b:dispatch_file = 'cmd /c puppet apply --noop %' |
+        \ let b:testfile = substitute(expand('%:t'), '\..*', '_spec.rb', 'g')
+  autocmd BufNewFile,BufReadPost *_spec.rb 
+        \ let b:dispatch_file = 'bash -lc "'
+        \   . 'rspec --require /mnt/c/Users/'
+        \   . substitute($USERNAME, '.*', '\L&', 'g')
+        \   . '/.vim/scripts/rspec_vim_formatter.rb'
+        \   . ' --format VimFormatter '
+        \   . substitute(expand('%'), '\', '/', 'g')
+        \   . '"'
 
   " Quickfix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
@@ -445,6 +459,12 @@ command -nargs=* R echo system('<args>')
 " Test automation
 command RunTest call RunTerminalTest(b:dispatch)
 nnoremap `<CR> :RunTest<CR>
+command RunProjectTest call RunTerminalTest(b:dispatch)
+command RunAlternativeTest call RunTerminalTest(b:dispatch_alt)
+command RunFile call RunTerminalTest(b:dispatch_file)
+nnoremap `<CR> :RunProjectTest<CR>
+nnoremap `t :RunAlternativeTest<CR>
+nnoremap `e :RunTest<CR>
 nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 
 " Terminal support
