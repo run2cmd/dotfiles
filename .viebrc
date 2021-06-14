@@ -23,5 +23,8 @@ set firefoxmode=google
 " Set Neovim as default editor
 set vimcommand=gvim
 
+" Notifications
+" set nativenotification=always
+
 " Clear search mode
 nmap <C-l> <action.emptySearch>
