@@ -377,6 +377,7 @@ let g:ale_fixers = {
       \  ],
       \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
       \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'text': [],
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
