@@ -8,10 +8,12 @@ Layout/EndOfLine:
 Layout/LineLength:
   Enabled: false
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context', 'configure']
+  ExcludedMethods: ['describe', 'context', 'configure', 'on_supported_os', 'it']
 Style/FormatStringToken:
   EnforcedStyle: template
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
 Lint/EmptyFile:
+  Enabled: false
+Style/NumericLiterals:
   Enabled: false
