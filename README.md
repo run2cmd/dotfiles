@@ -62,7 +62,8 @@ Python packages installed:
 
 NPM packages
 
-- Ajv
+- Ajv-cli
+- fixjson
 
 Tools in WSL
 
@@ -73,36 +74,24 @@ Tools in WSL
 
 ## Usage
 
+Mapleader is set to space. It's just so much easier.
+
 Vim is my IDE where I do most of the stuff. It integrates most of the tool fo syntax check, tests etc. It also integrates with Windows WSL (Ubuntu 18-04) to support stuff that does not run on Windows (like Augeas). I plan to try out docker instead of WSL but performance might be worse there.
 
-I use my own Vim-Terminal. It's just plain Vim with configuration to open terminal instead of files. It's just that I'm very used to use Vim keybindings. Configuration is in [.vim-terminal](.vim-terminal) file. To run in a way it dow not interfere with your Vim use below command:
+I use my own Vim-Terminal. It's just plain Vim with configuration to open terminal instead of files. It's just that I'm very used to use Vim keybindings. I run it inside vim instance in separate tabs (try `<C-W>c`)
 
-In past I used vim-dispatch but I turned out that enchanced vim terminal works for me better. I reuse `b:dispatch` variable as it's already there.
+In past I used vim-dispatch but I turned out that enchanced vim terminal works for me better. I reuse `b:dispatch` variable as it's already there. There are 3 tests you can run:
 
-Vim terminal with Clink:
+- Project default test.
+- Project alternative test which runs additional tests that are not part of traditional workflow like Puppet acceptance tests.
+- File tests. Just run specific file depends on file type.
 
-```batch
-vim.exe --clean -u %HOMEPATH%\.vimterm -c "term cmd /k clink inject" -c %bdelete1
-```
+For keybindings you need to see `.vimrc` file since there is to much of them to just list here.
 
 For browsing I use Vieb. Again because I'm sick about using Vim keybindings which proven me to be the fastest way to operate.
 
-I also use wrapper for OpenSSH to pass proper `TERM` variable:
-
-```batch
-@echo off
-
-setlocal
-
-set TERM=xterm-256color
-ssh %*
-
-endlocal
-@echo on
-```
+On Windows use `set TERM=xterm-256color` for proper OpenSSH output.
 
 Acceptance test for Puppet and Jenkins Pipeline run in Docker.
-
-Markdown is tested using pandoc which converts to `.md` files to HTML and automatically open in browser
 
 There is [.vimlocal](.vimlocal) file to keep additional local configuration that I do not wan't to keep in this repository.
