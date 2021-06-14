@@ -430,14 +430,11 @@ nnoremap <C-h> :Buffers<CR>
 nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
 
 " Easy terminal jobs
-command -nargs=* Cmd call RunTerminalTest('cmd /c <args>')
-command -nargs=* Bash call RunTerminalTest('bash -lc "<args>"')
+command -nargs=* Cmd call RunTerminalCmd('cmd /c <args>')
+command -nargs=* Bash call RunTerminalCmd('bash -lc "<args>"')
 command -nargs=* R echo system('<args>')
 
 " Test automation
-command RunProjectTest call RunTerminalTest(b:dispatch)
-command RunAlternativeTest call RunTerminalTest(b:dispatch_alt)
-command RunFile call RunTerminalTest(b:dispatch_file)
 nnoremap `t :RunProjectTest<CR>
 nnoremap `a :RunAlternativeTest<CR>
 nnoremap `f :RunFile<CR>
