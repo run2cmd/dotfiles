@@ -61,6 +61,7 @@ Plug 'Shougo/echodoc.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'noprompt/vim-yardoc'
 
 " Project support
 Plug 'airblade/vim-rooter'
