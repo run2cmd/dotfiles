@@ -180,8 +180,6 @@ set switchbuf=useopen,usetab
 " Section: Text format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set formatoptions+=jnM
-set formatoptions-=o
-
 set cindent
 set tabstop=2
 set shiftwidth=2
