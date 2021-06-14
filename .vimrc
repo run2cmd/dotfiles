@@ -278,6 +278,8 @@ let g:minisnip_trigger = '<C-t>'
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'echo'
 
+" Do not align hashrockets automatically for puppet
+let g:puppet_align_hashes = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
