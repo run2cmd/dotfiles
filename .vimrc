@@ -280,6 +280,10 @@ let g:echodoc#type = 'echo'
 
 " Do not align hashrockets automatically for puppet
 let g:puppet_align_hashes = 0
+
+" Auto-pairs fly mode
+let g:AutoPairsFlyMode = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
