@@ -263,10 +263,6 @@ set omnifunc=ale#completion#OmniFunc
 
 let g:gutentags_cache_dir = '~/.vim/tags'
 
-" Dummy function to use vim-rooter settings for tags generation
-function! FindGutentagsRootDirectory(path)
-  return FindRootDirectory()
-endf
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
 
 let g:mucomplete#enable_auto_at_startup = 1
@@ -522,23 +518,6 @@ let g:startify_custom_header = [
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Statusline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ALE status output in statusline
-function! ALELinterStatusLine() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? 'OK' : printf(
-        \  '%dW %dE',
-        \  all_non_errors,
-        \  all_errors
-        \)
-endfunction
-
-" Completeion method used in statusline
-function! MUCompleteStatusLine()
-  return get(g:mucomplete#msg#short_methods, get(g:, 'mucomplete_current_method', ''), '')
-endf
-
 set cmdheight=2
 set laststatus=2
 set statusline=
