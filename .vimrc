@@ -92,6 +92,7 @@ set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
 language en
 set spelllang=en_us
+set spell
 
 " Order matters 
 setglobal fileencoding=utf-8
@@ -100,7 +101,7 @@ scriptencoding utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
 
-" Favor unix format
+" Favor Unix format
 set fileformat=unix
 set fileformats=unix,dos
 
@@ -118,13 +119,13 @@ set directory=~/.vim/tmp
 set undodir=~/.vim/undofiles
 set backupdir=~/.vim/backupfiles
 
-" Do not use backup or swapfiles. Undo is enough
+" Do not use backup or swap files. Undo is enough
 set undofile
 set nobackup
 set noswapfile
 set autoread
 
-" Popup confirmation on write or quit with changes
+" Pop up window confirmation on write or quit with changes
 set confirm
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -133,7 +134,7 @@ set confirm
 " Disable mouse
 set mouse=""
 
-" Disable mouse tooltips
+" Disable mouse tool tips
 set noballooneval
 
 " Fix backspace
@@ -149,7 +150,7 @@ set hlsearch
 set incsearch
 set magic
 
-" Include files in CWD
+" Include files in current working directory
 set path+=**
 
 " Enable RipGrep
@@ -163,7 +164,7 @@ let g:fzf_preview_window = []
 let g:fzf_layout = { 'window': 'bo 10new' }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Secion: Diff mode
+" Section: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt+=vertical
 let g:ZFDirDiffFileExclude = "CVS,.git,.svn"
@@ -285,7 +286,7 @@ let g:puppet_align_hashes = 0
 let g:AutoPairsFlyMode = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Project workspace
+" Section: Project work space
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['!^fixtures', '.git', '.svn', '.rooter']
@@ -299,7 +300,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 set updatetime=250
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Custom Autocommands
+" Section: Custom Auto commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 augroup vimrcAuCmd
@@ -312,19 +313,19 @@ augroup vimrcAuCmd
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
 
-  " Set titlestring
+  " Set title string
   autocmd BufFilePre,BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
         \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-  " Filetype support
+  " File type support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
 
-  " Quickfix window behavior
+  " Quick fix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
   autocmd QuickFixCmdPost    l* lopen 10
   autocmd FileType qf wincmd J
@@ -335,7 +336,7 @@ augroup vimrcAuCmd
   " Easy escape on FZF
   autocmd FileType fzf tnoremap <ESC> <C-c>
 
-  " Autosave
+  " Auto save
   autocmd CursorHold * 
         \ if &modified != 0 && bufname('%') != "" && 
         \ index(["terminal", "nofile"], &buftype) < 0 &&
@@ -345,7 +346,7 @@ augroup vimrcAuCmd
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Syntaxt, Lint, Tests
+" Section: Syntax, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LSP is slower then ctags with Puppet and Ruby. It can fail on Python too.
 let g:ale_disable_lsp = 1
@@ -451,7 +452,7 @@ nnoremap <leader>gb /^<<<<<<CR>
 nnoremap <leader>gm /^=====<CR>
 nnoremap <leader>ge /^>>>>><CR>
 
-" Todo list
+" To do list
 abbreviate todo ~/notes.md
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -498,7 +499,7 @@ let g:startify_custom_header = [
       \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Statusline
+" Section: Status line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set cmdheight=2
 set laststatus=2
