@@ -74,3 +74,4 @@ augroup END
 command RunProjectTest call RunTerminalCmd(b:dispatch)
 command RunAlternativeTest call RunTerminalCmd(b:dispatch_alt)
 command RunFile call RunTerminalCmd(b:dispatch_file)
+command RunLastTest call RunTerminalCmd(g:last_terminal_test)

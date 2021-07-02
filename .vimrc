@@ -440,6 +440,7 @@ command -nargs=* R echo system('<args>')
 nnoremap `t :RunProjectTest<CR>
 nnoremap `a :RunAlternativeTest<CR>
 nnoremap `f :RunFile<CR>
+nnoremap `l :RunLastTest<CR>
 nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 
 " Terminal support
