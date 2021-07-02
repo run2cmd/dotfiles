@@ -41,7 +41,18 @@ augroup vimFilesTest
   autocmd FileType * let b:dispatch_file = v:false
 
   " File specific tests
-  autocmd FileType ruby let b:dispatch_file = 'cmd /c ruby %'
+  autocmd FileType ruby 
+        \ if stridx(expand('%:t'), '_spec.rb') > 0 |
+        \   let b:dispatch_file = 'bash -lc "'
+        \     . 'rspec --require /mnt/c/Users/'
+        \     . substitute($USERNAME, '.*', '\L&', 'g')
+        \     . '/.vim/scripts/rspec_vim_formatter.rb'
+        \     . ' --format VimFormatter '
+        \     . substitute(expand('%'), '\', '/', 'g')
+        \     . '"' |
+        \ else |
+        \   let b:dispatch_file = 'cmd /c ruby %' |
+        \ endif
   autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
   autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
   autocmd FileType plantuml 
@@ -57,16 +68,6 @@ augroup vimFilesTest
         \   let b:testfile = substitute(expand('%:t'), '\..*', '.json', 'g') |
         \   let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/ajvlint.bat % ' . b:schemafile |
         \ endif 
-
-  " Set specific Rspec formatter
-  autocmd BufNewFile,BufReadPost *_spec.rb 
-        \ let b:dispatch_file = 'bash -lc "'
-        \   . 'rspec --require /mnt/c/Users/'
-        \   . substitute($USERNAME, '.*', '\L&', 'g')
-        \   . '/.vim/scripts/rspec_vim_formatter.rb'
-        \   . ' --format VimFormatter '
-        \   . substitute(expand('%'), '\', '/', 'g')
-        \   . '"'
 augroup END
 
 " Commands to use for tests
