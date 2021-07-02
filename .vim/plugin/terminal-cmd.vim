@@ -3,6 +3,7 @@
 " replaces not create new one.
 "
 function! RunTerminalCmd(params)
+  let g:last_terminal_test = a:params
   if a:params == v:false
     echo "Missing terminal command to run"
     return
