@@ -155,7 +155,13 @@ set path+=**
 
 " Enable RipGrep
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-ignore\ -S
+  set grepprg=rg\ --vimgrep\ --hidden\ --no-ignore\ -S
+  let fzf_ignore_ripgrep_directories = ['.git', 'AppData', '.svn']
+  command! -bang -nargs=? -complete=dir Files 
+        \ call fzf#vim#files(<q-args>,{
+        \   'source': 'rg --files --no-ignore --hidden -S --iglob !'
+        \   . join(fzf_ignore_ripgrep_directories, ' --iglob !')
+        \ }, <bang>0)
   " Support for Puppet modules
   let g:gutentags_file_list_command = 'rg --files . spec/fixtures/modules --no-messages' 
 endif
