@@ -48,7 +48,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
-" Auto completeion and auto edit
+" Auto completion and auto edit
 Plug 'lifepillar/vim-mucomplete'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
@@ -92,6 +92,7 @@ set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
 language en
 set spelllang=en_us
+set spellfile=$HOME/.vim/spell/en.utf8.add
 set spell
 
 " Order matters 
@@ -244,7 +245,7 @@ else
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Autocompletion
+" Section: Auto completion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Command line completion
 set wildmenu
@@ -281,11 +282,11 @@ let g:mucomplete#chains = {
 
 let g:minisnip_trigger = '<C-t>'
 
-" View function parameters in popup window
+" View function parameters in pop up window
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'echo'
 
-" Do not align hashrockets automatically for puppet
+" Do not align hash rockets automatically for puppet
 let g:puppet_align_hashes = 0
 
 " Auto-pairs fly mode
@@ -330,6 +331,7 @@ augroup vimrcAuCmd
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
+  autocmd FileType yaml setlocal nospell
 
   " Quick fix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
