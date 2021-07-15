@@ -27,6 +27,7 @@ I use [Scoop](https://scoop.sh/) to download software.
 - [Python](https://www.python.org/)
 - [Ruby](https://rubyinstaller.org)
 - [Ripgrep](https://github.com/BurntSushi/ripgrep)
+- [Fd](https://github.com/sharkdp/fd)
 - [Shellcheck](https://shellcheck.net/)
 - [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 - [Tortoisesvn](https://tortoisesvn.net)
