@@ -27,4 +27,4 @@ set vimcommand=gvim
 " set nativenotification=always
 
 " Clear search mode
-nmap <C-l> <action.emptySearch>
+nmap <C-l> <emptySearch>

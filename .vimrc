@@ -62,6 +62,8 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'noprompt/vim-yardoc'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -160,9 +162,9 @@ if executable('rg')
 endif
 if executable('fd')
   " Support for Puppet modules
-  let g:gutentags_file_list_command = 'fd . spec/fixtures/modules' 
+  let g:gutentags_file_list_command = 'fd --type f . spec/fixtures/modules .' 
   command! -bang -nargs=? -complete=dir Files 
-        \ call fzf#vim#files(<q-args>, {'source': 'fd -I -H -E AppData -E .git -E .svn'}, <bang>0)
+        \ call fzf#vim#files(<q-args>, {'source': 'fd --type f -I -H -E AppData -E .git -E .svn'}, <bang>0)
 endif
 
 let g:fzf_preview_window = []
@@ -215,7 +217,7 @@ set display+=lastline
 
 let g:indentLine_char = '┊'
 let g:indentLine_fileTypeExclude = ['startify', 'markdown']
-let g:indentLine_bufTypeExclude = ['terminal', 'help', 'quickfix' ]
+let g:indentLine_bufTypeExclude = ['finished', 'terminal', 'help', 'quickfix' ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: File Explorer
@@ -233,6 +235,7 @@ let g:netrw_sizestyle = 'H'
 let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
+let g:netrw_use_errorwindow = 1
 
 " Set default browser
 " TODO: need to see netrw_filehandler
@@ -288,7 +291,7 @@ let g:echodoc#type = 'echo'
 let g:puppet_align_hashes = 0
 
 " Auto-pairs fly mode
-let g:AutoPairsFlyMode = 1
+"let g:AutoPairsFlyMode = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project work space
@@ -329,7 +332,7 @@ augroup vimrcAuCmd
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
-  autocmd FileType yaml setlocal nospell
+  autocmd FileType yaml,xml,git,terminal,finished setlocal nospell
 
   " Quick fix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
@@ -345,7 +348,7 @@ augroup vimrcAuCmd
   " Auto save
   autocmd CursorHold * 
         \ if &modified != 0 && bufname('%') != "" && 
-        \ index(["terminal", "nofile"], &buftype) < 0 &&
+        \ index(["terminal", "nofile", "finished"], &buftype) < 0 &&
         \ index(["gitcommit", "startify"], &filetype) < 0 |
         \   write |
         \ endif
@@ -395,7 +398,6 @@ let mapleader = ' '
 
 " Clear all buffers and run Startify
 map <leader>l :bufdo %bd \| Startify<CR>
-map <leader>gc :call ClearBuffersNotInPWD()<CR>
 
 " Clear search and diff
 if maparg('<c-l>', 'n') ==# ''
@@ -452,6 +454,9 @@ nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 " Terminal support
 nnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
 tnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
+tnoremap <C-W><leader>o <C-W>:tabnew<Bar>Startify<CR>
+tnoremap <C-W><leader>w <C-W>:tabnext<CR>
+tnoremap <C-W><leader>b <C-W>:tabprevious<CR>
 
 " Jump to Git conflicts
 nnoremap <leader>gc :Ggrep "^<<<<<"<CR>
@@ -459,10 +464,23 @@ nnoremap <leader>gb /^<<<<<<CR>
 nnoremap <leader>gm /^=====<CR>
 nnoremap <leader>ge /^>>>>><CR>
 
+" Search word under cursor
+nnoremap <leader>s viwy :Ggrep <C-R>"<CR>
+vnoremap <leader>s y :Ggrep <C-R>"<CR>
+
 " To do list
 abbreviate todo ~/notes.md
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Got through list of supported project
+let projectDirectoryPath = 'c:\code'
+command! -bang -nargs=? -complete=dir Proj
+      \ call fzf#run(
+      \ {
+      \   'source': "fd --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
+      \   'sink': 'Ex', 'window': 'bo 10new'
+      \ }, <bang>0)
+nnoremap <C-K> :Proj<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

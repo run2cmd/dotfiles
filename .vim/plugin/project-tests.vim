@@ -10,16 +10,16 @@ function! ProjectDiscovery()
       let l:gradle = 'gradlew'
     endif
 
-    let b:dispatch = 'cmd /c ' . l:gradle . ' clean build --info'
-    let b:dispatch_alt = 'cmd /c ' . l:gradle . ' clean test --info --tests ' . substitute(expand('%:p:t'), '.groovy', '', 'g')
+    let b:dispatch = 'bash -lc "' . l:gradle . ' clean build --info"'
+    let b:dispatch_alt = 'bash -lc "' . l:gradle . ' clean test --info --tests ' . substitute(expand('%:p:t'), '.groovy', '', 'g') . '"'
 
   " Maven Support
   elseif filereadable('pom.xml') == 1
-    let b:dispatch = 'cmd /c mvn clean install -f %'
+    let b:dispatch = 'bash -lc "mvn clean install -f %"'
 
   " NodeJS/Angular support
   elseif filereadable('package.json') == 1
-    let b:dispatch = 'cmd /c "yarn install & yarn build:prod"'
+    let b:dispatch = 'bash -lc "yarn install & yarn build:prod"'
 
   " Puppet support
   elseif filereadable('manifests/init.pp') == 1
@@ -48,26 +48,27 @@ augroup vimFilesTest
         \     . substitute($USERNAME, '.*', '\L&', 'g')
         \     . '/.vim/scripts/rspec_vim_formatter.rb'
         \     . ' --format VimFormatter '
-        \     . substitute(expand('%'), '\', '/', 'g')
+        \     . substitute(fnamemodify(expand('%'), ":~:."), '\', '/', 'g')
         \     . '"' |
         \ else |
-        \   let b:dispatch_file = 'cmd /c ruby %' |
+        \   let b:dispatch_file = 'bash -lc "ruby %"' |
         \ endif
   autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
   autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
   autocmd FileType plantuml 
         \ let b:dispatch_file = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:p:gs?puml?png?"'
-  autocmd FileType python let b:dispatch_file = 'cmd /c python %'
+  autocmd FileType python let b:dispatch_file = 'bash -lc "python %"'
   autocmd FileType markdown let b:dispatch_file =  g:netrw_browsex_viewer . ' ' . expand('%:p')
   autocmd FileType puppet 
-        \ let b:dispatch_file = 'cmd /c puppet apply --noop %' |
+        \ let b:dispatch_file = 'bash -lc "puppet apply --noop %"' |
         \ let b:testfile = substitute(expand('%:t'), '\..*', '_spec.rb', 'g')
   autocmd FileType yaml
-        \ let b:schemafile = 'schemas\' . substitute(expand('%'), 'yaml', 'json', 'g') |
+        \ let b:schemafile = 'schemas\' . substitute(fnamemodify(expand('%'), ":~:."), 'yaml', 'json', 'g') |
         \ if filereadable(b:schemafile) == 1 |
         \   let b:testfile = substitute(expand('%:t'), '\..*', '.json', 'g') |
         \   let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/ajvlint.bat % ' . b:schemafile |
         \ endif 
+  autocmd FileType sh let b:dispatch_file = 'bash -lc "bash %"'
 augroup END
 
 " Commands to use for tests
