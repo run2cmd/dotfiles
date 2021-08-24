@@ -6,72 +6,16 @@ This is my personal configuration that I use to work day to day. It primary focu
 
 I'm doing devops(ich) work so my environment is setup to support multiple solutions.
 
-I use [Scoop](https://scoop.sh/) to download software.
+I use [Scoop](https://scoop.sh/) to download software, also npm, ruby and python for some tools. Run `update.bat` to install/update all tools.
 
-- [7zip](https://www.7-zip.org/)
-- [Vim Nightly](https://github.com/vim/vim-win32-installer/releases/) 8.x
-- [Clink](https://chrisant996.github.io/clink/)
-- [Curl](https://curl.haxx.se/)
-- [Docker](https://www.docker.com/)
-- [Git](https://gitforwindows.org)
-- [Gradle](https://gradle.org)
-- [Groovy](https://www.groovy-lang.org)
-- [Gsudo](https://github.com/gerardog/gsudo)
-- [Less](http://www.greenwoodsoftware.com/less/)
-- [Lua](http://www.lua.org)
-- [Maven](https://maven.apache.org/)
-- [Msys2](http://msys2.github.io)
-- [Nodejs](https://spdx.org/licenses/MIT.html)
-- [Pandoc](https://pandoc.org)
-- [Plantuml](http://plantuml.com/)
-- [Python](https://www.python.org/)
-- [Ruby](https://rubyinstaller.org)
-- [Ripgrep](https://github.com/BurntSushi/ripgrep)
-- [Fd](https://github.com/sharkdp/fd)
-- [Shellcheck](https://shellcheck.net/)
-- [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
-- [Tortoisesvn](https://tortoisesvn.net)
-- [Universal-ctags](https://ctags.io)
-- [Vieb](https://vieb.dev/)
-- [Wget](https://eternallybored.org/misc/wget/)
-- [Win32-openssh](https://github.com/PowerShell/Win32-OpenSSH)
-- [Xming](http://www.straightrunning.com/XmingNotes/)
-- [Xmllint](http://xmlsoft.org/)
-- [Yarn](https://yarnpkg.com/)
+Additionally on WSL you need to install following tool managers:
 
-Ruby gems installed:
+- [RVM](https://rvm.io/)
+- [NVM](https://github.com/nvm-sh/nvm)
+- [SDKMAN](https://sdkman.io/)
+- [pyenv](https://github.com/pyenv/pyenv)
 
-- ast
-- httparty
-- mdl
-- puppet
-- puppet-lint
-- puppet-lint-absolute_classname-check
-- puppet-lint-empty_string-check
-- puppet-lint-leading_zero-check
-- puppet-lint-resource_reference_syntax
-- puppet-lint-top_scope_facts-check
-- puppet-lint-trailing_comma-check
-- puppet-lint-unquoted_string-check
-- puppet-lint-version_comparison-check
-- rubocop
-
-Python packages installed:
-
-- PyYAML
-- yamllint
-
-NPM packages
-
-- Ajv-cli
-- fixjson
-
-Tools in WSL
-
-- augeas
-- ansible
-- rpm, cpio, rpm2cpio
-- docker-io (to ingegrate with Windows docker)
+And install required versions ruby, python, nodejs, java, gradle, groovy and maven. Those versions will be used for testing. Linting is done from Windows.
 
 ## Usage
 

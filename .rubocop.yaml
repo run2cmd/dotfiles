@@ -1,5 +1,5 @@
 AllCops:
-  NewCops: enable
+  NewCops: disable
   DisplayCopNames: true
   TargetRubyVersion: 2.4
 
@@ -13,7 +13,5 @@ Style/FormatStringToken:
   EnforcedStyle: template
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
-Lint/EmptyFile:
-  Enabled: false
 Style/NumericLiterals:
   Enabled: false

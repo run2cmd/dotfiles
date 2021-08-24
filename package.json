@@ -1,0 +1,25 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "description": "Tools",
+  "main": "index.js",
+  "dependencies": {
+    "ajv-cli": "^3.3.0",
+    "fixjson": "latest",
+    "jsonlint": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/run2cmd/dotfiles.git"
+  },
+  "author": "run2cmd",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/run2cmd/dotfiles/issues"
+  },
+  "homepage": "https://github.com/run2cmd/dotfiles#readme"
+}
