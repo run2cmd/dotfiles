@@ -449,7 +449,7 @@ nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=e
 " Use TAB for COC completion
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ CheckBackSpace() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
