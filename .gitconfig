@@ -17,9 +17,9 @@
 [log]
   decorate = auto
 [credential]
-  helper = manager-core
+	helper = !\"C:/tools/scoop/apps/git/2.33.0.windows.2/mingw64/libexec/git-core/git-credential-manager-core.exe\"
 [filesystem "Oracle Corporation|11.0.2|1521163497"]
   timestampResolution = 3000 microseconds
   minRacyThreshold = 0 nanoseconds
 [credential "helperselector"]
-  selected = manager-core
+	selected = manager-core
