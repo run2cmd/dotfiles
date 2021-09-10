@@ -9,4 +9,4 @@ echo Validate against %testschema%
 
 REM Move to better-ajv-errors
 ruby -ryaml -rjson -e "File.write('%testfile%', YAML.load_file('%testyaml%').to_json)" 
-ajv validate --strict=false -s %testschema% -d %testyaml%
+ajv validate -s %testschema% -d %testyaml%
