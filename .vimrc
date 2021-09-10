@@ -82,6 +82,7 @@ Plug 'ZSaberLv0/ZFVimDirDiff'
 
 " Fun stuff
 Plug 'mhinz/vim-startify'
+Plug 'vim/killersheep'
 
 call plug#end()
 
