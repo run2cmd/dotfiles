@@ -447,6 +447,10 @@ nnoremap <C-up> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eva
 nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)-1)', '')<CR>
 
 " Use TAB for COC completion
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
