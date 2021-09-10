@@ -5,3 +5,5 @@ PyYAML
 requests
 yamllint
 vint
+autopep8
+jedi-language-server

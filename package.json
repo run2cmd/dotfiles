@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "ajv-cli": "^3.3.0",
+    "dockerfile-language-server-nodejs": "latest",
     "fixjson": "latest",
     "jsonlint": "latest"
   },
