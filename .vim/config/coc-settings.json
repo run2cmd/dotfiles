@@ -1,0 +1,32 @@
+{
+  "languageserver": {
+    "puppet": {
+      "command": "ruby",
+      "args": ["c:/tools/puppet-editor-services/puppet-languageserver","--stdio","--debug=c:/tools/lsp.log","--puppet-settings=--moduledir,c:/code/a32-tools"],
+      "cwd": "c:/tools/puppet-editor-services",
+      "filetypes": ["puppet"],
+      "rootPatterns": [".git/", "metadata.json"]
+    },
+    "groovy": {
+      "command": "java",
+      "args" : ["-jar", "c:/tools/groovy-language-server/build/libs/groovy-language-server-all.jar"],
+      "filetypes": ["groovy"]
+    }
+  },
+  "python.linting.pylintEnabled": true,
+  "solargraph.formatting": true,
+  "solargraph.autoformat": true,
+  "solargraph.diagnostics": true,
+  "diagnostic-languageserver.mergeConfig": true,
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck",
+    "yaml": "yamllint",
+    "vim": "vint",
+    "dockerfile": "hadolint"
+  },
+  "diagnostic-languageserver.formatFiletypes": {},
+  "markdownlint.config":{
+    "default": true,
+    "line-length": false
+  }
+}
