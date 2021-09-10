@@ -96,3 +96,10 @@ hi link ALEErrorSign Error
 " Markdown(build-in)
 hi link markdownCode String
 hi link markdownCodeDelimiter String
+
+" Coc.nvim
+hi CocErrorSign guifg=#cc241d
+hi CocWarningSign guifg=#d79921
+hi CocInfoSign guifg=#d79921
+hi CocHintSign guifg=CornflowerBlue
+"hi CocUnderline cterm=underline

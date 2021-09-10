@@ -33,7 +33,6 @@ set packpath+=$HOME/.vim
 set viminfo+='1000,n~/.vim/viminfo
 set history=1000
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,7 +48,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Auto completion and auto edit
-Plug 'lifepillar/vim-mucomplete'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
@@ -64,6 +62,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'noprompt/vim-yardoc'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-indent'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -71,7 +70,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ludovicchabant/vim-gutentags'
 
 " Syntax and Lint
-Plug 'dense-analysis/ale'
 Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
@@ -125,11 +123,15 @@ set backupdir=~/.vim/backupfiles
 " Do not use backup or swap files. Undo is enough
 set undofile
 set nobackup
+set nowritebackup
 set noswapfile
 set autoread
 
 " Pop up window confirmation on write or quit with changes
 set confirm
+
+" TextEdit might fail if hidden is not set.
+set hidden
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Motion
@@ -267,19 +269,8 @@ set shortmess+=cm
 set complete-=t
 set complete-=i
 
-" Enable ALE completion 
-set omnifunc=ale#completion#OmniFunc
-
 let g:gutentags_cache_dir = '~/.vim/tags'
-
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
-
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = {
-      \  'default' : ['path', 'omni', 'c-n', 'keyn', 'tags'],
-      \  'vim' : ['path', 'omni', 'cmd', 'c-n', 'keyn'],
-      \  'markdown' : ['keyn', 'c-n', 'keyn'],
-      \}
 
 let g:minisnip_trigger = '<C-t>'
 
@@ -289,9 +280,6 @@ let g:echodoc#type = 'echo'
 
 " Do not align hash rockets automatically for puppet
 let g:puppet_align_hashes = 0
-
-" Auto-pairs fly mode
-"let g:AutoPairsFlyMode = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project work space
@@ -357,39 +345,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntax, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" LSP is slower then ctags with Puppet and Ruby. It can fail on Python too.
-let g:ale_disable_lsp = 1
-let g:ale_set_balloons = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-let g:ale_hover_to_preview = 1
-let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
-let g:ale_python_flake8_options = '--ignore=E501'
-let g:ale_eruby_erubylint_options = "-T '-'"
-if has('win32')
-  let g:ale_ruby_rubocop_options = '-c %USERPROFILE%\.rubocop.yaml'
-  let g:ale_yaml_yamllint_options = '-c %USERPROFILE%\.yamllint'
-else
-  let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
-  let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
-endif
-let g:ale_sh_shellcheck_options = '-e SC2086' 
-
-" Enable pyls for Python
-let g:ale_linters = { 'python': ['pylint', 'pyls'] }
-
-let g:ale_fixers = {
-      \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'python': [
-      \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
-      \    'trim_whitespace', 'remove_trailing_lines'
-      \  ],
-      \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'text': [],
-      \  '*': ['trim_whitespace', 'remove_trailing_lines'],
-      \}
+let g:coc_config_home = '~/.vim/config'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
@@ -468,6 +424,9 @@ nnoremap <leader>ge /^>>>>><CR>
 nnoremap <leader>s viwy :Ggrep <C-R>"<CR>
 vnoremap <leader>s y :Ggrep <C-R>"<CR>
 
+" Select function
+vnoremap af :call VisualSelectFunction()<CR>
+
 " To do list
 abbreviate todo ~/notes.md
 
@@ -477,9 +436,53 @@ command! -bang -nargs=? -complete=dir Proj
       \ call fzf#run(
       \ {
       \   'source': "fd --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
-      \   'sink': 'Ex', 'window': 'bo 10new'
+      \   'sink': 'Ex',
+      \   'window': 'bo 10new'
       \ }, <bang>0)
 nnoremap <C-K> :Proj<CR>
+
+" Re-size font
+nnoremap <C-up> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)+1)', '')<CR>
+nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)-1)', '')<CR>
+
+" Use TAB for COC completion
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> <leader>[g <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+" Formatting selected code
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" Use CTRL-S for selections ranges.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -534,9 +537,8 @@ set statusline+=\ %F
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
-set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
+set statusline+=\ [Syntax(%{coc#status()}%{get(b:,'coc_current_function','')})]
 set statusline+=%=
-set statusline+=[MU\ %{MUCompleteStatusLine()}]
 set statusline+=\ [GT\ %{gutentags#statusline()}]
 set statusline+=\ %p%%
 set statusline+=\ %l/%L:%c

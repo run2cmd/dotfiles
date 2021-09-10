@@ -1,7 +1,8 @@
 " Select entire function or class
 let s:block_types = ['ruby']
 let s:brace_types = ['puppet', 'groovy']
-let s:indent_types = ['yaml', 'python']
+let s:indent_types = ['yaml'] 
+let s:lsp_support = ['python']
 
 function! VisualSelectFunction()
   if index(s:brace_types, &filetype) >= 0
@@ -13,7 +14,9 @@ function! VisualSelectFunction()
     let l:keyset = 'ai'
   endif
 
-  execute 'normal v' . l:keyset
+  if index(s:lsp_support, &filetype) >= 0
+    execute "call CocAction('selectSymbolRange', v:false, visualmode(), ['Method', 'Function'])"
+  else
+    execute 'normal v' . l:keyset
+  endif
 endfunction
-
-vnoremap af :call VisualSelectFunction()<CR>
