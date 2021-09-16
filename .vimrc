@@ -213,6 +213,7 @@ set guioptions-=T
 set guioptions-=t
 set guioptions-=r
 set guioptions-=L
+set guioptions+=c
 
 set scrolloff=2
 set sidescrolloff=5
@@ -319,7 +320,7 @@ augroup vimrcAuCmd
 
   " File type support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc setlocal syntax=vim filetype=vim
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,vifmrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
   autocmd FileType yaml,xml,git,terminal,finished setlocal nospell
 
@@ -512,8 +513,8 @@ let g:startify_skiplist = [
 
 let g:startify_bookmarks = [
       \  {'c': '~/.vimrc'}, 
-      \  {'t': '~/.vimterm'},
-      \  {'v': '~/.viebrc'},
+      \  {'f': '~/.vimfm'},
+      \  {'b': '~/.viebrc'},
       \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
       \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
       \  {'n': '~/notes.md'},
@@ -543,10 +544,7 @@ set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
 set statusline+=\ [Syntax(%{coc#status()}%{get(b:,'coc_current_function','')})]
-set statusline+=%=
 set statusline+=\ [GT\ %{gutentags#statusline()}]
-set statusline+=\ %p%%
-set statusline+=\ %l/%L:%c
 
 " Source local changes. They are either OS or project specific and should not be in repository
 source $HOME/.vimlocal
