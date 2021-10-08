@@ -7,7 +7,7 @@ function! ProjectDiscovery()
   if filereadable('build.gradle') == 1
     let l:gradle = 'gradle'
     if filereadable('gradlew') == 1
-      let l:gradle = 'gradlew'
+      let l:gradle = './gradlew'
     endif
 
     let b:dispatch = 'bash -lc "' . l:gradle . ' clean build --info"'
@@ -27,8 +27,12 @@ function! ProjectDiscovery()
     let b:dispatch_alt = 'bash -lc "rake beaker"'
 
   " Ansible support
-  elseif filereadable('.ansible-lint')
+  elseif filereadable('.ansible-lint') == 1
     let b:dispatch = 'bash -lc \"ansible-lint ' . substitute(expand('%'), '\', '/', 'g') . '\"'
+
+  " ICHA support
+  elseif filereadable('Puppetfile') == 1
+    let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/ichatest.bat'
   endif
 endfunction
 
@@ -62,12 +66,6 @@ augroup vimFilesTest
   autocmd FileType puppet 
         \ let b:dispatch_file = 'bash -lc "puppet apply --noop %"' |
         \ let b:testfile = substitute(expand('%:t'), '\..*', '_spec.rb', 'g')
-  autocmd FileType yaml
-        \ let b:schemafile = 'schemas\' . substitute(fnamemodify(expand('%'), ":~:."), 'yaml', 'json', 'g') |
-        \ if filereadable(b:schemafile) == 1 |
-        \   let b:testfile = substitute(expand('%:t'), '\..*', '.json', 'g') |
-        \   let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/ajvlint.bat % ' . b:schemafile |
-        \ endif 
   autocmd FileType sh let b:dispatch_file = 'bash -lc "bash %"'
 augroup END
 
