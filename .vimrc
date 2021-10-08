@@ -203,6 +203,7 @@ set nojoinspaces
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number
 set relativenumber
+set signcolumn=yes
 
 set list
 set listchars=conceal:^,nbsp:+
