@@ -3,8 +3,6 @@ set adblocker=update
 set favicons=30day
 set ignorecase
 set fontsize=12
-set mouse
-"set windowtitle=title
 
 " Enable media
 set permissioncamera=ask
@@ -13,6 +11,9 @@ set permissionmicrophone=ask
 set permissiongeolocation=ask
 set permissionmidi=ask
 set permissionmidisysex=ask
+
+" Ask for unsecured webpages
+set permissioncertificateerror=ask
 
 " Use http if no https
 set redirecttohttp
@@ -28,3 +29,7 @@ set vimcommand=gvim
 
 " Clear search mode
 nmap <C-l> <emptySearch>
+
+" Load local configuration
+set permissionsallowed+=xxgit1.gtech.com~notifications
+
