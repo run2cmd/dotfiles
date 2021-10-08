@@ -6,11 +6,6 @@
       "cwd": "c:/tools/puppet-editor-services",
       "filetypes": ["puppet"],
       "rootPatterns": [".git/", "metadata.json"]
-    },
-    "groovy": {
-      "command": "java",
-      "args" : ["-jar", "c:/tools/groovy-language-server/build/libs/groovy-language-server-all.jar"],
-      "filetypes": ["groovy"]
     }
   },
   "python.linting.pylintEnabled": true,
@@ -24,7 +19,13 @@
     "vim": "vint",
     "dockerfile": "hadolint"
   },
+  "diagnostic-languageserver.trace.server": "verbose",
   "diagnostic-languageserver.formatFiletypes": {},
+  "diagnostic-languageserver.linters": {
+    "yamllint": {
+      "args": [ "-c c:/Users/pbugala/.yamllint", "-f", "parsable", "-" ]
+    }
+  },
   "markdownlint.config":{
     "default": true,
     "line-length": false
