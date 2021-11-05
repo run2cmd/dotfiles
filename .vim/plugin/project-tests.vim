@@ -60,7 +60,9 @@ augroup vimFilesTest
   autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
   autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
   autocmd FileType plantuml 
-        \ let b:dispatch_file = 'cmd /c "plantuml % && '. g:netrw_browsex_viewer .' %:p:gs?puml?png?"'
+        \ let b:umltmpdir = $HOME . '/.vim/tmp' |
+        \ let b:dispatch_file = 'cmd /c "plantuml -tsvg -o ' . b:umltmpdir . ' % && '
+        \   . g:netrw_browsex_viewer . ' ' . b:umltmpdir . '/%:t:gs?puml?svg?"'
   autocmd FileType python let b:dispatch_file = 'bash -lc "python %"'
   autocmd FileType markdown let b:dispatch_file =  g:netrw_browsex_viewer . ' ' . expand('%:p')
   autocmd FileType puppet 
