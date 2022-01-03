@@ -11,6 +11,8 @@ gem 'rubocop-rspec', '1.44.1'
 gem 'reek'
 gem 'nokogiri', '1.9.1'
 gem 'solargraph'
+gem 'chef-utils', '15.17.4'
+gem 'parallel', '1.20.1'
 
 gem 'puppet', '~> 5.5.22'
 gem 'puppet-lint'
