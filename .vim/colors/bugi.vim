@@ -58,6 +58,9 @@ hi link CursorLineNr Statement
 hi link Special Constant
 hi link Repeat Constant
 
+" Terminal
+hi Terminal ctermfg=LightGray guifg=Gray80 guibg=#383838
+
 " Vimdiff
 hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=bold guifg=Gray80 guibg=#458588
 hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=bold guifg=Gray40 guibg=#458588
