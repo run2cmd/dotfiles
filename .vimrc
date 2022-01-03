@@ -241,7 +241,7 @@ let g:netrw_preview = 1
 let g:netrw_winsize = 25
 let g:netrw_altv = 1
 let g:netrw_keepdir = 0
-let g:netrw_liststyle = 1
+let g:netrw_liststyle = 0
 let g:netrw_sizestyle = 'H'
 let g:netrw_silent = 1
 let g:netrw_special_syntax = 1
@@ -317,7 +317,6 @@ set updatetime=250
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Custom Auto commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 augroup vimrcAuCmd
   autocmd!
 
@@ -329,7 +328,7 @@ augroup vimrcAuCmd
   autocmd BufEnter * :syntax sync fromstart
 
   " Set title string
-  autocmd BufFilePre,BufEnter,BufWinEnter *,!qf let &titlestring = ' ' . getcwd()
+  autocmd BufFilePre,BufEnter,BufWinEnter,DirChanged *,!qf let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
@@ -364,7 +363,6 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Syntax, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:coc_config_home = '~/.vim/config'
 " ALE seems to be best for combining fast linting and LSP
 let g:ale_disable_lsp = 1
 let g:ale_set_balloons = 0
