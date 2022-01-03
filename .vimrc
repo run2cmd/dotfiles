@@ -397,6 +397,17 @@ let g:ale_fixers = {
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Help and documentation
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup DocumentationCommands
+  autocmd FileType python set keywordprg=:term\ ++shell\ python3\ -m\ pydoc
+  autocmd FileType puppet set keywordprg=:term\ ++shell\ puppet\ describe
+  autocmd FileType ruby set keywordprg=:term\ ++shell\ ri
+  autocmd FileType groovy set keywordprg=:term\ ++shell\ $HOME\.vim\scripts\chtsh.bat\ groovy
+augroup END
+
+command -nargs=* Doc call CallChtsh("<args>")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
@@ -492,13 +503,11 @@ command! -bang -nargs=? -complete=dir Proj
       \ }, <bang>0)
 nnoremap <C-K> :Proj<CR>
 
+command! -nargs=* TermDo :windo call term_sendkeys('', '<args><cr>')
+
 " Re-size font
 nnoremap <C-up> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)+1)', '')<CR>
 nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)-1)', '')<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Help and documentation
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen

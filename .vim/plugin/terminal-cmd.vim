@@ -1,6 +1,6 @@
 "
 " Async tests with terminal location. Make sure that terminal window gets
-" replaces not create new one.
+" replaced not create new one.
 "
 function! RunTerminalCmd(params)
   let g:last_terminal_test = a:params

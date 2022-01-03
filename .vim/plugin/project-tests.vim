@@ -39,7 +39,7 @@ endfunction
 " Per file type specific tests
 augroup vimFilesTest
   " Set per project tests
-  autocmd BufFilePre,BufEnter,BufWinEnter * call ProjectDiscovery()
+  autocmd BufFilePre,BufRead,BufEnter,BufWinEnter * call ProjectDiscovery()
 
   " Reset tests for each file type
   autocmd FileType * let b:dispatch_file = v:false
