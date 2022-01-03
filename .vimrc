@@ -48,6 +48,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Auto completion and auto edit
+Plug 'lifepillar/vim-mucomplete'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
@@ -62,7 +63,6 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'noprompt/vim-yardoc'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-indent'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -70,6 +70,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ludovicchabant/vim-gutentags'
 
 " Syntax and Lint
+Plug 'dense-analysis/ale'
 Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
@@ -272,8 +273,18 @@ set shortmess+=cm
 set complete-=t
 set complete-=i
 
+" Enable ALE completion 
+set omnifunc=ale#completion#OmniFunc
+
 let g:gutentags_cache_dir = '~/.vim/tags'
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
+
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#chains = {
+      \  'default' : ['path', 'c-n', 'omni', 'tags'],
+      \  'vim' : ['path', 'c-n', 'omni', 'cmd'],
+      \  'markdown' : ['c-n'],
+      \}
 
 let g:minisnip_trigger = '<C-t>'
 
@@ -349,6 +360,40 @@ augroup END
 " Section: Syntax, Lint, Tests
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:coc_config_home = '~/.vim/config'
+" ALE seems to be best for combining fast linting and LSP
+let g:ale_disable_lsp = 1
+let g:ale_set_balloons = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_hover_to_preview = 1
+let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
+let g:ale_python_flake8_options = '--ignore=E501'
+let g:ale_eruby_erubylint_options = "-T '-'"
+if has('win32')
+  let g:ale_ruby_rubocop_options = '-c %USERPROFILE%\.rubocop.yaml'
+  let g:ale_yaml_yamllint_options = '-c %USERPROFILE%\.yamllint'
+else
+  let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
+  let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
+endif
+let g:ale_sh_shellcheck_options = '-e SC2086' 
+
+" Enable pyls for Python
+let g:ale_linters = { 'python': ['pylint', 'pyls'] }
+
+let g:ale_fixers = {
+      \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'python': [
+      \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
+      \    'trim_whitespace', 'remove_trailing_lines'
+      \  ],
+      \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+      \  'text': [],
+      \  '*': ['trim_whitespace', 'remove_trailing_lines'],
+      \}
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Keybindings and commands
@@ -448,48 +493,6 @@ nnoremap <C-K> :Proj<CR>
 nnoremap <C-up> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)+1)', '')<CR>
 nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)-1)', '')<CR>
 
-" Use TAB for COC completion
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ CheckBackSpace() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> <leader>[g <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation
-nmap <silent> <leader>gd <Plug>(coc-definition)
-nmap <silent> <leader>gy <Plug>(coc-type-definition)
-nmap <silent> <leader>gi <Plug>(coc-implementation)
-nmap <silent> <leader>gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-" Formatting selected code
-xmap <leader>f <Plug>(coc-format-selected)
-nmap <leader>f <Plug>(coc-format-selected)
-
-" Use CTRL-S for selections ranges.
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -544,7 +547,9 @@ set statusline+=\ %F
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
-set statusline+=\ [Syntax(%{coc#status()}%{get(b:,'coc_current_function','')})]
+set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
+set statusline+=%=
+set statusline+=[MU\ %{MUCompleteStatusLine()}]
 set statusline+=\ [GT\ %{gutentags#statusline()}]
 
 " Source local changes. They are either OS or project specific and should not be in repository
