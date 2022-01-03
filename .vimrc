@@ -173,6 +173,11 @@ endif
 
 let g:fzf_preview_window = []
 let g:fzf_layout = { 'window': 'bo 10new' }
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Diff mode
