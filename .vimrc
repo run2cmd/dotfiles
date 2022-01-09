@@ -168,7 +168,7 @@ if executable('fd')
   " Support for Puppet modules
   let g:gutentags_file_list_command = 'fd --type f . spec/fixtures/modules .' 
   command! -bang -nargs=? -complete=dir Files 
-        \ call fzf#vim#files(<q-args>, {'source': 'fd --type f -a -I -H -E AppData -E .git -E .svn'}, <bang>0)
+        \ call fzf#vim#files(<q-args>, {'source': 'fd --type f --strip-cwd-prefix -I -H -E AppData -E .git -E .svn'}, <bang>0)
 endif
 
 let g:fzf_preview_window = []
