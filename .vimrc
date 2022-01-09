@@ -339,6 +339,7 @@ augroup vimrcAuCmd
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,vifmrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
   autocmd FileType yaml,xml,git,terminal,finished setlocal nospell
+  autocmd FileType Terminal setlocal nowrap
 
   " Quick fix window behavior
   autocmd QuickFixCmdPost [^l]* copen 10
