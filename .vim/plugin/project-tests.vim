@@ -28,7 +28,7 @@ function! ProjectDiscovery()
 
   " Ansible support
   elseif filereadable('.ansible-lint') == 1
-    let b:dispatch = 'bash -lc \"ansible-lint ' . substitute(expand('%'), '\', '/', 'g') . '\"'
+    let b:dispatch = 'bash -lc "ansible-lint ' . substitute(expand('%'), '\', '/', 'g') . '"'
 
   " ICHA support
   elseif filereadable('Puppetfile') == 1
