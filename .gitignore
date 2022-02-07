@@ -46,3 +46,6 @@
 !ctags.d
 ctags.d/*
 !ctags.d/default.ctags
+
+# Scripts
+!bin/

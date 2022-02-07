@@ -32,7 +32,7 @@ function! ProjectDiscovery()
 
   " ICHA support
   elseif filereadable('Puppetfile') == 1
-    let b:dispatch = 'cmd /c ' . $HOME . '/.vim/scripts/ichatest.bat'
+    let b:dispatch = 'cmd /c ichatest.bat'
   endif
 endfunction
 
@@ -58,7 +58,7 @@ augroup vimFilesTest
         \   let b:dispatch_file = 'bash -lc "ruby %"' |
         \ endif
   autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
-  autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c ' . $HOME . '/.vim/scripts/jlint.bat %'
+  autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c jlint.bat %'
   autocmd FileType plantuml 
         \ let b:umltmpdir = $HOME . '/.vim/tmp' |
         \ let b:dispatch_file = 'cmd /c "plantuml -tsvg -o ' . b:umltmpdir . ' % && '

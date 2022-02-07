@@ -397,6 +397,13 @@ let g:ale_fixers = {
       \  'text': [],
       \  '*': ['trim_whitespace', 'remove_trailing_lines'],
       \}
+call ale#linter#Define('groovy', {
+  \ 'name': 'CodeNarc',
+  \ 'alias': ['codenarc'],
+  \ 'executable': 'codenarc.bat',
+  \ 'command': '%e %s:t',
+  \ 'callback': "Codenarc_callback"
+  \})
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation

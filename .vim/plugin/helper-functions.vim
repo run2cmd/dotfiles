@@ -37,7 +37,8 @@ function! VisualSelectFunction()
   execute 'normal v' . l:keyset
 endfunction
 
-" Get 
-function CallChtsh(params)
-  execute "term ++shell " . $HOME . "/.vim/scripts/chtsh.bat " . a:params
+" Get neat documentation in terminal window
+function! CallChtsh(params)
+  execute "term ++shell chtsh.bat " . a:params
+endfunction
 endfunction
