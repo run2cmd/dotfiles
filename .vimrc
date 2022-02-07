@@ -341,7 +341,7 @@ augroup vimrcAuCmd
   " File type support
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,viebrclocal,vifmrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
-  autocmd FileType yaml,xml,git,terminal,finished setlocal nospell
+  autocmd FileType yaml,xml,git,terminal,finished,properties,json setlocal nospell
   autocmd FileType Terminal setlocal nowrap
 
   " Quick fix window behavior
