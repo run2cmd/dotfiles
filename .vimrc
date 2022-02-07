@@ -339,8 +339,7 @@ augroup vimrcAuCmd
     \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " File type support
-  autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,vifmrc setlocal syntax=vim filetype=vim
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,viebrclocal,vifmrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
   autocmd FileType yaml,xml,git,terminal,finished setlocal nospell
   autocmd FileType Terminal setlocal nowrap
