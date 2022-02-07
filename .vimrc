@@ -168,7 +168,7 @@ if executable('fd')
   " Support for Puppet modules
   let g:gutentags_file_list_command = 'fd --type f . spec/fixtures/modules .' 
   command! -bang -nargs=? -complete=dir Files 
-        \ call fzf#vim#files(<q-args>, {'source': 'fd --type f --strip-cwd-prefix -I -H -E AppData -E .git -E .svn'}, <bang>0)
+    \ call fzf#vim#files(<q-args>, {'source': 'fd --type f --strip-cwd-prefix -I -H -E AppData -E .git -E .svn'}, <bang>0)
 endif
 
 let g:fzf_preview_window = []
@@ -286,10 +286,10 @@ let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-      \  'default' : ['path', 'c-n', 'omni', 'tags'],
-      \  'vim' : ['path', 'c-n', 'omni', 'cmd'],
-      \  'markdown' : ['c-n'],
-      \}
+  \  'default' : ['path', 'c-n', 'omni', 'tags'],
+  \  'vim' : ['path', 'c-n', 'omni', 'cmd'],
+  \  'markdown' : ['c-n'],
+  \}
 
 let g:minisnip_trigger = '<C-t>'
 
@@ -332,7 +332,7 @@ augroup vimrcAuCmd
 
   " Set cursor at last position when opening files
   autocmd BufReadPost * 
-        \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " File type support
   autocmd FileType dosbatch,winbatch setlocal tabstop=4 shiftwidth=4
@@ -354,11 +354,11 @@ augroup vimrcAuCmd
 
   " Auto save
   autocmd CursorHold * 
-        \ if &modified != 0 && bufname('%') != "" && 
-        \ index(["terminal", "nofile", "finished"], &buftype) < 0 &&
-        \ index(["gitcommit", "startify"], &filetype) < 0 |
-        \   write |
-        \ endif
+    \ if &modified != 0 && bufname('%') != "" && 
+    \ index(["terminal", "nofile", "finished"], &buftype) < 0 &&
+    \ index(["gitcommit", "startify"], &filetype) < 0 |
+    \   write |
+    \ endif
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -386,17 +386,18 @@ let g:ale_sh_shellcheck_options = '-e SC2086'
 let g:ale_linters = { 'python': ['pylint', 'pyls'] }
 
 let g:ale_fixers = {
-      \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'python': [
-      \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
-      \    'trim_whitespace', 'remove_trailing_lines'
-      \  ],
-      \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-      \  'text': [],
-      \  '*': ['trim_whitespace', 'remove_trailing_lines'],
-      \}
+  \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
+  \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
+  \  'python': [
+  \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
+  \    'trim_whitespace', 'remove_trailing_lines'
+  \  ],
+  \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+  \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
+  \  'text': [],
+  \  '*': ['trim_whitespace', 'remove_trailing_lines'],
+  \}
+
 call ale#linter#Define('groovy', {
   \ 'name': 'CodeNarc',
   \ 'alias': ['codenarc'],
@@ -503,12 +504,12 @@ abbreviate todo ~/notes.md
 " Got through list of supported project
 let projectDirectoryPath = 'c:\code'
 command! -bang -nargs=? -complete=dir Proj
-      \ call fzf#run(
-      \ {
-      \   'source': "fd --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
-      \   'sink': 'Ex',
-      \   'window': 'bo 10new'
-      \ }, <bang>0)
+  \ call fzf#run(
+  \ {
+  \   'source': "fd --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
+  \   'sink': function('OpenProjectFile'),
+  \   'window': 'bo 10new'
+  \ }, <bang>0)
 nnoremap <C-K> :Proj<CR>
 
 command! -nargs=* TermDo :windo call term_sendkeys('', '<args><cr>')
@@ -525,36 +526,36 @@ set lines=37
 set columns=110
 
 let g:startify_lists = [
-      \  { 'type': 'files', 'header': [' MRU'] },
-      \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
-      \]
+  \  { 'type': 'files', 'header': [' MRU'] },
+  \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
+  \]
 
 let g:startify_skiplist = [
-      \ escape(fnamemodify($HOME, ':p'), '\') .'AppData',
-      \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
-      \ escape(fnamemodify($HOME, ':p'), '\') .'.vimrc',
-      \]
+  \ escape(fnamemodify($HOME, ':p'), '\') .'AppData',
+  \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
+  \ escape(fnamemodify($HOME, ':p'), '\') .'.vimrc',
+  \]
 
 let g:startify_bookmarks = [
-      \  {'c': '~/.vimrc'}, 
-      \  {'f': '~/.vimfm'},
-      \  {'b': '~/.viebrc'},
-      \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
-      \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
-      \  {'n': '~/notes.md'},
-      \]
+  \  {'c': '~/.vimrc'}, 
+  \  {'f': '~/.vimfm'},
+  \  {'b': '~/.viebrc'},
+  \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
+  \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
+  \  {'n': '~/notes.md'},
+  \]
 
 let g:startify_custom_header = [
-      \ '        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       ',
-      \ '       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \     ',
-      \ '       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \    ', 
-      \ '        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   ',
-      \ '         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  ',
-      \ '          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ ',
-      \ '           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| ',
-      \ '',
-      \ '                                           Vim ' . v:versionlong,
-      \ ]
+  \ '        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       ',
+  \ '       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \     ',
+  \ '       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \    ', 
+  \ '        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   ',
+  \ '         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  ',
+  \ '          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ ',
+  \ '           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| ',
+  \ '',
+  \ '                                           Vim ' . v:versionlong,
+  \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Status line

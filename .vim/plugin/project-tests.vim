@@ -46,28 +46,28 @@ augroup vimFilesTest
 
   " File specific tests
   autocmd FileType ruby 
-        \ if stridx(expand('%:t'), '_spec.rb') > 0 |
-        \   let b:dispatch_file = 'bash -lc "'
-        \     . 'rspec --require /mnt/c/Users/'
-        \     . substitute($USERNAME, '.*', '\L&', 'g')
-        \     . '/.vim/scripts/rspec_vim_formatter.rb'
-        \     . ' --format VimFormatter '
-        \     . substitute(fnamemodify(expand('%'), ":~:."), '\', '/', 'g')
-        \     . '"' |
-        \ else |
-        \   let b:dispatch_file = 'bash -lc "ruby %"' |
-        \ endif
+    \ if stridx(expand('%:t'), '_spec.rb') > 0 |
+    \   let b:dispatch_file = 'bash -lc "'
+    \     . 'rspec --require /mnt/c/Users/'
+    \     . substitute($USERNAME, '.*', '\L&', 'g')
+    \     . '/.vim/scripts/rspec_vim_formatter.rb'
+    \     . ' --format VimFormatter '
+    \     . substitute(fnamemodify(expand('%'), ":~:."), '\', '/', 'g')
+    \     . '"' |
+    \ else |
+    \   let b:dispatch_file = 'bash -lc "ruby %"' |
+    \ endif
   autocmd FileType groovy let b:dispatch_file = 'cmd /c groovy %'
   autocmd Filetype Jenkinsfile let b:dispatch_file = 'cmd /c jlint.bat %'
   autocmd FileType plantuml 
-        \ let b:umltmpdir = $HOME . '/.vim/tmp' |
-        \ let b:dispatch_file = 'cmd /c "plantuml -tsvg -o ' . b:umltmpdir . ' % && '
-        \   . g:netrw_browsex_viewer . ' ' . b:umltmpdir . '/%:t:gs?puml?svg?"'
+    \ let b:umltmpdir = $HOME . '/.vim/tmp' |
+    \ let b:dispatch_file = 'cmd /c "plantuml -tsvg -o ' . b:umltmpdir . ' % && '
+    \   . g:netrw_browsex_viewer . ' ' . b:umltmpdir . '/%:t:gs?puml?svg?"'
   autocmd FileType python let b:dispatch_file = 'bash -lc "python %"'
   autocmd FileType markdown let b:dispatch_file =  g:netrw_browsex_viewer . ' ' . expand('%:p')
   autocmd FileType puppet 
-        \ let b:dispatch_file = 'bash -lc "puppet apply --noop %"' |
-        \ let b:testfile = substitute(expand('%:t'), '\..*', '_spec.rb', 'g')
+    \ let b:dispatch_file = 'bash -lc "puppet apply --noop %"' |
+    \ let b:testfile = substitute(expand('%:t'), '\..*', '_spec.rb', 'g')
   autocmd FileType sh let b:dispatch_file = 'bash -lc "bash %"'
 augroup END
 

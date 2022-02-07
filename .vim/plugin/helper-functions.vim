@@ -41,4 +41,13 @@ endfunction
 function! CallChtsh(params)
   execute "term ++shell chtsh.bat " . a:params
 endfunction
+
+" Select most common file in project.
+function! OpenProjectFile(filepath)
+  let l:readmefile = a:filepath . '/README.md'
+  if filereadable(expand(l:readmefile))
+    execute 'e ' . l:readmefile
+  else 
+    execute 'Ex ' . a:filepath
+  endif
 endfunction
