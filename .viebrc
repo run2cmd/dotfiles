@@ -29,6 +29,11 @@ set vimcommand=gvim
 " Clear search mode
 nmap <C-l> <emptySearch>
 
+" Follow keys
+set followchars=custom:asdfghjklrtuicvnm
+
 " Load local configuration
 set permissionsallowed+=xxgit1.gtech.com~notifications
 
+" Custom setup
+source ~/.viebrclocal
