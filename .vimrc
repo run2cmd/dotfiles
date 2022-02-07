@@ -33,6 +33,10 @@ set packpath+=$HOME/.vim
 set viminfo+='1000,n~/.vim/viminfo
 set history=1000
 
+" Enable debug mode
+"set verbose=20
+"set verbosefile=c:\Users\pbugala\Downloads\vim.log
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
