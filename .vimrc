@@ -282,8 +282,8 @@ set shortmess+=cm
 set complete-=t
 set complete-=i
 
-" Enable ALE completion 
-set omnifunc=ale#completion#OmniFunc
+" Enable Omni completion if not already set
+set omnifunc=syntaxcomplete#Complete
 
 let g:gutentags_cache_dir = '~/.vim/tags'
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
