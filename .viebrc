@@ -2,7 +2,6 @@
 set adblocker=update
 set favicons=30day
 set ignorecase
-set fontsize=12
 
 " Enable media
 set permissioncamera=ask
@@ -21,7 +20,7 @@ set redirecttohttp
 " Fake we are trusted Google browser ;)
 set firefoxmode=google
 
-" Set Neovim as default editor
+" Set gVim as default editor
 set vimcommand=gvim
 
 " Notifications
