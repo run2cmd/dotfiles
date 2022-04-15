@@ -203,9 +203,10 @@ set switchbuf=useopen,usetab
 " Section: Text format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set formatoptions+=jnM
-set cindent
 set tabstop=2
 set shiftwidth=2
+set cindent
+set cinoptions=l1,t0,(s,U1,Ws,m1,c0.5s,C1
 set expandtab
 set smarttab
 set nojoinspaces
