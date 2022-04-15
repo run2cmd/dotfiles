@@ -20,6 +20,18 @@ echo UPDATE VIM PLUGINS
 call vim +"PlugUpdate" +qa
 
 echo ===================================================================================================
+echo UPDATE SDKMAN
+call bash -lc "sdk update && sdk upgrade maven && sdk upgrade gradle"
+
+echo ===================================================================================================
+echo UPDATE RVM
+call bash -lc "rvm get stable"
+
+echo ===================================================================================================
+echo UPDATE PYENV
+call bash -lc "pyenv update"
+
+echo ===================================================================================================
 echo UPDATE UBUNTU PACKAGES
 call bash -lc "sudo apt autoremove -y && sudo apt update && sudo apt upgrade -y"
 
