@@ -5,11 +5,17 @@ set ignorecase
 
 " Enable media
 set permissioncamera=ask
+set permissiondisplaycapture=ask
 set permissionmediadevices=allow
 set permissionmicrophone=ask
-set permissiongeolocation=ask
 set permissionmidi=ask
 set permissionmidisysex=ask
+
+" Allow access to persistent storage
+set permissionpersistentstorage=allow
+
+" Ask for tracking
+set permissiongeolocation=ask
 
 " Ask for unsecured webpages
 set permissioncertificateerror=ask
@@ -34,6 +40,10 @@ set followchars=custom:asdfghjklrtuicvnm
 
 " Load local configuration
 set permissionsallowed+=xxgit1.gtech.com~notifications
+
+" Private mode
+" <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>
+command privateMode <:set containernewtab=private><action.openNewTab><:set containernewtab=s:usecurrent>
 
 " Custom setup
 source ~/.viebrclocal
