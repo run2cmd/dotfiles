@@ -190,6 +190,8 @@ set diffopt+=vertical
 let g:ZFDirDiffFileExclude = "CVS,.git,.svn"
 let g:ZFDirDiffShowSameFile = 0
 
+let g:signify_priority = 5
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Tabs and windows
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
