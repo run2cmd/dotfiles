@@ -39,7 +39,11 @@ endfunction
 
 " Get neat documentation in terminal window
 function! CallChtsh(params)
+  if exists('t:doc_window_buffer') && bufexists(t:doc_window_buffer)
+    execute 'bd! ' . t:doc_window_buffer
+  endif
   execute "term ++shell chtsh.bat " . a:params
+  let t:doc_window_buffer = bufnr('%')
 endfunction
 
 " Select most common file in project.
