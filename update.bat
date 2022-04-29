@@ -1,5 +1,6 @@
 echo off
 
+echo ===================================================================================================
 echo UPDATE SCOOP PACKAGES
 call scoop update *
 
@@ -9,6 +10,7 @@ call bundle update
 
 echo ===================================================================================================
 echo UPDATE PYTHON PACKAGES"
+call python -m pip install --upgrade pip
 call pip install -r Pythonfile --upgrade
 
 echo ===================================================================================================
