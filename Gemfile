@@ -10,7 +10,6 @@ gem 'rubocop-ast', '1.4.1'
 gem 'rubocop-rspec', '1.44.1'
 gem 'reek'
 gem 'nokogiri', '1.9.1'
-gem 'solargraph'
 gem 'chef-utils', '15.17.4'
 gem 'parallel', '1.20.1'
 
