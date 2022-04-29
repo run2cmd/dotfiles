@@ -49,7 +49,7 @@ function! ProjectDiscovery()
 
   " ICHA support
   elseif filereadable('Puppetfile') == 1
-    let b:dispatch = 'cmd /c ichatest.bat'
+    let b:dispatch = NvmBash('/mnt/c/Users/' . substitute($USERNAME, '.*', '\L&', 'g') . '/bin/ichatest.sh')
   endif
 endfunction
 
