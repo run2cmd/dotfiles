@@ -6,11 +6,9 @@
   "dependencies": {
     "ajv-cli": "5.0.0",
     "ajv-formats": "2.1.1",
-    "dockerfile-language-server-nodejs": "latest",
     "fixjson": "latest",
     "jsonlint": "latest",
-    "prettier": "latest",
-    "trash-cli": "latest"
+    "prettier": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

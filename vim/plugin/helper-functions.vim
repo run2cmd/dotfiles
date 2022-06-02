@@ -26,6 +26,7 @@ function! VisualSelectFunction()
   let s:brace_types = ['puppet', 'groovy', 'json']
   let s:indent_types = ['yaml', 'python'] 
 
+  let l:keyset = ''
   if index(s:brace_types, &filetype) >= 0
     let l:keyset = 'a{V'
   elseif index(s:block_types, &filetype) >= 0
@@ -34,6 +35,7 @@ function! VisualSelectFunction()
   elseif index(s:indent_types, &filetype) >= 0
     let l:keyset = 'ai'
   endif
+ 
   execute 'normal v' . l:keyset
 endfunction
 
@@ -42,7 +44,7 @@ function! CallChtsh(params)
   if exists('t:doc_window_buffer') && bufexists(t:doc_window_buffer)
     execute 'bd! ' . t:doc_window_buffer
   endif
-  execute "term ++shell chtsh.bat " . a:params
+  execute 'term ++shell chtsh.sh ' . a:params
   let t:doc_window_buffer = bufnr('%')
 endfunction
 

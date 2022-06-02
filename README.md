@@ -1,42 +1,76 @@
 # run2cmd dotfiles
 
-This is my personal configuration that I use to work day to day. It primary focuses on Windows since that is my workspace but should work on Linux to (mostly).
+This is my personal configuration that I use to work day to day. My setup is Windows OS + WSL2(Debian). My setup mostly resides in WSL but there is some Windows integration is use, however it is WSL2 based and only few tools are on Windows so this solution in 100% compatible with any Linux setup.
+
+## Workflow 2.0
+
+I'm doing devops(ich) work so my environment is setup to support multiple tools. I choose [WezTerm](https://wezfurlong.org/wezterm/index.html) as default terminal on Windows however multiplexing is mostly done in [tmux](https://github.com/tmux/tmux). Entire work flow is created around [Vim](https://github.com/vim/vim) and its plugins and features. In most cases I only leave it when I SSH to remote servers.
+
+Previously I used VIM for Windows with WSL2 support but it appeared that VIM on WSL2 has much better performance.
+
+## Installation
+
+Clone this project into WSL2 instance and Run `install.sh` to install/update all tools.
 
 ## Tools
 
-I'm doing devops(ich) work so my environment is setup to support multiple solutions.
+I use [Scoop](https://scoop.sh/) to download software in Windows and APT for Ubuntu. Some tools are installed based on language they are written in. Check list of packages.
 
-I use [Scoop](https://scoop.sh/) to download software, also npm, ruby and python for some tools. Run `update.bat` to install/update all tools.
+- [Scoop packages](Scoopfile)
+- [Ubuntu packages](Rpmfile)
+- [Ruby gems](Gemfile)
+- [Python packages](Pythonfile)
+- [Nodejs packages](package.json)
 
-Additionally on WSL you need to install following tool managers:
+I use language version managers:
 
-- [RVM](https://rvm.io/)
-- [NVM](https://github.com/nvm-sh/nvm)
-- [SDKMAN](https://sdkman.io/)
-- [pyenv](https://github.com/pyenv/pyenv)
+- [rvm](https://rvm.io/)
+- [nvm](https://github.com/nvm-sh/nvm)
+- [sdkman](https://sdkman.io/)
+- [pyenv](https://github.com/pyenv/pyenv) 
 
-And install required versions ruby, python, nodejs, java, gradle, groovy and maven. Those versions will be used for testing. Linting is done from Windows.
+For browsing I use [Vieb](https://vieb.dev/) because I love speed and easy of using Vim keybindings.
+[WezTerm](https://wezfurlong.org/wezterm/index.html) as terminal on Windows however [tmux](https://github.com/tmux/tmux) as multiplexer.
 
-## Usage
+## Docker Desktop
 
-Mapleader is set to space. It's just so much easier.
+To have Systemd work in Docker images you need to create `systemd` cgroup in Docker WSL.
 
-Vim is my IDE where I do most of the stuff. It integrates most of the tool fo syntax check, tests etc. It also integrates with Windows WSL (Ubuntu 18-04) to support stuff that does not run on Windows (like Augeas). I plan to try out docker instead of WSL but performance might be worse there.
+```bash
+mkdir -p /sys/fs/cgroup/systemd
+mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+```
 
-I use my own Vim-Terminal. It's just plain Vim with configuration to open terminal instead of files. It's just that I'm very used to use Vim keybindings. I run it inside vim instance in separate tabs (try `<C-W>c`)
+## VIM
 
-In past I used vim-dispatch but I turned out that enchanced vim terminal works for me better. I reuse `b:dispatch` variable as it's already there. There are 3 tests you can run:
+I use my own VIM workflow. I like it to be easy and as much automated as possible. Here are some core features:
 
-- Project default test.
-- Project alternative test which runs additional tests that are not part of traditional workflow like Puppet acceptance tests.
-- File tests. Just run specific file depends on file type.
-
-For keybindings you need to see `.vimrc` file since there is to much of them to just list here.
-
-For browsing I use Vieb. Again because I'm sick about using Vim keybindings which proven me to be the fastest way to operate.
-
-On Windows use `set TERM=xterm-256color` for proper OpenSSH output.
-
-Acceptance test for Puppet and Jenkins Pipeline run in Docker.
-
-There is [.vimlocal](.vimlocal) file to keep additional local configuration that I do not wan't to keep in this repository.
+- Mapleader is set to `space`. It's just so much easier.
+- Mostly oriented around Ruby, Python, Bash, Groovy and Puppet.
+- Use my own color scheme. It was based on `default` but evolved a lot into different direction.
+- Do not create any backup or swap files, only changes history.
+- No GUI or Mouse support. Keyboard-crazy mode enabled :).
+- No sounds enabled.
+- Auto save enabled on all files.
+- Additional `~/.vimlocal` configuration support in case you need configuration that is not ment to be in this project.
+- Some nice keybinding:
+  + Arrow keys re-size window
+  + <leader>c(normal) - open terminal.
+  + <leader>c(visual) - copy text to windows clipboard.
+  + vaf - select function/definition based on filetype.
+  + :Bash <cmd> - Run command in terminal.
+  + <c-p> - FZF file list in project.
+  + <c-k> - FZF project list in `projectDirectoryPath`. See .vimrc for details.
+  + :Doc - Call [cht.sh](https://cht.sh/) API.
+  + <leader>bd - close all buffers.
+  + <c-l> - clear all searches.
+  + <leader>o - open new tab.
+  + <leader>w, <leader>b - move to next or previous tab.
+  + <leader>gc - search for Git conflicts after rebase or merge across entire project.
+  + <leader>s - search word under cursor in entire project.
+  + Tests based on project type (Gradle, Maven, Puppet, etc.)
+    + \`t - Run project test.
+    + \`a - Run alternate project test if set.
+    + \`f - Run filetype test.
+    + \`l - Rerun last test.
+    + <leader>e - In test window search for errors and failures.

@@ -1,0 +1,1 @@
+curl http://cht.sh/$*

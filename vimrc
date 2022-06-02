@@ -28,14 +28,12 @@ packadd! matchit
 set noerrorbells visualbell t_vb=
 
 " Support both unix and windows paths
-set runtimepath+=$HOME/.vim
-set packpath+=$HOME/.vim
-set viminfo+='1000,n~/.vim/viminfo
+set viminfo+='1000
 set history=1000
 
 " Enable debug mode
 "set verbose=20
-"set verbosefile=c:\Users\pbugala\Downloads\vim.log
+"set verbosefile=~/vim.log
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Plugins
@@ -96,10 +94,9 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
-language en
 set spelllang=en_us
 set spellfile=$HOME/.vim/spell/en.utf8.add
-set spell
+set nospell
 
 " Order matters 
 setglobal fileencoding=utf-8
@@ -116,7 +113,6 @@ set fileformats=unix,dos
 " Section: Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-set guifont=Consolas:h11,Source_Code_Pro:h11,Hack:h11,Monospace:h11,Courier_New:h10
 colorscheme bugi
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -168,11 +164,11 @@ set path+=**
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --hidden\ --no-ignore\ -S
 endif
-if executable('fd')
+if executable('fdfind')
   " Support for Puppet modules
-  let g:gutentags_file_list_command = 'fd --type f . spec/fixtures/modules .' 
+  let g:gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .' 
   command! -bang -nargs=? -complete=dir Files 
-    \ call fzf#vim#files(<q-args>, {'source': 'fd --type f --strip-cwd-prefix -I -H -E AppData -E .git -E .svn -E *.class'}, <bang>0)
+    \ call fzf#vim#files(<q-args>, {'source': 'fdfind --type f -I -H -E AppData -E .git -E .svn -E *.class'}, <bang>0)
 endif
 
 let g:fzf_preview_window = []
@@ -187,7 +183,7 @@ let g:fzf_action = {
 " Section: Diff mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt+=vertical
-let g:ZFDirDiffFileExclude = "CVS,.git,.svn"
+let g:ZFDirDiffFileExclude = 'CVS,.git,.svn'
 let g:ZFDirDiffShowSameFile = 0
 
 let g:signify_priority = 5
@@ -195,8 +191,7 @@ let g:signify_priority = 5
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Tabs and windows
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set guitablabel=%t
-set tabline=%t
+set tabline=%{getcwd()}
 set switchbuf=useopen,usetab
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -221,13 +216,6 @@ set signcolumn=yes
 set list
 set listchars=conceal:^,nbsp:+
 set linebreak
-
-set guioptions-=m
-set guioptions-=T
-set guioptions-=t
-set guioptions-=r
-set guioptions-=L
-set guioptions+=c
 
 set scrolloff=2
 set sidescrolloff=5
@@ -256,12 +244,7 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 let g:netrw_use_errorwindow = 1
 
 " Set default browser
-" TODO: need to see netrw_filehandler
-if has('win32')
-  let g:netrw_browsex_viewer = 'start vieb'
-else
-  let g:netrw_browsex_viewer = 'xdg-open'
-endif
+let g:netrw_browsex_viewer = 'xdg-open'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Auto completion
@@ -271,12 +254,7 @@ set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
 set noinfercase
-
-if has('win32')
-  set wildignore+=.git\*,.hg\*,.svn\*
-else
-  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
 " Vim build-in completion
 set completeopt=menu,popup,menuone,noinsert,noselect
@@ -344,7 +322,7 @@ augroup vimrcAuCmd
   " File type support
   autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,viebrclocal,vifmrc setlocal syntax=vim filetype=vim
   autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
-  autocmd FileType yaml,xml,git,terminal,finished,properties,json setlocal nospell
+  autocmd FileType markdown setlocal spell
   autocmd FileType Terminal setlocal nowrap
 
   " Quick fix window behavior
@@ -379,14 +357,10 @@ let g:ale_hover_to_preview = 1
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
-if has('win32')
-  let g:ale_ruby_rubocop_options = '-c %USERPROFILE%\.rubocop.yaml'
-  let g:ale_yaml_yamllint_options = '-c %USERPROFILE%\.yamllint'
-else
-  let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
-  let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
-endif
+let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
+let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
 let g:ale_sh_shellcheck_options = '-e SC2086' 
+"let g:ale_set_highlights = 0
 
 " Enable pyls for Python
 let g:ale_linters = { 'python': ['pylint', 'pyls'] }
@@ -407,9 +381,17 @@ let g:ale_fixers = {
 call ale#linter#Define('groovy', {
   \ 'name': 'CodeNarc',
   \ 'alias': ['codenarc'],
-  \ 'executable': 'codenarc.bat',
+  \ 'executable': 'codenarc.sh',
   \ 'command': '%e %s:t',
-  \ 'callback': "Codenarc_callback"
+  \ 'callback': 'Codenarc_callback'
+  \})
+
+call ale#linter#Define('Jenkinsfile', {
+  \ 'name': 'CodeNarc',
+  \ 'alias': ['codenarc'],
+  \ 'executable': 'codenarc.sh',
+  \ 'command': '%e %s:t',
+  \ 'callback': 'Codenarc_callback'
   \})
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -452,7 +434,7 @@ nnoremap <leader>w :tabnext<CR>
 nnoremap <leader>b :tabprevious<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>c :Cmd cmd<CR>
+nnoremap <leader>c :terminal<CR>
 
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
@@ -473,8 +455,6 @@ nnoremap <C-h> :Buffers<CR>
 nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
 
 " Easy terminal jobs
-command -nargs=* Cmd call RunTerminalCmd('cmd /c <args>')
-command -nargs=* Bash call RunTerminalCmd('bash -lc "<args>"')
 command -nargs=* R echo system('<args>')
 
 " Test automation
@@ -485,8 +465,6 @@ nnoremap `l :RunLastTest<CR>
 nnoremap <leader>e /FAILED\\|ERROR\\|Error\\|Failed<CR>
 
 " Terminal support
-nnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
-tnoremap <C-W>c <C-W>:tab term cmd /k clink inject<CR>
 tnoremap <C-W><leader>o <C-W>:tabnew<Bar>Startify<CR>
 tnoremap <C-W><leader>w <C-W>:tabnext<CR>
 tnoremap <C-W><leader>b <C-W>:tabprevious<CR>
@@ -504,15 +482,18 @@ vnoremap <leader>s y :Ggrep <C-R>"<CR>
 " Select function
 vnoremap af :call VisualSelectFunction()<CR>
 
+" WSL support for Windows clipboard
+vnoremap <leader>c :w !clip.exe<CR><CR>
+
 " To do list
 abbreviate todo ~/notes.md
 
 " Got through list of supported project
-let projectDirectoryPath = 'c:\code'
+let projectDirectoryPath = '/code'
 command! -bang -nargs=? -complete=dir Proj
   \ call fzf#run(
   \ {
-  \   'source': "fd --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
+  \   'source': "fdfind --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
   \   'sink': function('OpenProjectFile'),
   \   'window': 'bo 10new'
   \ }, <bang>0)
@@ -520,17 +501,9 @@ nnoremap <C-K> :Proj<CR>
 
 command! -nargs=* TermDo :windo call term_sendkeys('', '<args><cr>')
 
-" Re-size font
-nnoremap <C-up> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)+1)', '')<CR>
-nnoremap <C-down> :silent! let &guifont = substitute(&guifont, ':h\zs\d\+', '\=eval(submatch(0)-1)', '')<CR>
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set screen size for Startify to fit
-set lines=37
-set columns=110
-
 let g:startify_lists = [
   \  { 'type': 'files', 'header': [' MRU'] },
   \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
@@ -544,10 +517,9 @@ let g:startify_skiplist = [
 
 let g:startify_bookmarks = [
   \  {'c': '~/.vimrc'}, 
-  \  {'f': '~/.vimfm'},
   \  {'b': '~/.viebrc'},
   \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
-  \  {'h': 'c:\Windows\System32\drivers\etc\hosts'}, 
+  \  {'h': '/etc/hosts'}, 
   \  {'n': '~/notes.md'},
   \]
 
