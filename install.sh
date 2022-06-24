@@ -1,13 +1,14 @@
 #!/bin/bash
 
+cd ${HOME}/ || (echo "Failed to enter ${HOME}" && exit)
+
 echo '==================================================================================================='
 echo 'UPDATE UBUNTU PACKAGES'
 
 dpkg -l | grep -q " curl " || sudo apt install -y curl
 dpkg -l | grep -q " apt-transport-https " || sudo apt install -y apt-transport-https
 
-dpkg -l | grep -q " pdk "
-if [ $? -eq 1 ] ;then
+if ! (dpkg -l | grep -q " pdk ") ;then
   wget -O /tmp/puppet-tools-release.deb https://apt.puppet.com/puppet-tools-release-bullseye.deb
   sudo dpkg -i /tmp/puppet-tools-release.deb
 fi
@@ -17,75 +18,84 @@ if [ ! -e /etc/apt/sources.list.d/helm-debian.list ] ;then
   curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
 fi
 
-sudo apt update 
+if [ ! -e /etc/apt/sources.list.d/hashicorp.list ] ;then
+  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+fi
+
+sudo apt update
 
 TO_INSTALL=''
 while read -r line ;do
-  dpkg -l | grep -q " ${line} "
-  if [ $? -eq 1 ] ;then
-    TO_INSTALL="${TO_INSTALL} ${line}" 
+  if ! (dpkg -l | grep -q " ${line} ") ;then
+    TO_INSTALL="${TO_INSTALL} ${line}"
   fi
-done < ~/Rpmfile
+done < ${HOME}/Rpmfile
 
 if [ "${TO_INSTALL}" != '' ] ;then
   sudo apt install -y $TO_INSTALL
 fi
 
-sudo apt upgrade -y && sudo apt autoremove -y 
+sudo apt upgrade -y && sudo apt autoremove -y
 
 CONF=$(dirname "$(readlink -f $0)")
 
 echo '==================================================================================================='
 echo 'SETUP DOTFILES'
 
-ln -snf ${CONF}/bash.d ~/.bash.d
-ln -snf ${CONF}/bin ~/bin
+ln -snf ${CONF}/bash.d ${HOME}/.bash.d
+ln -snf ${CONF}/bin ${HOME}/bin
 
-ln -snf ${CONF}/vimrc ~/.vimrc
-ln -snf ${CONF}/vim/autoload ~/.vim/autoload
-ln -snf ${CONF}/vim/colors ~/.vim/colors
-ln -snf ${CONF}/vim/minisnip ~/.vim/minisnip
-ln -snf ${CONF}/vim/plugin ~/.vim/plugin
-ln -snf ${CONF}/vim/scripts ~/.vim/scripts
-ln -snf ${CONF}/vim/spell ~/.vim/spell
-mkdir -p  ~/.vim/tmp
-mkdir -p  ~/.vim/undofiles
-mkdir -p  ~/.vim/backupfiles
-touch ~/.vimlocal
+mkdir -p ${HOME}/.config/nvim/undo
+ln -snf ${CONF}/nvim/init.vim ${HOME}/.config/nvim/init.vim
+ln -snf ${CONF}/nvim/autoload ${HOME}/.config/nvim/autoload
+ln -snf ${CONF}/nvim/colors ${HOME}/.config/nvim/colors
+ln -snf ${CONF}/nvim/minisnip ${HOME}/.config/nvim/minisnip
+ln -snf ${CONF}/nvim/plugin ${HOME}/.config/nvim/plugin
+ln -snf ${CONF}/nvim/scripts ${HOME}/.config/nvim/scripts
+ln -snf ${CONF}/nvim/spell ${HOME}/.config/nvim/spell
+ln -snf ${CONF}/nvim/lua ${HOME}/.config/nvim/lua
+ln -snf ${CONF}/mdlrc ${HOME}/.mdlrc
+ln -snf ${CONF}/shellcheckrc ${HOME}/.shellcheckrc
 
-ln -snf ${CONF}/ctags ~/.ctags
-ln -snf ${CONF}/gitattributes ~/.gitattributes
-ln -snf ${CONF}/gitconfig ~/.gitconfig
-ln -snf ${CONF}/irbrc ~/.irbrc
-ln -snf ${CONF}/rvmrc ~/.rvmrc
-ln -snf ${CONF}/puppet-lint.rc ~/.puppet-lint.rc
-ln -snf ${CONF}/reek ~/.reek
-ln -snf ${CONF}/rubocop.yaml ~/.rubocop.yaml
-ln -snf ${CONF}/screenrc ~/.screenrc
-ln -snf ${CONF}/tmux.conf ~/.tmux.conf
-ln -snf ${CONF}/vintrc.yaml ~/.vintrc.yaml
-ln -snf ${CONF}/codenarc.groovy ~/.codenarc.groovy
-ln -snf ${CONF}/yamllint ~/.yamllint
+ln -snf ${CONF}/ctags.d ${HOME}/.ctags.d
+ln -snf ${CONF}/gitattributes ${HOME}/.gitattributes
+ln -snf ${CONF}/gitconfig ${HOME}/.gitconfig
+ln -snf ${CONF}/irbrc ${HOME}/.irbrc
+ln -snf ${CONF}/rvmrc ${HOME}/.rvmrc
+ln -snf ${CONF}/puppet-lint.rc ${HOME}/.puppet-lint.rc
+ln -snf ${CONF}/reek ${HOME}/.reek
+ln -snf ${CONF}/rubocop.yaml ${HOME}/.rubocop.yaml
+ln -snf ${CONF}/screenrc ${HOME}/.screenrc
+ln -snf ${CONF}/tmux.conf ${HOME}/.tmux.conf
+ln -snf ${CONF}/vintrc.yaml ${HOME}/.vintrc.yaml
+ln -snf ${CONF}/codenarc.groovy ${HOME}/.codenarc.groovy
+ln -snf ${CONF}/yamllint ${HOME}/.yamllint
 
-ln -snf ${CONF}/Pythonfile ~/Pythonfile
-ln -snf ${CONF}/package.json ~/package.json
-ln -snf ${CONF}/Gemfile ~/Gemfile
-ln -snf ${CONF}/Rpmfile ~/Rpmfile
+ln -snf ${CONF}/Pythonfile ${HOME}/Pythonfile
+ln -snf ${CONF}/package.json ${HOME}/package.json
+ln -snf ${CONF}/Gemfile ${HOME}/Gemfile
+ln -snf ${CONF}/Rpmfile ${HOME}/Rpmfile
 
-grep -q '\.bash\.d' ~/.profile
-if [ $? -eq 1 ] ;then
-  echo '# Laod custom dotfiles' >> ~/.profile
-  echo 'for i in ~/.bash.d/* ;do source ${i} ;done' >> ~/.profile
+if ! (grep -q '\.bash\.d' ${HOME}/.profile) ;then
+  echo '# Laod custom dotfiles' >> ${HOME}/.profile
+  echo 'for i in ${HOME}/bash.d/* ;do source ${i} ;done' >> ${HOME}/.profile
 fi
 
 echo '==================================================================================================='
-echo 'UPDATE VIM PLUGINS'
-vim +"PlugUpdate" +qa
+echo 'UPDATE NEOVIM PLUGINS'
+
+if [ ! -e /tmp/nvim-linux64.deb ] || [ "$(curl -s https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum)" != "$(sha256sum /tmp/nvim-linux64.deb |cut -d " " -f1)" ] ;then
+  wget -O /tmp/nvim-linux64.deb https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
+  sudo dpkg -i /tmp/nvim-linux64.deb
+fi
+
+nvim +"PlugUpdate" +qa
 
 echo '==================================================================================================='
 echo 'UPDATE RUBY'
 
-if [ ! -e ~/.rvm ] ;then
+if [ ! -e ${HOME}/.rvm ] ;then
   curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
   curl -sSL https://get.rvm.io | bash -s stable --version 2.4.10
   source '/home/pbugala/.rvm/scripts/rvm'
@@ -100,7 +110,7 @@ bundle update
 echo '==================================================================================================='
 echo 'UPDATE PYTHON'
 
-if [ ! -e ~/.pyenv ] ;then
+if [ ! -e ${HOME}/.pyenv ] ;then
   export PYENV_GIT_TAG=v3.8.2
   curl https://pyenv.run | bash
 fi
@@ -109,18 +119,18 @@ pyenv update
 pyenv install -s 3.8.2
 pyenv global 3.8.2
 python -m pip install --upgrade pip
-pip install -r ~/Pythonfile --upgrade
+pip install -r ${HOME}/Pythonfile --upgrade
 
 echo '==================================================================================================='
 echo 'UPDATE SDKMAN'
 
-if [ ! -e ~/.sdkman ] ;then
+if [ ! -e ${HOME}/.sdkman ] ;then
   curl -s 'https://get.sdkman.io' | bash
   source "${HOME}/.sdkman/bin/sdkman-init.sh"
 fi
 
 source "${HOME}/.sdkman/bin/sdkman-init.sh"
-sdk update 
+sdk update
 sdk install java 11.0.12-open
 sdk install groovy 2.4.12
 sdk install maven && sdk install gradle
@@ -130,33 +140,69 @@ echo 'UPDATE NODEJS'
 
 source "${HOME}/.nvm/nvm.sh"
 
-if [ ! -e ~/.nvm ] ; then
+if [ ! -e ${HOME}/.nvm ] ; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 fi
 
 nvm install --lts
 nvm use --lts
-npm install
+npm -g install
 
 echo '==================================================================================================='
 echo 'UPDATE CUSTOM TOOLS'
 echo 'Update hadolint'
-sudo wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
-sudo chmod +x /usr/local/bin/hadolint
-
-echo 'Update codenarc'
-CODENARC_PATH='/usr/local/lib/codenarc'
-sudo mkdir -p $CODENARC_PATH
-sudo wget -O $CODENARC_PATH/CodeNarc.jar https://repo1.maven.org/maven2/org/codenarc/CodeNarc/2.2.0/CodeNarc-2.2.0.jar 
-sudo wget -O $CODENARC_PATH/GMetrics.jar https://repo1.maven.org/maven2/org/gmetrics/GMetrics/1.1/GMetrics-1.1.jar
-sudo wget -O $CODENARC_PATH/cobertura.jar https://repo1.maven.org/maven2/net/sourceforge/cobertura/cobertura/2.1.1/cobertura-2.1.1.jar
-sudo wget -O $CODENARC_PATH/groovy-all.jar https://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.12/groovy-all-2.4.12.jar
-sudo wget -O $CODENARC_PATH/slf4j-api.jar https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.35/slf4j-api-1.7.35.jar
-sudo wget -O $CODENARC_PATH/slf4j-simple.jar https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.35/slf4j-simple-1.7.35.jar
+HADOLINT_GIT_API=https://api.github.com/repos/hadolint/hadolint/releases/latest
+HADOLINT_VERSION=$(curl --no-progress-meter $HADOLINT_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+if ! (hadolint --version | grep -q $HADOLINT_VERSION) ;then
+  HADOLINT_URL=$(curl --no-progress-meter $HADOLINT_GIT_API |grep "Linux-x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  wget -O ${HOME}/bin/hadolint $HADOLINT_URL
+  chmod +x ${HOME}/bin/hadolint
+fi
 
 echo "Update k9s"
-sudo wget -O /tmp/k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz
-sudo tar -xvf /tmp/k9s.tar.gz -C /usr/local/bin k9s
+K9S_GIT_API=https://api.github.com/repos/hadolint/hadolint/releases/latest
+K9S_VERSION=$(curl --no-progress-meter $K9S_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+if ! (k9s version |grep -q ${K9S_VERSION}) ;then
+  K9S_URL=$(curl --no-progress-meter $K9S_GIT_API |grep "Linux_x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  wget -O /tmp/k9s.tar.gz $K9S_URL
+  tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
+fi
+
+mkdir -p ${HOME}/tools
+cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
+
+echo "Update Lua Language Server"
+LUA_GIT_API=https://api.github.com/repos/sumneko/lua-language-server/releases/latest
+LUA_LSP_VERSION=$(curl --no-progress-meter $LUA_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+LUA_LSP_DIR=${HOME}/tools/lua-language-server
+if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q ${LUA_LSP_VERSION}) ;then
+  LUA_DOWNLOAD_URL=$(curl --no-progress-meter $LUA_GIT_API |grep "linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  wget -O /tmp/luals.tar.gz $LUA_DOWNLOAD_URL
+  mkdir -p $LUA_LSP_DIR
+  tar -xvf /tmp/luals.tar.gz -C $LUA_LSP_DIR
+  echo "exec \"${LUA_LSP_DIR}/bin/lua-language-server\" \"\$@\"" > ${LUA_LSP_DIR}/bin/luals.sh
+  chmod +x ${LUA_LSP_DIR}/bin/luals.sh
+fi
+
+echo "Update Groovy Language Server"
+GROOVY_LSP_DIR=${HOME}/tools/groovy-language-server
+if [ ! -e $GROOVY_LSP_DIR ] ;then git clone https://github.com/GroovyLanguageServer/groovy-language-server.git ;fi
+cd $GROOVY_LSP_DIR || (echo "Failed to enter ${GROOVY_LSP_DIR}" && exit)
+if test ! -d build || git remote show origin | grep -q 'out of date' ;then
+  git pull
+  ./gradlew clean build -x test
+fi
+cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
+
+echo "Update Puppet Language Server"
+PUPPET_LSP_DIR=${HOME}/tools/puppet-editor-services
+if [ ! -e $PUPPET_LSP_DIR ] ;then git clone https://github.com/puppetlabs/puppet-editor-services.git ;fi
+cd $PUPPET_LSP_DIR || (echo "Failed to enter ${PUPPET_LSP_DIR}" && exit)
+if test ! -f Gemfile.lock || git remote show origin | grep -q "out of date" ;then
+  git pull
+  bundle install
+fi
+cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
 
 echo '==================================================================================================='
 echo 'SETUP WINDOWS TOOLS CONFIGURATION'

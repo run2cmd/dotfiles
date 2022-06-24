@@ -17,25 +17,25 @@ set background=dark
 
 " Default Highlighting
 " Mostly for Ruby, Bash, Python
-hi Normal ctermfg=LightGray
+hi Normal ctermfg=250 ctermbg=235
 hi Comment ctermfg=DarkGray cterm=italic
-hi Constant ctermfg=101 
-hi String ctermfg=131 
-hi Delimiter ctermfg=LightGray 
+hi Constant ctermfg=101
+hi String ctermfg=131
+hi Delimiter ctermfg=250
 hi Identifier ctermfg=063
-hi Statement ctermfg=DarkYellow 
-hi PreProc ctermfg=LightBlue 
-hi Define ctermfg=Blue cterm=bold 
-hi Include ctermfg=Blue 
-hi Type ctermfg=DarkGreen 
+hi Statement ctermfg=DarkYellow
+hi PreProc ctermfg=LightBlue
+hi Define ctermfg=Blue cterm=bold
+hi Include ctermfg=Blue
+hi Type ctermfg=DarkGreen
 hi Function ctermfg=065
-hi Operator ctermfg=DarkRed 
-hi Ignore ctermfg=DarkRed 
-hi Error ctermfg=White ctermbg=Red cterm=reverse 
-hi Todo ctermfg=Black ctermbg=Yellow 
-hi Visual ctermfg=Black ctermbg=LightGray 
-hi Search ctermfg=Black ctermbg=Red 
-hi Linenr ctermfg=DarkGray 
+hi Operator ctermfg=DarkRed
+hi Ignore ctermfg=DarkRed
+hi Error ctermfg=White ctermbg=Red cterm=reverse
+hi Todo ctermfg=Black ctermbg=Yellow
+hi Visual ctermfg=238 ctermbg=250
+hi Search ctermfg=Black ctermbg=Red
+hi Linenr ctermfg=DarkGray
 hi CursorLine cterm=none
 hi Special ctermfg=096
 hi link Character Constant
@@ -59,43 +59,44 @@ hi link CursorLineNr Statement
 hi link Repeat Statement
 
 " Terminal
-hi Terminal ctermfg=LightGray 
+hi Terminal ctermfg=LightGray
 
 " Vimdiff
-hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=bold 
-hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=bold 
-hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=bold 
-hi DiffText ctermfg=Red ctermbg=Yellow cterm=bold 
+hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=bold
+hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=bold
+hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=bold
+hi DiffText ctermfg=Red ctermbg=Yellow cterm=bold
 
 " Popup Menu
-hi Pmenu ctermfg=LightGray ctermbg=DarkGray 
-hi PmenuSel ctermfg=DarkGray ctermbg=LightGray 
+hi Pmenu ctermfg=250 ctermbg=240
+hi PmenuSel cterm=reverse
+hi NormalFloat ctermfg=250 ctermbg=238
 
 " Puppet
 hi puppetVariable ctermfg=NONE
 
 " Tabs
-hi TabLineFill ctermfg=DarkGray 
-hi TabLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold 
-hi TabLineSel ctermfg=Black ctermbg=DarkCyan 
+hi TabLineFill ctermfg=DarkGray
+hi TabLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold
+hi TabLineSel ctermfg=Black ctermbg=DarkCyan
 
 " Statusline
-hi StatusLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold 
-hi WarningMsg ctermfg=DarkRed 
+hi StatusLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold
+hi WarningMsg ctermfg=DarkRed
 
 " Sign Column
-highlight SignColumn ctermbg=NONE cterm=NONE 
+highlight SignColumn ctermbg=NONE cterm=NONE
 
 " Vim Signify
 hi link SignifySignAdd Type
-hi SignifySignChange ctermfg=DarkYellow 
-hi SignifySignDelete ctermfg=DarkRed 
+hi SignifySignChange ctermfg=DarkYellow
+hi SignifySignDelete ctermfg=DarkRed
 
 " Ale Signs
-hi ALEInfoSign ctermfg=DarkGreen 
-hi ALEWarningSign ctermfg=DarkYellow ctermbg=DarkGray 
+hi ALEInfoSign ctermfg=DarkGreen
+hi ALEWarningSign ctermfg=DarkYellow ctermbg=DarkGray
 hi ALEWarning ctermbg=DarkGray ctermfg=White
- 
+
 " Markdown(build-in)
 hi link markdownCode String
 hi link markdownCodeDelimiter String

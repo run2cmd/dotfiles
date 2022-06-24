@@ -13,9 +13,10 @@ function! RunTerminalCmd(params)
     execute 'bd! ' . t:terminal_window_buffer_number
   endif
 
-  execute 'bo terminal '. a:params 
+  execute 'bo split term://'. a:params
   execute 'res 15'
-  tnoremap <ESC> <C-w>N 
+  execute 'normal G'
+
   let t:terminal_window_buffer_number = bufnr('%')
 endfunction
 
@@ -65,28 +66,29 @@ augroup vimFilesTest
   autocmd FileType * let b:dispatch_file = v:false
 
   " File specific tests
-  autocmd FileType ruby 
+  autocmd FileType ruby
     \ if stridx(expand('%:t'), 'acceptance_spec.rb') > 0 |
-    \   let b:dispatch_file = 'bash -c "BEAKER_destroy=no rspec ' . expand('%') . '"' |
+    \   let b:dispatch_file = 'BEAKER_destroy=no rspec ' . expand('%') |
     \ elseif stridx(expand('%:t'), '_spec.rb') > 0 |
-    \   let b:dispatch_file = 'rspec --require ~/.vim/scripts/rspec_vim_formatter.rb' . ' --format VimFormatter ' . fnamemodify(expand('%'), ":~:.") |
+    \   let b:dispatch_file = 'rspec ' . fnamemodify(expand('%'), ":~:.") |
     \ else |
     \   let b:dispatch_file = 'ruby %' |
     \ endif
   autocmd FileType groovy let b:dispatch_file = 'groovy ' . expand('%')
-  autocmd FileType plantuml 
+  autocmd FileType plantuml
     \ let b:umltmpdir = $HOME . '/.vim/tmp' |
     \ let b:dispatch_file = 'plantuml -tsvg -o ' . b:umltmpdir . ' ' . expand('%')
     \   . g:netrw_browsex_viewer . ' ' . b:umltmpdir . '/%:t:gs?puml?svg?"'
   autocmd FileType python let b:dispatch_file = 'python ' . expand('%')
-  autocmd FileType markdown let b:dispatch_file =  g:netrw_browsex_viewer . ' ' . expand('%:p')
   autocmd FileType puppet let b:dispatch_file = 'puppet apply --noop %'
-  autocmd FileType sh let b:dispatch_file = 'bash ' . expand('%') 
+  autocmd FileType sh let b:dispatch_file = 'bash ' . expand('%')
   autocmd Filetype xml let b:dispatch_file = 'mvn clean install -f ' . expand('%')
 augroup END
+
 
 " Commands to use for tests
 command RunProjectTest call RunTerminalCmd(b:dispatch)
 command RunAlternativeTest call RunTerminalCmd(b:dispatch_alt)
 command RunFile call RunTerminalCmd(b:dispatch_file)
 command RunLastTest call RunTerminalCmd(g:last_terminal_test)
+command GroovyFormat call RunTerminalCmd('npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\"**/'.expand('%').'\\"')

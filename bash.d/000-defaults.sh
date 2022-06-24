@@ -47,5 +47,12 @@ alias grep='grep --color'
 ## Setup local bin
 export PATH="/usr/local/bin:$PATH"
 
-# Docker
-#export DOCKER_HOST=tcp://localhost:2375
+# Puppet LSP
+export PATH="$HOME/tools/puppet-editor-services:$PATH"
+
+# Workaround WSL 2 issues with not releasing memory
+# See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
+alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
+
+# Add change dir alias for each project
+for i in $(fdfind --type=d --maxdepth=2 --min-depth=2 --full-path . /code) ;do DIRNAME=$(echo $i | cut -d"/" -f4); alias cd-${DIRNAME}="cd ${i}" ;done

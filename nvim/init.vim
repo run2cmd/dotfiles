@@ -1,70 +1,44 @@
 "
-"        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       
-"       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \       
-"       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \     
-"        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   
-"         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  
-"          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ 
-"           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| 
-"
-"
-"
-" Name: Bugi VIM
-" Scriptname: .vimrc
+" Name: Bugi Neovim
+" Scriptname: .config/init.vim
 " Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
-" For GVim: Yes
 " License: The Vim License (this command will show it: ':help copyright')
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Defaults
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
-filetype plugin indent on
-
-" Load matchit
-packadd! matchit
-
-" No sounds
-set noerrorbells visualbell t_vb=
-
-" Support both unix and windows paths
-set viminfo+='1000
-set history=1000
-
-" Enable debug mode
-"set verbose=20
-"set verbosefile=~/vim.log
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('~/.vim/plugged')
+packadd! matchit
+
+call plug#begin('~/.config/nvim/plugged')
+
+" Libraries
+Plug 'nvim-lua/plenary.nvim'
 
 " File manager
 Plug 'tpope/vim-unimpaired'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Git support
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Auto completion and auto edit
-Plug 'lifepillar/vim-mucomplete'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
-Plug 'Yggdroot/indentLine'
-Plug 'tpope/vim-commentary'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tommcdo/vim-lion'
-Plug 'tckmn/vim-minisnip'
 Plug 'Shougo/echodoc.vim'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'noprompt/vim-yardoc'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-indent'
+Plug 'sbdchd/neoformat'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Project support
 Plug 'airblade/vim-rooter'
@@ -72,10 +46,12 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ludovicchabant/vim-gutentags'
 
 " Syntax and Lint
-Plug 'dense-analysis/ale'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'rodjek/vim-puppet'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'aklt/plantuml-syntax'
+Plug 'Yggdroot/indentLine'
 
 " Database
 Plug 'kristijanhusak/vim-dadbod-ui'
@@ -85,9 +61,14 @@ Plug 'ZSaberLv0/ZFVimDirDiff'
 
 " Fun stuff
 Plug 'mhinz/vim-startify'
-Plug 'vim/killersheep'
 
 call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Section: Lua Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua require("run2cmd.telescope")
+lua require('run2cmd.lsp')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Language, file encoding and format
@@ -95,68 +76,33 @@ call plug#end()
 set langmenu=en_US.UTF-8
 let $LANG = 'en_US'
 set spelllang=en_us
-set spellfile=$HOME/.vim/spell/en.utf8.add
+set spellfile=$HOME/.config/nvim/spell/en.utf8.add
 set nospell
 
-" Order matters 
+" Order matters
 setglobal fileencoding=utf-8
 set encoding=utf-8
 scriptencoding utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
 
-" Favor Unix format
-set fileformat=unix
-set fileformats=unix,dos
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax on
 colorscheme bugi
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Files and directories
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set directory=~/.vim/tmp
-set undodir=~/.vim/undofiles
-set backupdir=~/.vim/backupfiles
-
-" Do not use backup or swap files. Undo is enough
-set undofile
-set nobackup
-set nowritebackup
+" Do not use swapfile. Undo is enough.
 set noswapfile
-set autoread
 
 " Pop up window confirmation on write or quit with changes
 set confirm
 
-" TextEdit might fail if hidden is not set.
-set hidden
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Motion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable mouse
-set mouse=""
-
-" Disable mouse tool tips
-set noballooneval
-
-" Fix backspace
-set backspace=indent,eol,start
-
-" Squeeze spaces when using Lion
-let g:lion_squeeze_spaces = 1
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Find and replace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set hlsearch
-set incsearch
-set magic
-
 " Include files in current working directory
 set path+=**
 
@@ -164,20 +110,11 @@ set path+=**
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --hidden\ --no-ignore\ -S
 endif
-if executable('fdfind')
-  " Support for Puppet modules
-  let g:gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .' 
-  command! -bang -nargs=? -complete=dir Files 
-    \ call fzf#vim#files(<q-args>, {'source': 'fdfind --type f -I -H -E AppData -E .git -E .svn -E *.class'}, <bang>0)
-endif
 
-let g:fzf_preview_window = []
-let g:fzf_layout = { 'window': 'bo 10new' }
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit',
-  \ }
+" Enable FD find.
+if executable('fdfind')
+  let g:gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Diff mode
@@ -200,15 +137,22 @@ set switchbuf=useopen,usetab
 set formatoptions+=jnM
 set tabstop=2
 set shiftwidth=2
-set cindent
-set cinoptions=l1,t0,(s,U1,Ws,m1,c0.5s,C1
+set smartindent
 set expandtab
-set smarttab
 set nojoinspaces
+
+let g:neoformat_puppet_puppetlint = {
+  \ 'exe': 'puppet-lint',
+  \ 'args': ['--fix', '--no-autoloader_layout-check'],
+  \ 'replace': 1,
+\}
+let g:neoformat_enabled_puppet = ['puppetlint']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Visual behavior
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set noerrorbells visualbell
+
 set number
 set relativenumber
 set signcolumn=yes
@@ -219,7 +163,6 @@ set linebreak
 
 set scrolloff=2
 set sidescrolloff=5
-set display+=lastline
 
 let g:indentLine_char = '┊'
 let g:indentLine_fileTypeExclude = ['startify', 'markdown']
@@ -243,22 +186,18 @@ let g:netrw_special_syntax = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 let g:netrw_use_errorwindow = 1
 
-" Set default browser
-let g:netrw_browsex_viewer = 'xdg-open'
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Auto completion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Command line completion
-set wildmenu
 set wildmode=list:longest,full
 set wildcharm=<Tab>
-set noinfercase
+set ignorecase
+set smartcase
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
 " Vim build-in completion
-set completeopt=menu,popup,menuone,noinsert,noselect
-set completepopup=border:off
+set completeopt=menu,menuone,noinsert,noselect
 set shortmess+=cm
 set complete-=t
 set complete-=i
@@ -266,24 +205,14 @@ set complete-=i
 " Enable Omni completion if not already set
 set omnifunc=syntaxcomplete#Complete
 
-let g:gutentags_cache_dir = '~/.vim/tags'
+let g:gutentags_cache_dir = stdpath("config") . '/tags'
 let g:gutentags_project_root_finder = 'FindGutentagsRootDirectory'
-
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = {
-  \  'default' : ['path', 'c-n', 'omni', 'tags'],
-  \  'vim' : ['path', 'c-n', 'omni', 'cmd'],
-  \  'markdown' : ['c-n'],
-  \}
-
-let g:minisnip_trigger = '<C-t>'
 
 " View function parameters in pop up window
 let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'echo'
 
 " Do not align hash rockets automatically for puppet
-let g:puppet_align_hashes = 0
+"let g:puppet_align_hashes = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Project work space
@@ -308,7 +237,7 @@ augroup vimrcAuCmd
   " Automatic doc generation for vim modules
   autocmd VimEnter :helptags ALL
 
-  " Disable bell and blink 
+  " Disable bell and blink
   autocmd GUIEnter * set visualbell t_vb=
   autocmd BufEnter * :syntax sync fromstart
 
@@ -316,12 +245,12 @@ augroup vimrcAuCmd
   autocmd BufFilePre,BufEnter,BufWinEnter,DirChanged *,!qf let &titlestring = ' ' . getcwd()
 
   " Set cursor at last position when opening files
-  autocmd BufReadPost * 
+  autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " File type support
-  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,viebrclocal,vifmrc setlocal syntax=vim filetype=vim
-  autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
+  autocmd BufNewFile,BufReadPost .vimlocal,.vimterm,.viebrc,viebrclocal setlocal syntax=vim filetype=vim
+  "autocmd FileType ruby setlocal foldmethod=manual re=1 lazyredraw
   autocmd FileType markdown setlocal spell
   autocmd FileType Terminal setlocal nowrap
 
@@ -333,66 +262,16 @@ augroup vimrcAuCmd
   " Close hidden buffers for Netrw
   autocmd FileType netrw setlocal bufhidden=wipe
 
-  " Easy escape on FZF
-  autocmd FileType fzf tnoremap <ESC> <C-c>
-
   " Auto save
-  autocmd CursorHold * 
-    \ if &modified != 0 && bufname('%') != "" && 
+  autocmd CursorHold *
+    \ if &modified != 0 && bufname('%') != "" &&
     \ index(["terminal", "nofile", "finished"], &buftype) < 0 &&
     \ index(["gitcommit", "startify"], &filetype) < 0 |
     \   write |
     \ endif
+
+  "au FocusGained * :checktime
 augroup END
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Section: Syntax, Lint, Tests
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ALE seems to be best for combining fast linting and LSP
-let g:ale_disable_lsp = 1
-let g:ale_set_balloons = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-let g:ale_hover_to_preview = 1
-let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
-let g:ale_python_flake8_options = '--ignore=E501'
-let g:ale_eruby_erubylint_options = "-T '-'"
-let g:ale_ruby_rubocop_options = '-c ~/.rubocop.yaml'
-let g:ale_yaml_yamllint_options = '-c ~/.yamllint'
-let g:ale_sh_shellcheck_options = '-e SC2086' 
-"let g:ale_set_highlights = 0
-
-" Enable pyls for Python
-let g:ale_linters = { 'python': ['pylint', 'pyls'] }
-
-let g:ale_fixers = {
-  \  'puppet': ['puppetlint', 'trim_whitespace', 'remove_trailing_lines'],
-  \  'ruby': ['rubocop', 'trim_whitespace', 'remove_trailing_lines'],
-  \  'python': [
-  \    'autopep8', 'isort', 'add_blank_lines_for_python_control_statements',
-  \    'trim_whitespace', 'remove_trailing_lines'
-  \  ],
-  \  'yaml': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-  \  'markdown': ['prettier', 'trim_whitespace', 'remove_trailing_lines'],
-  \  'text': [],
-  \  '*': ['trim_whitespace', 'remove_trailing_lines'],
-  \}
-
-call ale#linter#Define('groovy', {
-  \ 'name': 'CodeNarc',
-  \ 'alias': ['codenarc'],
-  \ 'executable': 'codenarc.sh',
-  \ 'command': '%e %s:t',
-  \ 'callback': 'Codenarc_callback'
-  \})
-
-call ale#linter#Define('Jenkinsfile', {
-  \ 'name': 'CodeNarc',
-  \ 'alias': ['codenarc'],
-  \ 'executable': 'codenarc.sh',
-  \ 'command': '%e %s:t',
-  \ 'callback': 'Codenarc_callback'
-  \})
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Help and documentation
@@ -419,13 +298,10 @@ if maparg('<c-l>', 'n') ==# ''
   nnoremap <silent> <c-l> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-" Display all lines with keyword under cursor and ask which one to jump to
-nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-
 " Do not use arrow keys for movement. Remap to resize commands
 nnoremap <Up> :resize +2<CR>
 nnoremap <Down> :resize -2<CR>
-nnoremap <Left> :vert resize +2<CR> 
+nnoremap <Left> :vert resize +2<CR>
 nnoremap <Right> :vert resize -2<CR>
 
 " Tab enchantments
@@ -434,28 +310,20 @@ nnoremap <leader>w :tabnext<CR>
 nnoremap <leader>b :tabprevious<CR>
 
 " Terminal helper to open on the bottom
-nnoremap <leader>c :terminal<CR>
+nnoremap <leader>c :split term://bash<CR>i<CR>
 
 " Remap wildmenu navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
-" Switch between completion methods
-imap <c-j> <plug>(MUcompleteCycFwd)
-imap <c-k> <plug>(MUcompleteCycBwd)
-
 " Copy file path to + register
-nnoremap <leader>y :let @+=expand('%:p')<CR>
+nnoremap <leader>f :let @+=expand('%:p')<CR>
 
-" FZF
-nnoremap <C-p> :Files<CR>
-nnoremap <C-h> :Buffers<CR>
-
-" Jump to test file
-nnoremap <leader>t :execute 'e ' findfile(b:testfile)<CR>
-
-" Easy terminal jobs
-command -nargs=* R echo system('<args>')
+" Telescope
+nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files({hidden=true})<cr>
+nnoremap <C-h> <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <C-k> <cmd>lua require('run2cmd.telescope').find_projects()<cr>
+nnoremap <C-s> <cmd>lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>
 
 " Test automation
 nnoremap `t :RunProjectTest<CR>
@@ -479,27 +347,11 @@ nnoremap <leader>ge /^>>>>><CR>
 nnoremap <leader>s viwy :Ggrep <C-R>"<CR>
 vnoremap <leader>s y :Ggrep <C-R>"<CR>
 
-" Select function
-vnoremap af :call VisualSelectFunction()<CR>
-
 " WSL support for Windows clipboard
-vnoremap <leader>c :w !clip.exe<CR><CR>
+vnoremap <leader>y "zy :call system('clip.exe', @z)<CR><CR>
 
 " To do list
 abbreviate todo ~/notes.md
-
-" Got through list of supported project
-let projectDirectoryPath = '/code'
-command! -bang -nargs=? -complete=dir Proj
-  \ call fzf#run(
-  \ {
-  \   'source': "fdfind --type d --max-depth 2 --full-path . \"" . projectDirectoryPath . '"',
-  \   'sink': function('OpenProjectFile'),
-  \   'window': 'bo 10new'
-  \ }, <bang>0)
-nnoremap <C-K> :Proj<CR>
-
-command! -nargs=* TermDo :windo call term_sendkeys('', '<args><cr>')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Section: Startup Screen
@@ -509,30 +361,19 @@ let g:startify_lists = [
   \  { 'type': 'bookmarks', 'header': [' Bookmarks'] },
   \]
 
-let g:startify_skiplist = [
-  \ escape(fnamemodify($HOME, ':p'), '\') .'AppData',
-  \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
-  \ escape(fnamemodify($HOME, ':p'), '\') .'.vimrc',
-  \]
-
 let g:startify_bookmarks = [
-  \  {'c': '~/.vimrc'}, 
-  \  {'b': '~/.viebrc'},
-  \  {'w': '~/Google Drive/Praca/wiki/wiki.md'}, 
-  \  {'h': '/etc/hosts'}, 
+  \  {'c': '~/dotfiles/nvim/init.vim'},
+  \  {'b': '~/dotfiles/viebrc'},
+  \  {'h': '/etc/hosts'},
   \  {'n': '~/notes.md'},
   \]
 
 let g:startify_custom_header = [
-  \ '        ________  ___  ___  ________  ___          ___      ___ ___  _____ ______       ',
-  \ '       |\   __  \|\  \|\  \|\   ____\|\  \        |\  \    /  /|\  \|\   _ \  _   \     ',
-  \ '       \ \  \|\ /\ \  \\\  \ \  \___|\ \  \       \ \  \  /  / | \  \ \  \\\__\ \  \    ', 
-  \ '        \ \   __  \ \  \\\  \ \  \  __\ \  \       \ \  \/  / / \ \  \ \  \\|__| \  \   ',
-  \ '         \ \  \|\  \ \  \\\  \ \  \|\  \ \  \       \ \    / /   \ \  \ \  \    \ \  \  ',
-  \ '          \ \_______\ \_______\ \_______\ \__\       \ \__/ /     \ \__\ \__\    \ \__\ ',
-  \ '           \|_______|\|_______|\|_______|\|__|        \|__|/       \|__|\|__|     \|__| ',
+  \ ' ______  _     _  ______ _____      __   _ _______  _____  _    _ _____ _______ ',
+  \ ' |_____] |     | |  ____   |        | \  | |______ |     |  \  /    |   |  |  | ',
+  \ ' |_____] |_____| |_____| __|__      |  \_| |______ |_____|   \/   __|__ |  |  | ',
   \ '',
-  \ '                                           Vim ' . v:versionlong,
+  \ '                         Neovim ' . matchstr(execute('version'), 'NVIM v\zs[^\n]*'),
   \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -546,10 +387,9 @@ set statusline+=\ %F
 set statusline+=\ %y[%{&ff}]
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}a]
 set statusline+=\ %h%m%r%w
-set statusline+=\ [Syntax(%{ALELinterStatusLine()})]
-set statusline+=%=
-set statusline+=[MU\ %{MUCompleteStatusLine()}]
-set statusline+=\ [GT\ %{gutentags#statusline()}]
+set statusline+=
+set statusline+=[%{LspStatus()}]
 
-" Source local changes. They are either OS or project specific and should not be in repository
-source $HOME/.vimlocal
+" Enable debug mode
+"set verbose=20
+"set verbosefile=~/vim.log

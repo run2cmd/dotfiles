@@ -13,6 +13,7 @@ gem 'reek'
 gem 'rubocop', '0.93.1'
 gem 'rubocop-ast', '1.4.1'
 gem 'rubocop-rspec', '1.44.1'
+gem 'solargraph'
 
 gem 'puppet', '~> 5.5.22'
 gem 'puppet-lint'

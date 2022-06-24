@@ -8,7 +8,9 @@ dos2unix
 fd-find
 git
 helm
+libxml2-utils
 lua5.3
+ninja-build
 openssh-client
 plantuml
 pdk
@@ -18,6 +20,8 @@ rpm2cpio
 shellcheck
 subversion
 sshpass
+terraform
+terraform-ls
 universal-ctags
 unzip
 vim

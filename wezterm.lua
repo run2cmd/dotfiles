@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm';
 
 return {
-  -- Fonts 
+  -- Fonts
   font = wezterm.font('Consolas');
   font_size = 11.0;
   font_antialias = 'Greyscale';
@@ -11,6 +11,6 @@ return {
 
   --  Colors
   colors = {
-    background = 'Gray18';
+    background = 'Gray15';
   }
 }

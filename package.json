@@ -6,9 +6,15 @@
   "dependencies": {
     "ajv-cli": "5.0.0",
     "ajv-formats": "2.1.1",
-    "fixjson": "latest",
-    "jsonlint": "latest",
-    "prettier": "latest"
+    "ansible-language-server": "latest",
+    "bash-language-server": "latest",
+    "diagnostic-languageserver": "latest",
+    "dockerfile-language-server-nodejs": "latest",
+    "prettier": "latest",
+    "vim-language-server": "latest",
+    "vscode-langservers-extracted": "latest",
+    "yaml-language-server": "latest",
+    "npm-groovy-lint": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

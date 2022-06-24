@@ -41,6 +41,9 @@ set followchars=custom:asdfghjklrtuicvnm
 " Load local configuration
 set permissionsallowed+=xxgit1.gtech.com~notifications
 
+" Show confirm windows
+set dialogconfirm=show
+
 " Private mode
 " <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>
 command privateMode <:set containernewtab=private><action.openNewTab><:set containernewtab=s:usecurrent>

@@ -4,6 +4,7 @@ pylint
 PyYAML
 requests
 yamllint
-vint
 vim-vint
 autopep8
+ansible-lint
+jedi-language-server

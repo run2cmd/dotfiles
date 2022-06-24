@@ -1,1 +1,3 @@
 Gemfile.lock
+bin/hadolint
+bin/k9s
