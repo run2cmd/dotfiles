@@ -44,6 +44,19 @@ set permissionsallowed+=xxgit1.gtech.com~notifications
 " Show confirm windows
 set dialogconfirm=show
 
+" Switch to buffer mode
+set guitabbar=never
+nmap B0 <:buffer 0>
+nmap B1 <:buffer 1>
+nmap <c-p> <Esc>:buffer<space>
+
+" Reduce number of follows
+set followelement=url,onclick,inputs-insert,inputs-click
+set followelementpointer=url,onclick,other
+
+" Do not restore tabs
+set restoretabs=false
+
 " Private mode
 " <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>
 command privateMode <:set containernewtab=private><action.openNewTab><:set containernewtab=s:usecurrent>
