@@ -113,7 +113,7 @@ lspconfig.ansiblels.setup(config())
 lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config())
 lspconfig.sumneko_lua.setup(config({
-  cmd = { '/home/pbugala/tools/bin/luals.sh' },
+  cmd = { '/home/pbugala/tools/lua-language-server/bin/luals.sh' },
   settings = {
     Lua = {
       runtime = {

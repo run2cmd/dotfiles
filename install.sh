@@ -47,11 +47,11 @@ ln -snf ${CONF}/bash.d ${HOME}/.bash.d
 ln -snf ${CONF}/bin ${HOME}/bin
 
 mkdir -p ${HOME}/.config/nvim/undo
-ln -snf ${CONF}/nvim/init.vim ${HOME}/.config/nvim/init.vim
+mkdir -p ${HOME}/.config/nvim/tmp
+ln -snf ${CONF}/nvim/init.lua ${HOME}/.config/nvim/init.lua
 ln -snf ${CONF}/nvim/autoload ${HOME}/.config/nvim/autoload
 ln -snf ${CONF}/nvim/colors ${HOME}/.config/nvim/colors
 ln -snf ${CONF}/nvim/minisnip ${HOME}/.config/nvim/minisnip
-ln -snf ${CONF}/nvim/plugin ${HOME}/.config/nvim/plugin
 ln -snf ${CONF}/nvim/scripts ${HOME}/.config/nvim/scripts
 ln -snf ${CONF}/nvim/spell ${HOME}/.config/nvim/spell
 ln -snf ${CONF}/nvim/lua ${HOME}/.config/nvim/lua
@@ -83,14 +83,20 @@ if ! (grep -q '\.bash\.d' ${HOME}/.profile) ;then
 fi
 
 echo '==================================================================================================='
-echo 'UPDATE NEOVIM PLUGINS'
+echo 'UPDATE NEOVIM'
 
 if [ ! -e /tmp/nvim-linux64.deb ] || [ "$(curl -s https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum)" != "$(sha256sum /tmp/nvim-linux64.deb |cut -d " " -f1)" ] ;then
   wget -O /tmp/nvim-linux64.deb https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
   sudo dpkg -i /tmp/nvim-linux64.deb
 fi
 
-nvim +"PlugUpdate" +qa
+PACKERPATH=~/.local/share/nvim/site/pack/packer/start
+if [ ! -e ${PACKERPATH}/packer.nvim ] ;then
+  mkdir -p ${PACKERPATH}
+  git clone --depth 1 https://github.com/wbthomason/packer.nvim ${PACKERPATH}/packer.nvim
+fi
+
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 echo '==================================================================================================='
 echo 'UPDATE RUBY'
@@ -151,19 +157,19 @@ npm -g install
 echo '==================================================================================================='
 echo 'UPDATE CUSTOM TOOLS'
 echo 'Update hadolint'
-HADOLINT_GIT_API=https://api.github.com/repos/hadolint/hadolint/releases/latest
-HADOLINT_VERSION=$(curl --no-progress-meter $HADOLINT_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+HADOLINT_GIT_API="$(curl --no-progress-meter https://api.github.com/repos/hadolint/hadolint/releases/latest)"
+HADOLINT_VERSION=$(echo "${HADOLINT_GIT_API}" |grep "tag_name" |sed -r 's/.*(v[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
 if ! (hadolint --version | grep -q $HADOLINT_VERSION) ;then
-  HADOLINT_URL=$(curl --no-progress-meter $HADOLINT_GIT_API |grep "Linux-x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  HADOLINT_URL=$(echo "${HADOLINT_GIT_API}" |grep "Linux-x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
   wget -O ${HOME}/bin/hadolint $HADOLINT_URL
   chmod +x ${HOME}/bin/hadolint
 fi
 
 echo "Update k9s"
-K9S_GIT_API=https://api.github.com/repos/hadolint/hadolint/releases/latest
-K9S_VERSION=$(curl --no-progress-meter $K9S_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+K9S_GIT_API="$(curl --no-progress-meter https://api.github.com/repos/derailed/k9s/releases/latest)"
+K9S_VERSION=$(echo "${K9S_GIT_API}" |grep "tag_name" |sed -r 's/.*(v[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
 if ! (k9s version |grep -q ${K9S_VERSION}) ;then
-  K9S_URL=$(curl --no-progress-meter $K9S_GIT_API |grep "Linux_x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  K9S_URL=$(echo "${K9S_GIT_API}" |grep "Linux_x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
   wget -O /tmp/k9s.tar.gz $K9S_URL
   tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
 fi
@@ -172,11 +178,11 @@ mkdir -p ${HOME}/tools
 cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
 
 echo "Update Lua Language Server"
-LUA_GIT_API=https://api.github.com/repos/sumneko/lua-language-server/releases/latest
-LUA_LSP_VERSION=$(curl --no-progress-meter $LUA_GIT_API |grep "tag_name" |sed -r 's/.*([0-9].[0-9].[0-9])",/\1/g')
+LUA_GIT_API="$(curl --no-progress-meter https://api.github.com/repos/sumneko/lua-language-server/releases/latest)"
+LUA_LSP_VERSION=$(echo "${LUA_GIT_API}" |grep "tag_name" |sed -r 's/.*(v[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
 LUA_LSP_DIR=${HOME}/tools/lua-language-server
 if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q ${LUA_LSP_VERSION}) ;then
-  LUA_DOWNLOAD_URL=$(curl --no-progress-meter $LUA_GIT_API |grep "linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  LUA_DOWNLOAD_URL=$(echo "${LUA_GIT_API}" |grep "linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
   wget -O /tmp/luals.tar.gz $LUA_DOWNLOAD_URL
   mkdir -p $LUA_LSP_DIR
   tar -xvf /tmp/luals.tar.gz -C $LUA_LSP_DIR

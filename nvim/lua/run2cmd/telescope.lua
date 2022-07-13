@@ -5,6 +5,8 @@ local finders = require('telescope.finders')
 local config = require('telescope.config')
 local builtin = require('telescope.builtin')
 
+local M = {}
+
 require('telescope').setup({
   defaults = {
     preview = false,
@@ -20,13 +22,16 @@ require('telescope').setup({
   },
 })
 
-local M = {}
-
 -- Get list of project files. It closes preview telescope window.
 local function open_project(prompt_bufnr)
-  local dir_path = action_state.get_selected_entry(prompt_bufnr)
+  local dir_path = ''
+  local dir_tbl = action_state.get_selected_entry(prompt_bufnr)
+  for k, v in pairs(dir_tbl) do
+    dir_path = v
+  end
   actions.close(prompt_bufnr)
-  builtin.find_files({cwd = dir_path.value})
+  builtin.find_files({cwd = string.gsub(dir_path, '/$', '')
+})
 end
 
 -- List all project directories and open new find_files() for chosen one.
