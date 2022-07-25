@@ -4,6 +4,7 @@ local lspconfig = require('lspconfig')
 local cmpnvimlsp = require('cmp_nvim_lsp')
 local lsp_status = require('lsp-status')
 local luasnip = require('luasnip')
+local editorconfig = require('editorconfig')
 
 cmp.setup({
   snippet = {
@@ -20,10 +21,11 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = {
-    { name = 'cmp_tabnine' },
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'cmp_tabnine' },
+    { name = 'path' },
+    { name = 'luasnip' },
   },
 })
 
@@ -41,7 +43,7 @@ lsp_status.config({
   indicator_warnings = 'W',
   indicator_info = 'I',
   indicator_hint = '?',
-  indicator_ok = '✓',
+  indicator_ok = 'OK',
   select_symbol = false,
   show_filename = false,
 })
@@ -49,23 +51,25 @@ lsp_status.config({
 capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
+
 local function config(_config)
   return vim.tbl_deep_extend('force', {
     capabilities = cmpnvimlsp.update_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
     on_attach = function(client, bufnr)
-      local opts = { noremap=true, silent=true }
+      local opts = { noremap = true, silent = true }
       vim.keymap.set('n', '<leader>vd', vim.diagnostic.open_float, opts)
       vim.keymap.set('n', "[d", vim.diagnostic.goto_next, opts)
       vim.keymap.set('n', "]d", vim.diagnostic.goto_prev, opts)
 
-      local bufopts = { noremap=true, silent=true, buffer=bufnr }
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+      local bufopts = { noremap = true, silent = true, buffer = bufnr }
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+      --vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+      --vim.keymap.set('v', 'gd', vim.lsp.buf.definition, bufopts)
       vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
       vim.keymap.set('n', "<leader>vca", vim.lsp.buf.code_action, bufopts)
       vim.keymap.set('n', "<leader>vrf", vim.lsp.buf.references, bufopts)
       vim.keymap.set('n', "<leader>vrn", vim.lsp.buf.rename, bufopts)
-      vim.keymap.set('i', "<C-h>", vim.lsp.buf.signature_help, bufopts)
     end
   }, _config or {})
 end
@@ -74,8 +78,9 @@ lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
 lspconfig.solargraph.setup(config())
 lspconfig.puppet.setup(config({
-  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath=spec/fixtures/modules' },
+  cmd = { 'puppetlsp.sh' },
 }))
+lspconfig.ansiblels.setup(config())
 lspconfig.groovyls.setup(config({
   cmd = { "java", "-jar", "/home/pbugala/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
 }))
@@ -109,7 +114,27 @@ lspconfig.yamlls.setup(config({
 }))
 lspconfig.jsonls.setup(config())
 lspconfig.vimls.setup(config())
-lspconfig.ansiblels.setup(config())
+lspconfig.ansiblels.setup(config({
+  settings = {
+    ansible = {
+      ansible = {
+        useFullyQualifiedCollectionNames = false,
+      },
+      python = {
+        interpreterPath = '/pyenv'
+      },
+      ansibleLint = {
+        path = 'exec',
+        arguments = 'ansible-lint -c ~/.ansible-lint'
+      }
+    },
+    ansibleServer = {
+      trace = {
+        server = "verbose"
+      }
+    }
+  }
+}))
 lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config())
 lspconfig.sumneko_lua.setup(config({
@@ -133,13 +158,13 @@ lspconfig.sumneko_lua.setup(config({
   }
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = {'markdown', 'xml', 'groovy', 'Jenkinsfile'},
+  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile' },
   init_options = {
     linters = {
       mdl = {
         sourceName = 'mdl',
         command = 'mdl',
-        args = {'-j'},
+        args = { '-j' },
         parseJson = {
           line = "line",
           column = "column",
@@ -149,7 +174,7 @@ lspconfig.diagnosticls.setup(config({
       xmllint = {
         sourceName = 'xmllint',
         command = 'xmllint',
-        args = {'--noout', '-'},
+        args = { '--noout', '-' },
         isStderr = true,
         formatLines = 1,
         formatPattern = {
@@ -163,7 +188,7 @@ lspconfig.diagnosticls.setup(config({
       groovylint = {
         sourceName = 'groovylint',
         command = 'npm-groovy-lint',
-        args = {'-r', '/home/pbugala/.codenarc.groovy', '-f', '**/%relativepath', '--noserver'},
+        args = { '-r', '/home/pbugala/.codenarc.groovy', '-f', '**/%relativepath', '--noserver' },
         isStderr = true,
         isStdout = true,
         formatLines = 1,
@@ -192,7 +217,7 @@ lspconfig.diagnosticls.setup(config({
     formatters = {
       prettier = {
         command = 'prettier',
-        args = {'--stdin-fileptah', '%filepath'}
+        args = { '--stdin-fileptah', '%filepath' }
       }
     },
     formatFiletypes = {
@@ -200,6 +225,16 @@ lspconfig.diagnosticls.setup(config({
     },
   }
 }))
+
+editorconfig.properties.max_line_length = function(bufnr, val, opts)
+  if opts.max_line_length then
+    if opts.max_line_length == 'off' then
+      vim.bo[bufnr].textwidth = 0
+    else
+      vim.bo[bufnr].textwidth = tonumber(val)
+    end
+  end
+end
 
 --vim.lsp.set_log_level 'trace'
 --require('vim.lsp.log').set_format_func(vim.inspect)

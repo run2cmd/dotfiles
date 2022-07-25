@@ -4,16 +4,24 @@
 -- Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
 -- License: The Vim License (this command will show it: ':help copyright')
 --
-
 -----------------------------
 -- Plugins
 -----------------------------
 vim.cmd('packadd! matchit')
 require('run2cmd.plugins')
+
 require('run2cmd.telescope')
 require('run2cmd.lsp')
 require('run2cmd.project-tests')
 require('run2cmd.helper-functions')
+
+require("nvim-surround").setup()
+require('Comment').setup()
+
+require('run2cmd.get-some-fun')
+
+-- TODO:
+--  Treesitter with supported colorscheme
 
 -----------------------------
 -- Language and encoding
@@ -39,13 +47,13 @@ vim.cmd('colorscheme bugi')
 -----------------------------
 vim.o.swapfile = false
 vim.o.confirm = true
+vim.o.undofile = true
 
 -----------------------------
 -- Find and replace
 -----------------------------
 vim.o.path = vim.o.path .. ',**'
 vim.o.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
-vim.g.gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
 
 -----------------------------
 -- Diff mode
@@ -119,11 +127,11 @@ vim.g.netrw_use_errorwindow = 1
 -----------------------------
 -- Auto completion
 -----------------------------
-vim.o.wildmode = 'list:longest,full'
+--vim.o.wildmode = 'list:longest,full'
 vim.o.wildcharm = '<Tab>'
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.wildignore = vim.o.wildignore .. ',*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
+vim.o.wildignore = '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 
 -- Vim build-in completion
 vim.o.completeopt = 'menu,menuone,noinsert,noselect'
@@ -133,6 +141,8 @@ vim.o.complete = string.gsub(vim.o.complete, 't', '')
 -- Enable Omni completion if not already set
 vim.o.omnifunc = 'syntaxcomplete#Complete'
 
+-- Gutentags setup
+vim.g.gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
 vim.g.gutentags_cache_dir = vim.env.HOME .. '/.config/nvim/tags'
 --vim.g.gutentags_project_root_finder = 'FindGutentagsRootDirectory'
 
@@ -156,13 +166,16 @@ vim.o.updatetime = 250
 -----------------------------
 local autocmds = {
   doc_generation = {
+    -- Update Helptags on start
     { event = { 'VimEnter' }, opts = { command = 'helptags ALL'} }
   },
   disable_bell = {
+    -- Disable blink and bell
     { event = { 'GUIEnter' }, opts =  { pattern = '*', command = 'set visualbell t_vb=' } },
     { event = { 'BufEnter' }, opts = { pattern = '*', command = 'syntax sync fromstart' } }
   },
   set_title = {
+    -- Set Title string for Tabs
     {
       event = { 'BufFilePre', 'BufEnter', 'BufWinEnter', 'DirChanged' },
       opts = { pattern = { '*', '!qf' }, command = 'let &titlestring = " " . getcwd()' }
@@ -183,6 +196,10 @@ local autocmds = {
       event = { 'BufNewFile' , 'BufReadPost' },
       opts = { pattern = '.vimlocal,.vimterm,.viebrc,viebrc,viebrclocal', command = 'setlocal syntax=vim filetype=vim' }
     },
+    {
+      event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
+      opts = { pattern = '*.yaml,*.yml', command = 'lua require("run2cmd.helper-functions").set_filetype("yaml.ansible", "yaml.ansible")' }
+    },
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } }
   },
@@ -200,7 +217,7 @@ local autocmds = {
     { event = { 'FileType' }, opts = { pattern = 'python', command = 'set keywordprg=:term\\ ++shell\\ python3\\ -m\\ pydoc' } },
     { event = { 'FileType' }, opts = { pattern = 'puppet', command = 'set keywordprg=:term\\ ++shell\\ puppet\\ describe' } },
     { event = { 'FileType' }, opts = { pattern = 'ruby', command = 'set keywordprg=:term\\ ++shell\\ ri' } },
-    { event = { 'FileType' }, opts = { pattern = 'groovy', command = 'set keywordprg=:term\\ ++shell\\ $HOME/.vim/scripts/chtsh.bat groovy' } },
+--    { event = { 'BufEnter' }, opts = { pattern = 'groovy', command = 'set keywordprg=:term\\ ++shell\\ $HOME/.vim/scripts/chtsh.bat groovy' } },
   }
 }
 for group_name, cmds in pairs(autocmds) do
@@ -218,7 +235,7 @@ local mapkey = vim.api.nvim_set_keymap
 vim.cmd("let mapleader = ' '")
 
 -- Clear all buffers and run Startify
-mapkey('', '<leader>l', ':bufdo %bd | Startify<CR>', {})
+mapkey('', '<leader>l', ':bufdo %bd | Alpha<CR>', {})
 
 -- Clear search and diff
 mapkey('n', '<silent> <c-l>', ":nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>", {})
@@ -268,30 +285,16 @@ mapkey('v', '<leader>s', 'y :Ggrep <C-R>"<CR>', {})
 -- WSL support for Windows clipboard
 mapkey('v', '<leader>y', '"zy :call system(\'clip.exe\', @z)<CR><CR>', {})
 
--- To do list
-vim.cmd('abbreviate todo ~/notes.md')
+-- Easy close terminal
+mapkey('t', '<C-W>e', '<C-\\><C-N>', {})
 
+-- Easy goto
+vim.api.nvim_create_user_command('Todo', ":e ~/notes.md", {})
+vim.api.nvim_create_user_command('Config', ':e ~/dotfiles/nvim/init.lua', {})
 vim.api.nvim_create_user_command('Doc', ":lua require('run2cmd.helper-functions').chtsh('<args>')", { nargs = '*' })
 
------------------------------
--- Startup Screen
------------------------------
-vim.g.startify_lists = {
-  { ['type'] = 'files', header = { ' MRU' } },
-  { ['type'] = 'bookmarks', header = { ' Bookmarks' } }
-}
-vim.g.startify_bookmarks = {
-  { c = '~/dotfiles/nvim/init.lua' },
-  { b = '~/dotfiles/viebrc' },
-  { h = '/etc/hosts' },
-  { n = '~/notes.md' },
-}
-vim.g.startify_custom_header = {
-  ' ______  _     _  ______ _____      __   _ _______  _____  _    _ _____ _______ ',
-  ' |_____] |     | |  ____   |        | \\  | |______ |     |  \\  /    |   |  |  | ',
-  ' |_____] |_____| |_____| __|__      |  \\_| |______ |_____|   \\/   __|__ |  |  | ',
-  '',
-}
+-- Easy terminal
+vim.api.nvim_create_user_command('Terminal', ':bo 15 split term://<args>', { nargs = '*'})
 
 -----------------------------
 -- Status line

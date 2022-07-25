@@ -22,10 +22,10 @@ hi Comment ctermfg=DarkGray cterm=italic
 hi Constant ctermfg=101
 hi String ctermfg=131
 hi Delimiter ctermfg=250
-hi Identifier ctermfg=063
+hi Identifier ctermfg=063 cterm=none
 hi Statement ctermfg=DarkYellow
 hi PreProc ctermfg=LightBlue
-hi Define ctermfg=Blue cterm=bold
+hi Define ctermfg=Blue
 hi Include ctermfg=Blue
 hi Type ctermfg=DarkGreen
 hi Function ctermfg=065
@@ -62,10 +62,10 @@ hi link Repeat Statement
 hi Terminal ctermfg=LightGray
 
 " Vimdiff
-hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=bold
-hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=bold
-hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=bold
-hi DiffText ctermfg=Red ctermbg=Yellow cterm=bold
+hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=none
+hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=none
+hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=none
+hi DiffText ctermfg=Red ctermbg=Yellow cterm=none
 
 " Popup Menu
 hi Pmenu ctermfg=250 ctermbg=240
@@ -77,11 +77,11 @@ hi puppetVariable ctermfg=NONE
 
 " Tabs
 hi TabLineFill ctermfg=DarkGray
-hi TabLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold
+hi TabLine ctermfg=DarkGreen ctermbg=DarkGray cterm=none
 hi TabLineSel ctermfg=Black ctermbg=DarkCyan
 
 " Statusline
-hi StatusLine ctermfg=DarkGreen ctermbg=DarkGray cterm=bold
+hi StatusLine ctermfg=DarkGreen ctermbg=239 cterm=none
 hi WarningMsg ctermfg=DarkRed
 
 " Sign Column

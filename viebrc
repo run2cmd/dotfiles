@@ -35,6 +35,9 @@ set vimcommand=gvim
 " Clear search mode
 nmap <C-l> <emptySearch>
 
+" Clear all buffers/tabs
+nmap <C-L> <esc>:b 0<cr>:rclose<cr>d<cr>
+
 " Follow keys
 set followchars=custom:asdfghjklrtuicvnm
 
@@ -42,13 +45,13 @@ set followchars=custom:asdfghjklrtuicvnm
 set permissionsallowed+=xxgit1.gtech.com~notifications
 
 " Show confirm windows
+set dialogalert=show
 set dialogconfirm=show
+set dialogprompt=show
 
 " Switch to buffer mode
 set guitabbar=never
-nmap B0 <:buffer 0>
-nmap B1 <:buffer 1>
-nmap <c-p> <Esc>:buffer<space>
+nmap <c-p> <esc>:buffer<space>
 
 " Reduce number of follows
 set followelement=url,onclick,inputs-insert,inputs-click
@@ -56,6 +59,12 @@ set followelementpointer=url,onclick,other
 
 " Do not restore tabs
 set restoretabs=false
+
+" Devtools always on bottom of the screen
+set devtoolsposition=vsplit
+
+" Use dark theme for everything
+" set darkreader
 
 " Private mode
 " <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>

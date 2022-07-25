@@ -24,26 +24,27 @@ return require('packer').startup(function(use)
   use 'nvim-lua/lsp-status.nvim'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
-  use 'tpope/vim-surround'
-  --use 'kylechui/nvim-surround'
+  use 'kylechui/nvim-surround'
   use 'tpope/vim-endwise'
   use 'Shougo/echodoc.vim'
   use 'dkarter/bullets.vim'
   use 'dhruvasagar/vim-table-mode'
   use 'noprompt/vim-yardoc'
   use 'sbdchd/neoformat'
-  use { 'nvim-treesitter/nvim-treesitter',  run = ':TSUpdate' }
-  --use 'tversteeg/registers.nvim'
-  --use 'b3nj5m1n/kommentary'
-  --use 'numToStr/Comment.nvim'
-  --use 'gelguy/wilder.nvim'
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      require('nvim-treesitter.install').update({ with_sync = true })
+    end
+  }
+  use 'tversteeg/registers.nvim'
+  use 'numToStr/Comment.nvim'
 
   -- Project support
   use 'airblade/vim-rooter'
-  --use 'ahmedkhalf/project.nvim'
-  use 'editorconfig/editorconfig-vim'
-  --use 'gpanders/editorconfig.nvim'
+  use 'gpanders/editorconfig.nvim'
   use 'ludovicchabant/vim-gutentags'
+  --use 'c0r73x/neotags.lua'
   --use 'aserowy/tmux.nvim'
 
   -- Syntax and lint
@@ -53,7 +54,7 @@ return require('packer').startup(function(use)
   use 'martinda/Jenkinsfile-vim-syntax'
   use 'aklt/plantuml-syntax'
   use 'Yggdroot/indentLine'
-  --use 'ellisonleao/glow.nvim'
+  use 'ellisonleao/glow.nvim'
 
   -- Database
   use 'kristijanhusak/vim-dadbod-ui'
@@ -62,10 +63,6 @@ return require('packer').startup(function(use)
   use 'ZSaberLv0/ZFVimDirDiff'
 
   -- Fun stuff
-  use 'mhinz/vim-startify'
-  --use 'startup-nvim/startup.nvim'
-  --use 'goolord/alpha-nvim'
-  --use 'luisiacc/gruvbox-baby'
-  --use 'ThePrimeagen/vim-be-good'
-  --
+  use 'goolord/alpha-nvim'
+  use 'ThePrimeagen/vim-be-good'
 end)

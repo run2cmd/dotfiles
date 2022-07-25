@@ -44,4 +44,14 @@ M.autosave = function()
   end
 end
 
+M.set_filetype = function(ft, syn)
+  local buffer = vim.api.nvim_get_current_buf()
+  local hosts_matcher = vim.filetype.match({ buf = buffer, contents = {'- hosts:'} })
+  local name_matcher = vim.filetype.match({ buf = buffer, contents = {'- name:'} })
+  if hosts_matcher or name_matcher then
+    vim.bo.filetype = ft
+    vim.bo.syntax = syn
+  end
+end
+
 return M
