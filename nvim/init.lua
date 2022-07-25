@@ -247,7 +247,7 @@ mapkey('n', '<Left>', ':vert resize +2<CR>', {})
 mapkey('n', '<Right>', ':vert resize -2<CR>', {})
 
 -- Tab enchantments
-mapkey('n', '<leader>o', ':tabnew<Bar>Startify<CR>', {})
+mapkey('n', '<leader>o', ':tabnew<Bar>Alpha<CR>', {})
 mapkey('n', '<leader>w', ':tabnext<CR>', {})
 mapkey('n', '<leader>b', ':tabprevious<CR>', {})
 
@@ -262,7 +262,7 @@ mapkey('c', '<C-j>', '<Down>', {})
 mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>", {})
 
 -- Terminal support
-mapkey('t', '<C-W><leader>o', '<C-W>:tabnew<Bar>Startify<CR>', {})
+mapkey('t', '<C-W><leader>o', '<C-W>:tabnew<Bar>Alpha<CR>', {})
 mapkey('t', '<C-W><leader>w', '<C-W>:tabnext<CR>', {})
 mapkey('t', '<C-W><leader>b', '<C-W>:tabprevious<CR>', {})
 
