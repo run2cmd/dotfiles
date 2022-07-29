@@ -1,6 +1,11 @@
+--
+-- Some fun stuff that is nice to have but mostly has not productivity impact
+--
 local startup = require('alpha')
 local theme = require('alpha.themes.startify')
+local mapkey = vim.api.nvim_set_keymap
 
+-- Pretty greetings screen
 theme.section.header.val = {
   [[ ______  _     _  ______ _____      __    _ _______  ______  _   _  _____ _______ ]],
   [[ |_____] |     | |  ____   |        | \\  | |______ |     |  \\  /    |   |  |  | ]],
@@ -19,3 +24,8 @@ theme.section.bottom_buttons.val = {
 }
 
 startup.setup(theme.config)
+
+-- Switch to greeteins screen and restart LSP server for better performance
+mapkey('', '<leader>l', ':bufdo %bd | Alpha<CR>:LspRestart<CR>', {})
+mapkey('n', '<leader>o', ':tabnew<Bar>Alpha<CR>', {})
+mapkey('t', '<C-W><leader>o', '<C-W>:tabnew<Bar>Alpha<CR>', {})

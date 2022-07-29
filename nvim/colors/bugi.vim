@@ -62,10 +62,10 @@ hi link Repeat Statement
 hi Terminal ctermfg=LightGray
 
 " Vimdiff
-hi DiffAdd ctermfg=LightGray ctermbg=Blue cterm=none
-hi DiffDelete ctermfg=DarkGray ctermbg=Blue cterm=none
-hi DiffChange ctermfg=LightGray ctermbg=DarkYellow cterm=none
-hi DiffText ctermfg=Red ctermbg=Yellow cterm=none
+hi DiffAdd ctermfg=Yellow ctermbg=DarkGray cterm=none
+hi DiffDelete ctermfg=Yellow ctermbg=DarkGray cterm=none
+hi DiffChange ctermfg=Yellow ctermbg=DarkGray cterm=none
+hi DiffText ctermfg=Red ctermbg=LightYellow cterm=none
 
 " Popup Menu
 hi Pmenu ctermfg=250 ctermbg=240

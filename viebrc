@@ -1,3 +1,5 @@
+" vim: ft=vim
+
 " Some sane defaults
 set adblocker=update
 set favicons=30day

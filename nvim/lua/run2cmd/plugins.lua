@@ -13,6 +13,7 @@ return require('packer').startup(function(use)
 
   -- Git support
   use 'tpope/vim-fugitive'
+  -- https://github.com/TimUntersberger/neogit
   use 'mhinz/vim-signify'
 
   -- Auto completion and auto edit

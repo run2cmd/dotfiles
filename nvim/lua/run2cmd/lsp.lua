@@ -1,42 +1,11 @@
-local cmp = require('cmp')
-local tabnine = require('cmp_tabnine.config')
 local lspconfig = require('lspconfig')
 local cmpnvimlsp = require('cmp_nvim_lsp')
 local lsp_status = require('lsp-status')
-local luasnip = require('luasnip')
-local editorconfig = require('editorconfig')
 
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<c-k>'] = cmp.mapping.select_prev_item(),
-    ['<c-j>'] = cmp.mapping.select_next_item(),
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'cmp_tabnine' },
-    { name = 'path' },
-    { name = 'luasnip' },
-  },
-})
+-- Use Tags if LSP server does not return definitions
+vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
 
-tabnine:setup({
-  max_lines = 1000,
-  max_num_results = 20,
-  sort = true,
-  run_on_every_keystroke = true,
-  snippet_placeholder = "..",
-})
-
+-- Setup lsp_status
 lsp_status.register_progress()
 lsp_status.config({
   indicator_errors = 'E',
@@ -48,15 +17,19 @@ lsp_status.config({
   show_filename = false,
 })
 
-capabilities = vim.lsp.protocol.make_client_capabilities()
+-- Add snippet support
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
-
+--
+-- Default lsp configuration for each server
+--
+-- @param _config Additional configuration passed to lspconfig.[server_name].setup
+--
 local function config(_config)
   return vim.tbl_deep_extend('force', {
     capabilities = cmpnvimlsp.update_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true }
       vim.keymap.set('n', '<leader>vd', vim.diagnostic.open_float, opts)
       vim.keymap.set('n', "[d", vim.diagnostic.goto_next, opts)
@@ -74,6 +47,7 @@ local function config(_config)
   }, _config or {})
 end
 
+-- Enable LSP servers
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
 lspconfig.solargraph.setup(config())
@@ -82,11 +56,16 @@ lspconfig.puppet.setup(config({
 }))
 lspconfig.ansiblels.setup(config())
 lspconfig.groovyls.setup(config({
-  cmd = { "java", "-jar", "/home/pbugala/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+  -- Do not autostart so Gradle files does not start new server
+  autostart = false,
+  -- Limit memory useage Groovy LS is heavy
+  cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", "/home/pbugala/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
 }))
 lspconfig.yamlls.setup(config({
   settings = {
     yaml = {
+      -- Schemas to support ICHA
+      -- TODO: support for SI
       schemas = {
         ['schemas/conf/ansible.json'] = 'conf/ansible.json',
         ['schemas/conf/jenkins/endpoints.json'] = 'conf/jenkins/endpoints.yaml',
@@ -118,8 +97,10 @@ lspconfig.ansiblels.setup(config({
   settings = {
     ansible = {
       ansible = {
+        -- Do not care about FQDN
         useFullyQualifiedCollectionNames = false,
       },
+      -- Run ansible-lint with python env
       python = {
         interpreterPath = '/pyenv'
       },
@@ -225,16 +206,6 @@ lspconfig.diagnosticls.setup(config({
     },
   }
 }))
-
-editorconfig.properties.max_line_length = function(bufnr, val, opts)
-  if opts.max_line_length then
-    if opts.max_line_length == 'off' then
-      vim.bo[bufnr].textwidth = 0
-    else
-      vim.bo[bufnr].textwidth = tonumber(val)
-    end
-  end
-end
 
 --vim.lsp.set_log_level 'trace'
 --require('vim.lsp.log').set_format_func(vim.inspect)
