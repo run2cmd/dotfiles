@@ -84,7 +84,8 @@ fi
 echo '==================================================================================================='
 echo 'UPDATE NEOVIM'
 
-if [ ! -e /tmp/nvim-linux64.deb ] || [ "$(curl -s https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum)" != "$(sha256sum /tmp/nvim-linux64.deb |cut -d " " -f1)" ] ;then
+wget -O /tmp/nvim-linux64.deb.sha256sum https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum
+if [ ! -e /tmp/nvim-linux64.deb ] || [ "$(cut -d " " -f1 < /tmp/nvim-linux64.deb.sha256sum)" != "$(sha256sum /tmp/nvim-linux64.deb |cut -d " " -f1)" ] ;then
   wget -O /tmp/nvim-linux64.deb https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
   sudo dpkg -i /tmp/nvim-linux64.deb
 fi
@@ -95,6 +96,7 @@ if [ ! -e ${PACKERPATH}/packer.nvim ] ;then
   git clone --depth 1 https://github.com/wbthomason/packer.nvim ${PACKERPATH}/packer.nvim
 fi
 
+echo "Update Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 echo '==================================================================================================='
@@ -149,8 +151,9 @@ if [ ! -e ${HOME}/.nvm ] ; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 fi
 
-nvm install --lts
-nvm use --lts
+nvm install node
+nvm alias default node
+nvm use node
 npm install -g
 
 echo '==================================================================================================='
