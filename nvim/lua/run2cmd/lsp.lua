@@ -87,6 +87,7 @@ lspconfig.yamlls.setup(config({
         ['schemas/conf/pullrequests.json'] = 'conf/jenkins/pullrequests.yaml',
         ['schemas/data/env/env_file.json'] = 'data/env/*.yaml',
         ['schemas/profiles.json'] = 'profiles/**/*.yaml',
+        ['schemas/products.json'] = 'products/**/*.yaml',
       }
     }
   }
