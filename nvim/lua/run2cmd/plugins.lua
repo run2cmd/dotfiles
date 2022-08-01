@@ -13,7 +13,6 @@ return require('packer').startup(function(use)
 
   -- Git support
   use 'tpope/vim-fugitive'
-  -- https://github.com/TimUntersberger/neogit
   use 'mhinz/vim-signify'
 
   -- Auto completion and auto edit
@@ -45,8 +44,6 @@ return require('packer').startup(function(use)
   use 'airblade/vim-rooter'
   use 'gpanders/editorconfig.nvim'
   use 'ludovicchabant/vim-gutentags'
-  --use 'c0r73x/neotags.lua'
-  --use 'aserowy/tmux.nvim'
 
   -- Syntax and lint
   use 'neovim/nvim-lspconfig'
