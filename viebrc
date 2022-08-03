@@ -65,6 +65,9 @@ set restoretabs=false
 " Devtools always on bottom of the screen
 set devtoolsposition=vsplit
 
+" Disable Vieb mouse menu
+set menupage=never
+
 " Use dark theme for everything
 " set darkreader
 
