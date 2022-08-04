@@ -75,9 +75,14 @@ end
 --
 M.set_filetype = function(ft, syn, matcher)
   local buffer = vim.api.nvim_get_current_buf()
-  local doset = true
+  local doset = false
   for _,m in ipairs(matcher) do
-    doset = vim.filetype.match({ buf = buffer, contents = { m } })
+    local content = vim.filetype.getlines(buffer, 1, 10)
+    for _,c in ipairs(content) do
+      if string.match(c, m) then
+        doset = true
+      end
+    end
   end
   if doset then
     vim.bo.filetype = ft
