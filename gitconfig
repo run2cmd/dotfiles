@@ -8,10 +8,11 @@
 [http]
   sslVerify = false
 [pull]
-  rebase = false
+  rebase = true
 [push]
   default = current
 [merge]
   commit = yes
+  ff = no
 [log]
   decorate = full
