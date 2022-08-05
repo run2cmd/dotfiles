@@ -24,9 +24,6 @@ vim.g.indentLine_bufTypeExclude = { 'finished', 'terminal', 'help', 'quickfix' }
 -- Enable Omni completion if not already set
 vim.o.omnifunc = 'syntaxcomplete#Complete'
 
--- View function parameters in pop up window
-vim.g['echodoc#enable_at_startup'] = 1
-
 -- Typing auto completion
 cmp.setup({
   snippet = {
