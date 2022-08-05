@@ -92,11 +92,6 @@ hi link SignifySignAdd Type
 hi SignifySignChange ctermfg=DarkYellow
 hi SignifySignDelete ctermfg=DarkRed
 
-" Ale Signs
-hi ALEInfoSign ctermfg=DarkGreen
-hi ALEWarningSign ctermfg=DarkYellow ctermbg=DarkGray
-hi ALEWarning ctermbg=DarkGray ctermfg=White
-
 " Markdown(build-in)
 hi link markdownCode String
 hi link markdownCodeDelimiter String
@@ -106,12 +101,12 @@ hi link markdownH3 markdownH1
 hi link markdownH4 markdownH1
 hi link markdownH5 markdownH1
 
-" Startify
-hi link StartifyPath Number
-hi link StartifySlash Number
-
 " Spell
 hi SpellBad ctermfg=DarkGray ctermbg=White cterm=reverse
 hi link SpellCap SpellBad
 hi link SpellRare SpellBad
 hi link SpellLocal SpellBad
+
+" Telescope
+hi TelescopeMatching ctermfg=131
+hi link TelescopeSelection Visual
