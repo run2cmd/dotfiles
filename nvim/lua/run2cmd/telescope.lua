@@ -10,7 +10,6 @@ local M = {}
 
 require('telescope').setup({
   defaults = {
-    preview = false,
     file_ignore_patterns = { '.git/', '.svn/' },
     mappings = {
       i = {
@@ -19,8 +18,18 @@ require('telescope').setup({
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
       }
-    }
+    },
   },
+  pickers = {
+    find_files = {
+      hidden = true,
+      previewer = false,
+    },
+    buffers = {
+      hidden = true,
+      previewer = false,
+    },
+  }
 })
 
 --
@@ -35,8 +44,8 @@ local function open_project(prompt_bufnr)
     dir_path = v
   end
   actions.close(prompt_bufnr)
-  builtin.find_files({cwd = string.gsub(dir_path, '/$', '')
-})
+  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '')
+  })
 end
 
 --
@@ -46,7 +55,7 @@ end
 M.find_projects = function()
   pickers.new({}, {
     prompt_title = 'projects',
-    finder = finders.new_oneshot_job({'fdfind', '--type=d', '--maxdepth=2', '--min-depth=2', '--full-path', '.', '/code'}),
+    finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--maxdepth=2', '--min-depth=2', '--full-path', '.', '/code' }),
     sorter = config.values.generic_sorter({}),
     attach_mappings = function(_, map)
       map('i', '<cr>', open_project)
@@ -57,7 +66,7 @@ M.find_projects = function()
 end
 
 -- Move around projects
-mapkey('n', '<C-p>', ":lua require('telescope.builtin').find_files({hidden=true})<cr>", {})
+mapkey('n', '<C-p>', ":lua require('telescope.builtin').find_files()<cr>", {})
 mapkey('n', '<C-h>', ":lua require('telescope.builtin').buffers()<cr>", {})
 mapkey('n', '<C-k>', ":lua require('run2cmd.telescope').find_projects()<cr>", {})
 mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>", {})
