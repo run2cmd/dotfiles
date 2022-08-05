@@ -7,13 +7,17 @@ return require('packer').startup(function(use)
   -- Libraries
   use 'nvim-lua/plenary.nvim'
 
-  -- File manager
+  -- Movement
   use 'tpope/vim-unimpaired'
+  use 'Yggdroot/indentLine'
+
+  -- File manager
   use 'nvim-telescope/telescope.nvim'
 
   -- Git support
   use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   -- Auto completion and auto edit
   use 'hrsh7th/nvim-cmp'
@@ -21,12 +25,11 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use { 'tzachar/cmp-tabnine', run = './install.sh' }
-  use 'nvim-lua/lsp-status.nvim'
   use 'L3MON4D3/LuaSnip'
-  use 'rafamadriz/friendly-snippets'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'nvim-lua/lsp-status.nvim'
   use 'kylechui/nvim-surround'
   use 'tpope/vim-endwise'
-  use 'Shougo/echodoc.vim'
   use 'dkarter/bullets.vim'
   use 'dhruvasagar/vim-table-mode'
   use 'noprompt/vim-yardoc'
@@ -47,11 +50,9 @@ return require('packer').startup(function(use)
 
   -- Syntax and lint
   use 'neovim/nvim-lspconfig'
-  use 'nvim-lua/lsp_extensions.nvim'
   use 'rodjek/vim-puppet'
   use 'martinda/Jenkinsfile-vim-syntax'
   use 'aklt/plantuml-syntax'
-  use 'Yggdroot/indentLine'
   use 'ellisonleao/glow.nvim'
 
   -- Database
