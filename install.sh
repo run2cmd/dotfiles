@@ -154,6 +154,7 @@ fi
 nvm install node
 nvm alias default node
 nvm use node
+npm install
 npm install -g
 
 echo '==================================================================================================='
