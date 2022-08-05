@@ -3,9 +3,6 @@
 -----------------------------
 local mapkey = vim.api.nvim_set_keymap
 
--- Best map leader ever
-vim.cmd("let mapleader = ' '")
-
 -- Clear search and diff
 mapkey('n', '<silent> <c-l>', ":nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>", {})
 
@@ -32,12 +29,6 @@ mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>", {})
 -- Terminal support
 mapkey('t', '<C-W><leader>w', '<C-W>:tabnext<CR>', {})
 mapkey('t', '<C-W><leader>b', '<C-W>:tabprevious<CR>', {})
-
--- Jump to Git conflicts
-mapkey('n', '<leader>gc', ':Ggrep "^<<<<<"<CR>', {})
-mapkey('n', '<leader>gb', '/^<<<<<<CR>', {})
-mapkey('n', '<leader>gm', '/^=====<CR>', {})
-mapkey('n', '<leader>ge', '/^>>>>><CR>', {})
 
 -- Search word under cursor
 mapkey('n', '<leader>s', 'viwy :Ggrep <C-R>"<CR>', {})

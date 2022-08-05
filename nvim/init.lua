@@ -13,7 +13,7 @@ vim.o.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
 vim.o.tabline = '%{getcwd()}'
 vim.o.switchbuf = 'useopen,usetab'
 vim.o.updatetime = 250
-vim.cmd('colorscheme bugi')
+vim.cmd("let mapleader = ' '")
 
 require('run2cmd.plugins')
 require('run2cmd.helper-functions')
@@ -26,6 +26,7 @@ require('run2cmd.lsp')
 require('run2cmd.project-setup')
 require('run2cmd.auto-commands')
 require('run2cmd.netrw')
+require('run2cmd.git')
 require('run2cmd.keymap')
 require('run2cmd.commands')
 
@@ -37,7 +38,22 @@ require('run2cmd.pretty')
 require('run2cmd.statusline')
 
 -- TODO:
---  Treesitter with supported colorscheme
+--  Bugi theme support to lua with support:
+--    * Treesitter
+--    * Alpha
+--    * LSP
+--    * Telescope
+--    * Puppet
+--    * Jenkinsfile
+--    * Vim Diff
+--    * Fugitive/Neogit
+--
+-- https://github.com/astier/vlugins
+-- https://github.com/neovim-puppet/tree-sitter-puppet
+-- https://github.com/mfussenegger/nvim-dap
+-- https://github.com/glepnir/lspsaga.nvim
+-- https://github.com/nyngwang/NeoRoot.lua
+--
 
 -- Enable debug mode
 --vim.o.verbose = 20
