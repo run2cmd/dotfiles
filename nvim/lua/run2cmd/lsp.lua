@@ -97,10 +97,6 @@ lspconfig.vimls.setup(config())
 lspconfig.ansiblels.setup(config({
   settings = {
     ansible = {
-      ansible = {
-        -- Do not care about FQDN
-        useFullyQualifiedCollectionNames = false,
-      },
       -- Run ansible-lint with python env
       python = {
         interpreterPath = '/pyenv'
@@ -110,11 +106,6 @@ lspconfig.ansiblels.setup(config({
         arguments = 'ansible-lint -c ~/.ansible-lint'
       }
     },
-    ansibleServer = {
-      trace = {
-        server = "verbose"
-      }
-    }
   }
 }))
 lspconfig.dockerls.setup(config())

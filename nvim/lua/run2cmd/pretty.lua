@@ -13,3 +13,5 @@ vim.o.linebreak = true
 
 vim.o.scrolloff = 2
 vim.o.sidescrolloff = 5
+
+vim.cmd('colorscheme bugi')
