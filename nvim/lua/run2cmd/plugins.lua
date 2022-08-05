@@ -13,7 +13,7 @@ return require('packer').startup(function(use)
 
   -- Git support
   use 'tpope/vim-fugitive'
-  use 'mhinz/vim-signify'
+  use 'lewis6991/gitsigns.nvim'
 
   -- Auto completion and auto edit
   use 'hrsh7th/nvim-cmp'
