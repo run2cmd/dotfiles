@@ -4,9 +4,7 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local config = require('telescope.config')
 local builtin = require('telescope.builtin')
-local mapkey = vim.api.nvim_set_keymap
-
-local M = {}
+local mapkey = vim.keymap.set
 
 require('telescope').setup({
   defaults = {
@@ -40,7 +38,7 @@ require('telescope').setup({
 local function open_project(prompt_bufnr)
   local dir_path = ''
   local dir_tbl = action_state.get_selected_entry(prompt_bufnr)
-  for k, v in pairs(dir_tbl) do
+  for _, v in pairs(dir_tbl) do
     dir_path = v
   end
   actions.close(prompt_bufnr)
@@ -52,7 +50,7 @@ end
 -- List all project directories and open new find_files() for chosen one.
 -- This speeds up moving around projects.
 --
-M.find_projects = function()
+local function find_projects()
   pickers.new({}, {
     prompt_title = 'projects',
     finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--maxdepth=2', '--min-depth=2', '--full-path', '.', '/code' }),
@@ -66,9 +64,7 @@ M.find_projects = function()
 end
 
 -- Move around projects
-mapkey('n', '<C-p>', ":lua require('telescope.builtin').find_files()<cr>", {})
-mapkey('n', '<C-h>', ":lua require('telescope.builtin').buffers()<cr>", {})
-mapkey('n', '<C-k>', ":lua require('run2cmd.telescope').find_projects()<cr>", {})
-mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>", {})
-
-return M
+mapkey('n', '<C-p>', require('telescope.builtin').find_files)
+mapkey('n', '<C-h>', require('telescope.builtin').buffers)
+mapkey('n', '<C-k>', find_projects)
+mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
