@@ -51,7 +51,9 @@ end
 -- Enable LSP servers
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
-lspconfig.solargraph.setup(config())
+lspconfig.solargraph.setup(config({
+  filetypes = { 'ruby', 'rspec' },
+}))
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
@@ -59,6 +61,7 @@ lspconfig.ansiblels.setup(config())
 lspconfig.groovyls.setup(config({
   -- Do not autostart so Gradle files does not start new server
   autostart = false,
+  filetypes = { 'groovy', 'gradle_test' },
   -- Limit memory useage Groovy LS is heavy
   cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", "/home/pbugala/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
 }))
@@ -66,12 +69,9 @@ lspconfig.yamlls.setup(config({
   settings = {
     yaml = {
       -- Schemas to support ICHA
-      -- TODO: support for SI
       schemas = {
         ['schemas/conf/ansible.json'] = 'conf/ansible.json',
         ['schemas/conf/jenkins/endpoints.json'] = 'conf/jenkins/endpoints.yaml',
-        ['schemas/conf/jenkins/config.json'] = 'conf/jenkins/apw/config.yaml',
-        ['schemas/conf/jenkins/components.json'] = 'conf/jenkins/apw/components.yaml',
         ['schemas/conf/jenkins/settings.json'] = 'conf/jenkins/settings.yaml',
         ['schemas/conf/jenkins/acgs/components.json'] = 'conf/jenkins/acgs/components.yaml',
         ['schemas/conf/jenkins/acgs/config.json'] = 'conf/jenkins/acgs/config.yaml',
@@ -85,6 +85,8 @@ lspconfig.yamlls.setup(config({
         ['schemas/conf/jenkins/boa/config.json'] = 'conf/jenkins/boa/config.yaml',
         ['schemas/conf/jenkins/tpm/components.json'] = 'conf/jenkins/tpm/components.yaml',
         ['schemas/conf/jenkins/tpm/config.json'] = 'conf/jenkins/tpm/config.yaml',
+        ['schemas/conf/jenkins/config.json'] = 'conf/jenkins/apw/config.yaml',
+        ['schemas/conf/jenkins/components.json'] = 'conf/jenkins/apw/components.yaml',
         ['schemas/conf/pullrequests.json'] = 'conf/jenkins/pullrequests.yaml',
         ['schemas/data/env/env_file.json'] = 'data/env/*.yaml',
         ['schemas/profiles.json'] = 'profiles/**/*.yaml',
@@ -187,6 +189,7 @@ lspconfig.diagnosticls.setup(config({
       xml = 'xmllint',
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
+      gradle_test = 'groovylint',
     },
     formatters = {
       prettier = {
