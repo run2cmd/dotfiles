@@ -84,6 +84,9 @@ M.set_filetype = function(ft, syn, matcher)
       end
     end
   end
+  if vim.tbl_isempty(matcher) then
+    doset = true
+  end
   if doset then
     vim.bo.filetype = ft
     vim.bo.syntax = syn
