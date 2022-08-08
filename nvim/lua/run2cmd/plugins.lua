@@ -68,4 +68,23 @@ return require('packer').startup(function(use)
   -- Fun stuff
   use 'goolord/alpha-nvim'
   use 'ThePrimeagen/vim-be-good'
+
+-- Plugins to review:
+--  * https://github.com/neovim-puppet/tree-sitter-puppet
+--  * https://github.com/mfussenegger/nvim-dap
+--  * https://github.com/glepnir/lspsaga.nvim
+--  * https://github.com/ThePrimeagen/refactoring.nvim
+--  * https://github.com/ray-x/navigator.lua
+--  * https://github.com/lukas-reineke/lsp-format.nvim
+--  * https://github.com/jbyuki/carrot.nvim
+--  * https://github.com/ThePrimeagen/harpoon
+--
+-- IDEs to review:
+--  * https://github.com/VapourNvim/VapourNvim
+--  * https://github.com/askfiy/nvim
+--  * https://github.com/Abstract-IDE/Abstract
+--  * https://github.com/NvChad/NvChad
+--  * https://github.com/LunarVim/LunarVim
+--  * https://github.com/AstroNvim/AstroNvim
+
 end)

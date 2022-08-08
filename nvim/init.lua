@@ -38,24 +38,6 @@ require('run2cmd.get-some-fun')
 require('run2cmd.pretty')
 require('run2cmd.statusline')
 
--- TODO:
---  Bugi theme support to lua with support:
---    * Treesitter
---    * Alpha
---    * LSP
---    * Telescope
---    * Puppet
---    * Jenkinsfile
---    * Vim Diff
---    * Fugitive/Neogit
---
--- https://github.com/astier/vlugins
--- https://github.com/neovim-puppet/tree-sitter-puppet
--- https://github.com/mfussenegger/nvim-dap
--- https://github.com/glepnir/lspsaga.nvim
--- https://github.com/nyngwang/NeoRoot.lua
---
-
 -- Enable debug mode
 --vim.o.verbose = 20
 --vim.o.verbosefile = '~/vim.log'

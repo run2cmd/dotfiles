@@ -110,3 +110,14 @@ hi link SpellLocal SpellBad
 " Telescope
 hi TelescopeMatching ctermfg=131
 hi link TelescopeSelection Visual
+
+" TODO:
+"  Bugi theme support to lua with support:
+"    * Treesitter
+"    * Alpha
+"    * LSP
+"    * Telescope
+"    * Puppet
+"    * Jenkinsfile
+"    * Vim Diff
+"    * Fugitive/Neogit
