@@ -29,7 +29,6 @@ return require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'nvim-lua/lsp-status.nvim'
   use 'kylechui/nvim-surround'
-  use 'tpope/vim-endwise'
   use 'dkarter/bullets.vim'
   use 'dhruvasagar/vim-table-mode'
   use 'noprompt/vim-yardoc'
@@ -41,6 +40,8 @@ return require('packer').startup(function(use)
     end
   }
   use 'tversteeg/registers.nvim'
+  --use 'tpope/vim-endwise'
+  use 'RRethy/nvim-treesitter-endwise'
   use 'windwp/nvim-autopairs'
   use 'numToStr/Comment.nvim'
 
