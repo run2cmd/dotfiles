@@ -41,6 +41,7 @@ return require('packer').startup(function(use)
     end
   }
   use 'tversteeg/registers.nvim'
+  use 'windwp/nvim-autopairs'
   use 'numToStr/Comment.nvim'
 
   -- Project support

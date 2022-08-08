@@ -4,6 +4,9 @@
 local cmp = require('cmp')
 local tabnine = require('cmp_tabnine.config')
 local luasnip = require('luasnip')
+local auto_pairs = require("nvim-autopairs")
+local pairs_cmp = require('nvim-autopairs.completion.cmp')
+local pairs_rules = require'nvim-autopairs.rule'
 
 --vim.o.wildmode = 'list:longest,full'
 vim.o.wildcharm = '<Tab>'
@@ -48,6 +51,14 @@ cmp.setup({
   },
 })
 
+auto_pairs.setup({
+  map_cr = true
+})
+cmp.event:on(
+  'confirm_done',
+  pairs_cmp.on_confirm_done()
+)
+
 tabnine:setup({
   max_lines = 1000,
   max_num_results = 20,
@@ -55,3 +66,42 @@ tabnine:setup({
   run_on_every_keystroke = true,
   snippet_placeholder = "..",
 })
+
+-- Jump to close sign in insert mode
+auto_pairs.add_rules {
+  pairs_rules(' ', ' ')
+    :with_pair(function (opts)
+      local pair = opts.line:sub(opts.col - 1, opts.col)
+      return vim.tbl_contains({ '()', '[]', '{}', "''", '""' }, pair)
+    end),
+  pairs_rules('( ', ' )')
+    :with_pair(function() return false end)
+    :with_move(function(opts)
+        return opts.prev_char:match('.%)') ~= nil
+    end)
+    :use_key(')'),
+  pairs_rules('{ ', ' }')
+    :with_pair(function() return false end)
+    :with_move(function(opts)
+        return opts.prev_char:match('.%}') ~= nil
+    end)
+    :use_key('}'),
+  pairs_rules('[ ', ' ]')
+    :with_pair(function() return false end)
+    :with_move(function(opts)
+        return opts.prev_char:match('.%]') ~= nil
+    end)
+    :use_key(']'),
+  pairs_rules("' ", " '")
+    :with_pair(function() return false end)
+    :with_move(function(opts)
+        return opts.prev_char:match(".%'") ~= nil
+    end)
+    :use_key("'"),
+  pairs_rules('" ', ' "')
+    :with_pair(function() return false end)
+    :with_move(function(opts)
+        return opts.prev_char:match('.%"') ~= nil
+    end)
+    :use_key('"')
+}
