@@ -29,6 +29,7 @@ require('run2cmd.netrw')
 require('run2cmd.git')
 require('run2cmd.keymap')
 require('run2cmd.commands')
+require('run2cmd.treesitter')
 
 require("nvim-surround").setup()
 require('Comment').setup()
