@@ -1,6 +1,6 @@
 local gitsigns = require('gitsigns')
 local gitdiff = require('diffview')
-local mapkey = vim.api.nvim_set_keymap
+local mapkey = vim.keymap.set
 
 gitsigns.setup({
   signs = {
@@ -17,17 +17,17 @@ gitdiff.setup({
 })
 
 -- Jump to Git conflicts
-mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>', {})
+mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>')
 
 -- Easy Git
 -- Git branches and git log is done with telescope. See telescope.lua file.
-mapkey('n', '<leader>gs', ':Git<cr>', {})
-mapkey('n', '<leader>gf', ':Git pull<cr>', {})
-mapkey('n', '<leader>gp', ':Git push<cr>', {})
-mapkey('n', '<leader>gb', ':Git blame<cr>', {})
-mapkey('n', '<leader>gl', ':Git log<cr> ', {})
-mapkey('n', '<leader>gc', ':Git checkout ', {})
-mapkey('n', '<leader>gdo', ':DiffviewOpen<cr>', {})
-mapkey('n', '<leader>gdc', ':DiffviewClose<cr>', {})
-mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>', {})
-mapkey('n', '<leader>gv', ':Gvdiffsplit<cr>', {})
+mapkey('n', '<leader>gs', ':Git<cr>')
+mapkey('n', '<leader>gf', ':Git pull<cr>')
+mapkey('n', '<leader>gp', ':Git push<cr>')
+mapkey('n', '<leader>gb', ':Git blame<cr>')
+mapkey('n', '<leader>gl', ':Git log<cr> ')
+mapkey('n', '<leader>gc', ':Git checkout ')
+mapkey('n', '<leader>gdo', ':DiffviewOpen<cr>')
+mapkey('n', '<leader>gdc', ':DiffviewClose<cr>')
+mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>')
+mapkey('n', '<leader>gv', ':Gvdiffsplit<cr>')

@@ -1,6 +1,7 @@
 local lspconfig = require('lspconfig')
 local cmpnvimlsp = require('cmp_nvim_lsp')
 local lsp_status = require('lsp-status')
+local mapkey = vim.keymap.set
 
 -- Use Tags if LSP server does not return definitions
 vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
@@ -31,18 +32,18 @@ local function config(_config)
     capabilities = cmpnvimlsp.update_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true }
-      vim.keymap.set('n', '<leader>vd', vim.diagnostic.open_float, opts)
-      vim.keymap.set('n', "[d", vim.diagnostic.goto_next, opts)
-      vim.keymap.set('n', "]d", vim.diagnostic.goto_prev, opts)
+      mapkey('n', '<leader>vd', vim.diagnostic.open_float, opts)
+      mapkey('n', "[d", vim.diagnostic.goto_next, opts)
+      mapkey('n', "]d", vim.diagnostic.goto_prev, opts)
 
       local bufopts = { noremap = true, silent = true, buffer = bufnr }
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-      --vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-      --vim.keymap.set('v', 'gd', vim.lsp.buf.definition, bufopts)
-      vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
-      vim.keymap.set('n', "<leader>vca", vim.lsp.buf.code_action, bufopts)
-      vim.keymap.set('n', "<leader>vrf", vim.lsp.buf.references, bufopts)
-      vim.keymap.set('n', "<leader>vrn", vim.lsp.buf.rename, bufopts)
+      mapkey('n', 'K', vim.lsp.buf.hover, bufopts)
+      --mapkey('n', 'gd', vim.lsp.buf.definition, bufopts)
+      --mapkey('v', 'gd', vim.lsp.buf.definition, bufopts)
+      mapkey('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+      mapkey('n', "<leader>vca", vim.lsp.buf.code_action, bufopts)
+      mapkey('n', "<leader>vrf", vim.lsp.buf.references, bufopts)
+      mapkey('n', "<leader>vrn", vim.lsp.buf.rename, bufopts)
     end
   }, _config or {})
 end
