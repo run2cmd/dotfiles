@@ -87,10 +87,10 @@ hi WarningMsg ctermfg=DarkRed
 " Sign Column
 highlight SignColumn ctermbg=NONE cterm=NONE
 
-" Vim Signify
-hi link SignifySignAdd Type
-hi SignifySignChange ctermfg=DarkYellow
-hi SignifySignDelete ctermfg=DarkRed
+" Gitsigns
+hi link GitSignsAdd Type
+hi GitSignsChange ctermfg=DarkYellow
+hi GitSignsDelete ctermfg=DarkRed
 
 " Markdown(build-in)
 hi link markdownCode String
