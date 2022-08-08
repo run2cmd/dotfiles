@@ -14,6 +14,9 @@ return require('packer').startup(function(use)
   -- File manager
   use 'nvim-telescope/telescope.nvim'
 
+  -- Registers
+  use 'tversteeg/registers.nvim'
+
   -- Git support
   use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
@@ -39,7 +42,6 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.install').update({ with_sync = true })
     end
   }
-  use 'tversteeg/registers.nvim'
   --use 'tpope/vim-endwise'
   use 'RRethy/nvim-treesitter-endwise'
   use 'windwp/nvim-autopairs'
