@@ -13,6 +13,7 @@ vim.o.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
 vim.o.tabline = '%{getcwd()}'
 vim.o.switchbuf = 'useopen,usetab'
 vim.o.updatetime = 250
+vim.o.mouse=""
 vim.cmd("let mapleader = ' '")
 
 require('run2cmd.plugins')

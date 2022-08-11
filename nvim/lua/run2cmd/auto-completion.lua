@@ -21,7 +21,7 @@ vim.o.complete = string.gsub(vim.o.complete, 't', '')
 
 -- Nice indention bar
 vim.g.indentLine_char = '┊'
-vim.g.indentLine_fileTypeExclude = { 'startify', 'markdown' }
+vim.g.indentLine_fileTypeExclude = { 'startify', 'markdown', 'alpha' }
 vim.g.indentLine_bufTypeExclude = { 'finished', 'terminal', 'help', 'quickfix' }
 
 -- Enable Omni completion if not already set

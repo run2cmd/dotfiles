@@ -14,7 +14,8 @@
     "vim-language-server": "latest",
     "vscode-langservers-extracted": "latest",
     "yaml-language-server": "latest",
-    "npm-groovy-lint": "latest"
+    "npm-groovy-lint": "latest",
+    "tree-sitter-cli": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
