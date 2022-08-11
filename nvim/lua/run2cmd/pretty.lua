@@ -14,4 +14,10 @@ vim.o.linebreak = true
 vim.o.scrolloff = 2
 vim.o.sidescrolloff = 5
 
-vim.cmd('colorscheme bugi')
+vim.cmd('colorscheme zephyr')
+
+local post_colors = {
+}
+for group, conf in pairs(post_colors) do
+  vim.api.nvim_set_hl(0, group, conf)
+end

@@ -10,6 +10,6 @@ return {
 
   --  Colors
   colors = {
-    background = 'Gray15';
+    background = 'Gray19';
   }
 }

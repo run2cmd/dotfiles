@@ -7,9 +7,11 @@ return require('packer').startup(function(use)
   -- Libraries
   use 'nvim-lua/plenary.nvim'
 
+  -- colorschemes
+  use 'glepnir/zephyr-nvim'
+
   -- Movement
   use 'tpope/vim-unimpaired'
-  use 'Yggdroot/indentLine'
 
   -- File manager
   use 'nvim-telescope/telescope.nvim'
@@ -42,8 +44,8 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.install').update({ with_sync = true })
     end
   }
-  --use 'tpope/vim-endwise'
   use 'RRethy/nvim-treesitter-endwise'
+  use 'nvim-treesitter/playground'
   use 'windwp/nvim-autopairs'
   use 'numToStr/Comment.nvim'
 
@@ -58,6 +60,7 @@ return require('packer').startup(function(use)
   use 'martinda/Jenkinsfile-vim-syntax'
   use 'aklt/plantuml-syntax'
   use 'ellisonleao/glow.nvim'
+  use 'Yggdroot/indentLine'
 
   -- Database
   use 'kristijanhusak/vim-dadbod-ui'
@@ -70,7 +73,6 @@ return require('packer').startup(function(use)
   use 'ThePrimeagen/vim-be-good'
 
 -- Plugins to review:
---  * https://github.com/neovim-puppet/tree-sitter-puppet
 --  * https://github.com/mfussenegger/nvim-dap
 --  * https://github.com/glepnir/lspsaga.nvim
 --  * https://github.com/ThePrimeagen/refactoring.nvim
