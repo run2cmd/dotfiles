@@ -5,5 +5,3 @@
 --exclude=*.git*
 --exclude=*.svn*
 --exclude=*.css
---exclude=*.md
---exclude=*.markdown
