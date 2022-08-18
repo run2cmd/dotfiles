@@ -141,6 +141,7 @@ sdk update
 sdk install java 11.0.12-open
 sdk install groovy 2.4.12
 sdk install maven && sdk install gradle
+cp /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/current/lib/security/cacerts
 
 echo '==================================================================================================='
 echo 'UPDATE NODEJS'
