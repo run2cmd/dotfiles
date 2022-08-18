@@ -26,7 +26,8 @@ set permissioncertificateerror=ask
 set redirecttohttp
 
 " Fake we are trusted Google browser ;)
-set firefoxmode=google
+"set useragent=%firefox
+"set useragent="Mozilla/5.0 (%sys) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/%version Safari/537.36"
 
 " Set gVim as default editor
 set vimcommand=gvim
@@ -69,7 +70,9 @@ set devtoolsposition=vsplit
 set menupage=never
 
 " Use dark theme for everything
-" set darkreader
+set darkreader=true
+set darkreaderbrightness=80
+set darkreadergrayscale=20
 
 " Private mode
 " <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>
