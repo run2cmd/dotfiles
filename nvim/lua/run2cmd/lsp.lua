@@ -9,6 +9,7 @@ vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
 -- Setup lsp_status
 lsp_status.register_progress()
 lsp_status.config({
+  status_symbol = '',
   indicator_errors = 'E',
   indicator_warnings = 'W',
   indicator_info = 'I',
@@ -57,7 +58,6 @@ lspconfig.solargraph.setup(config({
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
-lspconfig.ansiblels.setup(config())
 lspconfig.groovyls.setup(config({
   -- Do not autostart so Gradle files does not start new server
   autostart = false,
@@ -102,7 +102,7 @@ lspconfig.ansiblels.setup(config({
     ansible = {
       -- Run ansible-lint with python env
       python = {
-        interpreterPath = '/pyenv'
+        interpreterPath = 'pyenv'
       },
       ansibleLint = {
         path = 'exec',
