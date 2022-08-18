@@ -2,7 +2,7 @@ local config = require('nvim-treesitter.configs')
 
 -- Enable treesitter
 config.setup({
-  ensure_installed = { 'ruby', 'python', 'dockerfile', 'lua', 'json', 'yaml', 'vim', 'bash', 'comment', 'help', 'markdown' },
+  ensure_installed = 'all',
   sync_install = false,
   highlight = {
     enable = true,
