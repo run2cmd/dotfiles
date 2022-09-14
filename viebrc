@@ -71,7 +71,7 @@ set menupage=never
 
 " Use dark theme for everything
 set darkreader=true
-set darkreaderbrightness=80
+set darkreaderbrightness=90
 set darkreadergrayscale=20
 
 " Private mode
