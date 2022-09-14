@@ -12,6 +12,7 @@ local pairs_rules = require'nvim-autopairs.rule'
 vim.o.wildcharm = '<Tab>'
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.o.cindent = true
 vim.o.wildignore = '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 
 -- Vim build-in completion
