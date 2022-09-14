@@ -2,6 +2,7 @@ local lspconfig = require('lspconfig')
 local cmpnvimlsp = require('cmp_nvim_lsp')
 local lsp_status = require('lsp-status')
 local mapkey = vim.keymap.set
+local homedir = vim.env.HOME
 
 -- Use Tags if LSP server does not return definitions
 vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
@@ -59,11 +60,13 @@ lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
 lspconfig.groovyls.setup(config({
-  -- Do not autostart so Gradle files does not start new server
-  autostart = false,
-  filetypes = { 'groovy', 'gradle_test' },
+  filetypes = { 'groovy', 'groovy_test' },
   -- Limit memory useage Groovy LS is heavy
-  cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", "/home/pbugala/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+  cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", homedir .. "/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+}))
+lspconfig.gradle_ls.setup(config({
+  filetypes = { 'gradle' },
+  cmd = { homedir .. '/tools/vscode-gradle/gradle-language-server/build/install/gradle-language-server/bin/gradle-language-server' }
 }))
 lspconfig.yamlls.setup(config({
   settings = {
@@ -114,7 +117,7 @@ lspconfig.ansiblels.setup(config({
 lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config())
 lspconfig.sumneko_lua.setup(config({
-  cmd = { '/home/pbugala/tools/lua-language-server/bin/luals.sh' },
+  cmd = { homedir .. '/tools/lua-language-server/bin/luals.sh' },
   settings = {
     Lua = {
       runtime = {
@@ -134,7 +137,7 @@ lspconfig.sumneko_lua.setup(config({
   }
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile' },
+  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python', 'groovy_test', 'gradle' },
   init_options = {
     linters = {
       mdl = {
@@ -164,7 +167,7 @@ lspconfig.diagnosticls.setup(config({
       groovylint = {
         sourceName = 'groovylint',
         command = 'npm-groovy-lint',
-        args = { '-r', '/home/pbugala/.codenarc.groovy', '-f', '**/%relativepath', '--noserver' },
+        args = { '-r', homedir .. '/.codenarc/default.groovy', '-f', '**/%relativepath'},
         isStderr = true,
         isStdout = true,
         formatLines = 1,
@@ -176,20 +179,31 @@ lspconfig.diagnosticls.setup(config({
             message = 3,
           }
         }
-        --parseJson = {
-        --  errorsRoot = 'files.%filepath.errors',
-        --  line = 'line',
-        --  security = 'severity',
-        --  message = '[${rule}] ${msg}',
-        --}
+      },
+      jenkinslint = {
+        sourceName = 'jenkinslint',
+        command = 'npm-groovy-lint',
+        args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy', '-f', '**/%relativepath'},
+        isStderr = true,
+        isStdout = true,
+        formatLines = 1,
+        formatPattern = {
+          '^[ ]+(\\d+)[ ]+.*90m(\\w+).*39m(.*)',
+          {
+            line = 1,
+            security = 2,
+            message = 3,
+          }
+        }
       },
     },
     filetypes = {
       markdown = 'mdl',
       xml = 'xmllint',
       groovy = 'groovylint',
-      Jenkinsfile = 'groovylint',
-      gradle_test = 'groovylint',
+      groovy_test = 'groovylint',
+      gradle = 'groovylint',
+      Jenkinsfile = 'jenkinslint',
     },
     formatters = {
       prettier = {

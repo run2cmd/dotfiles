@@ -220,7 +220,7 @@ ruleset {
   MissingBlankLineAfterPackage
   //MissingBlankLineBeforeAnnotatedField
   SpaceAfterCatch
-  //SpaceAfterClosingBrace
+  SpaceAfterClosingBrace
   SpaceAfterComma
   SpaceAfterFor
   SpaceAfterIf
@@ -234,7 +234,7 @@ ruleset {
   SpaceAroundClosureArrow
   //SpaceAroundMapEntryColon
   SpaceAroundOperator
-  //SpaceBeforeClosingBrace
+  SpaceBeforeClosingBrace
   SpaceBeforeOpeningBrace
   //SpaceInsideParentheses
   TrailingWhitespace
@@ -267,7 +267,9 @@ ruleset {
   // rulesets/groovyism.xml
   AssignCollectionSort
   AssignCollectionUnique
-  ClosureAsLastMethodParameter
+  ClosureAsLastMethodParameter {
+    doNotApplyToClassNames = "*Test,BasicSpecification"
+  }
   CollectAllIsDeprecated
   ConfusingMultipleReturns
   ExplicitArrayListInstantiation
@@ -377,7 +379,7 @@ ruleset {
   // rulesets/security.xml
   FileCreateTempFile
   InsecureRandom
-  JavaIoPackageAccess
+  //JavaIoPackageAccess
   NonFinalPublicField
   NonFinalSubclassOfSensitiveInterface
   ObjectFinalize
@@ -427,7 +429,7 @@ ruleset {
   UnnecessaryFinalOnPrivateMethod
   UnnecessaryFloatInstantiation
   UnnecessaryGString
-  //UnnecessaryGetter
+  UnnecessaryGetter
   UnnecessaryIfStatement
   UnnecessaryInstanceOfCheck
   UnnecessaryInstantiationToGetClass
