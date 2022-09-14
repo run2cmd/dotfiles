@@ -4,17 +4,20 @@
 -- Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
 -- License: The Vim License (this command will show it: ':help copyright')
 --
-vim.cmd('packadd! matchit')
-vim.o.swapfile = false
-vim.o.confirm = true
-vim.o.undofile = true
-vim.o.path = vim.o.path .. ',**'
-vim.o.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
-vim.o.tabline = '%{getcwd()}'
-vim.o.switchbuf = 'useopen,usetab'
-vim.o.updatetime = 250
-vim.o.mouse=""
-vim.cmd("let mapleader = ' '")
+local opt = vim.o
+local cmd = vim.cmd
+
+cmd('packadd! matchit')
+opt.swapfile = false
+opt.confirm = true
+opt.undofile = true
+opt.path = vim.o.path .. ',**'
+opt.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
+opt.tabline = '%{getcwd()}'
+opt.switchbuf = 'useopen,usetab'
+opt.updatetime = 250
+opt.mouse=""
+cmd("let mapleader = ' '")
 
 require('run2cmd.plugins')
 require('run2cmd.helper-functions')
