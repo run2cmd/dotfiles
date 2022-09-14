@@ -1,10 +1,9 @@
-ansicolor
 GitPython
-pylint
 PyYAML
-requests
-yamllint
-vim-vint
-autopep8
 ansible-lint
+ansicolor
 jedi-language-server
+pylint
+requests
+vim-vint
+yamllint
