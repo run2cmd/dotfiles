@@ -68,8 +68,9 @@ ln -snf ${CONF}/rubocop.yaml ${HOME}/.rubocop.yaml
 ln -snf ${CONF}/screenrc ${HOME}/.screenrc
 ln -snf ${CONF}/tmux.conf ${HOME}/.tmux.conf
 ln -snf ${CONF}/vintrc.yaml ${HOME}/.vintrc.yaml
-ln -snf ${CONF}/codenarc.groovy ${HOME}/.codenarc.groovy
+ln -snf ${CONF}/codenarc ${HOME}/.codenarc
 ln -snf ${CONF}/yamllint ${HOME}/.yamllint
+ln -snf ${CONF}/pylintrc ${HOME}/.pylintrc
 
 ln -snf ${CONF}/Pythonfile ${HOME}/Pythonfile
 ln -snf ${CONF}/package.json ${HOME}/package.json
@@ -117,14 +118,15 @@ bundle update
 echo '==================================================================================================='
 echo 'UPDATE PYTHON'
 
+PYTHON_VERSION=3.8.13
 if [ ! -e ${HOME}/.pyenv ] ;then
-  export PYENV_GIT_TAG=v3.8.2
+  export PYENV_GIT_TAG=v${PYTHON_VERSION}
   curl https://pyenv.run | bash
 fi
 
 pyenv update
-pyenv install -s 3.8.2
-pyenv global 3.8.2
+pyenv install ${PYTHON_VERSION}
+pyenv global ${PYTHON_VERSION}
 python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
 
@@ -212,6 +214,25 @@ if test ! -f Gemfile.lock || git remote show origin | grep -q "out of date" ;the
   git pull
   bundle install
 fi
+cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
+
+echo "Update Gradle Language Server"
+GRADLE_LS_DIR=${HOME}/tools/vscode-gradle
+if [ ! -e $GRADLE_LS_DIR ] ;then git clone https://github.com/microsoft/vscode-gradle.git ;fi
+cd $GRADLE_LS_DIR || (echo "Failed to enter ${GRADLE_LS_DIR}" && exit)
+if test ! -d build || git remote show origin | grep -q 'out of date' ;then
+  git pull
+  ./gradlew clean insallDist
+fi
+
+echo "Puppet Treesitter setup"
+PUPPET_TS_DIR=${HOME}/tools/tree-sitter-puppet
+PUPPET_Q_DIR=${HOME}/.local/share/nvim/site/pack/packer/start/nvim-treesitter/queries/puppet
+if [ ! -e $PUPPET_TS_DIR ] ;then git clone https://github.com/neovim-puppet/tree-sitter-puppet.git ;fi
+cd $PUPPET_TS_DIR || (echo "Failed to enter ${PUPPET_TS_DIR}" && exit)
+git pull
+if [ ! -e $PUPPET_Q_DIR ] ;then mkdir -p $PUPPET_Q_DIR ;fi
+cp ${PUPPET_TS_DIR}/queries/* ${PUPPET_Q_DIR}/
 cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
 
 echo '==================================================================================================='
