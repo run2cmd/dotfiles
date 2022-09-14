@@ -38,4 +38,7 @@ mapkey('v', '<leader>s', 'y :Ggrep <C-R>"<CR>')
 mapkey('v', '<leader>y', '"zy :call system(\'clip.exe\', @z)<CR><CR>')
 
 -- Easy close terminal
-mapkey('t', '<C-W>e', '<C-\\><C-N>')
+mapkey('t', '<Esc>', '<C-\\><C-N>')
+
+-- Search for errors
+mapkey('n', '<leader>e', '/fail<CR>')
