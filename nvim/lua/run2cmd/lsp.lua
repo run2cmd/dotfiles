@@ -196,6 +196,25 @@ lspconfig.diagnosticls.setup(config({
           }
         }
       },
+      pylint = {
+        sourceName = 'pylint',
+        command = 'pylint',
+        args = { '-f', 'text', '--msg-template', '{line}:{column}: {msg_id} {msg}', '%relativepath' },
+        formatPattern = {
+          '^(\\d+):(\\d+): (\\w)(.*)',
+          {
+            line = 1,
+            column = 2,
+            security = 3,
+            message = { 3, 4 },
+          }
+        },
+        securities = {
+          error = 'E',
+          warning = 'W',
+          note = 'C',
+        }
+      }
     },
     filetypes = {
       markdown = 'mdl',
@@ -204,6 +223,7 @@ lspconfig.diagnosticls.setup(config({
       groovy_test = 'groovylint',
       gradle = 'groovylint',
       Jenkinsfile = 'jenkinslint',
+      python = 'pylint',
     },
     formatters = {
       prettier = {
