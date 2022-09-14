@@ -70,13 +70,13 @@ local test_tbl = {
     groovy = 'groovy %',
     ruby = 'ruby %',
     rspec = 'BEAKER_destroy=no rspec %',
-    plantuml = 'plantuml -tsvg -o ' .. vim.env.HOME .. '/.config/nvim/tmp' .. ' ' .. vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()),
+    plantuml = 'plantuml -tsvg -o ' .. vim.env.HOME .. '/.config/nvim/tmp %',
     python = 'python %',
     puppet = 'puppet apply --noop %',
     sh = 'bash %',
     xml = 'mvn clean install -f %',
     lua = 'lua %',
-    gradle_test = gradle_bin() .. ' clean test --tests --info ' .. vim.fs.basename(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())):gsub('.groovy', '')
+    groovy_test = gradle_bin() .. ' clean test --tests %:t:r --info'
   }
 }
 
@@ -112,11 +112,6 @@ mapkey('n', '<leader>e', ':lua /FAILED\\|ERROR\\|Error\\|Failed<cr>')
 
 local autocmds = {
   filetypes = {
-    -- Start Groovy LSP only for groovy files. Do not care about Gradle or Jenkinsfile
-    {
-      event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
-      opts = { pattern = '*.groovy', command = ':LspStart' }
-    },
     -- Detect yaml.ansible for Ansible LS support
     {
       event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
@@ -127,10 +122,15 @@ local autocmds = {
       event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
       opts = { pattern = '*_spec.rb', command = 'lua require("run2cmd.helper-functions").set_filetype("rspec", "ruby", {})' }
     },
-    -- Detect gradle test
+    -- Detect groovy test
     {
       event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
-      opts = { pattern = '*Test.groovy', command = 'lua require("run2cmd.helper-functions").set_filetype("gradle_test", "groovy", {})' }
+      opts = { pattern = '*Test.groovy', command = 'lua require("run2cmd.helper-functions").set_filetype("groovy_test", "groovy", {})' }
+    },
+    -- Detect gradle file
+    {
+      event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
+      opts = { pattern = '*.gradle', command = 'lua require("run2cmd.helper-functions").set_filetype("gradle", "groovy", {})' }
     },
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } }
