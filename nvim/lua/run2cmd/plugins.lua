@@ -44,10 +44,12 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.install').update({ with_sync = true })
     end
   }
+  --use 'nvim-treesitter/nvim-treesitter-context'
   use 'RRethy/nvim-treesitter-endwise'
   use 'nvim-treesitter/playground'
   use 'windwp/nvim-autopairs'
   use 'numToStr/Comment.nvim'
+  use 'mcauley-penney/tidy.nvim'
 
   -- Project support
   use 'airblade/vim-rooter'
@@ -59,7 +61,6 @@ return require('packer').startup(function(use)
   use 'rodjek/vim-puppet'
   use 'martinda/Jenkinsfile-vim-syntax'
   use 'aklt/plantuml-syntax'
-  use 'ellisonleao/glow.nvim'
   use 'Yggdroot/indentLine'
 
   -- Database
@@ -75,10 +76,8 @@ return require('packer').startup(function(use)
 -- Plugins to review:
 --  * https://github.com/mfussenegger/nvim-dap
 --  * https://github.com/glepnir/lspsaga.nvim
---  * https://github.com/ThePrimeagen/refactoring.nvim
 --  * https://github.com/ray-x/navigator.lua
 --  * https://github.com/lukas-reineke/lsp-format.nvim
---  * https://github.com/jbyuki/carrot.nvim
 --  * https://github.com/ThePrimeagen/harpoon
 --
 -- IDEs to review:
