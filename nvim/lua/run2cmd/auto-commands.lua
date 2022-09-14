@@ -45,5 +45,8 @@ local autocmds = {
   autosave = {
     { event = { 'CursorHold' }, opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" } },
   },
+  remove_trailing_line = {
+    { event = { 'BufWrite' }, opts = { pattern = '*', command = ':%s/\\s\\+$//e' } }
+  }
 }
 helpers.create_autocmds(autocmds)
