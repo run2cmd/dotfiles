@@ -76,16 +76,20 @@ end
 M.set_filetype = function(ft, syn, matcher)
   local buffer = vim.api.nvim_get_current_buf()
   local doset = false
-  for _,m in ipairs(matcher) do
-    local content = vim.filetype.getlines(buffer, 1, 10)
-    for _,c in ipairs(content) do
-      if string.match(c, m) then
-        doset = true
+  if vim.fn.expand('%'):find('term:///') then
+    doset = false
+  else
+    for _,m in ipairs(matcher) do
+      local content = vim.filetype.getlines(buffer, 1, 10)
+      for _,c in ipairs(content) do
+        if string.match(c, m) then
+          doset = true
+        end
       end
     end
-  end
-  if vim.tbl_isempty(matcher) then
-    doset = true
+    if vim.tbl_isempty(matcher) then
+      doset = true
+    end
   end
   if doset then
     vim.bo.filetype = ft
@@ -114,7 +118,9 @@ end
 -- @return open terminal window with params command output
 --
 M.run_term_cmd = function(params)
-  vim.g.last_terminal_test = params
+  local pstring = params .. ' '
+  local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
+  vim.g.last_terminal_test = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath  .. ' %3')
   if params == nil or params == '' then
     print('Missing terminal command to run')
   end
