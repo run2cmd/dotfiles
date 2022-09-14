@@ -1,6 +1,5 @@
 --
 -- Name: Bugi Neovim
--- Scriptname: .config/init.lua
 -- Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
 -- License: The Vim License (this command will show it: ':help copyright')
 --
@@ -26,8 +25,8 @@ require('run2cmd.format')
 require('run2cmd.diff')
 require('run2cmd.telescope')
 require('run2cmd.auto-completion')
-require('run2cmd.lsp')
 require('run2cmd.project-setup')
+require('run2cmd.lsp')
 require('run2cmd.auto-commands')
 require('run2cmd.netrw')
 require('run2cmd.git')
