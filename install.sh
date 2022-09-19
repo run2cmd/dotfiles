@@ -10,7 +10,7 @@ dpkg -l | grep -q " curl " || sudo apt install -y curl
 dpkg -l | grep -q " apt-transport-https " || sudo apt install -y apt-transport-https
 
 if ! (dpkg -l | grep -q " pdk ") ;then
-  wget -O /tmp/puppet-tools-release.deb https://apt.puppet.com/puppet-tools-release-bullseye.deb
+  wget -q -O /tmp/puppet-tools-release.deb https://apt.puppet.com/puppet-tools-release-bullseye.deb
   sudo dpkg -i /tmp/puppet-tools-release.deb
 fi
 
@@ -20,7 +20,7 @@ if [ ! -e /etc/apt/sources.list.d/helm-debian.list ] ;then
 fi
 
 if [ ! -e /etc/apt/sources.list.d/hashicorp.list ] ;then
-  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  wget -q -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 fi
 
@@ -65,6 +65,7 @@ ln -snf ${CONF}/rvmrc ${HOME}/.rvmrc
 ln -snf ${CONF}/puppet-lint.rc ${HOME}/.puppet-lint.rc
 ln -snf ${CONF}/reek ${HOME}/.reek
 ln -snf ${CONF}/rubocop.yaml ${HOME}/.rubocop.yaml
+ln -snf ${CONF}/soloargraph.yml ${HOME}/.soloargraph.yml
 ln -snf ${CONF}/screenrc ${HOME}/.screenrc
 ln -snf ${CONF}/tmux.conf ${HOME}/.tmux.conf
 ln -snf ${CONF}/vintrc.yaml ${HOME}/.vintrc.yaml
@@ -85,9 +86,9 @@ fi
 echo '==================================================================================================='
 echo 'UPDATE NEOVIM'
 
-wget -O /tmp/nvim-linux64.deb.sha256sum https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum
+wget -q -O /tmp/nvim-linux64.deb.sha256sum https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb.sha256sum
 if [ ! -e /tmp/nvim-linux64.deb ] || [ "$(cut -d " " -f1 < /tmp/nvim-linux64.deb.sha256sum)" != "$(sha256sum /tmp/nvim-linux64.deb |cut -d " " -f1)" ] ;then
-  wget -O /tmp/nvim-linux64.deb https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
+  wget -q -O /tmp/nvim-linux64.deb https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
   sudo dpkg -i /tmp/nvim-linux64.deb
 fi
 
@@ -122,11 +123,11 @@ PYTHON_VERSION=3.8.13
 if [ ! -e ${HOME}/.pyenv ] ;then
   export PYENV_GIT_TAG=v${PYTHON_VERSION}
   curl https://pyenv.run | bash
+  pyenv install ${PYTHON_VERSION}
+  pyenv global ${PYTHON_VERSION}
 fi
 
 pyenv update
-pyenv install ${PYTHON_VERSION}
-pyenv global ${PYTHON_VERSION}
 python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
 
@@ -143,7 +144,7 @@ sdk update
 sdk install java 11.0.12-open
 sdk install groovy 2.4.12
 sdk install maven && sdk install gradle
-cp /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/current/lib/security/cacerts
+ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/current/lib/security/cacerts
 
 echo '==================================================================================================='
 echo 'UPDATE NODEJS'
@@ -167,7 +168,7 @@ HADOLINT_GIT_API="$(curl --no-progress-meter https://api.github.com/repos/hadoli
 HADOLINT_VERSION=$(echo "${HADOLINT_GIT_API}" |grep "tag_name" |sed -r 's/.*([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
 if ! (hadolint --version | grep -q $HADOLINT_VERSION) ;then
   HADOLINT_URL=$(echo "${HADOLINT_GIT_API}" |grep "Linux-x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
-  wget -O ${HOME}/bin/hadolint $HADOLINT_URL
+  wget -q -O ${HOME}/bin/hadolint $HADOLINT_URL
   chmod +x ${HOME}/bin/hadolint
 fi
 
@@ -176,7 +177,7 @@ K9S_GIT_API="$(curl --no-progress-meter https://api.github.com/repos/derailed/k9
 K9S_VERSION=$(echo "${K9S_GIT_API}" |grep "tag_name" |sed -r 's/.*([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
 if ! (k9s version |grep -q ${K9S_VERSION}) ;then
   K9S_URL=$(echo "${K9S_GIT_API}" |grep "Linux_x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
-  wget -O /tmp/k9s.tar.gz $K9S_URL
+  wget -q -O /tmp/k9s.tar.gz $K9S_URL
   tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
 fi
 
@@ -189,7 +190,7 @@ LUA_LSP_VERSION=$(echo "${LUA_GIT_API}" |grep "tag_name" |sed -r 's/.*([0-9]{1,2
 LUA_LSP_DIR=${HOME}/tools/lua-language-server
 if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q ${LUA_LSP_VERSION}) ;then
   LUA_DOWNLOAD_URL=$(echo "${LUA_GIT_API}" |grep "linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
-  wget -O /tmp/luals.tar.gz $LUA_DOWNLOAD_URL
+  wget -q -O /tmp/luals.tar.gz $LUA_DOWNLOAD_URL
   mkdir -p $LUA_LSP_DIR
   tar -xvf /tmp/luals.tar.gz -C $LUA_LSP_DIR
   echo "exec \"${LUA_LSP_DIR}/bin/lua-language-server\" \"\$@\"" > ${LUA_LSP_DIR}/bin/luals.sh
@@ -222,7 +223,7 @@ if [ ! -e $GRADLE_LS_DIR ] ;then git clone https://github.com/microsoft/vscode-g
 cd $GRADLE_LS_DIR || (echo "Failed to enter ${GRADLE_LS_DIR}" && exit)
 if test ! -d build || git remote show origin | grep -q 'out of date' ;then
   git pull
-  ./gradlew clean insallDist
+  NODE_TLS_REJECT_UNAUTHORIZED=0 ./gradlew clean installDist
 fi
 
 echo "Puppet Treesitter setup"

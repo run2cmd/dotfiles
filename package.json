@@ -10,12 +10,13 @@
     "bash-language-server": "latest",
     "diagnostic-languageserver": "latest",
     "dockerfile-language-server-nodejs": "latest",
+    "node-pre-gyp": "^0.17.0",
+    "npm-groovy-lint": "latest",
     "prettier": "latest",
+    "tree-sitter-cli": "latest",
     "vim-language-server": "latest",
     "vscode-langservers-extracted": "latest",
-    "yaml-language-server": "latest",
-    "npm-groovy-lint": "latest",
-    "tree-sitter-cli": "latest"
+    "yaml-language-server": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

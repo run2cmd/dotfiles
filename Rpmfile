@@ -8,13 +8,11 @@ dos2unix
 fd-find
 git
 helm
-install
 libbz2-dev
 libffi-dev
 liblzma-dev
 libncursesw5-dev
 libreadline-dev
-libsqllite3-dev
 libssl-dev
 libxml2-dev
 libxml2-utils
@@ -31,7 +29,6 @@ rpm
 rpm2cpio
 shellcheck
 sshpass
-subversion
 terraform
 terraform-ls
 tk-dev
