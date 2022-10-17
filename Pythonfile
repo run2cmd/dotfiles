@@ -1,9 +1,13 @@
 GitPython
 PyYAML
-ansible-lint
 ansicolor
 jedi-language-server
 pylint
 requests
 vim-vint
 yamllint
+# Ansible deps
+MarkupSafe==1.1.1
+Jinja2==2.11.2
+ansible==2.8.20
+ansible-lint==5.4.0
