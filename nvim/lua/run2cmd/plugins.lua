@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
   use 'nvim-lua/plenary.nvim'
 
   -- colorschemes
-  use 'glepnir/zephyr-nvim'
+  use 'navarasu/onedark.nvim'
 
   -- Movement
   use 'tpope/vim-unimpaired'

@@ -1,22 +1,27 @@
 --
 -- Lets look pretty :)
 --
-vim.o.noerrorbells = 'visualbell'
+local opt = vim.o
+local cmd = vim.cmd
 
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.signcolumn = 'yes'
+opt.noerrorbells = 'visualbell'
 
-vim.o.list = true
-vim.o.listchars = 'conceal:^,nbsp:+'
-vim.o.linebreak = true
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = 'yes'
 
-vim.o.scrolloff = 2
-vim.o.sidescrolloff = 5
+opt.list = true
+opt.listchars = 'conceal:^,nbsp:+'
+opt.linebreak = true
 
--- I want a bit darker theme in zeprhy so do this:
--- Set in ~/.local/share/nvim/site/pack/packer/start/zephyr-nvim/lua/zephyr.lua:
---      bg = '#262626',
---      StatusLine = {fg=z.base8,bg=z.base4},
---      StatusLineNC = {fg=z.grey,bg=z.base4},
-vim.cmd('colorscheme zephyr')
+opt.scrolloff = 2
+opt.sidescrolloff = 5
+
+require('onedark').setup {
+  style = 'darker',
+}
+cmd('colorscheme onedark')
+
+-- Additional color overried
+cmd('hi puppetName guifg=#4fa6ed')
+cmd('hi puppetVariable guifg=#48b0bd')
