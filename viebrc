@@ -3,7 +3,6 @@
 " Some sane defaults
 set adblocker=update
 set favicons=30day
-set ignorecase
 
 " Enable media
 set permissioncamera=ask
@@ -12,6 +11,9 @@ set permissionmediadevices=allow
 set permissionmicrophone=ask
 set permissionmidi=ask
 set permissionmidisysex=ask
+
+" Allow to ask for notification display
+set permissionnotifications=ask
 
 " Allow access to persistent storage
 set permissionpersistentstorage=allow
@@ -44,9 +46,6 @@ nmap <C-L> <esc>:b 0<cr>:rclose<cr>d<cr>
 " Follow keys
 set followchars=custom:asdfghjklrtuicvnm
 
-" Load local configuration
-set permissionsallowed+=xxgit1.gtech.com~notifications
-
 " Show confirm windows
 set dialogalert=show
 set dialogconfirm=show
@@ -73,10 +72,7 @@ set menupage=never
 set darkreader=true
 set darkreaderbrightness=90
 set darkreadergrayscale=20
-
-" Private mode
-" <:set storeonvisits=><:set keeprecentlyclosed=false><:set keeprecentlyclosed=false><:set explorehist=none><:set cmdhist=none>
-command privateMode <:set containernewtab=private><action.openNewTab><:set containernewtab=s:usecurrent>
+"set darkreaderblocklist=
 
 " Custom setup
 source ~/.viebrclocal
