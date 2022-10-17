@@ -4,7 +4,7 @@ local lsp_status = require('lsp-status')
 local mapkey = vim.keymap.set
 local homedir = vim.env.HOME
 
--- Use Tags if LSP server does not return definitions
+-- Overwrite default tag jump to use LSP definitions and then fall back to tags
 vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
 
 -- Setup lsp_status
@@ -31,7 +31,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 --
 local function config(_config)
   return vim.tbl_deep_extend('force', {
-    capabilities = cmpnvimlsp.update_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
+    capabilities = cmpnvimlsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true }
       mapkey('n', '<leader>vd', vim.diagnostic.open_float, opts)
@@ -40,9 +40,7 @@ local function config(_config)
 
       local bufopts = { noremap = true, silent = true, buffer = bufnr }
       mapkey('n', 'K', vim.lsp.buf.hover, bufopts)
-      --mapkey('n', 'gd', vim.lsp.buf.definition, bufopts)
-      --mapkey('v', 'gd', vim.lsp.buf.definition, bufopts)
-      mapkey('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+      mapkey('n', '<leader>f', vim.lsp.buf.format, bufopts)
       mapkey('n', "<leader>vca", vim.lsp.buf.code_action, bufopts)
       mapkey('n', "<leader>vrf", vim.lsp.buf.references, bufopts)
       mapkey('n', "<leader>vrn", vim.lsp.buf.rename, bufopts)
@@ -54,19 +52,14 @@ end
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
 lspconfig.solargraph.setup(config({
-  filetypes = { 'ruby', 'rspec' },
+  filetypes = { 'ruby' },
 }))
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
 lspconfig.groovyls.setup(config({
-  filetypes = { 'groovy', 'groovy_test' },
-  -- Limit memory useage Groovy LS is heavy
+  -- Limit memory usage. Groovy LS is heavy.
   cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", homedir .. "/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
-}))
-lspconfig.gradle_ls.setup(config({
-  filetypes = { 'gradle' },
-  cmd = { homedir .. '/tools/vscode-gradle/gradle-language-server/build/install/gradle-language-server/bin/gradle-language-server' }
 }))
 lspconfig.yamlls.setup(config({
   settings = {
@@ -137,7 +130,7 @@ lspconfig.sumneko_lua.setup(config({
   }
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python', 'groovy_test', 'gradle' },
+  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python' },
   init_options = {
     linters = {
       mdl = {
@@ -167,7 +160,7 @@ lspconfig.diagnosticls.setup(config({
       groovylint = {
         sourceName = 'groovylint',
         command = 'npm-groovy-lint',
-        args = { '-r', homedir .. '/.codenarc/default.groovy', '-f', '**/%relativepath'},
+        args = { '-r', homedir .. '/.codenarc/default.groovy', '--no-parse', '%relativepath'},
         isStderr = true,
         isStdout = true,
         formatLines = 1,
@@ -219,9 +212,7 @@ lspconfig.diagnosticls.setup(config({
     filetypes = {
       markdown = 'mdl',
       xml = 'xmllint',
-      groovy = 'groovylint',
-      groovy_test = 'groovylint',
-      gradle = 'groovylint',
+      --groovy = 'groovylint',
       Jenkinsfile = 'jenkinslint',
       python = 'pylint',
     },
