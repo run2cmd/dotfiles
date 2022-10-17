@@ -7,6 +7,7 @@ echo '==========================================================================
 echo 'UPDATE UBUNTU PACKAGES'
 
 dpkg -l | grep -q " curl " || sudo apt install -y curl
+dpkg -l | grep -q " wget " || sudo apt install -y wget
 dpkg -l | grep -q " apt-transport-https " || sudo apt install -y apt-transport-https
 
 if ! (dpkg -l | grep -q " pdk ") ;then
@@ -160,6 +161,7 @@ nvm alias default node
 nvm use node
 npm install
 npm install -g
+npm update
 
 echo '==================================================================================================='
 echo 'UPDATE CUSTOM TOOLS'
@@ -216,15 +218,6 @@ if test ! -f Gemfile.lock || git remote show origin | grep -q "out of date" ;the
   bundle install
 fi
 cd ${HOME}/tools || (echo "Failed to enter ${HOME}/tools" && exit)
-
-echo "Update Gradle Language Server"
-GRADLE_LS_DIR=${HOME}/tools/vscode-gradle
-if [ ! -e $GRADLE_LS_DIR ] ;then git clone https://github.com/microsoft/vscode-gradle.git ;fi
-cd $GRADLE_LS_DIR || (echo "Failed to enter ${GRADLE_LS_DIR}" && exit)
-if test ! -d build || git remote show origin | grep -q 'out of date' ;then
-  git pull
-  NODE_TLS_REJECT_UNAUTHORIZED=0 ./gradlew clean installDist
-fi
 
 echo "Puppet Treesitter setup"
 PUPPET_TS_DIR=${HOME}/tools/tree-sitter-puppet
