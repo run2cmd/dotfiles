@@ -134,6 +134,7 @@ fi
 pyenv update
 python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
+ansible-galaxy collection install community.general
 
 echo '==================================================================================================='
 echo 'UPDATE SDKMAN'
