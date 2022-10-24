@@ -20,15 +20,18 @@ gitdiff.setup({
 mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>')
 
 -- Easy Git
--- Git branches and git log is done with telescope. See telescope.lua file.
-mapkey('n', '<leader>gs', ':Git<cr>')
+mapkey('n', '<leader>gg', ':Git<cr>')
 mapkey('n', '<leader>gf', ':Git pull<cr>')
 mapkey('n', '<leader>gp', ':Git push<cr>')
 mapkey('n', '<leader>gb', ':Git blame<cr>')
-mapkey('n', '<leader>gl', ':Git log<cr>')
 mapkey('n', '<leader>ga', ':Git add %<cr>')
 mapkey('n', '<leader>gc', ':Git checkout ')
+mapkey('n', '<leader>gr', ':Git rebase -i ')
+mapkey('n', '<leader>gss', ':Git stash<cr>')
+mapkey('n', '<leader>gsp', ':Git stash pop<cr>')
+mapkey('n', '<leader>gv', ':Gvdiffsplit<cr>')
+mapkey('n', '<leader>gll', ':Git log<cr>')
+mapkey('n', '<leader>glq', ':Gclog<cr>')
 mapkey('n', '<leader>gdo', ':DiffviewOpen<cr>')
 mapkey('n', '<leader>gdc', ':DiffviewClose<cr>')
 mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>')
-mapkey('n', '<leader>gv', ':Gvdiffsplit<cr>')
