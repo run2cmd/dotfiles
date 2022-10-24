@@ -102,6 +102,9 @@ fi
 echo "Update Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
+echo "Update Neovim treesitter"
+nvim --headless -c 'TSUpdateSync | quitall'
+
 echo '==================================================================================================='
 echo 'UPDATE RUBY'
 
