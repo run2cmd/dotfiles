@@ -1,7 +1,7 @@
 local config = require('nvim-treesitter.configs')
---local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
--- Additional language support
+-- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+--
+-- -- Additional language support
 -- parser_config.puppet = {
 --   install_info = {
 --     url = '~/tools/tree-sitter-puppet',
