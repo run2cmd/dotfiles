@@ -26,19 +26,16 @@ mapkey('c', '<C-j>', '<Down>')
 -- Copy file path to + register
 mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>")
 
--- Terminal support
-mapkey('t', '<C-W><leader>w', '<C-W>:tabnext<CR>')
-mapkey('t', '<C-W><leader>b', '<C-W>:tabprevious<CR>')
-
 -- Search word under cursor
-mapkey('n', '<leader>s', 'viwy :Ggrep <C-R>"<CR>')
-mapkey('v', '<leader>s', 'y :Ggrep <C-R>"<CR>')
+mapkey('n', '<leader>s', 'viwy :Ggrep -q <C-R>"<CR>')
+mapkey('v', '<leader>s', 'y :Ggrep -q <C-R>"<CR>')
 
 -- WSL support for Windows clipboard
 mapkey('v', '<leader>y', '"zy :call system(\'clip.exe\', @z)<CR><CR>')
 
--- Easy close terminal
-mapkey('t', '<Esc>', '<C-\\><C-N>')
+-- Easy exit terminal mode
+mapkey('t', '<C-w>t', '<C-\\><C-N>')
 
--- Search for errors
-mapkey('n', '<leader>e', '/fail<CR>')
+-- Easy quickfix window
+mapkey('n', '<leader>qo', ':ccopen')
+mapkey('n', '<leader>qc', ':cclose')
