@@ -51,9 +51,7 @@ end
 -- Enable LSP servers
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
-lspconfig.solargraph.setup(config({
-  filetypes = { 'ruby' },
-}))
+lspconfig.solargraph.setup(config())
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
@@ -130,7 +128,7 @@ lspconfig.sumneko_lua.setup(config({
   }
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python' },
+  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python', 'eruby' },
   init_options = {
     linters = {
       mdl = {
@@ -160,7 +158,7 @@ lspconfig.diagnosticls.setup(config({
       groovylint = {
         sourceName = 'groovylint',
         command = 'npm-groovy-lint',
-        args = { '-r', homedir .. '/.codenarc/default.groovy', '--no-parse', '%relativepath'},
+        args = { '-r', homedir .. '/.codenarc/default.groovy', '%relativepath', '--no-parse' },
         isStderr = true,
         isStdout = true,
         formatLines = 1,
@@ -176,7 +174,7 @@ lspconfig.diagnosticls.setup(config({
       jenkinslint = {
         sourceName = 'jenkinslint',
         command = 'npm-groovy-lint',
-        args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy', '-f', '**/%relativepath'},
+        args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy', '%relativepath'},
         isStderr = true,
         isStdout = true,
         formatLines = 1,
@@ -207,14 +205,28 @@ lspconfig.diagnosticls.setup(config({
           warning = 'W',
           note = 'C',
         }
+      },
+      erblint = {
+        sourceName = 'erblint',
+        command = 'erblint',
+        args = { '--format', 'json', '%relativepath' },
+        parseJson = {
+          errorsRoot = 'files[0].offenses',
+          line = "location.start_line",
+          endLine = "location.last_line",
+          column = "location.start_column",
+          endColumn = "location.last_column",
+          message = "[${linter}] ${message}",
+        }
       }
     },
     filetypes = {
       markdown = 'mdl',
       xml = 'xmllint',
-      --groovy = 'groovylint',
+      groovy = 'groovylint',
       Jenkinsfile = 'jenkinslint',
       python = 'pylint',
+      eruby = 'erblint',
     },
     formatters = {
       prettier = {
