@@ -449,7 +449,7 @@ ruleset {
   UnnecessarySemicolon
   UnnecessarySetter
   UnnecessaryStringInstantiation
-  UnnecessarySubstring
+  //UnnecessarySubstring
   UnnecessaryTernaryExpression
   UnnecessaryToString
   UnnecessaryTransientModifier
