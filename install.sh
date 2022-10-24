@@ -112,8 +112,8 @@ if [ ! -e ${HOME}/.rvm ] ;then
 fi
 
 rvm get stable
-rvm install 2.4.10 --default
-rvm install 2.7.3
+rvm install 2.7.3 --default
+rvm install 2.4.10
 gem install bundle
 bundle update
 
