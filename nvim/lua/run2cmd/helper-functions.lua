@@ -159,4 +159,16 @@ M.create_autocmds = function(map)
   end
 end
 
+--
+-- Set proper gradle binary. Use local wrapper if exists. System gradle otherwise.
+--
+M.gradle_bin = function()
+  local binary = './gradlew'
+  if not M.file_exists('./gradlew') then
+    binary = 'gradle'
+  end
+  vim.env.GRADLE_BIN = binary
+end
+
+
 return M

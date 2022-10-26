@@ -27,15 +27,6 @@ editorconfig.properties.max_line_length = function(bufnr, val, opts)
   end
 end
 
--- Detect proper gradle for project
-local function gradle_bin()
-  local binary = './gradlew'
-  --if not helpers.file_exists('./gradlew') then
-  --  binary = 'gradle'
-  --end
-  return binary
-end
-
 --
 -- Project Tests
 --
@@ -68,7 +59,7 @@ local test_tbl = {
     },
     gradle = {
       marker = 'build.gradle',
-      command = gradle_bin() .. ' clean build --info',
+      command = '$GRADLE_BIN clean build --info',
       errors = 'FAILED',
     },
     helm = {
@@ -84,7 +75,7 @@ local test_tbl = {
       alternatives = {
         {
           filename_contain = 'Test.groovy',
-          command = gradle_bin() .. ' clean test --tests %:t:r --info',
+          command = '$GRADLE_BIN clean test --tests %:t:r --info',
           errors = 'FAILED',
         },
       }
@@ -205,3 +196,5 @@ helpers.create_autocmds(autocmds)
 
 -- Groovy formatting.
 vim.api.nvim_create_user_command('GroovyFormat', ':lua require("run2cmd.helper-functions").run_term_cmd(\'npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\"**/\'.expand(\'%\').\'\\"', {})
+
+return M
