@@ -11,8 +11,8 @@ require('telescope').setup({
     file_ignore_patterns = { '.git/', '.svn/' },
     mappings = {
       i = {
-        ['<C-n>'] = false,
-        ['<C-p>'] = false,
+        ['<C-n>'] = actions.preview_scrolling_up,
+        ['<C-p>'] = actions.preview_scrolling_down,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
       }
