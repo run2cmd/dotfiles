@@ -4,6 +4,9 @@
 set adblocker=update
 set favicons=30day
 
+" Language support
+set spelllang=en,pl
+
 " Enable media
 set permissioncamera=ask
 set permissiondisplaycapture=ask
