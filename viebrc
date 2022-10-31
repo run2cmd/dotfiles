@@ -57,6 +57,10 @@ set dialogprompt=show
 " Switch to buffer mode
 set guitabbar=never
 nmap <c-p> <esc>:buffer<space>
+emap <c-j> <nextSuggestion>
+emap <c-k> <prevSuggestion>
+cmap <c-j> <nextSuggestion>
+cmap <c-k> <prevSuggestion>
 
 " Reduce number of follows
 set followelement=url,onclick,inputs-insert,inputs-click
@@ -72,6 +76,7 @@ set devtoolsposition=vsplit
 set menupage=never
 
 " Use dark theme for everything
+set nativetheme=dark
 set darkreader=true
 set darkreaderbrightness=90
 set darkreadergrayscale=20
