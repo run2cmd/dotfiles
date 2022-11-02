@@ -31,7 +31,7 @@ mapkey('n', '<leader>s', 'viwy :Ggrep -q <C-R>"<CR>')
 mapkey('v', '<leader>s', 'y :Ggrep -q <C-R>"<CR>')
 
 -- WSL support for Windows clipboard
-mapkey('v', '<leader>y', '"zy :call system(\'clip.exe\', @z)<CR><CR>')
+mapkey('v', '<leader>y', '"+y :call system(\'clip.exe\', @z)<CR><CR>')
 
 -- Easy exit terminal mode
 mapkey('t', '<C-w>t', '<C-\\><C-N>')

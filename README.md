@@ -76,33 +76,61 @@ possible. Here are some core features:
 - Mapleader is set to `space`. It's just so much easier.
 - Use my own color scheme. It was based on `default` but evolved a lot into
   different direction.
+- Windows clipboard integration. Keys '<leader>y' will copy to `+` register and clip.exe allowing both Windows and Tmux read it.
 - Do not create any backup or swap files, only undo changes history.
 - No GUI or Mouse support. Keyboard-crazy mode enabled :).
 - No sounds enabled.
 - Auto save enabled on all files.
 - Some nice keybinding:
   - Arrow keys re-size window
-  - `<leader>c(normal)` - open terminal.
-  - `<leader>y(visual)` - copy text to windows clipboard.
-  - `<c-p>` - Telescope file list in project. This will use `.gitignore` file.
-  - `<c-k>` - Telescope project list in `projectDirectoryPath`. See .vimrc for details.
-  - `<c-s>` - List all files in current directory.
-  - `:Doc` - Call [cht.sh](https://cht.sh/) API.
-  - `<leader>bd` - close all buffers.
-  - `<c-l>` - clear all searches.
-  - `<leader>o` - open new tab.
-  - `<leader>w`, `<leader>b` - move to next or previous tab.
-  - `<leader>gc` - search for Git conflicts after rebase or merge across entire project.
-  - `<leader>s` - search word under cursor in entire project.
-  - Tests based on project type (Gradle, Maven, Puppet, etc.)
-    - \`t - Run project test.
-    - \`a - Run alternate project test if set.
-    - \`f - Run filetype test.
-    - \`l - Rerun last test.
-    - `<leader>e` - In test window search for errors and failures.
-  - `<leader>gc` - Find git conflicts and put them into quickfix list.
-  - `<leader>s` - Seach workd under cursor. Works with normal and visual mode.
-  - `<leader>y` - Copy from wsl to Windows system clipboard. Works with normal and visual mode.
+  - '<leader>l' - Delete all open buffers (not files) and restart LSP servers.
+  - '<leader>o' - open new tab with Alpha.
+  - '<leader>w', '<leader>b' - move to next or previous tab.
+  - '<C-W><leader>o' - open new tab with Alpha from terminal window.
+  - '<c-l>' - Clear search and update diff.
+  - '<leader>c' - open terminal.
+  - '<leader>y' - In visual mode copy text to windows clipboard.
+  - '<leader>f' - Copy open file file path.
+  - '<leader>c' - Open terminal window.
+  - '<C-w>t' - Easy leave terminal insert mode.
+  - ':Doc' - Call [cht.sh](https://cht.sh/) API.
+  - '<leader>qo' - Open quickfix window.
+  - '<leader>qc' - Close quickfix window.
+  - Work with projects:
+    - '`f' - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code)
+    - '`t' - Run tests for entire project like gradle, maven rake.
+    - '`l' - Repeat last run tests regardless of open buffer.
+    - '`e' - In terminal window will search for failed tests.
+    - '<leader>vd' - Open diagnostics float window when cursor is placed on reported text.
+    - '[d' - Jump to next diagnostic issue.
+    - ']d' - Jump to previous diagnostic issue.
+    - 'K' - Open hover floating window with text under cursor.
+    - '<leader>s' - search word under cursor across project.
+    - '<leader>f' - Run LSP format in buffer.
+    - '<leader>vca' - Run LSP code_action.
+    - '<leader>vrf' - Run LSP references.
+    - '<leader>vrn' - Run LSP rename.
+  - Move around directories:
+    - '<C-p>' - List files in current project and go to it after <CR> is hit.
+    - '<C-h>' - Same as '<c-p>' but for open buffers.
+    - '<C-k>' - List of projects in '/code' path. Assuming they are git projects will list projects following pattern: /code/<project-group>/<repository-name>.
+    - '<C-s>' - List all files in project (with no ignore and hidden enabled).
+  - Git:
+    - '<leader>gl' - List git commits.
+    - '<leader>gb' - List git branches. Use <CR> to change branch or <c-t> to checkout branch if not checkout before.
+    - '<leader>ge' - Search for Git conflicts project wide.
+    - '<leader>gg' - Enter git status window.
+    - '<leader>gf' - Git pull.
+    - '<leader>gp' - Git push.
+    - '<leader>ga' - Perform git add on current buffer.
+    - '<leader>gcm' - Enter git commit window.
+    - '<leader>gca' - Git commit with `--amend --no-edit`.
+    - '<leader>gss' - Git stash.
+    - '<leader>gsp' - Git stash pop.
+    - '<leader>gv' - Diff split on current buffer.
+    - '<leader>gdo' - Open DiffView in new tab for current project.
+    - '<leader>gdc' - Close DiffView.
+    - '<leader>gdr' - Refreash DiffView.
 
 ## Docker Desktop
 
@@ -112,4 +140,15 @@ Docker WSL. This might work out of the box with Docker on WSL2.
 ```bash
 mkdir -p /sys/fs/cgroup/systemd
 mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+```
+
+## Optimize WSL disk space
+
+This is useful if any of WSL instances reserves a lot of space that was used in the past. Run in PowerShell:
+
+```pwershell
+# vhdx-path:
+# - Docker = C:\Users\[user_name]\AppData\Local\Docker\wsl\data\ext4.vhdx
+# - Debian/Ubuntu = C:\Users\[user_name]\AppData\Local\Packages\[look something with debian or ubuntu]\LocalState\ext4.vhdx
+optimize-vhd -Path [vhdx-path] -Mode full
 ```
