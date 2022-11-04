@@ -68,3 +68,7 @@ mapkey('n', '<C-p>', require('telescope.builtin').find_files)
 mapkey('n', '<C-h>', require('telescope.builtin').buffers)
 mapkey('n', '<C-k>', find_projects)
 mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
+
+-- Git bindings
+mapkey('n', '<leader>gl', require('telescope.builtin').git_commits)
+mapkey('n', '<leader>gb', require('telescope.builtin').git_branches)
