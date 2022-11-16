@@ -160,15 +160,24 @@ M.create_autocmds = function(map)
 end
 
 --
--- Set proper gradle binary. Use local wrapper if exists. System gradle otherwise.
+-- Floating window
 --
-M.gradle_bin = function()
-  local binary = './gradlew'
-  if not M.file_exists('./gradlew') then
-    binary = 'gradle'
-  end
-  vim.env.GRADLE_BIN = binary
+-- @param ftext List of items to display in floating window.
+--
+M.float_window = function(ftext)
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
+  local opts = {
+    relative = 'editor',
+    width = 50,
+    height = 10,
+    col = 25,
+    row = 5,
+    anchor = 'NW',
+    style = 'minimal',
+    noautocmd = true,
+  }
+  vim.api.nvim_open_win(buf, 1, opts)
 end
-
 
 return M
