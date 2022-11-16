@@ -48,8 +48,5 @@ local autocmds = {
   remove_trailing_line = {
     { event = { 'BufWrite' }, opts = { pattern = '*', command = ':%s/\\s\\+$//e' } }
   },
-  gradle_binary = {
-    { event = 'DirChanged', opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').gradle_bin()" } }
-  }
 }
 helpers.create_autocmds(autocmds)

@@ -28,6 +28,23 @@ editorconfig.properties.max_line_length = function(bufnr, val, opts)
 end
 
 --
+-- Setup some environment variables based on project type.
+--
+local function gradle_setenv()
+  local binary = './gradlew'
+  if not helpers.file_exists('./gradlew') then
+    binary = 'gradle'
+  end
+  vim.env.NVIM_GRADLE_BIN = binary
+end
+
+local function project_env_setup()
+  if helpers.file_exists('build.gradle') then gradle_setenv() end
+end
+
+local ruby_env = 'source ~/.rvm/scripts/rvm && rvm use'
+
+--
 -- Project Tests
 --
 local test_tbl = {
@@ -35,90 +52,74 @@ local test_tbl = {
     maven = {
       marker = 'pom.xml',
       command = 'mvn clean install',
-      errors = 'FAILED',
     },
     nodejs = {
       marker = 'package.json',
       command = 'yarn install & yarn build:prod',
-      errors = 'FAILED',
     },
-    puppet = {
-      marker = 'manifests/init.pp',
-      command = 'rake parallel_spec',
-      errors = 'FAILED',
+    ruby = {
+      marker = 'Gemfile',
+      command = ruby_env .. '&& bundle exec rake spec',
+      errors = 'Error'
     },
     ansible = {
       marker = '.ansible-lint',
       command = 'ansible-lint %',
-      errors = 'FAILED',
     },
     icha = {
       marker = 'Puppetfile',
       command = 'ichatest.sh',
-      errors = 'FAILED',
     },
     gradle = {
       marker = 'build.gradle',
-      command = '$GRADLE_BIN clean build --info',
-      errors = 'FAILED',
+      command = '$NVIM_GRADLE_BIN clean build --info',
     },
     helm = {
       marker = 'helm',
       command = 'for i in $(ls helm) ;do mkdir -p templates_out/${i} && helm template helm/${i} --output-dir templates_out ;done',
-      errors = 'FAILED',
     }
   },
   file_types = {
     groovy = {
       command = 'groovy %',
-      errors = 'FAILED',
       alternatives = {
         {
           filename_contain = 'Test.groovy',
-          command = '$GRADLE_BIN clean test --tests %:t:r --info',
-          errors = 'FAILED',
+          command = '$NVIM_GRADLE_BIN clean test --tests %:t:r --info',
         },
       }
     },
     ruby = {
-      command = 'ruby %',
-      errors = 'FAILED',
+      command = ruby_env .. '&& ruby %',
       alternatives = {
         {
           filename_contain = '_spec.rb',
-          command = 'BEAKER_destroy=no rspec %',
-          errors = 'FAILED',
+          command = ruby_env .. '&& BEAKER_destroy=no rspec %',
         }
       }
     },
     plantuml = {
       command = 'plantuml -tsvg -o ' .. vim.env.HOME .. '/.config/nvim/tmp %',
-      errors = 'FAILED',
       alternatives = {},
     },
     python = {
       command = 'python %',
-      errors = 'FAILED',
       alternatives = {},
     },
     puppet = {
       command = 'puppet apply --noop %',
-      errors = 'FAILED',
       alternatives = {},
     },
     sh = {
       command = 'bash %',
-      errors = 'FAILED',
       alternatives = {},
     },
     xml = {
       command = 'mvn clean install -f %',
-      errors = 'FAILED',
       alternatives = {},
     },
     lua = {
       command = 'lua %',
-      errors = 'FAILED',
       alternatives = {},
     },
   },
@@ -129,12 +130,12 @@ local function run_file()
   local filename = vim.fn.expand('%:t')
   local test_config = test_tbl.file_types[filetype]
   local test_cmd = test_config.command
-  local error_str = test_config.errors
+  local error_str = test_config.errors or 'FAILED'
 
   for _, t in pairs(test_config.alternatives) do
     if string.match(filename, t.filename_contain) then
       test_cmd = t.command
-      error_str = t.errors
+      error_str = t.errors or 'FAILED'
       break
     end
   end
@@ -151,7 +152,7 @@ local function run_project()
   for _, v in pairs(project_marks) do
     if helpers.file_exists(v.marker) then
       test_cmd = v.command
-      error_str = v.errors
+      error_str = v.errors or 'FAILED'
       break
     end
   end
@@ -190,11 +191,12 @@ local autocmds = {
     { event = { 'FileType' }, opts = { pattern = 'puppet', command = 'set keywordprg=:term\\ ++shell\\ puppet\\ describe' } },
     { event = { 'FileType' }, opts = { pattern = 'ruby', command = 'set keywordprg=:term\\ ++shell\\ ri' } },
 --    { event = { 'BufEnter' }, opts = { pattern = 'groovy', command = 'set keywordprg=:term\\ ++shell\\ $HOME/.vim/scripts/chtsh.bat groovy' } },
+  },
+  setup_project_environment = {
+    { event = 'DirChanged', opts = { pattern = '*', callback = project_env_setup } }
   }
 }
 helpers.create_autocmds(autocmds)
 
 -- Groovy formatting.
 vim.api.nvim_create_user_command('GroovyFormat', ':lua require("run2cmd.helper-functions").run_term_cmd(\'npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\"**/\'.expand(\'%\').\'\\"', {})
-
-return M

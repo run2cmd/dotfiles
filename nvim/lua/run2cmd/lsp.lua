@@ -51,7 +51,9 @@ end
 -- Enable LSP servers
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
-lspconfig.solargraph.setup(config())
+lspconfig.solargraph.setup(config({
+  cmd = { "solar-graph.sh" }
+}))
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
