@@ -16,9 +16,6 @@ return require('packer').startup(function(use)
   -- File manager
   use 'nvim-telescope/telescope.nvim'
 
-  -- Registers
-  use 'tversteeg/registers.nvim'
-
   -- Git support
   use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
@@ -75,7 +72,6 @@ return require('packer').startup(function(use)
 
 -- Plugins to review:
 --  * https://github.com/mfussenegger/nvim-dap
---  * https://github.com/glepnir/lspsaga.nvim
 --  * https://github.com/ray-x/navigator.lua
 --  * https://github.com/lukas-reineke/lsp-format.nvim
 --  * https://github.com/ThePrimeagen/harpoon

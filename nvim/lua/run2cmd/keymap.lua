@@ -26,10 +26,6 @@ mapkey('c', '<C-j>', '<Down>')
 -- Copy file path to + register
 mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>")
 
--- Search word under cursor
-mapkey('n', '<leader>s', 'viwy :Ggrep -q <C-R>"<CR>')
-mapkey('v', '<leader>s', 'y :Ggrep -q <C-R>"<CR>')
-
 -- WSL support for Windows clipboard
 mapkey('v', '<leader>y', '"+y :call system(\'clip.exe\', @+)<CR><CR>')
 

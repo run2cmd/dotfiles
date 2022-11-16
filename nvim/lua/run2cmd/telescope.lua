@@ -63,11 +63,19 @@ local function find_projects()
   }):find()
 end
 
+-- Register support
+mapkey('n', '<leader>p', require('telescope.builtin').registers)
+
 -- Move around projects
 mapkey('n', '<C-p>', require('telescope.builtin').find_files)
 mapkey('n', '<C-h>', require('telescope.builtin').buffers)
 mapkey('n', '<C-k>', find_projects)
 mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
+
+-- Search text in project
+mapkey('n', '<leader>sw', require('telescope.builtin').grep_string)
+mapkey('n', '<leader>sl', require('telescope.builtin').live_grep)
+mapkey('n', '<leader>sb', require('telescope.builtin').current_buffer_fuzzy_find)
 
 -- Git bindings
 mapkey('n', '<leader>gl', require('telescope.builtin').git_commits)
