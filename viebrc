@@ -3,6 +3,7 @@
 " Some sane defaults
 set adblocker=update
 set favicons=30day
+set cache=full
 
 " Language support
 set spelllang=en,pl
@@ -80,7 +81,10 @@ set nativetheme=dark
 set darkreader=true
 set darkreaderbrightness=90
 set darkreadergrayscale=20
-"set darkreaderblocklist=
+set darkreaderblocklist=(.*google.com.*)~(.*github.com.*)~(.*duckduckgo.com.*)
+
+" Fake we are Chrome for many websites support.
+set useragent='Mozilla/5.0 (%sys) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/%version Safari/537.36'
 
 " Custom setup
 source ~/.viebrclocal
