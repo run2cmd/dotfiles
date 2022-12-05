@@ -27,6 +27,13 @@ require('telescope').setup({
       hidden = true,
       previewer = false,
     },
+    git_branches = {
+      layout_strategy = 'vertical',
+    },
+    git_commits = {
+      layout_strategy = 'vertical',
+      git_command = { 'git', 'log', '--format=%h%d (%cr) %ce %s', '--abbrev-commit', '--', '.' },
+    }
   }
 })
 
@@ -42,8 +49,7 @@ local function open_project(prompt_bufnr)
     dir_path = v
   end
   actions.close(prompt_bufnr)
-  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '')
-  })
+  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '') })
 end
 
 --
