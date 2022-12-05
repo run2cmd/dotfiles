@@ -57,11 +57,6 @@ local test_tbl = {
       marker = 'package.json',
       command = 'yarn install & yarn build:prod',
     },
-    ruby = {
-      marker = 'Gemfile',
-      command = ruby_env .. '&& bundle exec rake spec',
-      errors = 'Error'
-    },
     ansible = {
       marker = '.ansible-lint',
       command = 'ansible-lint %',
@@ -77,6 +72,11 @@ local test_tbl = {
     helm = {
       marker = 'helm',
       command = 'for i in $(ls helm) ;do mkdir -p templates_out/${i} && helm template helm/${i} --output-dir templates_out ;done',
+    },
+    ruby = {
+      marker = 'Gemfile',
+      command = ruby_env .. '&& bundle exec rake spec',
+      errors = 'Error'
     }
   },
   file_types = {
