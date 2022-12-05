@@ -33,5 +33,8 @@ mapkey('v', '<leader>y', '"+y :call system(\'clip.exe\', @+)<CR><CR>')
 mapkey('t', '<C-w>t', '<C-\\><C-N>')
 
 -- Easy quickfix window
-mapkey('n', '<leader>qo', ':ccopen')
-mapkey('n', '<leader>qc', ':cclose')
+mapkey('n', '<leader>qo', ':ccopen<CR>')
+mapkey('n', '<leader>qc', ':cclose<CR>')
+
+-- Open Todo Window
+mapkey('n', '<leader>td', ':split ~/notes.md<CR>:res -10<CR>')
