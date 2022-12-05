@@ -6,9 +6,9 @@ CONF=$(dirname "$(readlink -f $0)")
 echo '==================================================================================================='
 echo 'UPDATE UBUNTU PACKAGES'
 
-dpkg -l | grep -q " curl " || sudo apt install -y curl
-dpkg -l | grep -q " wget " || sudo apt install -y wget
-dpkg -l | grep -q " apt-transport-https " || sudo apt install -y apt-transport-https
+dpkg -l | grep -q " curl " || sudo apt install -q -y curl
+dpkg -l | grep -q " wget " || sudo apt install -q -y wget
+dpkg -l | grep -q " apt-transport-https " || sudo apt install -q -y apt-transport-https
 
 if ! (dpkg -l | grep -q " pdk ") ;then
   wget -q -O /tmp/puppet-tools-release.deb https://apt.puppet.com/puppet-tools-release-bullseye.deb
@@ -25,7 +25,7 @@ if [ ! -e /etc/apt/sources.list.d/hashicorp.list ] ;then
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 fi
 
-sudo apt update
+sudo apt update -q
 
 TO_INSTALL=''
 while read -r line ;do
@@ -35,10 +35,10 @@ while read -r line ;do
 done < ${HOME}/Rpmfile
 
 if [ "${TO_INSTALL}" != '' ] ;then
-  sudo apt install -y $TO_INSTALL
+  sudo apt -q install -y $TO_INSTALL
 fi
 
-sudo apt upgrade -y && sudo apt autoremove -y
+sudo apt upgrade -q -y && sudo apt autoremove -y
 
 echo '==================================================================================================='
 echo 'SETUP DOTFILES'
@@ -198,7 +198,7 @@ if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q ${LUA_LSP_VERSION}) ;then
   LUA_DOWNLOAD_URL=$(echo "${LUA_GIT_API}" |grep "linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
   wget -q -O /tmp/luals.tar.gz $LUA_DOWNLOAD_URL
   mkdir -p $LUA_LSP_DIR
-  tar -xvf /tmp/luals.tar.gz -C $LUA_LSP_DIR
+  tar -xf /tmp/luals.tar.gz -C $LUA_LSP_DIR
   echo "exec \"${LUA_LSP_DIR}/bin/lua-language-server\" \"\$@\"" > ${LUA_LSP_DIR}/bin/luals.sh
   chmod +x ${LUA_LSP_DIR}/bin/luals.sh
 fi
