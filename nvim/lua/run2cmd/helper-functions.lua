@@ -180,4 +180,19 @@ M.float_window = function(ftext)
   vim.api.nvim_open_win(buf, 1, opts)
 end
 
+--
+-- Read output from external command.
+--
+-- @param cmd Command which outut we want to read.
+--
+M.cmd_output = function(cmd)
+  local output = ''
+  local handle = io.popen(cmd)
+  if handle ~= nil then
+    output = handle:read("*a"):gsub("\n", '')
+    handle:close()
+  end
+  return output
+end
+
 return M
