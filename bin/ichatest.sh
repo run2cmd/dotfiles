@@ -2,17 +2,18 @@
 FAILED=0
 trap 'FAILED=1' ERR
 
+source ~/.rvm/scripts/rvm
+rvm use
+
 yamllint .
 
 envName="$(basename ${PWD})_$(git rev-parse --abbrev-ref HEAD)"
 if [ -d './products' ] ;then
-  schemaStrictValidation='log'
   ajvParams='--all-errors=true --spec=draft2020 --data --strict-tuples=false'
   find products/ -iname '*.yaml' -o -iname '*.yml' \( -exec ajv ${ajvParams} validate -s schemas/products.json -d {} \; \)
 else
-  schemaStrictValidation='log'
-  ajvParams='--all-errors=true --data -strict-tuples=false'
-  find profiles/ -iname '*.yaml' -o -iname '*.yml' -o \( -exec ajv ${ajvParams} validate -s schemas/profiles.json -d {} \; \)
+  ajvParams='--all-errors=true --data --strict-tuples=false'
+  find profiles/ -iname '*.yaml' -o -iname '*.yml' \( -exec ajv ${ajvParams} validate -s schemas/profiles.json -d {} \; \)
 fi
 
 for yamlfile in $(find -path "./conf/*" -not -path "./conf/jenkins/*" -iname '*.yaml'); do ajv ${ajvParams} validate -s schemas/${yamlfile%.*}.json -d ${yamlfile} ; done
