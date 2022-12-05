@@ -64,6 +64,8 @@ return require('packer').startup(function(use)
   use 'kristijanhusak/vim-dadbod-ui'
 
   -- Diff
+  use 'ZSaberLv0/ZFVimJob'
+  use 'ZSaberLv0/ZFVimIgnore'
   use 'ZSaberLv0/ZFVimDirDiff'
 
   -- Fun stuff
