@@ -123,6 +123,7 @@ bundle update
 echo '==================================================================================================='
 echo 'UPDATE PYTHON'
 
+export PYTHON_CONFIGURE_OPTS="--enable-shared"
 PYTHON_VERSION=3.8.13
 if [ ! -e ${HOME}/.pyenv ] ;then
   export PYENV_GIT_TAG=v${PYTHON_VERSION}
