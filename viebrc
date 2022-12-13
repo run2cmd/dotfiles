@@ -45,7 +45,7 @@ set vimcommand=gvim
 nmap <C-l> <emptySearch>
 
 " Clear all buffers/tabs
-nmap <C-L> <esc>:b 0<cr>:rclose<cr>d<cr>
+nmap <C-L> <esc>:buffer 0<cr>:rclose<cr>d<cr>
 
 " Follow keys
 set followchars=custom:asdfghjklrtuicvnm
@@ -81,10 +81,10 @@ set nativetheme=dark
 set darkreader=true
 set darkreaderbrightness=90
 set darkreadergrayscale=20
-set darkreaderblocklist=(.*google.com.*)~(.*github.com.*)~(.*duckduckgo.com.*)~(.*facebook.com.*)~(.*reddit.com.*)
+set darkreaderblocklist=(.*mail.google.com.*)~(.*github.com.*)~(.*duckduckgo.com.*)~(.*facebook.com.*)~(.*reddit.com.*)
 
 " Allow notifications
-set permissionsallowed+=gmail.com~notifications,calendar.google.com~notifications,facebook.com~notifications
+set permissionsallowed+=mail.google.com~notifications,calendar.google.com~notifications,facebook.com~notifications
 
 " Fake we are Chrome for many websites support.
 set useragent='Mozilla/5.0 (%sys) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/%version Safari/537.36'
