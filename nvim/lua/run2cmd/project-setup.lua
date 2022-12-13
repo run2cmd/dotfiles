@@ -75,6 +75,7 @@ local test_tbl = {
     },
     ruby = {
       marker = 'Gemfile',
+      exclude = 'Puppetfile',
       command = ruby_env .. '&& bundle exec rake spec',
       errors = 'Error'
     }
@@ -100,27 +101,21 @@ local test_tbl = {
     },
     plantuml = {
       command = 'plantuml -tsvg -o ' .. vim.env.HOME .. '/.config/nvim/tmp %',
-      alternatives = {},
     },
     python = {
       command = 'python %',
-      alternatives = {},
     },
     puppet = {
       command = 'puppet apply --noop %',
-      alternatives = {},
     },
     sh = {
       command = 'bash %',
-      alternatives = {},
     },
     xml = {
       command = 'mvn clean install -f %',
-      alternatives = {},
     },
     lua = {
       command = 'lua %',
-      alternatives = {},
     },
   },
 }
@@ -131,8 +126,9 @@ local function run_file()
   local test_config = test_tbl.file_types[filetype]
   local test_cmd = test_config.command
   local error_str = test_config.errors or 'FAILED'
+  local alts = test_config.alternatives or {}
 
-  for _, t in pairs(test_config.alternatives) do
+  for _, t in pairs(alts) do
     if string.match(filename, t.filename_contain) then
       test_cmd = t.command
       error_str = t.errors or 'FAILED'
@@ -151,9 +147,13 @@ local function run_project()
 
   for _, v in pairs(project_marks) do
     if helpers.file_exists(v.marker) then
-      test_cmd = v.command
-      error_str = v.errors or 'FAILED'
-      break
+      local exclude = v.exclude or 'no_exclude_file_check'
+
+      if not helpers.file_exists(exclude) then
+        test_cmd = v.command
+        error_str = v.errors or 'FAILED'
+        break
+      end
     end
   end
 
