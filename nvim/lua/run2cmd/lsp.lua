@@ -40,10 +40,9 @@ local function config(_config)
 
       local bufopts = { noremap = true, silent = true, buffer = bufnr }
       mapkey('n', 'K', vim.lsp.buf.hover, bufopts)
-      mapkey('n', '<leader>f', vim.lsp.buf.format, bufopts)
-      mapkey('n', "<leader>vca", vim.lsp.buf.code_action, bufopts)
-      mapkey('n', "<leader>vrf", vim.lsp.buf.references, bufopts)
-      mapkey('n', "<leader>vrn", vim.lsp.buf.rename, bufopts)
+      mapkey('n', '<leader>bf', vim.lsp.buf.format, bufopts)
+      mapkey('n', "<leader>ba", vim.lsp.buf.code_action, bufopts)
+      mapkey('n', "<leader>br", vim.lsp.buf.rename, bufopts)
     end
   }, _config or {})
 end
