@@ -1,6 +1,7 @@
 augeas-tools
 bat
 build-essential
+bash-completion
 cpio
 curl
 docker.io
