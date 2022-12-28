@@ -106,7 +106,8 @@ local test_tbl = {
       command = 'python %',
     },
     puppet = {
-      command = 'puppet apply --noop %',
+      -- Use ruby 2.4.10 with Puppet 5.5.22
+      command = ruby_env .. ' 2.4.10 && puppet apply --noop %',
     },
     sh = {
       command = 'bash %',

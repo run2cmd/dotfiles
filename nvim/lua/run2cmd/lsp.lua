@@ -176,7 +176,7 @@ lspconfig.diagnosticls.setup(config({
       jenkinslint = {
         sourceName = 'jenkinslint',
         command = 'npm-groovy-lint',
-        args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy', '%relativepath'},
+        args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy', '%relativepath' },
         isStderr = true,
         isStdout = true,
         formatLines = 1,
