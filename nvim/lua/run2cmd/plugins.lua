@@ -12,6 +12,7 @@ return require('packer').startup(function(use)
 
   -- Movement
   use 'tpope/vim-unimpaired'
+  use 'andymass/vim-matchup'
 
   -- File manager
   use 'nvim-telescope/telescope.nvim'
@@ -75,8 +76,6 @@ return require('packer').startup(function(use)
 -- Plugins to review:
 --  * https://github.com/mfussenegger/nvim-dap
 --  * https://github.com/ray-x/navigator.lua
---  * https://github.com/lukas-reineke/lsp-format.nvim
---  * https://github.com/ThePrimeagen/harpoon
 --
 -- IDEs to review:
 --  * https://github.com/VapourNvim/VapourNvim

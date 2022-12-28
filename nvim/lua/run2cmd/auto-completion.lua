@@ -52,14 +52,6 @@ cmp.setup({
   },
 })
 
-auto_pairs.setup({
-  map_cr = true
-})
-cmp.event:on(
-  'confirm_done',
-  pairs_cmp.on_confirm_done()
-)
-
 tabnine:setup({
   max_lines = 1000,
   max_num_results = 20,
@@ -67,6 +59,14 @@ tabnine:setup({
   run_on_every_keystroke = true,
   snippet_placeholder = "..",
 })
+
+auto_pairs.setup({
+  map_cr = true
+})
+cmp.event:on(
+  'confirm_done',
+  pairs_cmp.on_confirm_done()
+)
 
 -- Jump to close sign in insert mode
 auto_pairs.add_rules {

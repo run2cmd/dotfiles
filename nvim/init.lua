@@ -6,7 +6,6 @@
 local opt = vim.o
 local cmd = vim.cmd
 
-cmd('packadd! matchit')
 opt.swapfile = false
 opt.confirm = true
 opt.undofile = true
