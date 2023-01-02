@@ -26,6 +26,5 @@ theme.section.bottom_buttons.val = {
 startup.setup(theme.config)
 
 -- Switch to greeteins screen and restart LSP server for better performance
-mapkey('', '<leader>l', ':bufdo %bd | Alpha<CR>:LspRestart<CR>')
-mapkey('n', '<leader>o', ':tabnew<Bar>Alpha<CR>')
-mapkey('t', '<C-W><leader>o', '<C-W>:tabnew<Bar>Alpha<CR>')
+mapkey('n', '<leader>l', ':bufdo %bd | Alpha<CR>:LspRestart<CR>')
+mapkey('n', '<leader>to', ':tabnew<Bar>Alpha<CR>')

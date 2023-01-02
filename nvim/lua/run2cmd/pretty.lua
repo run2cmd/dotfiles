@@ -17,6 +17,8 @@ opt.linebreak = true
 opt.scrolloff = 2
 opt.sidescrolloff = 5
 
+vim.g.matchup_matchparen_offscreen = { method = 'popup' }
+
 require('onedark').setup {
   style = 'darker',
 }

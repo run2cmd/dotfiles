@@ -84,9 +84,8 @@ possible. Here are some core features:
 - Some nice keybinding:
   - Arrow keys re-size window
   - '<leader>l' - Delete all open buffers (not files) and restart LSP servers.
-  - '<leader>o' - open new tab with Alpha.
+  - '<leader>to' - open new tab with Alpha.
   - '<leader>w', '<leader>b' - move to next or previous tab.
-  - '<C-W><leader>o' - open new tab with Alpha from terminal window.
   - '<c-l>' - Clear search and update diff.
   - '<leader>c' - open terminal.
   - '<leader>y' - In visual mode copy text to windows clipboard.
@@ -106,10 +105,12 @@ possible. Here are some core features:
     - ']d' - Jump to previous diagnostic issue.
     - 'K' - Open hover floating window with text under cursor.
     - '<leader>s' - search word under cursor across project.
-    - '<leader>f' - Run LSP format in buffer.
-    - '<leader>vca' - Run LSP code_action.
-    - '<leader>vrf' - Run LSP references.
-    - '<leader>vrn' - Run LSP rename.
+    - '<leader>bf' - Run LSP format in buffer.
+    - '<leader>ba' - Run LSP code_action.
+    - '<leader>br' - Run LSP rename.
+    - '<leader>sw' - Search for word under cursor in current project.
+    - '<leader>sl' - Live search in current project.
+    - '<leader>sb' - Live search in current buffer.
   - Move around directories:
     - '<C-p>' - List files in current project and go to it after <CR> is hit.
     - '<C-h>' - Same as '<c-p>' but for open buffers.

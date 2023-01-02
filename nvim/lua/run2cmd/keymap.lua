@@ -13,8 +13,8 @@ mapkey('n', '<Left>', ':vert resize +2<CR>')
 mapkey('n', '<Right>', ':vert resize -2<CR>')
 
 -- Tab enchantments
-mapkey('n', '<leader>w', ':tabnext<CR>')
-mapkey('n', '<leader>b', ':tabprevious<CR>')
+mapkey('n', '<leader>tn', ':tabnext<CR>')
+mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
 -- Terminal helper to open on the bottom
 mapkey('n', '<leader>c', ':split term://bash<CR>i<CR>')
