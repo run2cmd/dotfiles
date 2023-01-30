@@ -123,6 +123,7 @@ possible. Here are some core features:
     - '<leader>gg' - Enter git status window.
     - '<leader>gf' - Git pull.
     - '<leader>gp' - Git push.
+    - '<leader>g-' - Checkout to previous branch/tag.
     - '<leader>ga' - Perform git add on current buffer.
     - '<leader>gcm' - Enter git commit window.
     - '<leader>gca' - Git commit with `--amend --no-edit`.

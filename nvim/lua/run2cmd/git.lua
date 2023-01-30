@@ -24,6 +24,7 @@ mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>')
 mapkey('n', '<leader>gg', ':Git<cr>')
 mapkey('n', '<leader>gf', ':Git pull<cr>')
 mapkey('n', '<leader>gp', ':Git push<cr>')
+mapkey('n', '<leader>g-', ':Git checkout -<cr>')
 
 -- commit
 mapkey('n', '<leader>ga', ':Git add %<cr>')
