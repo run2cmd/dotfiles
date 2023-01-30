@@ -49,17 +49,17 @@ return require('packer').startup(function(use)
   use 'numToStr/Comment.nvim'
   use 'mcauley-penney/tidy.nvim'
 
-  -- Project support
-  use 'airblade/vim-rooter'
-  use 'gpanders/editorconfig.nvim'
-  use 'ludovicchabant/vim-gutentags'
-
   -- Syntax and lint
   use 'neovim/nvim-lspconfig'
   use 'rodjek/vim-puppet'
   use 'martinda/Jenkinsfile-vim-syntax'
   use 'aklt/plantuml-syntax'
   use 'Yggdroot/indentLine'
+
+  -- Project support
+  use 'airblade/vim-rooter'
+  use 'gpanders/editorconfig.nvim'
+  use 'ludovicchabant/vim-gutentags'
 
   -- Database
   use 'kristijanhusak/vim-dadbod-ui'
@@ -73,10 +73,6 @@ return require('packer').startup(function(use)
   use 'goolord/alpha-nvim'
   use 'ThePrimeagen/vim-be-good'
 
--- Plugins to review:
---  * https://github.com/mfussenegger/nvim-dap
---  * https://github.com/ray-x/navigator.lua
---
 -- IDEs to review:
 --  * https://github.com/VapourNvim/VapourNvim
 --  * https://github.com/askfiy/nvim

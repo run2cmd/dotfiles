@@ -59,7 +59,7 @@ end
 local function find_projects()
   pickers.new({}, {
     prompt_title = 'projects',
-    finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--maxdepth=2', '--min-depth=2', '--full-path', '.', '/code' }),
+    finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=2', '--full-path', '.', '/code' }),
     sorter = config.values.generic_sorter({}),
     attach_mappings = function(_, map)
       map('i', '<cr>', open_project)
@@ -70,19 +70,22 @@ local function find_projects()
 end
 
 -- Register support
-mapkey('n', '<leader>p', require('telescope.builtin').registers)
+mapkey('n', '<leader>p', builtin.registers)
 
 -- Move around projects
-mapkey('n', '<C-p>', require('telescope.builtin').find_files)
-mapkey('n', '<C-h>', require('telescope.builtin').buffers)
+mapkey('n', '<C-p>', builtin.find_files)
+mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)
 mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
 
 -- Search text in project
-mapkey('n', '<leader>sw', require('telescope.builtin').grep_string)
-mapkey('n', '<leader>sl', require('telescope.builtin').live_grep)
-mapkey('n', '<leader>sb', require('telescope.builtin').current_buffer_fuzzy_find)
+mapkey('n', '<leader>sw', builtin.grep_string)
+mapkey('n', '<leader>sl', builtin.live_grep)
+mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
 
 -- Git bindings
-mapkey('n', '<leader>gl', require('telescope.builtin').git_commits)
-mapkey('n', '<leader>gb', require('telescope.builtin').git_branches)
+mapkey('n', '<leader>gl', builtin.git_commits)
+mapkey('n', '<leader>gb', builtin.git_branches)
+
+-- Notes
+mapkey('n', '<C-n>', ":cd ~/.notes | lua require('telescope.builtin').find_files()<cr>")

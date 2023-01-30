@@ -36,5 +36,5 @@ mapkey('t', '<C-w>t', '<C-\\><C-N>')
 mapkey('n', '<leader>qo', ':ccopen<CR>')
 mapkey('n', '<leader>qc', ':cclose<CR>')
 
--- Open Todo Window
-mapkey('n', '<leader>td', ':split ~/notes.md<CR>:res -10<CR>')
+-- Easy r10k support based on git branch
+mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd('r10k.sh')<cr>")

@@ -18,9 +18,6 @@ theme.nvim_web_devicons.enabled = false
 
 theme.section.bottom_buttons.val = {
   theme.button('c', '~/dotfiles/nvim/init.lua', ':e ~/dotfiles/nvim/init.lua<cr>'),
-  theme.button('b', '~/dotfiles/viebrc',':e ~/dotfiles/viebrc<cr>'),
-  theme.button('h', '/etc/hosts', ':e /etc/hosts<cr>'),
-  theme.button('n', '~/notes.md', ':e ~/notes.md<cr>')
 }
 
 startup.setup(theme.config)

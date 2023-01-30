@@ -14,7 +14,8 @@ vim.g.EditorConfig_exclude_patterns = { 'fugitive://.\\*', 'scp://.\\*' }
 
 -- Tags support
 vim.g.gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
-vim.g.gutentags_cache_dir = vim.env.HOME .. '/.config/nvim/tags'
+vim.g.gutentags_cache_dir = vim.env.HOME .. '/.config/nvim/auto-tags'
+vim.g.gutentags_project_root = { 'index.md' }
 
 -- Ensure support max_line_length == off
 editorconfig.properties.max_line_length = function(bufnr, val, opts)
