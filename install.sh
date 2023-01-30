@@ -14,8 +14,7 @@ task() {
 git_data() {
   GIT_API="$(curl --no-progress-meter ${1})"
   APP_VERSION=$(echo "${GIT_API}" |grep "tag_name" |sed -r 's/.*([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
-  APP_URL=$(echo "${GIT_API}" |grep "Linux-x86_64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
-  echo "${APP_VERSION}:${APP_URL}"
+  APP_URL=$(echo "${GIT_API}" |grep -E "Linux-x86_64|Linux_amd64|linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
 }
 
 topic 'INSTALL DEPENDENCIES'
@@ -80,6 +79,7 @@ declare -A MAKE_LINKS=(
   ["nvim/spell"]=".config/nvim/spell"
   ["nvim/lua"]=".config/nvim/lua"
   ["mdlrc"]=".mdlrc"
+  ["mdl_style.rb"]=".mdl_style.rb"
   ["shellcheckrc"]=".shellcheckrc"
   ["ctags.d"]=".ctags.d"
   ["gitattributes"]=".gitattributes"
@@ -196,15 +196,15 @@ topic 'UPDATE CUSTOM TOOLS'
 
 task 'Update hadolint'
 HADOLINT_DATA=$(git_data https://api.github.com/repos/hadolint/hadolint/releases/latest)
-if ! (hadolint --version | grep -q "$(echo ${HADOLINT_DATA} | cut -d: -f1)") ;then
- wget -q -O ${HOME}/bin/hadolint "$(echo ${HADOLINT_DATA} | cut -d: -f2)"
+if ! (hadolint --version | grep -q "$(echo ${HADOLINT_DATA} | cut -d' ' -f1)") ;then
+ wget -q -O ${HOME}/bin/hadolint "$(echo ${HADOLINT_DATA} | cut -d' ' -f2)"
  chmod +x ${HOME}/bin/hadolint
 fi
 
 task "Update k9s"
 K9S_DATA=$(git_data https://api.github.com/repos/derailed/k9s/releases/latest)
-if ! (k9s version |grep -q "$(echo ${K9S_DATA} | cut -d: -f1)") ;then
- wget -q -O /tmp/k9s.tar.gz "$(echo ${K9S_DATA} | cut -d: -f2)"
+if ! (k9s version |grep -q "$(echo ${K9S_DATA} | cut -d' ' -f1)") ;then
+ wget -q -O /tmp/k9s.tar.gz "$(echo ${K9S_DATA} | cut -d' ' -f2)"
  tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
 fi
 
@@ -213,9 +213,9 @@ cd ${HOME}/tools || (echo "$(tput setaf 1)Failed to enter ${HOME}/tools" && exit
 task "Update Lua Language Server"
 LUA_LSP_DATA=$(git_data https://api.github.com/repos/sumneko/lua-language-server/releases/latest)
 LUA_LSP_DIR=${HOME}/tools/lua-language-server
-if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q "$(echo ${LUA_LSP_DATA} | cut -d: -f1)") ;then
+if ! (${LUA_LSP_DIR}/bin/luals.sh --version | grep -q "$(echo ${LUA_LSP_DATA} | cut -d' ' -f1)") ;then
  mkdir -p $LUA_LSP_DIR
- wget -q -O /tmp/luals.tar.gz "$(echo ${LUA_LSP_DATA} | cut -d: -f2)"
+ wget -q -O /tmp/luals.tar.gz "$(echo ${LUA_LSP_DATA} | cut -d' ' -f2)"
  tar -xf /tmp/luals.tar.gz -C $LUA_LSP_DIR
  echo "exec \"${LUA_LSP_DIR}/bin/lua-language-server\" \"\$@\"" > ${LUA_LSP_DIR}/bin/luals.sh
  chmod +x ${LUA_LSP_DIR}/bin/luals.sh
