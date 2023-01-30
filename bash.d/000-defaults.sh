@@ -53,3 +53,6 @@ export PATH="$HOME/tools/puppet-editor-services:$PATH"
 # Workaround WSL 2 issues with not releasing memory
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
 alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
+
+# Easy switch dir for /code directory
+alias cdc='cd $(fdfind --type directory --full-path --exact-depth 2 . /code | fzf)'
