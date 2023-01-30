@@ -1,5 +1,1 @@
-# list of rules https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md
-# rules beginning with ~ are disabled
-# MD013 - Line length
-# MD033 - Inline HTML
-rules "~MD013,~MD033"
+style "#{File.dirname(__FILE__)}/.mdl_style.rb"
