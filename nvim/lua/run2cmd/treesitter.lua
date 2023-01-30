@@ -15,7 +15,6 @@ local config = require('nvim-treesitter.configs')
 -- Enable treesitter
 config.setup({
   ensure_installed = 'all',
-  --ignore_install = { 'markdown_inline' },
   sync_install = false,
   highlight = {
     enable = true,
