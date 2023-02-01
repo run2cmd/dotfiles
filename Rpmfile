@@ -9,6 +9,7 @@ dos2unix
 fd-find
 git
 helm
+kubernetes-client
 libbz2-dev
 libffi-dev
 liblzma-dev
