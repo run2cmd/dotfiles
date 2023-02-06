@@ -128,6 +128,7 @@ fi
 
 task "Update Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/packer) ; do echo "-> Update $(basename ${i})" && git --git-dir ${i}/.git log --oneline @{1}..origin ;done
 
 task "Update Neovim treesitter"
 nvim --headless -c 'TSUpdateSync | quitall'
