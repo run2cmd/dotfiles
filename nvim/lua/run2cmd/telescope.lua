@@ -6,37 +6,6 @@ local config = require('telescope.config')
 local builtin = require('telescope.builtin')
 local mapkey = vim.keymap.set
 
-require('telescope').setup({
-  defaults = {
-    file_ignore_patterns = { '.git/', '.svn/' },
-    mappings = {
-      i = {
-        ['<C-n>'] = actions.preview_scrolling_up,
-        ['<C-p>'] = actions.preview_scrolling_down,
-        ['<C-j>'] = actions.move_selection_next,
-        ['<C-k>'] = actions.move_selection_previous,
-      }
-    },
-  },
-  pickers = {
-    find_files = {
-      hidden = true,
-      previewer = false,
-    },
-    buffers = {
-      hidden = true,
-      previewer = false,
-    },
-    git_branches = {
-      layout_strategy = 'vertical',
-    },
-    git_commits = {
-      layout_strategy = 'vertical',
-      git_command = { 'git', 'log', '--graph', '--format=%h%d (%cr) %ce %s', '--', '.' },
-    }
-  }
-})
-
 --
 -- Get list of project files. It closes preview telescope window.
 --
@@ -68,6 +37,38 @@ local function find_projects()
     end,
   }):find()
 end
+
+require('telescope').setup({
+  defaults = {
+    file_ignore_patterns = { '.git/', '.svn/' },
+    mappings = {
+      i = {
+        ['<C-n>'] = actions.preview_scrolling_up,
+        ['<C-p>'] = actions.preview_scrolling_down,
+        ['<C-j>'] = actions.move_selection_next,
+        ['<C-k>'] = actions.move_selection_previous,
+      }
+    },
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+      previewer = false,
+    },
+    buffers = {
+      hidden = true,
+      previewer = false,
+    },
+    git_branches = {
+      layout_strategy = 'vertical',
+    },
+    git_commits = {
+      layout_strategy = 'vertical',
+      wrap_results = true,
+      git_command = { 'git', 'log', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
+    }
+  }
+})
 
 -- Register support
 mapkey('n', '<leader>p', builtin.registers)
