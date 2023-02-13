@@ -127,8 +127,12 @@ if [ ! -e ${PACKERPATH}/packer.nvim ] ;then
 fi
 
 task "Update Neovim plugins"
+PLUGINS_TIMESTAMP_FILE=~/.local/share/nvim/plugins_timestamp
+if ! test -f ${PLUGINS_TIMESTAMP_FILE} ;then date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE} ;fi
+PLUGINS_LAST_UPDATE=$(cat ${PLUGINS_TIMESTAMP_FILE})
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/packer) ; do echo "-> Update $(basename ${i})" && git --git-dir ${i}/.git log --oneline @{1}..origin ;done
+for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/packer) ; do echo "-> Update $(basename ${i})" && git --git-dir ${i}/.git log --oneline @{1}..origin --since="${PLUGINS_LAST_UPDATE}";done
+date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE}
 
 task "Update Neovim treesitter"
 nvim --headless -c 'TSUpdateSync | quitall'
