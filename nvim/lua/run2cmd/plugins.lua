@@ -73,6 +73,9 @@ return require('packer').startup(function(use)
   use 'goolord/alpha-nvim'
   use 'ThePrimeagen/vim-be-good'
 
+--
+-- https://github.com/ms-jpq/coq_nvim
+--
 -- IDEs to review:
 --  * https://github.com/VapourNvim/VapourNvim
 --  * https://github.com/askfiy/nvim

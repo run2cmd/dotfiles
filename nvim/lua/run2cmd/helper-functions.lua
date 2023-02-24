@@ -1,4 +1,25 @@
-local M = {}
+local action_state = require('telescope.actions.state')
+local actions = require('telescope.actions')
+local builtin = require('telescope.builtin')
+local mapkey = vim.keymap.set
+local M = {telescope={}}
+
+--
+-- Default float window parameters
+--
+local function default_float_params(opts)
+  local defaults = {
+    relative = 'editor',
+    width = 100,
+    height = 10,
+    col = 250,
+    row = 0,
+    anchor = 'NW',
+    style = 'minimal',
+    noautocmd = true,
+  }
+  return M.merge(defaults, opts)
+end
 
 --
 -- Validate if table contains string pattern.
@@ -8,7 +29,7 @@ local M = {}
 --
 -- @return true if table contains string pattern, false otherwise
 --
-local function table_contains(table, pattern)
+M.table_contains = function(table, pattern)
   local exists = false
   for _, v in pairs(table) do
     if v == pattern then
@@ -16,6 +37,24 @@ local function table_contains(table, pattern)
     end
   end
   return exists
+end
+
+--
+-- Merge map arrays
+--
+-- @param ... Each parameter needs to be map array. Order matters and counts from lowest to highest priority.
+--
+-- @return map array of merged items.
+--
+M.merge = function(...)
+  local tbl = {}
+  print(...)
+  for _, i in ipairs({...}) do
+    for k, v in pairs(i) do
+      tbl[k] = v
+    end
+  end
+  return tbl
 end
 
 --
@@ -57,7 +96,7 @@ M.autosave = function()
     local buftype = vim.api.nvim_get_option_value('buftype', { buf = buffer })
 
     if modified then
-      if table_contains(excluded, filetype) or table_contains(excluded, buftype) then
+      if M.table_contains(excluded, filetype) or M.table_contains(excluded, buftype) then
         return
       else
         vim.cmd('write')
@@ -160,24 +199,31 @@ M.create_autocmds = function(map)
 end
 
 --
--- Floating window
+-- Display provided text in floating window
 --
 -- @param ftext List of items to display in floating window.
+-- @param fopts Additional float window options. See nvim_open_win help.
 --
-M.float_window = function(ftext)
+M.float_text = function(ftext, fopts)
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
-  local opts = {
-    relative = 'editor',
-    width = 50,
-    height = 10,
-    col = 25,
-    row = 5,
-    anchor = 'NW',
-    style = 'minimal',
-    noautocmd = true,
-  }
+  local opts = default_float_params(fopts)
   vim.api.nvim_open_win(buf, 1, opts)
+end
+
+--
+-- Open file in float window
+--
+-- @param ftext List of items to display in floating window.
+-- @param fopts Additional float window options. See nvim_open_win help.
+--
+M.float_buffer = function(filepath, fopts)
+  local buf = vim.api.nvim_create_buf(false, true)
+  local opts = default_float_params(fopts)
+  vim.api.nvim_open_win(buf, 1, opts)
+  vim.cmd.edit(filepath)
+  mapkey('n', '<ESC>', ':q<cr>', { buffer = true })
+  mapkey('n', '<c-v>', ':q | e' .. filepath .. '<cr>', { buffer = true })
 end
 
 --
@@ -193,6 +239,51 @@ M.cmd_output = function(cmd)
     handle:close()
   end
   return output
+end
+
+--
+-- Get Telescope selection from picker list. Only single selection support
+--
+-- @param buffer Prompt buffer from telescope picker.
+--
+M.telescope.get_selection = function(buffer)
+  local table = action_state.get_selected_entry(buffer)
+  local path = table[1]
+  return path
+end
+
+--
+-- Open new telescope.find_files picker given selection as directory path.
+--
+-- @param buffer Prompt buffer from telescope picker.
+--
+M.telescope.open_project = function(buffer)
+  local dir_path = M.telescope.get_selection(buffer)
+  actions.close(buffer)
+  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '') })
+end
+
+--
+-- Open Telescope selection in new float window and uses ESC for :q.
+--
+-- @param buffer Prompt buffer from telescope picker.
+--
+M.telescope.open_float = function(buffer)
+  local file_path = M.telescope.get_selection(buffer)
+  actions.close(buffer)
+  local opts = { width = 100, height = 30 }
+  M.float_buffer(file_path, opts)
+end
+
+--
+-- Open Telescope selection in current window
+--
+-- @param buffer Prompt buffer from telescope picker.
+--
+M.telescope.open_buffer = function(buffer)
+  local file_path = M.telescope.get_selection(buffer)
+  actions.close(buffer)
+  vim.cmd.edit(file_path)
 end
 
 return M

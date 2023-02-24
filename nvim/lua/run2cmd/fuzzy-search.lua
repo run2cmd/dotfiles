@@ -1,25 +1,10 @@
+local helper = require('run2cmd.helper-functions')
 local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local config = require('telescope.config')
 local builtin = require('telescope.builtin')
 local mapkey = vim.keymap.set
-
---
--- Get list of project files. It closes preview telescope window.
---
--- @param prompt_bufnr It is automatically to current telescope window buffer
---
-local function open_project(prompt_bufnr)
-  local dir_path = ''
-  local dir_tbl = action_state.get_selected_entry(prompt_bufnr)
-  for _, v in pairs(dir_tbl) do
-    dir_path = v
-  end
-  actions.close(prompt_bufnr)
-  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '') })
-end
 
 --
 -- List all project directories and open new find_files() for chosen one.
@@ -31,8 +16,8 @@ local function find_projects()
     finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=2', '--full-path', '.', '/code' }),
     sorter = config.values.generic_sorter({}),
     attach_mappings = function(_, map)
-      map('i', '<cr>', open_project)
-      map('n', '<cr>', open_project)
+      map('i', '<cr>', helper.telescope.open_project)
+      map('n', '<cr>', helper.telescope.open_project)
       return true
     end,
   }):find()
@@ -54,19 +39,21 @@ require('telescope').setup({
     find_files = {
       hidden = true,
       previewer = false,
+      mappings = {
+        i = {
+          ['<c-t>'] = helper.telescope.open_float,
+        }
+      }
     },
     buffers = {
       hidden = true,
       previewer = false,
+      mappings = {
+        i = {
+          ['<c-t>'] = helper.telescope.open_float,
+        }
+      }
     },
-    git_branches = {
-      layout_strategy = 'vertical',
-    },
-    git_commits = {
-      layout_strategy = 'vertical',
-      wrap_results = true,
-      git_command = { 'git', 'log', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
-    }
   }
 })
 
@@ -83,10 +70,3 @@ mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true,
 mapkey('n', '<leader>sw', builtin.grep_string)
 mapkey('n', '<leader>sl', builtin.live_grep)
 mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
-
--- Git bindings
-mapkey('n', '<leader>gl', builtin.git_commits)
-mapkey('n', '<leader>gb', builtin.git_branches)
-
--- Notes
-mapkey('n', '<C-n>', ":cd ~/.notes | lua require('telescope.builtin').find_files()<cr>")

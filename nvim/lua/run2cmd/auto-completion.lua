@@ -6,6 +6,8 @@ local tabnine = require('cmp_tabnine.config')
 local luasnip = require('luasnip')
 local auto_pairs = require("nvim-autopairs")
 local pairs_cmp = require('nvim-autopairs.completion.cmp')
+local surround = require("nvim-surround")
+local comment = require('Comment')
 
 --vim.o.wildmode = 'list:longest,full'
 vim.o.wildcharm = '<Tab>'
@@ -26,6 +28,12 @@ vim.g.indentLine_bufTypeExclude = { 'finished', 'terminal', 'help', 'quickfix' }
 
 -- Enable Omni completion if not already set
 vim.o.omnifunc = 'syntaxcomplete#Complete'
+
+-- Wrap text in chosen signs (brackets, quotes, etc.)
+surround.setup()
+
+-- Easy commenting
+comment.setup()
 
 -- Typing auto completion
 cmp.setup({

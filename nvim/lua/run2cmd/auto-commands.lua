@@ -48,5 +48,8 @@ local autocmds = {
   remove_trailing_line = {
     { event = { 'BufWrite' }, opts = { pattern = '*', command = ':%s/\\s\\+$//e' } }
   },
+  notes = {
+    { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } }
+  }
 }
 helpers.create_autocmds(autocmds)
