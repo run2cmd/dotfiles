@@ -16,7 +16,8 @@
     "tree-sitter-cli": "latest",
     "vim-language-server": "latest",
     "vscode-langservers-extracted": "latest",
-    "yaml-language-server": "latest"
+    "yaml-language-server": "latest",
+    "@johnnymorganz/stylua-bin": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -40,7 +40,9 @@ local function gradle_setenv()
 end
 
 local function project_env_setup()
-  if helpers.file_exists('build.gradle') then gradle_setenv() end
+  if helpers.file_exists('build.gradle') then
+    gradle_setenv()
+  end
 end
 
 local ruby_env = 'source ~/.rvm/scripts/rvm && rvm use'
@@ -78,8 +80,8 @@ local test_tbl = {
       marker = 'Gemfile',
       exclude = 'Puppetfile',
       command = ruby_env .. '&& bundle exec rake spec',
-      errors = 'Error'
-    }
+      errors = 'Error',
+    },
   },
   file_types = {
     groovy = {
@@ -89,7 +91,7 @@ local test_tbl = {
           filename_contain = 'Test.groovy',
           command = '$NVIM_GRADLE_BIN clean test --tests %:t:r --info',
         },
-      }
+      },
     },
     ruby = {
       command = ruby_env .. '&& ruby %',
@@ -97,8 +99,8 @@ local test_tbl = {
         {
           filename_contain = '_spec.rb',
           command = ruby_env .. '&& BEAKER_destroy=no rspec %',
-        }
-      }
+        },
+      },
     },
     plantuml = {
       command = 'plantuml -tsvg -o ' .. vim.env.HOME .. '/.config/nvim/tmp %',
@@ -181,24 +183,33 @@ local autocmds = {
   filetypes = {
     -- Detect yaml.ansible for Ansible LS support
     {
-      event = { 'BufNewFile' , 'BufReadPost', 'BufEnter', 'BufWinEnter' },
-      opts = { pattern = '*.yaml,*.yml', command = 'lua require("run2cmd.helper-functions").set_filetype("yaml.ansible", "yaml.ansible", { "- hosts:", "- name:" })' }
+      event = { 'BufNewFile', 'BufReadPost', 'BufEnter', 'BufWinEnter' },
+      opts = {
+        pattern = '*.yaml,*.yml',
+        command = 'lua require("run2cmd.helper-functions").set_filetype("yaml.ansible", "yaml.ansible", { "- hosts:", "- name:" })',
+      },
     },
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
-    { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } }
+    { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
   },
   -- Improve Vim buildin docs
   auto_docs = {
-    { event = { 'FileType' }, opts = { pattern = 'python', command = 'set keywordprg=:term\\ ++shell\\ python3\\ -m\\ pydoc' } },
-    { event = { 'FileType' }, opts = { pattern = 'puppet', command = 'set keywordprg=:term\\ ++shell\\ puppet\\ describe' } },
+    {
+      event = { 'FileType' },
+      opts = { pattern = 'python', command = 'set keywordprg=:term\\ ++shell\\ python3\\ -m\\ pydoc' },
+    },
+    {
+      event = { 'FileType' },
+      opts = { pattern = 'puppet', command = 'set keywordprg=:term\\ ++shell\\ puppet\\ describe' },
+    },
     { event = { 'FileType' }, opts = { pattern = 'ruby', command = 'set keywordprg=:term\\ ++shell\\ ri' } },
---    { event = { 'BufEnter' }, opts = { pattern = 'groovy', command = 'set keywordprg=:term\\ ++shell\\ $HOME/.vim/scripts/chtsh.bat groovy' } },
+    --    { event = { 'BufEnter' }, opts = { pattern = 'groovy', command = 'set keywordprg=:term\\ ++shell\\ $HOME/.vim/scripts/chtsh.bat groovy' } },
   },
   setup_project_environment = {
-    { event = 'DirChanged', opts = { pattern = '*', callback = project_env_setup } }
-  }
+    { event = 'DirChanged', opts = { pattern = '*', callback = project_env_setup } },
+  },
 }
 helpers.create_autocmds(autocmds)
 
 -- Groovy formatting.
-vim.api.nvim_create_user_command('GroovyFormat', ':lua require("run2cmd.helper-functions").run_term_cmd(\'npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\"**/\'.expand(\'%\').\'\\"', {})
+vim.api.nvim_create_user_command('GroovyFormat', ":lua require(\"run2cmd.helper-functions\").run_term_cmd('npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\\"**/'.expand('%').'\\\"", {})

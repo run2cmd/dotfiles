@@ -5,7 +5,7 @@ local mapkey = vim.keymap.set
 local homedir = vim.env.HOME
 
 -- Overwrite default tag jump to use LSP definitions and then fall back to tags
-vim.o.tagfunc = "v:lua.vim.lsp.tagfunc"
+vim.o.tagfunc = 'v:lua.vim.lsp.tagfunc'
 
 -- Setup lsp_status
 lsp_status.register_progress()
@@ -35,15 +35,15 @@ local function config(_config)
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true }
       mapkey('n', '<leader>vd', vim.diagnostic.open_float, opts)
-      mapkey('n', "[d", vim.diagnostic.goto_next, opts)
-      mapkey('n', "]d", vim.diagnostic.goto_prev, opts)
+      mapkey('n', '[d', vim.diagnostic.goto_next, opts)
+      mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
 
       local bufopts = { noremap = true, silent = true, buffer = bufnr }
       mapkey('n', 'K', vim.lsp.buf.hover, bufopts)
       mapkey('n', '<leader>bf', vim.lsp.buf.format, bufopts)
-      mapkey('n', "<leader>ba", vim.lsp.buf.code_action, bufopts)
-      mapkey('n', "<leader>br", vim.lsp.buf.rename, bufopts)
-    end
+      mapkey('n', '<leader>ba', vim.lsp.buf.code_action, bufopts)
+      mapkey('n', '<leader>br', vim.lsp.buf.rename, bufopts)
+    end,
   }, _config or {})
 end
 
@@ -51,14 +51,20 @@ end
 lspconfig.bashls.setup(config())
 lspconfig.jedi_language_server.setup(config())
 lspconfig.solargraph.setup(config({
-  cmd = { "solar-graph.sh" }
+  cmd = { 'solar-graph.sh' },
 }))
 lspconfig.puppet.setup(config({
   cmd = { 'puppetlsp.sh' },
 }))
 lspconfig.groovyls.setup(config({
   -- Limit memory usage. Groovy LS is heavy.
-  cmd = { "java", "-Xms256m", "-Xmx2048m", "-jar", homedir .. "/tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+  cmd = {
+    'java',
+    '-Xms256m',
+    '-Xmx2048m',
+    '-jar',
+    homedir .. '/tools/groovy-language-server/build/libs/groovy-language-server-all.jar',
+  },
 }))
 lspconfig.yamlls.setup(config({
   settings = {
@@ -86,9 +92,9 @@ lspconfig.yamlls.setup(config({
         ['schemas/data/env/env_file.json'] = 'data/env/*.yaml',
         ['schemas/profiles.json'] = 'profiles/**/*.yaml',
         ['schemas/products.json'] = 'products/**/*.yaml',
-      }
-    }
-  }
+      },
+    },
+  },
 }))
 lspconfig.jsonls.setup(config())
 lspconfig.vimls.setup(config())
@@ -97,14 +103,14 @@ lspconfig.ansiblels.setup(config({
     ansible = {
       -- Run ansible-lint with python env
       python = {
-        interpreterPath = 'pyenv'
+        interpreterPath = 'pyenv',
       },
       ansibleLint = {
         path = 'exec',
-        arguments = 'ansible-lint -c ~/.ansible-lint'
-      }
+        arguments = 'ansible-lint -c ~/.ansible-lint',
+      },
     },
-  }
+  },
 }))
 lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config())
@@ -113,23 +119,23 @@ lspconfig.lua_ls.setup(config({
   settings = {
     Lua = {
       runtime = {
-        version = "LuaJIT",
-        path = vim.split(package.path, ";"),
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';'),
       },
       diagnostics = {
-        globals = { "vim" },
+        globals = { 'vim' },
       },
       workspace = {
         library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
         },
       },
     },
-  }
+  },
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python', 'eruby' },
+  filetypes = { 'markdown', 'xml', 'groovy', 'Jenkinsfile', 'python', 'eruby', 'lua' },
   init_options = {
     linters = {
       mdl = {
@@ -137,10 +143,10 @@ lspconfig.diagnosticls.setup(config({
         command = 'mdl',
         args = { '-j' },
         parseJson = {
-          line = "line",
-          column = "column",
-          message = "[${rule}] ${description}",
-        }
+          line = 'line',
+          column = 'column',
+          message = '[${rule}] ${description}',
+        },
       },
       xmllint = {
         sourceName = 'xmllint',
@@ -153,8 +159,8 @@ lspconfig.diagnosticls.setup(config({
           {
             line = 1,
             message = 2,
-          }
-        }
+          },
+        },
       },
       groovylint = {
         sourceName = 'groovylint',
@@ -169,8 +175,8 @@ lspconfig.diagnosticls.setup(config({
             line = 1,
             security = 2,
             message = 3,
-          }
-        }
+          },
+        },
       },
       jenkinslint = {
         sourceName = 'jenkinslint',
@@ -185,8 +191,8 @@ lspconfig.diagnosticls.setup(config({
             line = 1,
             security = 2,
             message = 3,
-          }
-        }
+          },
+        },
       },
       pylint = {
         sourceName = 'pylint',
@@ -199,13 +205,13 @@ lspconfig.diagnosticls.setup(config({
             column = 2,
             security = 3,
             message = { 3, 4 },
-          }
+          },
         },
         securities = {
           error = 'E',
           warning = 'W',
           note = 'C',
-        }
+        },
       },
       erblint = {
         sourceName = 'erblint',
@@ -213,13 +219,24 @@ lspconfig.diagnosticls.setup(config({
         args = { '--format', 'json', '%relativepath' },
         parseJson = {
           errorsRoot = 'files[0].offenses',
-          line = "location.start_line",
-          endLine = "location.last_line",
-          column = "location.start_column",
-          endColumn = "location.last_column",
-          message = "[${linter}] ${message}",
-        }
-      }
+          line = 'location.start_line',
+          endLine = 'location.last_line',
+          column = 'location.start_column',
+          endColumn = 'location.last_column',
+          message = '[${linter}] ${message}',
+        },
+      },
+      stylua = {
+        sourceName = 'stylua',
+        command = 'stylua',
+        args = { '-s', '--check', '--output-format=Json', '%relativepath' },
+        parseJson = {
+          errorsRoot = 'mismatches',
+          line = 'expected_start_line',
+          endLine = 'expected_end_line',
+          message = '[stylua] ${expected}',
+        },
+      },
     },
     filetypes = {
       markdown = 'mdl',
@@ -228,17 +245,9 @@ lspconfig.diagnosticls.setup(config({
       Jenkinsfile = 'jenkinslint',
       python = 'pylint',
       eruby = 'erblint',
+      lua = 'stylua',
     },
-    formatters = {
-      prettier = {
-        command = 'prettier',
-        args = { '--stdin-fileptah', '%filepath' }
-      }
-    },
-    formatFiletypes = {
-      markdown = 'prettier'
-    },
-  }
+  },
 }))
 
 --vim.lsp.set_log_level 'trace'

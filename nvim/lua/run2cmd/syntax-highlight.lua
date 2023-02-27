@@ -26,5 +26,5 @@ config.setup({
   },
   matchup = {
     enable = true,
-  }
+  },
 })

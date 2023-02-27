@@ -6,22 +6,22 @@ local helpers = require('run2cmd.helper-functions')
 local autocmds = {
   doc_generation = {
     -- Update Helptags on start
-    { event = { 'VimEnter' }, opts = { command = 'helptags ALL'} }
+    { event = { 'VimEnter' }, opts = { command = 'helptags ALL' } },
   },
   disable_bell = {
     -- Disable blink and bell
-    { event = { 'GUIEnter' }, opts =  { pattern = '*', command = 'set visualbell t_vb=' } },
+    { event = { 'GUIEnter' }, opts = { pattern = '*', command = 'set visualbell t_vb=' } },
   },
   syntax = {
     -- Always sync syntax
-    { event = { 'BufEnter' }, opts = { pattern = '*', command = 'syntax sync fromstart' } }
+    { event = { 'BufEnter' }, opts = { pattern = '*', command = 'syntax sync fromstart' } },
   },
   set_title = {
     -- Set Title string for Tabs
     {
       event = { 'BufFilePre', 'BufEnter', 'BufWinEnter', 'DirChanged' },
-      opts = { pattern = { '*', '!qf' }, command = 'let &titlestring = " " . getcwd()' }
-    }
+      opts = { pattern = { '*', '!qf' }, command = 'let &titlestring = " " . getcwd()' },
+    },
   },
   reopen_buffers = {
     -- Set cursor at last position when opening files
@@ -29,9 +29,9 @@ local autocmds = {
       event = { 'BufReadPost' },
       opts = {
         pattern = '*',
-        command = "lua require('run2cmd.helper-functions').goto_last_position()"
-      }
-    }
+        command = "lua require('run2cmd.helper-functions').goto_last_position()",
+      },
+    },
   },
   quickfix_window = {
     -- Make qf window size 10
@@ -40,16 +40,19 @@ local autocmds = {
     -- Always move to last line in qf window
     { event = { 'FileType' }, opts = { pattern = 'qf', command = 'wincmd J' } },
     -- Close hidden buffers for Netrw
-    { event = { 'FileType' }, opts = { pattern = 'netrw', command = 'setlocal bufhidden=wipe' } }
+    { event = { 'FileType' }, opts = { pattern = 'netrw', command = 'setlocal bufhidden=wipe' } },
   },
   autosave = {
-    { event = { 'CursorHold' }, opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" } },
+    {
+      event = { 'CursorHold' },
+      opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" },
+    },
   },
   remove_trailing_line = {
-    { event = { 'BufWrite' }, opts = { pattern = '*', command = ':%s/\\s\\+$//e' } }
+    { event = { 'BufWrite' }, opts = { pattern = '*', command = ':%s/\\s\\+$//e' } },
   },
   notes = {
-    { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } }
-  }
+    { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } },
+  },
 }
 helpers.create_autocmds(autocmds)

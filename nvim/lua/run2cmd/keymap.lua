@@ -27,7 +27,7 @@ mapkey('c', '<C-j>', '<Down>')
 mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>")
 
 -- WSL support for Windows clipboard
-mapkey('v', '<leader>y', '"+y :call system(\'clip.exe\', @+)<CR><CR>')
+mapkey('v', '<leader>y', "\"+y :call system('clip.exe', @+)<CR><CR>")
 
 -- Easy exit terminal mode
 mapkey('t', '<C-w>t', '<C-\\><C-N>')

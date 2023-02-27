@@ -4,9 +4,9 @@
 local cmp = require('cmp')
 local tabnine = require('cmp_tabnine.config')
 local luasnip = require('luasnip')
-local auto_pairs = require("nvim-autopairs")
+local auto_pairs = require('nvim-autopairs')
 local pairs_cmp = require('nvim-autopairs.completion.cmp')
-local surround = require("nvim-surround")
+local surround = require('nvim-surround')
 local comment = require('Comment')
 
 --vim.o.wildmode = 'list:longest,full'
@@ -18,7 +18,7 @@ vim.o.wildignore = '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 
 -- Vim build-in completion
 vim.o.completeopt = 'menu,menuone,noinsert,noselect'
-vim.o.shortmess = vim.o.shortmess ..'cm'
+vim.o.shortmess = vim.o.shortmess .. 'cm'
 vim.o.complete = string.gsub(vim.o.complete, 't', '')
 
 -- Nice indention bar
@@ -64,14 +64,11 @@ tabnine:setup({
   max_num_results = 20,
   sort = true,
   run_on_every_keystroke = true,
-  snippet_placeholder = "..",
+  snippet_placeholder = '..',
 })
 
 auto_pairs.setup({
   check_ts = true,
-  disable_filetype = { "TelescopePrompt" },
+  disable_filetype = { 'TelescopePrompt' },
 })
-cmp.event:on(
-  'confirm_done',
-  pairs_cmp.on_confirm_done()
-)
+cmp.event:on('confirm_done', pairs_cmp.on_confirm_done())

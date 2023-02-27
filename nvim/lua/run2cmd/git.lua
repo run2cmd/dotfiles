@@ -5,12 +5,12 @@ local mapkey = vim.keymap.set
 
 gitsigns.setup({
   signs = {
-    add          = {hl = 'GitSignsAdd'   , text = '+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-    change       = {hl = 'GitSignsChange', text = '!', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-  }
+    add = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+    change = { hl = 'GitSignsChange', text = '!', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+    delete = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+    topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+    changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+  },
 })
 
 gitdiff.setup({
@@ -26,8 +26,8 @@ require('telescope').setup({
       layout_strategy = 'vertical',
       wrap_results = true,
       git_command = { 'git', 'log', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
-    }
-  }
+    },
+  },
 })
 
 -- Jump to Git conflicts

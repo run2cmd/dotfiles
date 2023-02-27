@@ -22,9 +22,9 @@ opt.sidescrolloff = 5
 
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 
-require('onedark').setup {
+require('onedark').setup({
   style = 'darker',
-}
+})
 cmd('colorscheme onedark')
 
 -- Additional color overried
@@ -39,7 +39,7 @@ theme.section.header.val = {
   [[                                                                                  ]],
 }
 
-theme.section.mru_cwd.val = { { type = "padding", val = 0 } }
+theme.section.mru_cwd.val = { { type = 'padding', val = 0 } }
 theme.nvim_web_devicons.enabled = false
 
 theme.section.bottom_buttons.val = {

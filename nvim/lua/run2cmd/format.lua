@@ -13,6 +13,22 @@ vim.o.joinspaces = false
 vim.g.neoformat_puppet_puppetlint = {
   exe = 'puppet-lint',
   args = { '--fix', '--no-autoloader_layout-check' },
-  ['replace'] = 1
+  ['replace'] = 1,
 }
 vim.g.neoformat_enabled_puppet = { 'puppetlint' }
+
+-- Lua stylua formatter support
+vim.g.neoformat_lua_stylua = {
+  exe = 'stylua',
+  args = { '-s' },
+  ['replace'] = 1,
+}
+vim.g.neoformat_enabled_lua = { 'stylua' }
+
+-- Markdown prettier support
+vim.g.neoformat_markdown_prettier = {
+  exe = 'prettier',
+  args = { '--stdin-fileptah' },
+  ['replace'] = 1,
+}
+vim.g.neoformat_enabled_markdown = { 'prettier' }

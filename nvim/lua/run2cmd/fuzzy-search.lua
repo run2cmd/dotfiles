@@ -11,16 +11,18 @@ local mapkey = vim.keymap.set
 -- This speeds up moving around projects.
 --
 local function find_projects()
-  pickers.new({}, {
-    prompt_title = 'projects',
-    finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=2', '--full-path', '.', '/code' }),
-    sorter = config.values.generic_sorter({}),
-    attach_mappings = function(_, map)
-      map('i', '<cr>', helper.telescope.open_project)
-      map('n', '<cr>', helper.telescope.open_project)
-      return true
-    end,
-  }):find()
+  pickers
+    .new({}, {
+      prompt_title = 'projects',
+      finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=2', '--full-path', '.', '/code' }),
+      sorter = config.values.generic_sorter({}),
+      attach_mappings = function(_, map)
+        map('i', '<cr>', helper.telescope.open_project)
+        map('n', '<cr>', helper.telescope.open_project)
+        return true
+      end,
+    })
+    :find()
 end
 
 require('telescope').setup({
@@ -32,7 +34,7 @@ require('telescope').setup({
         ['<C-p>'] = actions.preview_scrolling_down,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
-      }
+      },
     },
   },
   pickers = {
@@ -42,8 +44,8 @@ require('telescope').setup({
       mappings = {
         i = {
           ['<c-t>'] = helper.telescope.open_float,
-        }
-      }
+        },
+      },
     },
     buffers = {
       hidden = true,
@@ -51,10 +53,10 @@ require('telescope').setup({
       mappings = {
         i = {
           ['<c-t>'] = helper.telescope.open_float,
-        }
-      }
+        },
+      },
     },
-  }
+  },
 })
 
 -- Register support

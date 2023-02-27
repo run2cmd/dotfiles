@@ -2,7 +2,7 @@ local action_state = require('telescope.actions.state')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
 local mapkey = vim.keymap.set
-local M = {telescope={}}
+local M = { telescope = {} }
 
 --
 -- Default float window parameters
@@ -49,7 +49,7 @@ end
 M.merge = function(...)
   local tbl = {}
   print(...)
-  for _, i in ipairs({...}) do
+  for _, i in ipairs({ ... }) do
     for k, v in pairs(i) do
       tbl[k] = v
     end
@@ -77,8 +77,8 @@ end
 -- Go to last position in file buffer
 --
 M.goto_last_position = function()
-  if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line("$") then
-    vim.cmd("normal! g'\"")
+  if vim.fn.line('\'"') > 1 and vim.fn.line('\'"') <= vim.fn.line('$') then
+    vim.cmd('normal! g\'"')
   end
 end
 
@@ -118,9 +118,9 @@ M.set_filetype = function(ft, syn, matcher)
   if vim.fn.expand('%'):find('term:///') then
     doset = false
   else
-    for _,m in ipairs(matcher) do
+    for _, m in ipairs(matcher) do
       local content = vim.filetype.getlines(buffer, 1, 10)
-      for _,c in ipairs(content) do
+      for _, c in ipairs(content) do
         if string.match(c, m) then
           doset = true
         end
@@ -159,7 +159,7 @@ end
 M.run_term_cmd = function(params)
   local pstring = params .. ' '
   local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
-  vim.g.last_terminal_test = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath  .. ' %3')
+  vim.g.last_terminal_test = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
   if params == nil or params == '' then
     print('Missing terminal command to run')
   end
@@ -235,7 +235,7 @@ M.cmd_output = function(cmd)
   local output = ''
   local handle = io.popen(cmd)
   if handle ~= nil then
-    output = handle:read("*a"):gsub("\n", '')
+    output = handle:read('*a'):gsub('\n', '')
     handle:close()
   end
   return output

@@ -14,7 +14,7 @@ opt.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
 opt.tabline = '%{getcwd()}'
 opt.switchbuf = 'useopen,usetab'
 opt.updatetime = 250
-opt.mouse=""
+opt.mouse = ''
 cmd("let mapleader = ' '")
 
 require('run2cmd.plugins')
