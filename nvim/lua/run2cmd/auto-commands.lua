@@ -54,5 +54,9 @@ local autocmds = {
   notes = {
     { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } },
   },
+  puppet = {
+    -- Restore colen keyword for easier jump to definition
+    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=:' } },
+  },
 }
 helpers.create_autocmds(autocmds)
