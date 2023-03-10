@@ -38,5 +38,5 @@ require('run2cmd.pretty')
 require('run2cmd.statusline')
 
 -- Enable debug mode
---vim.o.verbose = 20
---vim.o.verbosefile = '~/vim.log'
+-- opt.verbose = 20
+-- opt.verbosefile = '~/vim.log'
