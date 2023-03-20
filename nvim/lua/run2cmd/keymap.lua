@@ -6,11 +6,11 @@ local mapkey = vim.keymap.set
 -- Clear search and diff
 mapkey('n', '<silent> <c-l>', ":nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>")
 
--- Do not use arrow keys for movement. Remap to resize commands
-mapkey('n', '<Up>', ':resize +2<CR>')
-mapkey('n', '<Down>', ':resize -2<CR>')
-mapkey('n', '<Left>', ':vert resize +2<CR>')
-mapkey('n', '<Right>', ':vert resize -2<CR>')
+-- Do not use arrow keys for movement.
+mapkey('n', '<Up>', '')
+mapkey('n', '<Down>', '')
+mapkey('n', '<Left>', '')
+mapkey('n', '<Right>', '')
 
 -- Tab enchantments
 mapkey('n', '<leader>tn', ':tabnext<CR>')
