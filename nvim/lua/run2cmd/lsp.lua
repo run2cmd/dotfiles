@@ -1,4 +1,5 @@
 local lspconfig = require('lspconfig')
+local cmpnvimlsp = require('cmp_nvim_lsp')
 local lsp_status = require('lsp-status')
 local mapkey = vim.keymap.set
 local homedir = vim.env.HOME
@@ -30,7 +31,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 --
 local function config(_config)
   return vim.tbl_deep_extend('force', {
-    capabilities = vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities, capabilities),
+    capabilities = cmpnvimlsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true }
       mapkey('n', '<leader>vd', vim.diagnostic.open_float, opts)
