@@ -1,5 +1,4 @@
 local gitsigns = require('gitsigns')
-local gitdiff = require('diffview')
 local builtin = require('telescope.builtin')
 local mapkey = vim.keymap.set
 
@@ -11,10 +10,6 @@ gitsigns.setup({
     topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
     changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
   },
-})
-
-gitdiff.setup({
-  use_icons = false,
 })
 
 require('telescope').setup({
