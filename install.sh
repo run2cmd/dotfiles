@@ -77,6 +77,7 @@ declare -A MAKE_LINKS=(
   ["nvim/scripts"]=".config/nvim/scripts"
   ["nvim/spell"]=".config/nvim/spell"
   ["nvim/lua"]=".config/nvim/lua"
+  ["nvim/after"]=".config/nvim/after"
   ["mdlrc"]=".mdlrc"
   ["mdl_style.rb"]=".mdl_style.rb"
   ["shellcheckrc"]=".shellcheckrc"
