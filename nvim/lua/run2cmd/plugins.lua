@@ -7,9 +7,6 @@ return require('packer').startup(function(use)
   -- Libraries
   use({ 'nvim-lua/plenary.nvim' })
 
-  -- colorschemes
-  use({ 'navarasu/onedark.nvim' })
-
   -- Movement
   use({ 'tpope/vim-unimpaired' })
   use({ 'andymass/vim-matchup' })
@@ -17,16 +14,20 @@ return require('packer').startup(function(use)
   -- File manager
   use({ 'nvim-telescope/telescope.nvim' })
 
-  -- Git support
-  use({ 'tpope/vim-fugitive' })
-  use({ 'lewis6991/gitsigns.nvim' })
-  use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
+  -- Syntax and lint
+  use({ 'neovim/nvim-lspconfig' })
+  use({ 'rodjek/vim-puppet' })
+  use({ 'martinda/Jenkinsfile-vim-syntax' })
+  use({ 'aklt/plantuml-syntax' })
+  use({ 'Yggdroot/indentLine' })
 
   -- Auto completion and auto edit
-  use({ 'ms-jpq/coq_nvim', branch = 'coq' })
-  use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' })
-  use({ 'ms-jpq/coq.thirdparty', branch = '3p' })
+  use({ 'hrsh7th/cmp-nvim-lsp' })
+  use({ 'hrsh7th/cmp-buffer' })
+  use({ 'hrsh7th/cmp-path' })
+  use({ 'hrsh7th/nvim-cmp' })
   use({ 'L3MON4D3/LuaSnip' })
+  use({ 'saadparwaiz1/cmp_luasnip' })
   use({ 'nvim-lua/lsp-status.nvim' })
   use({ 'kylechui/nvim-surround' })
   use({ 'dkarter/bullets.vim' })
@@ -46,17 +47,15 @@ return require('packer').startup(function(use)
   use({ 'numToStr/Comment.nvim' })
   use({ 'mcauley-penney/tidy.nvim' })
 
-  -- Syntax and lint
-  use({ 'neovim/nvim-lspconfig' })
-  use({ 'rodjek/vim-puppet' })
-  use({ 'martinda/Jenkinsfile-vim-syntax' })
-  use({ 'aklt/plantuml-syntax' })
-  use({ 'Yggdroot/indentLine' })
-
   -- Project support
   use({ 'airblade/vim-rooter' })
   use({ 'gpanders/editorconfig.nvim' })
   use({ 'ludovicchabant/vim-gutentags' })
+
+  -- Git support
+  use({ 'tpope/vim-fugitive' })
+  use({ 'lewis6991/gitsigns.nvim' })
+  use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
 
   -- Database
   use({ 'kristijanhusak/vim-dadbod-ui' })
@@ -65,6 +64,9 @@ return require('packer').startup(function(use)
   use({ 'ZSaberLv0/ZFVimJob' })
   use({ 'ZSaberLv0/ZFVimIgnore' })
   use({ 'ZSaberLv0/ZFVimDirDiff' })
+
+  -- colorschemes
+  use({ 'marko-cerovac/material.nvim' })
 
   -- Fun stuff
   use({ 'goolord/alpha-nvim' })

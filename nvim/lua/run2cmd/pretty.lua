@@ -1,11 +1,13 @@
 --
 -- Lets look pretty :)
 --
+--
 local opt = vim.o
 local cmd = vim.cmd
 local startup = require('alpha')
 local theme = require('alpha.themes.startify')
 local mapkey = vim.keymap.set
+local colors = require('material.colors')
 
 opt.noerrorbells = 'visualbell'
 
@@ -22,14 +24,32 @@ opt.sidescrolloff = 5
 
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
 
-require('onedark').setup({
-  style = 'darker',
+-- Colors
+-- TODO:
+--   * Groovy TS support.
+local newcyan = '#56b6c2'
+require('material').setup({
+  contrast = {
+    floating_windows = true,
+  },
+  plugins = {
+    'gitsigns',
+    'telescope',
+    'nvim-cmp',
+  },
+  custom_highlights = {
+    String = { fg = colors.main.darkgreen },
+    ['@field.yaml'] = { fg = newcyan },
+    ['@keyword.function.ruby'] = { fg = colors.main.darkred },
+    PuppetName = { fg = newcyan },
+    DiagnosticUnderlineError = { underline = false },
+    DiagnosticUnderlineWarn = { underline = false },
+    DiagnosticUnderlineInfo = { underline = false },
+    DiagnosticUnderlineHint = { underline = false },
+  },
 })
-cmd('colorscheme onedark')
-
--- Additional color overried
-cmd('hi puppetName guifg=#4fa6ed')
-cmd('hi puppetVariable guifg=#48b0bd')
+vim.g.material_style = 'darker'
+cmd('colorscheme material')
 
 -- Pretty greetings screen
 theme.section.header.val = {
