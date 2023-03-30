@@ -20,11 +20,6 @@ vim.o.completeopt = 'menu,menuone,noinsert,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'cm'
 vim.o.complete = string.gsub(vim.o.complete, 't', '')
 
--- Nice indention bar
-vim.g.indentLine_char = '┊'
-vim.g.indentLine_fileTypeExclude = { 'startify', 'markdown', 'alpha' }
-vim.g.indentLine_bufTypeExclude = { 'finished', 'terminal', 'help', 'quickfix' }
-
 -- Enable Omni completion if not already set
 vim.o.omnifunc = 'syntaxcomplete#Complete'
 

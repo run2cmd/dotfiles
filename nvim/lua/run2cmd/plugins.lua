@@ -19,7 +19,6 @@ return require('packer').startup(function(use)
   use({ 'rodjek/vim-puppet' })
   use({ 'martinda/Jenkinsfile-vim-syntax' })
   use({ 'aklt/plantuml-syntax' })
-  use({ 'Yggdroot/indentLine' })
 
   -- Auto completion and auto edit
   use({ 'hrsh7th/cmp-nvim-lsp' })
@@ -40,7 +39,6 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.install').update({ with_sync = true })
     end,
   })
-  --use 'nvim-treesitter/nvim-treesitter-context'
   use({ 'RRethy/nvim-treesitter-endwise' })
   use({ 'nvim-treesitter/playground' })
   use({ 'windwp/nvim-autopairs' })
@@ -65,8 +63,9 @@ return require('packer').startup(function(use)
   use({ 'ZSaberLv0/ZFVimIgnore' })
   use({ 'ZSaberLv0/ZFVimDirDiff' })
 
-  -- colorschemes
+  -- Looks
   use({ 'marko-cerovac/material.nvim' })
+  use({ 'lukas-reineke/indent-blankline.nvim' })
 
   -- Fun stuff
   use({ 'goolord/alpha-nvim' })

@@ -8,6 +8,7 @@ local startup = require('alpha')
 local theme = require('alpha.themes.startify')
 local mapkey = vim.keymap.set
 local colors = require('material.colors')
+local indent = require('indent_blankline')
 
 opt.noerrorbells = 'visualbell'
 
@@ -23,6 +24,12 @@ opt.scrolloff = 2
 opt.sidescrolloff = 5
 
 vim.g.matchup_matchparen_offscreen = { method = 'popup' }
+
+indent.setup({
+  char = '┊',
+  fileTypeExclude = { 'startify', 'markdown', 'alpha' },
+  bufTypeExclude = { 'finished', 'terminal', 'help', 'quickfix' },
+})
 
 -- Colors
 -- TODO:
