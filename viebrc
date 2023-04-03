@@ -68,7 +68,7 @@ set followelement=url,onclick,inputs-insert,inputs-click
 set followelementpointer=url,onclick,other
 
 " Do not restore tabs
-set restoretabs=false
+set restoretabs=none
 
 " Devtools always on bottom of the screen
 set devtoolsposition=vsplit
