@@ -54,7 +54,29 @@ local autocmds = {
   notes = {
     { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } },
   },
-  puppet = {
+  filetypes = {
+    -- Detect yaml.ansible for Ansible LS support
+    {
+      event = { 'BufNewFile', 'BufReadPost', 'BufEnter', 'BufWinEnter' },
+      opts = {
+        pattern = '*.yaml,*.yml',
+        command = 'lua require("run2cmd.helper-functions").set_filetype("yaml.ansible", "yaml.ansible", { "- hosts:", "- name:" })',
+      },
+    },
+    { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
+    { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
+  },
+  -- Improve Vim buildin docs
+  auto_docs = {
+    {
+      event = { 'FileType' },
+      opts = { pattern = 'python', command = 'set keywordprg=:term\\ ++shell\\ python3\\ -m\\ pydoc' },
+    },
+    {
+      event = { 'FileType' },
+      opts = { pattern = 'puppet', command = 'set keywordprg=:term\\ ++shell\\ puppet\\ describe' },
+    },
+    { event = { 'FileType' }, opts = { pattern = 'ruby', command = 'set keywordprg=:term\\ ++shell\\ ri' } },
     -- Restore colen keyword for easier jump to definition
     { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=:' } },
   },

@@ -1,8 +1,5 @@
-local action_state = require('telescope.actions.state')
-local actions = require('telescope.actions')
-local builtin = require('telescope.builtin')
 local mapkey = vim.keymap.set
-local M = { telescope = {} }
+local M = {}
 
 --
 -- Default float window parameters
@@ -206,8 +203,8 @@ end
 --
 M.float_text = function(ftext, fopts)
   local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
   local opts = default_float_params(fopts)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
   vim.api.nvim_open_win(buf, 1, opts)
 end
 
@@ -239,51 +236,6 @@ M.cmd_output = function(cmd)
     handle:close()
   end
   return output
-end
-
---
--- Get Telescope selection from picker list. Only single selection support
---
--- @param buffer Prompt buffer from telescope picker.
---
-M.telescope.get_selection = function(buffer)
-  local table = action_state.get_selected_entry(buffer)
-  local path = table[1]
-  return path
-end
-
---
--- Open new telescope.find_files picker given selection as directory path.
---
--- @param buffer Prompt buffer from telescope picker.
---
-M.telescope.open_project = function(buffer)
-  local dir_path = M.telescope.get_selection(buffer)
-  actions.close(buffer)
-  builtin.find_files({ cwd = string.gsub(dir_path, '/$', '') })
-end
-
---
--- Open Telescope selection in new float window and uses ESC for :q.
---
--- @param buffer Prompt buffer from telescope picker.
---
-M.telescope.open_float = function(buffer)
-  local file_path = M.telescope.get_selection(buffer)
-  actions.close(buffer)
-  local opts = { width = 100, height = 30 }
-  M.float_buffer(file_path, opts)
-end
-
---
--- Open Telescope selection in current window
---
--- @param buffer Prompt buffer from telescope picker.
---
-M.telescope.open_buffer = function(buffer)
-  local file_path = M.telescope.get_selection(buffer)
-  actions.close(buffer)
-  vim.cmd.edit(file_path)
 end
 
 return M

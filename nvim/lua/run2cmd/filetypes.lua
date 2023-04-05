@@ -1,5 +1,7 @@
+local addtype = vim.filetype.add
+
 -- Set Jenkinsfile filetype before all other code execution.
-vim.filetype.add({
+addtype({
   pattern = {
     ['.*.groovy'] = function(_, bufnr)
       local content = vim.filetype.getlines(bufnr, 1)
@@ -11,3 +13,6 @@ vim.filetype.add({
     end,
   },
 })
+
+-- Add notes
+addtype({ extension = { note = 'note' } })
