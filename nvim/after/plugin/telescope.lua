@@ -129,7 +129,7 @@ require('telescope').setup({
     git_commits = {
       layout_strategy = 'vertical',
       wrap_results = true,
-      git_command = { 'git', 'log', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
+      git_command = { 'git', 'log', '--full-history', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
     },
   },
 })
