@@ -2,7 +2,7 @@
 #
 # Install NodeJs and tools.
 #
-LIBDIR=$(dirnam "$(readlink -f $0)")
+LIBDIR=$(dirname "$(readlink -f $0)")
 source ${LIBDIR}/lib.sh
 
 topic 'UPDATE NODEJS'
