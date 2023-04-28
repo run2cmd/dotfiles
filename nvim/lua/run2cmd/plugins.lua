@@ -17,40 +17,42 @@ return require('packer').startup(function(use)
     branch = '0.1.x',
     requires = { { 'nvim-lua/plenary.nvim' } },
   })
+
   use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 
   -- Syntax and lint
-  use({ 'neovim/nvim-lspconfig' })
   use({ 'rodjek/vim-puppet' })
   use({ 'martinda/Jenkinsfile-vim-syntax' })
   use({ 'aklt/plantuml-syntax' })
 
   -- Auto completion and auto edit
   use({
-    'hrsh7th/cmp-nvim-lsp',
-    requires = { { 'neovim/nvim-lspconfig' } },
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    requires = {
+      -- LSP Support
+      { 'neovim/nvim-lspconfig' },
+      {
+        'williamboman/mason.nvim',
+        run = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      { 'williamboman/mason-lspconfig.nvim' },
+      { 'jose-elias-alvarez/null-ls.nvim' },
+      { 'jay-babu/mason-null-ls.nvim' },
+
+      -- Autocompletion
+      { 'hrsh7th/nvim-cmp' },
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'L3MON4D3/LuaSnip' },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'hrsh7th/cmp-path' },
+      { 'nvim-lua/lsp-status.nvim' },
+    },
   })
-  use({
-    'hrsh7th/cmp-buffer',
-    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-  })
-  use({
-    'hrsh7th/cmp-path',
-    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-  })
-  use({
-    'hrsh7th/nvim-cmp',
-    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-  })
-  use({
-    'L3MON4D3/LuaSnip',
-    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-  })
-  use({
-    'saadparwaiz1/cmp_luasnip',
-    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-  })
-  use({ 'nvim-lua/lsp-status.nvim' })
+
   use({
     'kylechui/nvim-surround',
     tag = '*',
@@ -59,29 +61,6 @@ return require('packer').startup(function(use)
     end,
   })
   use({ 'noprompt/vim-yardoc' })
-  use({
-    'sbdchd/neoformat',
-    config = function()
-      vim.g.neoformat_puppet_puppetlint = {
-        exe = 'puppet-lint',
-        args = { '--fix', '--no-autoloader_layout-check' },
-        ['replace'] = 1,
-      }
-      vim.g.neoformat_enabled_puppet = { 'puppetlint' }
-      vim.g.neoformat_lua_stylua = {
-        exe = 'stylua',
-        args = { '-s' },
-        ['replace'] = 1,
-      }
-      vim.g.neoformat_enabled_lua = { 'stylua' }
-      vim.g.neoformat_markdown_prettier = {
-        exe = 'prettier',
-        args = { '--stdin-fileptah' },
-        ['replace'] = 1,
-      }
-      vim.g.neoformat_enabled_markdown = { 'prettier' }
-    end,
-  })
   use({
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -166,6 +145,7 @@ return require('packer').startup(function(use)
     end,
   })
   use({
+    -- replace with null-ls?
     'ludovicchabant/vim-gutentags',
     config = function()
       vim.g.gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
@@ -195,7 +175,6 @@ return require('packer').startup(function(use)
         plugins = { 'gitsigns', 'telescope', 'nvim-cmp' },
         custom_highlights = {
           String = { fg = colors.main.darkgreen },
-          ['@field.yaml'] = { fg = '#56b6c2' },
           ['@keyword.function.ruby'] = { fg = colors.main.darkred },
           PuppetName = { fg = '#56b6c2' },
           DiagnosticUnderlineError = { underline = false },

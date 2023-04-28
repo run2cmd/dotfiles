@@ -2,10 +2,5 @@ GitPython
 PyYAML
 ansicolor
 ansible
-ansible-lint
-jedi-language-server
 jmespath
-pylint
 requests
-vim-vint
-yamllint

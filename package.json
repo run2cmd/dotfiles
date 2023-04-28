@@ -6,18 +6,8 @@
   "dependencies": {
     "ajv-cli": "5.0.0",
     "ajv-formats": "2.1.1",
-    "ansible-language-server": "latest",
-    "bash-language-server": "latest",
-    "diagnostic-languageserver": "latest",
-    "dockerfile-language-server-nodejs": "latest",
-    "node-pre-gyp": "^0.17.0",
-    "npm-groovy-lint": "latest",
-    "prettier": "latest",
     "tree-sitter-cli": "latest",
-    "vim-language-server": "latest",
-    "vscode-langservers-extracted": "latest",
-    "yaml-language-server": "latest",
-    "@johnnymorganz/stylua-bin": "latest"
+    "npm-groovy-lint": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -71,7 +71,7 @@ I use my own VIM workflow. I like it to be easy and as much automated as
 possible. Here are some core features:
 
 - LSP support enabled by default. Support for languages and filetypes I work with.
-- Automcompletion enabled by default. Utilize LSP, buffers, tabnine, tags and snippets.
+- Automcompletion enabled by default. Utilize LSP, buffers, tags and snippets.
 - Tag support for all files. You can choose to use LSP GoToDefinition function or Tags to find definitions.
 - Mapleader is set to `space`. It's just so much easier.
 - Use my own color scheme. It was based on `default` but evolved a lot into
@@ -85,7 +85,7 @@ possible. Here are some core features:
   - Arrow keys re-size window
   - '<leader>l' - Delete all open buffers (not files) and restart LSP servers.
   - '<leader>to' - open new tab with Alpha.
-  - '<leader>w', '<leader>b' - move to next or previous tab.
+  - '<leader>tn', '<leader>tp' - move to next or previous tab.
   - '<c-l>' - Clear search and update diff.
   - '<leader>c' - open terminal.
   - '<leader>y' - In visual mode copy text to windows clipboard.
@@ -108,6 +108,7 @@ possible. Here are some core features:
     - '<leader>bf' - Run LSP format in buffer.
     - '<leader>ba' - Run LSP code_action.
     - '<leader>br' - Run LSP rename.
+    - '<leader>bl' - Run LSP list references.
     - '<leader>sw' - Search for word under cursor in current project.
     - '<leader>sl' - Live search in current project.
     - '<leader>sb' - Live search in current buffer.

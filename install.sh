@@ -11,6 +11,5 @@ ${LIBDIR}/install/neovim.sh
 ${LIBDIR}/install/ruby.sh
 ${LIBDIR}/install/python.sh
 ${LIBDIR}/install/sdkman.sh
-${LIBDIR}/install/nodejs.sh
-${LIBDIR}/install/lsp.sh
+${LIBDIR}/install/node.sh
 ${LIBDIR}/install/windows.sh

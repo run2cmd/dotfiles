@@ -1,33 +1,10 @@
 --
--- Sets test commands based on project type.
+-- Tests plugin
 --
 local helpers = require('run2cmd.helper-functions')
 local mapkey = vim.keymap.set
 local ruby_env = 'source ~/.rvm/scripts/rvm && rvm use'
-local autocmds = {
-  setup_project_environment = {
-    {
-      event = 'DirChanged',
-      opts = {
-        pattern = '*',
-        callback = function()
-          if helpers.file_exists('build.gradle') then
-            local binary = './gradlew'
-            if not helpers.file_exists('./gradlew') then
-              binary = 'gradle'
-            end
-            vim.env.NVIM_GRADLE_BIN = binary
-          end
-        end,
-      },
-    },
-  },
-}
-helpers.create_autocmds(autocmds)
 
---
--- Project Tests
---
 local test_tbl = {
   projects = {
     maven = {
@@ -37,10 +14,6 @@ local test_tbl = {
     nodejs = {
       marker = 'package.json',
       command = 'yarn install & yarn build:prod',
-    },
-    ansible = {
-      marker = '.ansible-lint',
-      command = 'ansible-lint %',
     },
     icha = {
       marker = 'Puppetfile',
@@ -57,6 +30,7 @@ local test_tbl = {
     ruby = {
       marker = 'Gemfile',
       exclude = 'Puppetfile',
+      setup = ruby_env .. '&& bundle install && bundle exec rake spec_prep',
       command = ruby_env .. '&& bundle exec rake spec',
       errors = 'Error',
     },
@@ -76,7 +50,7 @@ local test_tbl = {
       alternatives = {
         {
           filename_contain = '_spec.rb',
-          command = ruby_env .. '&& BEAKER_destroy=no rspec %',
+          command = ruby_env .. '&& BEAKER_destroy=no bundle exec rspec %',
         },
       },
     },
@@ -151,10 +125,34 @@ local function find_errors()
   vim.cmd('/' .. vim.g.term_error_serach_string)
 end
 
+local function run_setup()
+  local project_marks = test_tbl.projects
+  local error_str
+  local test_cmd
+
+  for _, v in pairs(project_marks) do
+    if helpers.file_exists(v.marker) then
+      local exclude = v.exclude or 'no_exclude_file_check'
+
+      if not helpers.file_exists(exclude) then
+        test_cmd = v.setup or 'none'
+        error_str = v.errors or 'FAILED'
+        break
+      end
+    end
+  end
+
+  vim.g.term_error_serach_string = error_str
+  if not(test_cmd == 'none') then
+    helpers.run_term_cmd(test_cmd)
+  end
+end
+
 -- Easy mappings for for running tests. Got used to vim-dispatch in past so use them.
 mapkey('n', '`f', run_file)
 mapkey('n', '`t', run_project)
 mapkey('n', '`l', run_last)
+mapkey('n', '`s', run_setup)
 mapkey('n', '`e', find_errors)
 
 -- Groovy formatting.

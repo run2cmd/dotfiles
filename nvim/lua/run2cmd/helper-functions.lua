@@ -71,15 +71,6 @@ M.chtsh = function(params)
 end
 
 --
--- Go to last position in file buffer
---
-M.goto_last_position = function()
-  if vim.fn.line('\'"') > 1 and vim.fn.line('\'"') <= vim.fn.line('$') then
-    vim.cmd('normal! g\'"')
-  end
-end
-
---
 -- Automatically write buffer after switch form insert to normal mode
 -- Won't run for excluded buffers like nofile, trminal, gitcommit
 --

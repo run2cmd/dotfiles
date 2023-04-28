@@ -38,7 +38,6 @@ declare -A MAKE_LINKS=(
   ["rvmrc"]=".rvmrc"
   ["puppet-lint.rc"]=".puppet-lint.rc"
   ["reek"]=".reek"
-  ["rubocop.yaml"]=".rubocop.yaml"
   ["screenrc"]=".screenrc"
   ["tmux.conf"]=".tmux.conf"
   ["vintrc.yaml"]=".vintrc.yaml"
