@@ -21,7 +21,6 @@ return require('packer').startup(function(use)
   use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 
   -- Syntax and lint
-  use({ 'rodjek/vim-puppet' })
   use({ 'martinda/Jenkinsfile-vim-syntax' })
   use({ 'aklt/plantuml-syntax' })
 
@@ -67,16 +66,6 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.install').update({ with_sync = true })
     end,
     config = function()
-      -- Puppet Treesitter
-      -- require("nvim-treesitter.parsers").get_parser_configs().puppet = {
-      --   install_info = {
-      --     url = '~/tools/tree-sitter-puppet',
-      --     files = { 'src/parser.c' },
-      --     branch = 'main',
-      --     requires_generate_from_grammar = false,
-      --     generate_requires_npm = false,
-      --   },
-      -- }
       require('nvim-treesitter.configs').setup({
         ensure_installed = 'all',
         sync_install = false,
@@ -176,7 +165,7 @@ return require('packer').startup(function(use)
         custom_highlights = {
           String = { fg = colors.main.darkgreen },
           ['@keyword.function.ruby'] = { fg = colors.main.darkred },
-          PuppetName = { fg = '#56b6c2' },
+          --PuppetName = { fg = '#56b6c2' },
           DiagnosticUnderlineError = { underline = false },
           DiagnosticUnderlineWarn = { underline = false },
           DiagnosticUnderlineInfo = { underline = false },

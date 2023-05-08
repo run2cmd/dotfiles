@@ -43,14 +43,6 @@ nvim --headless -c "MasonUpdate" -c qall
 # nvim --headless -c "Mason" -c "normal C"
 echo ""
 
-task "Puppet Treesitter setup"
-PUPPET_TS_DIR=${TOOLSDIR}/tree-sitter-puppet
-PUPPET_Q_DIR=${HOME}/.local/share/nvim/site/pack/packer/start/nvim-treesitter/queries/puppet
-if [ ! -e $PUPPET_TS_DIR ] ;then git clone https://github.com/neovim-puppet/tree-sitter-puppet.git ${PUPPET_TS_DIR} ;fi
-git -C ${PUPPET_TS_DIR} pull
-if [ ! -e $PUPPET_Q_DIR ] ;then mkdir -p $PUPPET_Q_DIR ;fi
-cp ${PUPPET_TS_DIR}/queries/* ${PUPPET_Q_DIR}/
-
 task "Update Neovim treesitter"
 nvim --headless -c 'TSUpdate | quitall'
 echo ""
