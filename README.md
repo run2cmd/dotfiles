@@ -43,11 +43,11 @@ Configurations is set to focus on them.
 
 ## Tools
 
-I use [Scoop](https://scoop.sh/) to download software in Windows and APT for
+I use [Winget](https://github.com/microsoft/winget-cli) to download software in Windows and APT for
 Ubuntu. Some tools are installed based on language they are written in. Check
 list of packages.
 
-- [Scoop packages](Scoopfile)
+- [Windows packages](Winfile)
 - [Ubuntu packages](Rpmfile)
 - [Ruby gems](Gemfile)
 - [Python packages](Pythonfile)
