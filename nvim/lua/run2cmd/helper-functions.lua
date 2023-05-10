@@ -45,7 +45,6 @@ end
 --
 M.merge = function(...)
   local tbl = {}
-  print(...)
   for _, i in ipairs({ ... }) do
     for k, v in pairs(i) do
       tbl[k] = v
