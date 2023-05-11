@@ -76,13 +76,6 @@ set devtoolsposition=vsplit
 " Disable Vieb mouse menu
 set menupage=never
 
-" Use dark theme for everything
-set nativetheme=dark
-set darkreader=true
-set darkreaderbrightness=90
-set darkreadergrayscale=20
-set darkreaderblocklist=(.*google.com.*)~(.*github.com.*)~(.*duckduckgo.com.*)~(.*facebook.com.*)~(.*reddit.com.*)
-
 " Allow notifications
 set permissionsallowed+=mail.google.com~notifications,calendar.google.com~notifications,facebook.com~notifications
 
