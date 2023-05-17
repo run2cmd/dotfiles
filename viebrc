@@ -62,6 +62,7 @@ emap <c-j> <nextSuggestion>
 emap <c-k> <prevSuggestion>
 cmap <c-j> <nextSuggestion>
 cmap <c-k> <prevSuggestion>
+nmap <^> <esc>:buffer #<cr>
 
 " Reduce number of follows
 set followelement=url,onclick,inputs-insert,inputs-click
