@@ -48,7 +48,6 @@ lsp_status.config({
 
 lsp.on_attach(function(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  mapkey('n', '<leader>vd', vim.diagnostic.open_float, opts)
   mapkey('n', '[d', vim.diagnostic.goto_next, opts)
   mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
   mapkey('n', 'K', vim.lsp.buf.hover, opts)
