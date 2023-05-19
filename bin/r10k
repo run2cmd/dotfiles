@@ -1,13 +1,37 @@
-#!/bin/bash
-ENV_NAME="$(basename $(pwd))_$(git branch --show-current)"
-LOCATIONS=$(python3 -c "import yaml;print(','.join(list(yaml.safe_load(open('data/env/${ENV_NAME}.yaml'))['icha_infrastructure'].keys())))")
+#!/bin/env python
+'''
+Run r10k on remote Puppet Masters
+'''
 
-PUPPET_MASTER_IPS=$(rg -I --glob "{${LOCATIONS}}.yaml" puppet_master_ip: | awk '{print $2}' | sed "s/'//g;s/\"//g" | tr -s "\n" ",")
+import os
+import yaml
+import subprocess
 
-echo "Run r10k with environment ${ENV_NAME} in locations ${LOCATIONS} on ${PUPPET_MASTER_IPS}"
-ansible-playbook -i $PUPPET_MASTER_IPS -u root /dev/stdin <<FOO
-- hosts: all
-  gather_facts: false
-  tasks:
-    - command: "r10k deploy environment ${ENV_NAME} -pv"
-FOO
+if __name__ == "__main__":
+  dirname = os.getcwd().split('/')[-1]
+  branch = os.popen('git branch --show-current').readline().strip()
+  env_name = f'{dirname}_{branch}'
+  env_file = f'data/env/{env_name}.yaml'
+  play_file = '/tmp/r10k-playbook.yaml'
+  master_ips = []
+  playbook = f'''---
+    - hosts: all
+      gather_facts: false
+      tasks:
+        - command: "r10k deploy environment {env_name} -pv"
+  '''
+
+  with open(env_file, 'r', encoding='utf-8') as file_handle:
+    data = yaml.safe_load(file_handle)['icha_infrastructure']
+
+  for loc in data.keys():
+    with open(f'data/env/{loc}.yaml', 'r', encoding='utf-8') as file_handle:
+      loc_ip = yaml.safe_load(file_handle)['puppet_master_ip']
+    master_ips.append(loc_ip)
+
+  with open(play_file, 'w', encoding='utf-8') as file_handle:
+    file_handle.write(playbook)
+
+  cmd = f'ansible-playbook -i {",".join(master_ips)}, -u root {play_file}'
+  print(cmd)
+  subprocess.run([cmd], shell=True, check=False)
