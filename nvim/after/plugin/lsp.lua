@@ -108,7 +108,7 @@ lspconfig.yamlls.setup({
 
 lspconfig.solargraph.setup({
   -- Run solargraph per RVM env
-  cmd = { 'solar-graph.sh' },
+  cmd = { 'sgraph' },
 })
 
 lspconfig.puppet.setup({

@@ -37,4 +37,4 @@ mapkey('n', '<leader>qo', ':ccopen<CR>')
 mapkey('n', '<leader>qc', ':cclose<CR>')
 
 -- Easy r10k support based on git branch
-mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd('r10k.sh')<cr>")
+mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd('r10k')<cr>")

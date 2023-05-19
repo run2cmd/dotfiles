@@ -65,7 +65,7 @@ M.chtsh = function(params)
   if buffer and vim.api.nvim_buf_is_valid(buffer) then
     vim.api.nvim_buf_delete(buffer, {})
   end
-  vim.cmd('split term://chtsh.sh ' .. params)
+  vim.cmd('split term://chtsh ' .. params)
   vim.t.doc_window_buffer = vim.api.nvim_get_current_buf()
 end
 

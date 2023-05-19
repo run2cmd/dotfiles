@@ -16,7 +16,7 @@ local test_tbl = {
   },
   icha = {
     rootfile = 'Puppetfile',
-    command = 'ichatest.sh',
+    command = 'ichatest',
   },
   gradle = {
     rootfile = 'build.gradle',

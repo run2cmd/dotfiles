@@ -155,3 +155,11 @@ This is useful if any of WSL instances reserves a lot of space that was used in 
 # - Debian/Ubuntu = C:\Users\[user_name]\AppData\Local\Packages\[look something with debian or ubuntu]\LocalState\ext4.vhdx
 optimize-vhd -Path [vhdx-path] -Mode full
 ```
+
+## MTU fix for VPN
+
+Useful in case of VPN restrictions. Add following to `~/.bashrc`:
+
+```# Fix for VPN
+if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
+```
