@@ -1,0 +1,35 @@
+#!/bin/env python
+'''
+DB2 connection wrapper
+'''
+
+import argparse
+import os
+import sys
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser(
+    prog = 'db2con',
+    description = 'DB2 connection wrapper',
+    epilog = 'Author: piotr.bugala@igt.com'
+  )
+  parser.add_argument('url', help = 'URL for connection, example: db2server01:60000/ESDB')
+  parser.add_argument(
+    '-u', '--username',
+    action = 'store',
+    help = 'Username for connection'
+  )
+  parser.add_argument(
+    '-p', '--password',
+    action = 'store',
+    help = 'Username password for connection'
+  )
+
+  args = parser.parse_args()
+  dbjar = os.path.expanduser('~/tools/db2jcc4.jar')
+
+  if not os.path.exists(dbjar):
+    print(f'File {dbjar} does not exists. Download manually.')
+    sys.exit(3)
+
+  os.system(f"java -cp {dbjar} com.ibm.db2.jcc.DB2Jcc -user {args.username} -password {args.password} -url jdbc:db2://{args.url}")
