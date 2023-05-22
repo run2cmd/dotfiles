@@ -20,7 +20,7 @@ local test_tbl = {
   },
   gradle = {
     rootfile = 'build.gradle',
-    command = '$NVIM_GRADLE_BIN clean build --info',
+    command = 'gradlew clean build --info'
   },
   helm = {
     rootfile = 'helm',
@@ -38,7 +38,7 @@ local test_tbl = {
   },
   groovy_test = {
     pattern = 'Test.groovy',
-    command = '$NVIM_GRADLE_BIN clean test --tests %:t:r --info',
+    command = 'gradlew clean test --tests %:t:r --info'
   },
   ruby = {
     command = ruby_env .. '&& ruby %',
