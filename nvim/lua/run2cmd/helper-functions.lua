@@ -53,6 +53,24 @@ M.merge = function(...)
   return tbl
 end
 
+
+--
+-- Concentrate arrays
+--
+-- @param ... Each parameter needs to be array.
+--
+-- @return array
+--
+M.concat = function(...)
+  local tbl = {}
+  for _, i in ipairs({...}) do
+    for _, v in pairs(i) do
+      table.insert(tbl, v)
+    end
+  end
+  return tbl
+end
+
 --
 -- Run call to https://cht.sh
 --
