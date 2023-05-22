@@ -31,12 +31,7 @@ return require('packer').startup(function(use)
     requires = {
       -- LSP Support
       { 'neovim/nvim-lspconfig' },
-      {
-        'williamboman/mason.nvim',
-        run = function()
-          pcall(vim.cmd, 'MasonUpdate')
-        end,
-      },
+      { 'williamboman/mason.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'jose-elias-alvarez/null-ls.nvim' },
       { 'jay-babu/mason-null-ls.nvim' },
@@ -62,9 +57,6 @@ return require('packer').startup(function(use)
   use({ 'noprompt/vim-yardoc' })
   use({
     'nvim-treesitter/nvim-treesitter',
-    run = function()
-      require('nvim-treesitter.install').update({ with_sync = true })
-    end,
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = 'all',

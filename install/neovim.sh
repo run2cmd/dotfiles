@@ -44,5 +44,5 @@ nvim --headless -c "MasonUpdate" -c qall
 echo ""
 
 task "Update Neovim treesitter"
-nvim --headless -c 'TSUpdate | quitall'
+nvim --headless -c 'TSUpdateSync | quitall'
 echo ""
