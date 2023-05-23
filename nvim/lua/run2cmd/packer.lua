@@ -3,7 +3,6 @@ return require('packer').startup(function(use)
   use({ 'wbthomason/packer.nvim' })
 
   -- Movement
-  use({ 'tpope/vim-unimpaired' })
   use({
     'andymass/vim-matchup',
     config = function()
