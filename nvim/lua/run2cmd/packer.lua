@@ -19,10 +19,6 @@ return require('packer').startup(function(use)
 
   use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 
-  -- Syntax and lint
-  use({ 'martinda/Jenkinsfile-vim-syntax' })
-  use({ 'aklt/plantuml-syntax' })
-
   -- Auto completion and auto edit
   use({
     'VonHeikemen/lsp-zero.nvim',
@@ -45,7 +41,6 @@ return require('packer').startup(function(use)
       { 'nvim-lua/lsp-status.nvim' },
     },
   })
-
   use({
     'kylechui/nvim-surround',
     tag = '*',
@@ -53,7 +48,29 @@ return require('packer').startup(function(use)
       require('nvim-surround').setup({})
     end,
   })
-  use({ 'noprompt/vim-yardoc' })
+  use({
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({
+        check_ts = true,
+        disable_filetype = { 'TelescopePrompt' },
+      })
+    end,
+  })
+  use({
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({})
+    end,
+  })
+  use({
+    'mcauley-penney/tidy.nvim',
+    config = function()
+      require('tidy').setup({ filetype_exclude = { 'txt' } })
+    end,
+  })
+
+  -- Syntax highlight
   use({
     'nvim-treesitter/nvim-treesitter',
     config = function()
@@ -78,28 +95,10 @@ return require('packer').startup(function(use)
     'RRethy/nvim-treesitter-endwise',
     requires = { { 'nvim-treesitter/nvim-treesitter' } },
   })
-  use({
-    'windwp/nvim-autopairs',
-    config = function()
-      require('nvim-autopairs').setup({
-        check_ts = true,
-        disable_filetype = { 'TelescopePrompt' },
-      })
-    end,
-  })
-  use({
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup({})
-    end,
-  })
-  use({
-    'mcauley-penney/tidy.nvim',
-    config = function()
-      require('tidy').setup({ filetype_exclude = { 'txt' } })
-    end,
-  })
+  use({ 'martinda/Jenkinsfile-vim-syntax' })
+  use({ 'aklt/plantuml-syntax' })
 
+  -- Project configuration
   use({
     'gpanders/editorconfig.nvim',
     config = function()
