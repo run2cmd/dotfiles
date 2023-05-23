@@ -98,23 +98,6 @@ return require('packer').startup(function(use)
   use({ 'martinda/Jenkinsfile-vim-syntax' })
   use({ 'aklt/plantuml-syntax' })
 
-  -- Project configuration
-  use({
-    'gpanders/editorconfig.nvim',
-    config = function()
-      vim.g.EditorConfig_exclude_patterns = { 'fugitive://.\\*', 'scp://.\\*' }
-      require('editorconfig').properties.max_line_length = function(bufnr, val, opts)
-        if opts.max_line_length then
-          if opts.max_line_length == 'off' then
-            vim.bo[bufnr].textwidth = 0
-          else
-            vim.bo[bufnr].textwidth = tonumber(val)
-          end
-        end
-      end
-    end,
-  })
-
   -- Git support
   use({ 'tpope/vim-fugitive' })
   use({ 'lewis6991/gitsigns.nvim' })
