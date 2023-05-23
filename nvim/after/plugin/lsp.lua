@@ -5,9 +5,6 @@ local cmp = require('cmp')
 local mapkey = vim.keymap.set
 local homedir = vim.env.HOME
 
--- Overwrite default tag jump to use LSP definitions and then fall back to tags
-vim.o.tagfunc = 'v:lua.vim.lsp.tagfunc'
-
 cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<c-k>'] = cmp.mapping.select_prev_item(),
@@ -55,8 +52,8 @@ lsp.on_attach(function(client, bufnr)
   mapkey('n', '<leader>ba', vim.lsp.buf.code_action, opts)
   mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
   mapkey('n', '<leader>bl', vim.lsp.buf.references, opts)
-  --mapkey('n', '<leader>gd', vim.lsp.buf.definition, opts)
-  --mapkey('v', '<leader>gd', vim.lsp.buf.definition, opts)
+  mapkey('n', '<leader>]', vim.lsp.buf.definition, opts)
+  mapkey('v', '<leader>]', vim.lsp.buf.definition, opts)
 end)
 
 lsp.ensure_installed({

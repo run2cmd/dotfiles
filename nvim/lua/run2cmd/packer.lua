@@ -124,15 +124,6 @@ return require('packer').startup(function(use)
       end
     end,
   })
-  use({
-    -- replace with null-ls?
-    'ludovicchabant/vim-gutentags',
-    config = function()
-      vim.g.gutentags_file_list_command = 'fdfind --type f . spec/fixtures/modules .'
-      vim.g.gutentags_cache_dir = vim.env.HOME .. '/.config/nvim/auto-tags'
-      vim.g.gutentags_project_root = { 'index.md' }
-    end,
-  })
 
   -- Git support
   use({ 'tpope/vim-fugitive' })
