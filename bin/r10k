@@ -12,6 +12,7 @@ if __name__ == "__main__":
   branch = os.popen('git branch --show-current').readline().strip()
   env_name = f'{dirname}_{branch}'
   env_file = f'data/env/{env_name}.yaml'
+  source_file = 'data/env.yaml'
   play_file = '/tmp/r10k-playbook.yaml'
   master_ips = []
   playbook = f'''---
@@ -25,7 +26,10 @@ if __name__ == "__main__":
     data = yaml.safe_load(file_handle)['icha_infrastructure']
 
   for loc in data.keys():
-    with open(f'data/env/{loc}.yaml', 'r', encoding='utf-8') as file_handle:
+    loc_file = f'data/env/{loc}.yaml'
+    if os.path.exists(loc_file):
+      source_file = loc_file
+    with open(source_file, 'r', encoding='utf-8') as file_handle:
       loc_ip = yaml.safe_load(file_handle)['puppet_master_ip']
     master_ips.append(loc_ip)
 
