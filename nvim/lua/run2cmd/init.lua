@@ -13,6 +13,7 @@ require('run2cmd.keymap')
 require('run2cmd.commands')
 require('run2cmd.statusline')
 require('run2cmd.autochdir')
+require('run2cmd.travel')
 
 -- Enable debug mode
 -- vim.o.verbose = 20

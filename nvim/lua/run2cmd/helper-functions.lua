@@ -246,4 +246,21 @@ M.cmd_output = function(cmd)
   return output
 end
 
+
+--
+-- Match pattern against buffer content
+--
+-- @param buf Buffer number.
+-- @param pattern Pattern for string match.
+-- @param num_lines Number of lines from buffet to match against.
+--
+M.buf_string_match = function(buf, pattern, num_lines)
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, num_lines, false)
+  local match = false
+  for _,v in ipairs(lines) do
+    if string.match(v, pattern) then match = true end
+  end
+  return match
+end
+
 return M
