@@ -36,11 +36,10 @@ date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE}
 
 task "Update Mason registry"
 nvim --headless -c "MasonUpdate" -c qall
-# Need to figure out Mason events or syncronized to qall after installations is complete
-# Alternatives:
-#   - https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
-#   - https://github.com/RubixDev/mason-update-all
-# nvim --headless -c "Mason" -c "normal C"
+echo ""
+
+task "Update tools"
+nvim --headless -c 'autocmd User MasonUpdateAllComplete quitall' -c 'MasonUpdateAll'
 echo ""
 
 task "Update Neovim treesitter"

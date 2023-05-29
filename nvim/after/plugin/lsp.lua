@@ -186,3 +186,5 @@ mason_null_ls.setup({
   automatic_installation = true,
   handlers = {},
 })
+
+require('mason-update-all').setup()
