@@ -1,2 +1,2 @@
 @echo off
-start "gsudo" "notepad" "C:\Windows\System32\drivers\etc\hosts"
+start /b "" "gsudo" "notepad" "C:\Windows\System32\drivers\etc\hosts"
