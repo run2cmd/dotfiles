@@ -9,7 +9,6 @@ dos2unix
 fd-find
 fuse
 git
-helm
 kubernetes-client
 libbz2-dev
 libffi-dev

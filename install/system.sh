@@ -35,3 +35,6 @@ if ! (k9s version |grep -q "$(echo ${K9S_DATA} | cut -d' ' -f1)") ;then
  wget -q -O /tmp/k9s.tar.gz "$(echo ${K9S_DATA} | cut -d' ' -f2)"
  tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
 fi
+
+task "Update helm"
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
