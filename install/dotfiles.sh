@@ -47,7 +47,7 @@ declare -A MAKE_LINKS=(
   ["Pythonfile"]="Pythonfile"
   ["package.json"]="package.json"
   ["Gemfile"]="Gemfile"
-  ["Rpmfile"]="Rpmfile"
+  ["Pkgfile"]="Pkgfile"
 )
 for mlink in "${!MAKE_LINKS[@]}" ;do
   ln -snf ${REPODIR}/${mlink} ${HOME}/${MAKE_LINKS["${mlink}"]}

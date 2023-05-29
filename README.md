@@ -48,7 +48,7 @@ Ubuntu. Some tools are installed based on language they are written in. Check
 list of packages.
 
 - [Windows packages](Winfile)
-- [Ubuntu packages](Rpmfile)
+- [Ubuntu packages](Pkgfile)
 - [Ruby gems](Gemfile)
 - [Python packages](Pythonfile)
 - [Nodejs packages](package.json)

@@ -14,7 +14,7 @@ while read -r line ;do
   if ! (dpkg -l | grep -q " ${line} ") ;then
     TO_INSTALL="${TO_INSTALL} ${line}"
   fi
-done < ${HOME}/Rpmfile
+done < ${HOME}/Pkgfile
 
 if [ "${TO_INSTALL}" != '' ] ;then
   sudo apt -q install -y $TO_INSTALL
