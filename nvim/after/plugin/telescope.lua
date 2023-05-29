@@ -80,12 +80,9 @@ local function find_notes()
       prompt_title = 'notes',
       finder = finders.new_oneshot_job({ 'fdfind', '--full-path', '.', '/home/pbugala/.notes' }),
       sorter = config.values.generic_sorter({}),
-      layout_config = { anchor = 'NE', height = 15, width = 100 },
       attach_mappings = function(_, map)
         map('i', '<cr>', open_buffer)
         map('n', '<cr>', open_buffer)
-        map('i', '<c-t>', open_float)
-        map('n', '<c-t>', open_float)
         return true
       end,
     })
@@ -143,6 +140,7 @@ mapkey('n', '<C-p>', builtin.find_files)
 mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)
 mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
+mapkey('n', '<C-n>', find_notes)
 
 -- Search text in project
 mapkey('n', '<leader>sw', builtin.grep_string)
@@ -152,7 +150,3 @@ mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
 -- Git Log and branches
 mapkey('n', '<leader>gl', builtin.git_commits)
 mapkey('n', '<leader>gb', builtin.git_branches)
-
--- Notes
-mapkey('n', '<C-n>', find_notes)
-mapkey('n', '<leader>n', ":lua require('run2cmd.helper-functions').float_buffer(vim.g.last_notes_file, { width = 100, height = 30 })<cr>")

@@ -34,9 +34,6 @@ local autocmds = {
       opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" },
     },
   },
-  notes = {
-    { event = { 'Filetype' }, opts = { pattern = 'note', command = "let g:last_notes_file=expand('%:p')" } },
-  },
   filetypes = {
     -- Detect yaml.ansible for Ansible LS support
     {
