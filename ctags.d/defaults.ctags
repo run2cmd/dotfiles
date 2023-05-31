@@ -1,7 +1,0 @@
---output-format=e-ctags
---recurse=yes
---tag-relative=yes
---extras=+q
---exclude=*.git*
---exclude=*.svn*
---exclude=*.css
