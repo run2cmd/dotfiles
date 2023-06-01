@@ -29,7 +29,7 @@ local test_tbl = {
   ruby_proj = {
     rootfile =  'Gemfile',
     exclude = 'Puppetfile',
-    setup = ruby_env .. '&& bundle install && bundle exec rake spec_prep',
+    setup = ruby_env .. '&& bundle install && bundle exec rake spec_clean && bundle exec rake spec_prep',
     command = ruby_env .. '&& bundle exec rake spec',
     errors = 'Error',
   },
