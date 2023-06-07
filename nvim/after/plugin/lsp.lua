@@ -165,6 +165,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.rubocop.with({
       filetypes = { 'none' },
     }),
+    null_ls.builtins.formatting.puppet_lint.with({}),
   }
 })
 mason_null_ls.setup({
