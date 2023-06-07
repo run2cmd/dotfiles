@@ -25,17 +25,28 @@ if __name__ == "__main__":
   with open(env_file, 'r', encoding='utf-8') as file_handle:
     data = yaml.safe_load(file_handle)['icha_infrastructure']
 
+  with open(source_file, 'r', encoding='utf-8') as file_handle:
+    env_data = yaml.safe_load(file_handle) or {}
+    if 'puppet_master_ip' in env_data:
+      env_ip = env_data['puppet_master_ip']
+      master_ips.append(env_ip)
+
   for loc in data.keys():
     loc_file = f'data/env/{loc}.yaml'
     if os.path.exists(loc_file):
       source_file = loc_file
     with open(source_file, 'r', encoding='utf-8') as file_handle:
-      loc_ip = yaml.safe_load(file_handle)['puppet_master_ip']
-    master_ips.append(loc_ip)
+      loc_data = yaml.safe_load(file_handle) or {}
+      if 'puppet_master_ip' in loc_data:
+        loc_ip = loc_data['puppet_master_ip'] or ''
+        master_ips.append(loc_ip)
 
-  with open(play_file, 'w', encoding='utf-8') as file_handle:
-    file_handle.write(playbook)
+  if master_ips:
+    with open(play_file, 'w', encoding='utf-8') as file_handle:
+      file_handle.write(playbook)
 
-  cmd = f'ansible-playbook -i {",".join(master_ips)}, -u root {play_file}'
-  print(cmd)
-  subprocess.run([cmd], shell=True, check=False)
+    cmd = f'ansible-playbook -i {",".join(master_ips)}, -u root {play_file}'
+    print(cmd)
+    subprocess.run([cmd], shell=True, check=False)
+  else:
+    print('No puppet masters found')
