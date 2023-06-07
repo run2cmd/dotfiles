@@ -32,7 +32,7 @@ set bell-style none
 
 # Tmux Wrapper for ssh so it displays hostname in title
 settitle() {
-  printf "\033k$1\033\\"
+  printf "\033k%s\033\\" $1
 }
 ssh() {
   settitle "$*"
