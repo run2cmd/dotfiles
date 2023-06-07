@@ -35,6 +35,7 @@ local test_tbl = {
   },
   groovy = {
     command = 'groovy %',
+    ignore = 'Test.groovy'
   },
   groovy_test = {
     pattern = 'Test.groovy',
@@ -79,20 +80,22 @@ local test_tbl = {
 local function find_test(setter)
   local data = {}
 
-  for k, v in pairs(test_tbl) do
-    local filepattern = v.pattern or k
-    local filemark = v.rootfile or 'none'
-    local exclude = v.exclude or 'none'
-
-    if string.match(setter, filepattern) then
-      data.cmd = v.command
-      data.err = v.errors or 'FAILED'
-    elseif helpers.file_exists(filemark) and not helpers.file_exists(exclude) then
-      data.proj = v.command
-      data.prep = v.setup or 'none'
-      data.err = v.errors or 'FAILED'
+  if test_tbl[setter] and not string.match(test_tbl[setter]['ignore'] or 'none', vim.fn.expand('%:t')) then
+    data.cmd = test_tbl[setter]['command']
+    data.err = test_tbl[setter]['error'] or 'FAILED'
+  else
+    for _, v in pairs(test_tbl) do
+      if string.match(setter, v.pattern or 'none') then
+        data.cmd = v.command
+        data.err = v.errors or 'FAILED'
+      elseif helpers.file_exists(v.rootfile or 'none') and not helpers.file_exists(v.exclude or 'none') then
+        data.proj = v.command
+        data.prep = v.setup or 'none'
+        data.err = v.errors or 'FAILED'
+      end
     end
   end
+
 
   return data
 end
