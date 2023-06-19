@@ -38,9 +38,6 @@ set redirecttohttp
 " Set gVim as default editor
 set vimcommand=gvim
 
-" Notifications
-" set nativenotification=always
-
 " Clear search mode
 nmap <C-l> <emptySearch>
 
