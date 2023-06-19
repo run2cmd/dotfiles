@@ -37,7 +37,7 @@ mapkey('n', '<leader>qo', ':ccopen<CR>')
 mapkey('n', '<leader>qc', ':cclose<CR>')
 
 -- Easy r10k support based on git branch
-mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd('r10k')<cr>")
+mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd('ir10k')<cr>")
 
 -- Easy jump through quicklist items
 mapkey('n', ']q', ':cnext<CR>')
