@@ -35,14 +35,6 @@ local autocmds = {
     },
   },
   filetypes = {
-    -- Detect yaml.ansible for Ansible LS support
-    {
-      event = { 'BufNewFile', 'BufReadPost', 'BufEnter', 'BufWinEnter' },
-      opts = {
-        pattern = '*.yaml,*.yml',
-        command = 'lua require("run2cmd.helper-functions").set_filetype("yaml.ansible", "yaml.ansible", { "^- hosts:", "^- name:" })',
-      },
-    },
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
     -- Restore colen keyword for easier jump to definition

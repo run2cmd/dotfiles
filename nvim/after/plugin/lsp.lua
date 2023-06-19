@@ -174,7 +174,7 @@ mason_null_ls.setup({
     'markdownlint',
     'pylint',
     'vint',
-    'ansible-lint',
+    'ansible-lint@6.13.1',
     -- 'npm_groovy_lint',
     'hadolint',
     'shellcheck',
