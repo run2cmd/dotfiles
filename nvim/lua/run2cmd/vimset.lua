@@ -7,7 +7,8 @@ vim.o.tabline = '%{getcwd()}'
 vim.o.switchbuf = 'useopen,usetab'
 vim.o.updatetime = 50
 vim.o.mouse = ''
-vim.o.noerrorbells = 'visualbell'
+vim.o.errorbells = false
+vim.o.visualbell = true
 vim.cmd("let mapleader = ' '")
 
 -- Language
@@ -28,8 +29,7 @@ vim.o.completeopt = 'menu,menuone,noinsert,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'cm'
 vim.o.complete = string.gsub(vim.o.complete, 't', '')
 
---vim.o.wildmode = 'list:longest,full'
-vim.o.wildcharm = '<Tab>'
+-- Tab support
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.cindent = true
