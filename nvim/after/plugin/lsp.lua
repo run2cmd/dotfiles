@@ -69,6 +69,7 @@ lsp.ensure_installed({
   'dockerls',
   'terraformls',
   'lua_ls',
+  'golangci_lint_ls'
 })
 
 lspconfig.yamlls.setup({
@@ -136,6 +137,8 @@ lspconfig.lua_ls.setup({
   },
 })
 
+lspconfig.golangci_lint_ls.setup({})
+
 --vim.lsp.set_log_level("debug")
 
 lsp.setup()
@@ -183,6 +186,8 @@ mason_null_ls.setup({
     'stylua',
     'ansiblelint',
     'rubocop',
+    'tflint',
+    'golangci-lint',
   },
   automatic_installation = true,
   handlers = {},

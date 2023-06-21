@@ -67,6 +67,9 @@ local test_tbl = {
   lua = {
     command = 'lua %',
   },
+  go = {
+    command = 'go run %',
+  },
 }
 
 
