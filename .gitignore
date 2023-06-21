@@ -2,3 +2,5 @@ Gemfile.lock
 bin/hadolint
 bin/k9s
 bin/nvim
+bin/issh
+bin/ir10k
