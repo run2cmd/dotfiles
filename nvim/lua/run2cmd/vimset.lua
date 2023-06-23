@@ -61,8 +61,8 @@ vim.o.listchars = 'conceal:^,nbsp:+'
 vim.o.linebreak = true
 
 -- Disable scroll bar
-vim.o.scrolloff = 2
-vim.o.sidescrolloff = 5
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 10
 
 -- Make netrw pretty and useful
 vim.g.netrw_home = vim.env.HOME

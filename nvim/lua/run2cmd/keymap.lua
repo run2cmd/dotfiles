@@ -42,3 +42,7 @@ mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd
 -- Easy jump through quicklist items
 mapkey('n', ']q', ':cnext<CR>')
 mapkey('n', '[q', ':cprev<CR>')
+
+-- Improved scrolling
+mapkey('n', '<C-u>', '<C-u>zz')
+mapkey('n', '<C-d>', '<C-d>zz')
