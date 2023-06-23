@@ -147,7 +147,7 @@ local null_ls = require('null-ls')
 local mason_null_ls = require('mason-null-ls')
 
 null_ls.setup({
-  debug = true,
+  -- debug = true,
   sources = {
     -- Shellcheck is used with bash LSP
     null_ls.builtins.diagnostics.shellcheck.with({
@@ -169,6 +169,9 @@ null_ls.setup({
       filetypes = { 'none' },
     }),
     null_ls.builtins.formatting.puppet_lint.with({}),
+    null_ls.builtins.diagnostics.markdownlint.with({
+      extra_args = { '-c', homedir .. '/.markdownlint.yaml' }
+    }),
   }
 })
 mason_null_ls.setup({
