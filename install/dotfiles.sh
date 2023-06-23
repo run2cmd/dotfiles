@@ -29,6 +29,7 @@ declare -A MAKE_LINKS=(
   ["nvim/lua"]=".config/nvim/lua"
   ["nvim/after"]=".config/nvim/after"
   ["mdlrc"]=".mdlrc"
+  ["markdownlint.yaml"]="markdownlint.yaml"
   ["mdl_style.rb"]=".mdl_style.rb"
   ["shellcheckrc"]=".shellcheckrc"
   ["ctags.d"]=".ctags.d"
