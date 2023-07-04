@@ -7,7 +7,7 @@ source ${LIBDIR}/lib.sh
 
 topic 'UPDATE PYTHON'
 
-PYTHON_VERSION=3.8.17
+PYTHON_VERSION=3.11.4
 
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
@@ -18,6 +18,7 @@ fi
 
 pyenv update
 pyenv install -s ${PYTHON_VERSION}
+pyenv install -s 3.8.17
 pyenv global ${PYTHON_VERSION}
 
 python -m pip install --upgrade pip
