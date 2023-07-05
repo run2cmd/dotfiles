@@ -1,3 +1,4 @@
+local helpers = require('run2cmd.helper-functions')
 local lsp = require('lsp-zero').preset({})
 local lspconfig = require('lspconfig')
 local lsp_status = require('lsp-status')
@@ -109,6 +110,15 @@ lspconfig.puppet.setup({
   -- TODO: puppet-lsp issue with definitions. Editor services bug?
   cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/a32-tools:/code/puppet:/code/puppet-forge' },
 })
+
+-- Workaround for broken goto definition with puppet-editor-services
+-- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
+helpers.create_autocmds({
+  puppet_lsp = {
+    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal tags=~/.config/nvim/tags-puppet' } }
+  }
+})
+vim.api.nvim_create_user_command('PuppetTagsGenerate', ':!ctags -R -o ~/.config/nvim/tags-puppet --languages=PuppetManifest /code', {})
 
 lspconfig.ansiblels.setup({
   settings = {
