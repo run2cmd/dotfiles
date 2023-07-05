@@ -107,14 +107,10 @@ possible. Here are some core features:
   - `<leader>sw` - Search for word under cursor in current project.
   - `<leader>sl` - Live search in current project.
   - `<leader>sb` - Live search in current buffer.
-  - `[d` - Jump to next diagnostic issue.
-  - `]d` - Jump to previous diagnostic issue.
-  - `K` - Open hover floating window with text under cursor.
-  - `<leader>bf` - Run LSP format in buffer.
-  - `<leader>ba` - Run LSP code_action.
-  - `<leader>br` - Run LSP rename.
-  - `<leader>bl` - Run LSP list references.
-  - `<leader>]` - Run LSP go to definition.
+  - Uses [lsp-zero keybindings](https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/autocomplete.md#keybindings) with following overwrites:
+    - `<leader>q` - LSP diagnostics to loclist.
+    - `gf` - LSP format.
+    - `gr` - LSP rename.
   Git support:
   - `<leader>gf` - Git pull.
   - `<leader>gp` - Git push.

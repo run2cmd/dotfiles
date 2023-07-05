@@ -43,17 +43,14 @@ lsp_status.config({
   show_filename = false,
 })
 
-lsp.on_attach(function(client, bufnr)
+lsp.on_attach(function(_, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
+  lsp.default_keymaps(opts)
+  mapkey('n', '<leader>q', vim.diagnostic.setloclist, opts)
+  mapkey('n', 'gf', vim.lsp.buf.format, opts)
+  mapkey('n', 'gr', vim.lsp.buf.rename, opts)
   mapkey('n', '[d', vim.diagnostic.goto_next, opts)
   mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
-  mapkey('n', 'K', vim.lsp.buf.hover, opts)
-  mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
-  mapkey('n', '<leader>ba', vim.lsp.buf.code_action, opts)
-  mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
-  mapkey('n', '<leader>bl', vim.lsp.buf.references, opts)
-  mapkey('n', '<leader>]', vim.lsp.buf.definition, opts)
-  mapkey('v', '<leader>]', vim.lsp.buf.definition, opts)
 end)
 
 lsp.ensure_installed({
@@ -127,25 +124,14 @@ lspconfig.ansiblels.setup({
   }
 })
 
-lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { 'vim' },
-      },
-    },
-  },
-})
+lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
 lspconfig.golangci_lint_ls.setup({})
 
 --vim.lsp.set_log_level("debug")
-
 lsp.setup()
 
 local null_ls = require('null-ls')
-local mason_null_ls = require('mason-null-ls')
-
 null_ls.setup({
   -- debug = true,
   sources = {
@@ -174,7 +160,8 @@ null_ls.setup({
     }),
   }
 })
-mason_null_ls.setup({
+
+require('mason-null-ls').setup({
   ensure_installed = {
     'yamllint',
     'markdownlint',
