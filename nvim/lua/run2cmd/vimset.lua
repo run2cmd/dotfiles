@@ -18,7 +18,7 @@ vim.o.spelllang = 'en_us'
 vim.o.spellfile = vim.env.HOME .. '/.config/nvim/spell/en.utf8.add'
 vim.o.spell = false
 
--- $ncoding
+-- Encoding
 vim.go.fileencoding = 'utf-8'
 vim.o.encoding = 'utf-8'
 vim.o.fileencodings = 'utf-8'
@@ -38,7 +38,6 @@ vim.o.wildignore = '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 -- Enable Omni completion if not already set
 vim.o.omnifunc = 'syntaxcomplete#Complete'
 
--- Diff vim.oions
 -- Diff options
 vim.o.diffopt = vim.o.diffopt .. ',vertical,followwrap'
 
