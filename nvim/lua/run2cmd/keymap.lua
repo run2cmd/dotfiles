@@ -43,6 +43,10 @@ mapkey('n', '<leader>rk', ":lua require('run2cmd.helper-functions').run_term_cmd
 mapkey('n', ']q', ':cnext<CR>')
 mapkey('n', '[q', ':cprev<CR>')
 
+-- Easy jump through loclist items
+mapkey('n', ']l', ':lnext<CR>')
+mapkey('n', '[l', ':lprev<CR>')
+
 -- Improved scrolling
 mapkey('n', '<C-u>', '<C-u>zz')
 mapkey('n', '<C-d>', '<C-d>zz')
