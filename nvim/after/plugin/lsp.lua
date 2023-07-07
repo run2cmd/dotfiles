@@ -67,7 +67,8 @@ lsp.ensure_installed({
   'dockerls',
   'terraformls',
   'lua_ls',
-  'golangci_lint_ls'
+  'golangci_lint_ls',
+  'tsserver',
 })
 
 lspconfig.yamlls.setup({
@@ -188,6 +189,7 @@ require('mason-null-ls').setup({
     'rubocop',
     'tflint',
     'golangci-lint',
+    'prettier',
   },
   automatic_installation = true,
   handlers = {},
