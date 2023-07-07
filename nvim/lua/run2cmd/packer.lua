@@ -72,26 +72,7 @@ return require('packer').startup(function(use)
   })
 
   -- Syntax highlight
-  use({
-    'nvim-treesitter/nvim-treesitter',
-    config = function()
-      require('nvim-treesitter.configs').setup({
-        ensure_installed = 'all',
-        sync_install = false,
-        highlight = {
-          enable = true,
-          disable = { 'help' },
-          additional_vim_regex_highlighting = false,
-        },
-        endwise = {
-          enable = true,
-        },
-        matchup = {
-          enable = true,
-        },
-      })
-    end,
-  })
+  use({ 'nvim-treesitter/nvim-treesitter' })
   use({
     'RRethy/nvim-treesitter-endwise',
     requires = { { 'nvim-treesitter/nvim-treesitter' } },
