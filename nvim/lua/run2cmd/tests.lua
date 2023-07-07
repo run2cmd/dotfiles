@@ -12,6 +12,7 @@ local test_tbl = {
   },
   nodejs = {
     rootfile = 'package.json',
+    exclude = 'grammar.js',
     command = 'yarn install & yarn build:prod',
   },
   icha = {
@@ -32,6 +33,10 @@ local test_tbl = {
     setup = ruby_env .. '&& bundle install && bundle exec rake spec_clean && bundle exec rake spec_prep',
     command = ruby_env .. '&& bundle exec rake spec',
     errors = 'Error',
+  },
+  tree_sitter = {
+    rootfile = 'grammar.js',
+    command = 'npm run lint && npm run test && npm run build'
   },
   groovy = {
     command = 'groovy %',
@@ -55,8 +60,7 @@ local test_tbl = {
     command = 'python %',
   },
   puppet = {
-    -- Use ruby 2.4.10 with Puppet 5.5.22
-    command = ruby_env .. ' 2.4.10 && puppet apply --noop %',
+    command = 'puppet apply --noop %',
   },
   sh = {
     command = 'bash %',
