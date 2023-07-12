@@ -4,3 +4,5 @@ ansicolor
 ansible
 jmespath
 requests
+twine
+wheel
