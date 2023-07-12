@@ -12,7 +12,7 @@ local test_tbl = {
   },
   nodejs = {
     rootfile = 'package.json',
-    exclude = 'grammar.js',
+    exclude = { 'grammar.js' },
     command = 'yarn install & yarn build:prod',
   },
   icha = {
@@ -29,9 +29,15 @@ local test_tbl = {
   },
   ruby_proj = {
     rootfile =  'Gemfile',
-    exclude = 'Puppetfile',
-    setup = ruby_env .. '&& bundle install && bundle exec rake spec_clean && bundle exec rake spec_prep',
+    exclude = { 'Puppetfile', 'metadata.json' },
+    setup = ruby_env .. '&& bundle install',
     command = ruby_env .. '&& bundle exec rake spec',
+    errors = 'Error',
+  },
+  puppet_proj = {
+    rootfile = 'metadata.json',
+    setup = ruby_env .. '&& bundle install && bundle exec rake spec_clean && bundle exec rake spec_prep',
+    command = ruby_env .. '&& bundle exec rake lint && bundle exec rake parallel_spec',
     errors = 'Error',
   },
   tree_sitter = {
@@ -87,17 +93,23 @@ local test_tbl = {
 local function find_test(setter)
   local data = {}
 
-  if test_tbl[setter] and not string.match(test_tbl[setter]['ignore'] or 'none', vim.fn.expand('%:t')) then
+  if test_tbl[setter] and not string.match(test_tbl[setter]['ignore'] or '-', vim.fn.expand('%:t')) then
     data.cmd = test_tbl[setter]['command']
     data.err = test_tbl[setter]['error'] or 'FAILED'
   else
-    for _, v in pairs(test_tbl) do
-      if string.match(setter, v.pattern or 'none') then
+    for k, v in pairs(test_tbl) do
+      local excludes = false
+      for _, f in ipairs(v.exclude or {}) do
+        if helpers.file_exists(f) then
+          excludes = true
+        end
+      end
+      if string.match(setter, v.pattern or '-') then
         data.cmd = v.command
         data.err = v.errors or 'FAILED'
-      elseif helpers.file_exists(v.rootfile or 'none') and not helpers.file_exists(v.exclude or 'none') then
+      elseif helpers.file_exists(v.rootfile or '-') and not excludes then
         data.proj = v.command
-        data.prep = v.setup or 'none'
+        data.prep = v.setup
         data.err = v.errors or 'FAILED'
       end
     end
@@ -110,15 +122,23 @@ end
 -- Run current file test
 local function run_file()
   local test_data = helpers.merge(find_test(vim.bo.filetype), find_test(vim.fn.expand('%:t')))
-  vim.g.term_error_serach_string = test_data.err
-  helpers.run_term_cmd(test_data.cmd)
+  if test_data.cmd then
+    vim.g.term_error_serach_string = test_data.err
+    helpers.run_term_cmd(test_data.cmd)
+  else
+    print('[test] No test command configured.')
+  end
 end
 
 -- Run project test
 local function run_project()
   local test_data = find_test('project')
-  vim.g.term_error_serach_string = test_data.err
-  helpers.run_term_cmd(test_data.proj)
+  if test_data.proj then
+    vim.g.term_error_serach_string = test_data.err
+    helpers.run_term_cmd(test_data.proj)
+  else
+    print('[test] Project not configured.')
+  end
 end
 
 -- Rerun last test
@@ -134,8 +154,12 @@ end
 -- Run project preparation steps
 local function run_setup()
   local test_data = find_test('project')
-  vim.g.term_error_serach_string = test_data.err
-  helpers.run_term_cmd(test_data.prep)
+  if test_data.prep then
+    vim.g.term_error_serach_string = test_data.err
+    helpers.run_term_cmd(test_data.prep)
+  else
+    print('[test] No setup steps configured for project.')
+  end
 end
 
 -- Easy mappings for for running tests. Got used to vim-dispatch in past so use them.
