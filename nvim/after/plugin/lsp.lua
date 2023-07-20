@@ -161,10 +161,6 @@ null_ls.setup({
     null_ls.builtins.diagnostics.ansiblelint.with({
       extra_args = { '-c', homedir .. '/.ansible-lint' },
     }),
-    -- Rubocop run with solargraph
-    null_ls.builtins.diagnostics.rubocop.with({
-      filetypes = { 'none' },
-    }),
     null_ls.builtins.formatting.puppet_lint.with({}),
     null_ls.builtins.diagnostics.markdownlint.with({
       extra_args = { '-c', homedir .. '/.markdownlint.yaml' }
@@ -186,7 +182,6 @@ require('mason-null-ls').setup({
     'xmllint',
     'stylua',
     'ansiblelint',
-    'rubocop',
     'tflint',
     'golangci-lint',
     'prettier',
