@@ -15,6 +15,7 @@ if [ ! -e ${NVIM_APP} ] || [ "$(cut -d " " -f1 < ${NVIM_SHA})" != "$(sha256sum $
   wget -q -O ${NVIM_APP} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
   chmod u+x ${NVIM_APP}
   ln -snf ${NVIM_APP} ~/bin/nvim
+  ~/bin/nvim --version
 fi
 
 PACKERPATH=~/.local/share/nvim/site/pack/packer/start
@@ -30,7 +31,7 @@ PLUGINS_LAST_UPDATE=$(cat ${PLUGINS_TIMESTAMP_FILE})
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/packer) ;do
   echo "-> Update $(basename ${i})"
-  git --git-dir ${i}/.git log --oneline @{0}..origin --since="${PLUGINS_LAST_UPDATE}"
+  git --git-dir ${i}/.git log --oneline @\{0\}..origin --since="${PLUGINS_LAST_UPDATE}"
 done
 date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE}
 
