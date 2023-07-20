@@ -16,8 +16,8 @@ mapkey('n', '<Right>', '')
 mapkey('n', '<leader>tn', ':tabnext<CR>')
 mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
--- Terminal helper to open on the bottom
-mapkey('n', '<leader>c', ':split term://bash<CR>i<CR>')
+-- Terminal helper to open terminal window on right side.
+mapkey('n', '<leader>c', ':rightb vsplit term://bash<CR>i<CR>')
 
 -- Remap wildmenu navigation
 mapkey('c', '<C-k>', '<Up>')

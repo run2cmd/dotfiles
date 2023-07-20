@@ -42,7 +42,8 @@ local test_tbl = {
   },
   tree_sitter = {
     rootfile = 'grammar.js',
-    command = 'npm run lint && npm run test && npm run build'
+    setup = 'npm install',
+    command = 'npm run lint && npm run build && npm run test'
   },
   groovy = {
     command = 'groovy %',
@@ -143,7 +144,8 @@ end
 
 -- Rerun last test
 local function run_last()
-  helpers.run_term_cmd(vim.g.last_terminal_test)
+  local cwd = vim.fn.getcwd()
+  helpers.run_term_cmd(vim.g.last_terminal_test[cwd])
 end
 
 --- Find errors in test window

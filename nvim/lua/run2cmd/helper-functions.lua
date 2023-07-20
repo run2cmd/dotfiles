@@ -131,21 +131,48 @@ end
 -- @return open terminal window with params command output
 --
 M.run_term_cmd = function(params)
-  local pstring = params .. ' '
-  local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
-  vim.g.last_terminal_test = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
   if params == nil or params == '' then
     print('Missing terminal command to run')
   end
 
-  if vim.t.terminal_window_buffer_number and vim.api.nvim_buf_is_valid(vim.t.terminal_window_buffer_number) then
-    vim.api.nvim_buf_delete(vim.t.terminal_window_buffer_number, {})
+  -- Support vim builtin expand
+  local expand_match_string = '%%[^ ]*'
+  local expand_string = string.match(params, expand_match_string)
+  local command = string.gsub(params, expand_match_string, vim.fn.expand(expand_string))
+  local pstring = command .. ' '
+  local cwd = vim.fn.getcwd()
+
+  -- Set per project last terminal test
+  local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
+  local temp_last_table = vim.g.last_terminal_test
+  temp_last_table[cwd] = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
+  vim.g.last_terminal_test = temp_last_table
+
+  local term_buffer = vim.g.terminal_window_buffer_number[cwd]
+  if term_buffer and vim.api.nvim_buf_is_valid(term_buffer) then
+    vim.api.nvim_buf_delete(term_buffer, {})
   end
 
-  vim.cmd('bo 15 split term://' .. params)
+  local terminal_win_exists = false
+  for _,v in pairs(vim.g.terminal_window_buffer_number) do
+    if next(vim.fn.win_findbuf(v)) then
+      terminal_win_exists = true
+    end
+  end
+
+  if terminal_win_exists then
+    vim.cmd('exe "normal \\<c-w>b"')
+    vim.cmd('cd' .. cwd)
+    vim.cmd('vsplit term://' .. command)
+  else
+    vim.cmd('bo 15 split term://' .. command)
+  end
   vim.cmd('normal G')
 
-  vim.t.terminal_window_buffer_number = vim.api.nvim_get_current_buf()
+  -- Set per project terminal buffer to use
+  local temp_buf_table = vim.g.terminal_window_buffer_number
+  temp_buf_table[cwd] = vim.api.nvim_get_current_buf()
+  vim.g.terminal_window_buffer_number = temp_buf_table
 end
 
 --

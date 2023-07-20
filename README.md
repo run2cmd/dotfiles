@@ -134,6 +134,16 @@ possible. Here are some core features:
   - `<C-k>` - List of projects in '/code' path. Assuming they are git projects will list projects following pattern: `/code/<project-group>/<repository-name>`.
   - `<C-s>` - List all files in project (with no ignore and hidden enabled).
 
+### Tests
+
+I use my own easy test implementation to run in terminal window. Following are goals for this:
+
+- Support for both projects and files tests.
+- Be able to run test for project, file, or setup to prepare environment.
+- Tests needs to run per project based on autochdir and root markers like `.git`, `.svn`.
+- Single test window per project. Running new test against project will close previous test window and open new one.
+- Be able to run test for different projects/files in separate windows.
+
 ## Docker Desktop
 
 To have Systemd work in Docker images you need to create `systemd` cgroup in

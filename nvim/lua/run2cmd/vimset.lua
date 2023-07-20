@@ -77,3 +77,7 @@ vim.g.netrw_silent = 1
 vim.g.netrw_special_syntax = 1
 vim.g.netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
 vim.g.netrw_use_errorwindow = 1
+
+-- Reset terminal map
+vim.g.last_terminal_test = {}
+vim.g.terminal_window_buffer_number = {}
