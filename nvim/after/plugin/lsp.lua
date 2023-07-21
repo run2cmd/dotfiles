@@ -119,7 +119,7 @@ helpers.create_autocmds({
     { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal tags=~/.config/nvim/tags-puppet' } }
   }
 })
-vim.api.nvim_create_user_command('PuppetTagsGenerate', ':!ctags -R -o ~/.config/nvim/tags-puppet --languages=PuppetManifest /code', {})
+vim.api.nvim_create_user_command('PuppetTagsGenerate', ':!ctags -R -o ~/.config/nvim/tags-puppet --languages=PuppetManifest --exclude=fixtures /code', {})
 
 lspconfig.ansiblels.setup({
   settings = {
