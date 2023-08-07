@@ -22,7 +22,6 @@ vim.o.spell = false
 vim.go.fileencoding = 'utf-8'
 vim.o.encoding = 'utf-8'
 vim.o.fileencodings = 'utf-8'
-vim.o.termencoding = 'utf-8'
 
 -- Vim build-in completion
 vim.o.completeopt = 'menu,menuone,noinsert,noselect'
