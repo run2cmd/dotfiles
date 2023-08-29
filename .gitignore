@@ -1,6 +1,9 @@
 Gemfile.lock
-bin/hadolint
-bin/k9s
-bin/nvim
-bin/issh
-bin/ir10k
+bin/*
+!/bin/chtsh
+!/bin/db2con
+!/bin/gradlew
+!/bin/ichatest
+!/bin/sgraph
+!/bin/vpnfix
+!/bin/groovylint

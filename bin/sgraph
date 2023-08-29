@@ -1,2 +1,11 @@
 #!/bin/bash
-source ~/.rvm/scripts/rvm && rvm use && solargraph stdio
+source ~/.rvm/scripts/rvm
+rvm use
+
+if bundle list | grep solargraph ;then
+  echo 'Use bundle solargraph'
+  bundle exec solargraph stdio
+else
+  echo 'Use default solargraph'
+  solargraph stdio
+fi
