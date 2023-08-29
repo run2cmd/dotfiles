@@ -1,0 +1,3 @@
+" vim: ft=vim
+source ~/.viebrc
+set adblocker=static
