@@ -30,7 +30,7 @@ local autocmds = {
   },
   autosave = {
     {
-      event = { 'CursorHold' },
+      event = { 'InsertLeave' },
       opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" },
     },
   },
