@@ -2,19 +2,24 @@
 #
 # Install Golang
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
-TOOLSDIR=${HOME}/tools
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
+toolsdir=${HOME}/tools
 
 topic 'UPDATE GOLANG'
-mkdir -p ${TOOLSDIR}/go
-for ver in 1.20.5 ;do
-  GO_TAR=go${ver}.linux-amd64.tar.gz
-  if [ ! -e ${TOOLSDIR}/go/${ver} ] ;then
-    mkdir -p ${TOOLSDIR}/go/${ver}
-    wget -q -O /tmp/${GO_TAR} https://go.dev/dl/${GO_TAR}
-    tar -xvf /tmp/${GO_TAR} -C ${TOOLSDIR}/go/${ver}
+
+# Space separated versions
+default_ver='1.20.5'
+go_versions="1.20.5"
+
+mkdir -p ${toolsdir}/go
+for ver in $go_versions ;do
+  gotar=go${ver}.linux-amd64.tar.gz
+  if [ ! -e ${toolsdir}/go/${ver} ] ;then
+    mkdir -p ${toolsdir}/go/${ver}
+    wget -q -O /tmp/${gotar} https://go.dev/dl/${gotar}
+    tar -xvf /tmp/${gotar} -C ${toolsdir}/go/${ver}
   fi
 done
 
-ln -s ${TOOLSDIR}/go/1.20.5 ${TOOLSDIR}/go/main
+ln -s ${toolsdir}/go/${default_ver} ${toolsdir}/go/main

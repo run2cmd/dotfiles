@@ -1,0 +1,11 @@
+#!/bin/bash
+
+baseconfig="${HOME}/.groovylintrc.json"
+setrules="-c ${baseconfig}"
+
+# Use project rules if available
+config="$(pwd)/gradle/codenarc.groovy"
+[ -e $config ] && setrules="-r ${config}"
+
+# shellcheck disable=SC2068
+npm-groovy-lint $setrules $@

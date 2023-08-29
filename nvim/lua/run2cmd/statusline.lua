@@ -6,6 +6,14 @@ local helpers = require('run2cmd.helper-functions')
 vim.o.cmdheight = 2
 vim.o.laststatus = 2
 
+local function get_lsp_status()
+  local status = 'no-lsp'
+  if next(vim.lsp.get_clients()) then
+    status = require('lsp-status').status()
+  end
+  return status
+end
+
 function Status_line()
   return table.concat({
     '[',
@@ -19,7 +27,7 @@ function Status_line()
     '[%{strlen(&fenc)?&fenc:&enc}a]',
     ' %h%m%r%w',
     '[',
-    require('lsp-status').status(),
+    get_lsp_status(),
     ']',
   })
 end

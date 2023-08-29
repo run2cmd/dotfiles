@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+# Dev libs
 gem 'ast'
 gem 'httparty'
 gem 'rake'
@@ -9,6 +10,7 @@ gem 'rspec'
 gem 'sync'
 gem 'yard'
 
+# Puppet
 gem 'pdk'
 gem 'puppet'
 gem 'puppetfile-resolver'
@@ -22,4 +24,7 @@ gem 'puppet-lint-trailing_comma-check'
 gem 'puppet-lint-unquoted_string-check'
 gem 'puppet-lint-version_comparison-check'
 
+# Linters, LSP
+gem 'mdl'
 gem 'rubocop'
+gem 'solargraph'

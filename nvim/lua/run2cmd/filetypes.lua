@@ -4,12 +4,14 @@ local addtype = vim.filetype.add
 addtype({
   pattern = {
     ['.*.groovy'] = function(_, bufnr)
-      local content = vim.filetype.getlines(bufnr, 1)
-      if vim.filetype.matchregex(content, [[.*filetype=Jenkinsfile.*]]) then
-        return 'Jenkinsfile'
-      else
-        return 'groovy'
+      local content = vim.api.nvim_buf_get_lines(bufnr, 1, 3, false)
+      local type = 'groovy'
+      for _, c in ipairs(content) do
+        if string.match(c, [[.*filetype=Jenkinsfile.*]]) then
+          type = 'Jenkinsfile'
+        end
       end
+      return type
     end,
   },
 })
@@ -18,36 +20,36 @@ addtype({
 addtype({ extension = { note = 'note' } })
 
 -- Terraform support
-addtype({ extension = { tf = 'hcl' }})
-addtype({ extension = { tfvars = 'hcl' }})
-addtype({ extension = { terraformrc = 'hcl' }})
-addtype({ extension = { tfstate = 'json' }})
+addtype({ extension = { tf = 'hcl' } })
+addtype({ extension = { tfvars = 'hcl' } })
+addtype({ extension = { terraformrc = 'hcl' } })
+addtype({ extension = { tfstate = 'json' } })
 
 -- Ansible support
-local function set_ansible(bufnr)
-  local content = vim.filetype.getlines(bufnr, 1, 10)
-  local matcher = { "^- hosts:", "^- name:" }
-  local doset = false
+local function set_yaml(bufnr)
+  local content = vim.api.nvim_buf_get_lines(bufnr, 1, 10, false)
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+  local matcher = { '^- hosts:', '^- name:' }
+  local type = 'yaml'
+  if string.find(filename, 'templates') then
+    type = 'helm'
+  end
   for _, m in ipairs(matcher) do
     for _, c in ipairs(content) do
       if string.match(c, m) then
-        doset = true
+        type = 'yaml.ansible'
       end
     end
   end
-  if doset then
-    return 'yaml.ansible'
-  else
-    return 'yaml'
-  end
+  return type
 end
 addtype({
   pattern = {
     ['.*.yaml'] = function(_, bufnr)
-      return set_ansible(bufnr)
+      return set_yaml(bufnr)
     end,
     ['.*.yml'] = function(_, bufnr)
-      return set_ansible(bufnr)
-    end
+      return set_yaml(bufnr)
+    end,
   },
 })

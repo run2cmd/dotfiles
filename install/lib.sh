@@ -9,7 +9,28 @@ task() {
 }
 
 git_data() {
-  GIT_API="$(curl --no-progress-meter ${1})"
-  APP_VERSION=$(echo "${GIT_API}" |grep "tag_name" |sed -r 's/.*([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})",/\1/g')
-  APP_URL=$(echo "${GIT_API}" |grep -E "Linux-x86_64|Linux_amd64|linux-x64" | grep "download" |sed 's/.*\(https.*\)"/\1/g')
+  git_api="$(curl --no-progress-meter ${1})"
+  echo "${git_api}"
+}
+
+git_version() {
+  version=$(echo "${1}" | jq -r .tag_name)
+  echo $version
+}
+
+git_url() {
+  url=$(echo "${1}" | jq -r --arg name "${2}" '.assets[] | select(.name == $name).browser_download_url')
+  echo $url
+}
+
+git_clone() {
+  if [ ! -e $2 ] ;then
+    git clone $1 $2
+  fi
+}
+
+git_check_update() {
+  status=0
+  if test ! -e ${1}/${2} || (git -C $1 remote show origin | grep 'out of date') ; then status=1 ;fi
+  echo $status
 }

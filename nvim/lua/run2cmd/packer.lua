@@ -21,27 +21,34 @@ return require('packer').startup(function(use)
 
   -- Auto completion and auto edit
   use({
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
-    requires = {
-      -- LSP Support
-      { 'neovim/nvim-lspconfig' },
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
-      { 'jose-elias-alvarez/null-ls.nvim' },
-      { 'jay-babu/mason-null-ls.nvim' },
-      { 'RubixDev/mason-update-all' },
-
-      -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'L3MON4D3/LuaSnip' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'hrsh7th/cmp-path' },
-      { 'nvim-lua/lsp-status.nvim' },
-    },
+    'hrsh7th/cmp-nvim-lsp',
+    requires = { { 'neovim/nvim-lspconfig' } },
   })
+  use({
+    'hrsh7th/cmp-buffer',
+    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+  })
+  use({
+    'hrsh7th/cmp-path',
+    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+  })
+  use({
+    'hrsh7th/nvim-cmp',
+    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+  })
+  use({
+    'L3MON4D3/LuaSnip',
+    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+  })
+  use({
+    'saadparwaiz1/cmp_luasnip',
+    requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+  })
+  use({
+    'nvim-lua/lsp-status.nvim',
+    requires = { { 'neovim/nvim-lspconfig' } },
+  })
+
   use({
     'kylechui/nvim-surround',
     tag = '*',

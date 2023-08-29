@@ -1,12 +1,16 @@
 local helpers = require('run2cmd.helper-functions')
-local lsp = require('lsp-zero').preset({})
 local lspconfig = require('lspconfig')
 local lsp_status = require('lsp-status')
 local cmp = require('cmp')
+local cmp_lsp = require('cmp_nvim_lsp')
 local mapkey = vim.keymap.set
-local homedir = vim.env.HOME
 
 cmp.setup({
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
   mapping = cmp.mapping.preset.insert({
     ['<c-k>'] = cmp.mapping.select_prev_item(),
     ['<c-j>'] = cmp.mapping.select_next_item(),
@@ -24,7 +28,6 @@ cmp.setup({
         end,
       },
     },
-    { name = 'luasnip', keyword_lenght = 2 },
   },
 })
 
@@ -44,34 +47,97 @@ lsp_status.config({
   show_filename = false,
 })
 
-lsp.on_attach(function(_, bufnr)
-  local opts = { noremap = true, silent = true, buffer = bufnr }
-  lsp.default_keymaps(opts)
-  mapkey('n', '<leader>q', vim.diagnostic.setloclist, opts)
-  mapkey('n', 'gf', vim.lsp.buf.format, opts)
-  mapkey('n', 'gr', vim.lsp.buf.rename, opts)
-  mapkey('n', '[d', vim.diagnostic.goto_next, opts)
-  mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
-end)
+-- Overwrite default tag jump to use LSP definitions and then fall back to tags
+vim.o.tagfunc = 'v:lua.vim.lsp.tagfunc'
 
-lsp.ensure_installed({
-  'bashls',
-  'jedi_language_server',
-  'solargraph',
-  'puppet',
-  'groovyls',
-  'yamlls',
-  'jsonls',
-  'ansiblels',
-  'vimls',
-  'dockerls',
-  'terraformls',
-  'lua_ls',
-  'golangci_lint_ls',
-  'tsserver',
-})
+--
+-- Default lsp configuration for each server
+--
+-- @param _config Additional configuration passed to lspconfig.[server_name].setup
+--
+local function config(_config)
+  return vim.tbl_deep_extend('force', {
+    capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
+    on_attach = function(_, bufnr)
+      local opts = { noremap = true, silent = true, buffer = bufnr }
+      mapkey('n', 'K', vim.lsp.buf.hover, opts)
+      mapkey('n', '<leader>q', vim.diagnostic.setloclist, opts)
+      mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
+      mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
+      mapkey('n', '[d', vim.diagnostic.goto_next, opts)
+      mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
+    end,
+  }, _config or {})
+end
 
-lspconfig.yamlls.setup({
+lspconfig.bashls.setup(config())
+lspconfig.pylsp.setup(config({
+  settings = {
+    pylsp = {
+      configurationSources = { 'flake8' },
+      plugins = {
+        autopep8 = { enabled = false },
+        pycodestyle = { enabled = false },
+        pyflakes = { enabled = false },
+        pylint = { enabled = false },
+        yapf = { enabled = true },
+        flake8 = {
+          enabled = true,
+          maxLineLength = 250,
+          indentSize = 2,
+        },
+      },
+    },
+  },
+}))
+lspconfig.jsonls.setup(config())
+lspconfig.vimls.setup(config())
+lspconfig.dockerls.setup(config())
+lspconfig.terraformls.setup(config())
+lspconfig.marksman.setup(config())
+lspconfig.lua_ls.setup(config({
+  cmd = { 'luals.sh' },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        globals = { 'vim' },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
+      },
+    },
+  },
+}))
+lspconfig.golangci_lint_ls.setup(config())
+lspconfig.tsserver.setup(config())
+lspconfig.ansiblels.setup(config({
+  settings = {
+    ansible = {
+      ansible = {
+        useFullyQualifiedCollectionNames = false,
+      },
+      -- Run ansible-lint with python env
+      python = {
+        interpreterPath = 'pyenv',
+      },
+      validation = {
+        lint = {
+          path = 'exec',
+          arguments = 'ansible-lint -c ~/.ansible-lint',
+        },
+      },
+    },
+  },
+}))
+lspconfig.helm_ls.setup(config())
+lspconfig.yamlls.setup(config({
   settings = {
     yaml = {
       -- Schemas to support ICHA
@@ -100,94 +166,147 @@ lspconfig.yamlls.setup({
       },
     },
   },
-})
-
-lspconfig.solargraph.setup({
+}))
+lspconfig.solargraph.setup(config({
   -- Run solargraph per RVM env
   cmd = { 'sgraph' },
-})
-
-lspconfig.puppet.setup({
-  -- TODO: puppet-lsp issue with definitions. Editor services bug?
+}))
+lspconfig.puppet.setup(config({
   cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/a32-tools:/code/puppet:/code/puppet-forge' },
-})
+}))
+lspconfig.diagnosticls.setup(config({
+  filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'puppet', 'groovy', 'Jenkinsfile' },
+  init_options = {
+    linters = {
+      mdl = {
+        sourceName = 'mdl',
+        command = 'mdl',
+        args = { '-j' },
+        parseJson = {
+          line = 'line',
+          message = '[mdl] ${rule} ${description}',
+        },
+      },
+      xmllint = {
+        sourceName = 'xmllint',
+        command = 'xmllint',
+        args = { '--noout', '-' },
+        isStderr = true,
+        formatLines = 1,
+        formatPattern = {
+          '^[^:]+:(\\d+):(.*)$',
+          {
+            line = 1,
+            message = { '[xmllint]', 2 },
+          },
+        },
+      },
+      erblint = {
+        sourceName = 'erblint',
+        command = 'erblint',
+        args = { '--format', 'json', '%relativepath' },
+        parseJson = {
+          errorsRoot = 'files[0].offenses',
+          line = 'location.start_line',
+          endLine = 'location.last_line',
+          column = 'location.start_column',
+          endColumn = 'location.last_column',
+          message = '[erblint] ${linter} ${message}',
+        },
+      },
+      groovylint = {
+        sourceName = 'groovylint',
+        command = 'groovylint',
+        args = { '-o', 'sarif', '%relativepath' },
+        rootPatterns = { '.git' },
+        parseJson = {
+          errorsRoot = 'runs[0].results',
+          line = 'locations[0].physicalLocation.region.startLine',
+          column = 'locations[0].physicalLocation.region.startColumn',
+          endLine = 'locations[0].physicalLocation.region.endLine',
+          endColumn = 'locations[0].physicalLocation.region.endColumn',
+          message = '[${ruleId}] ${message.text}',
+          security = 'level',
+        },
+        securities = {
+          note = 'info',
+          warning = 'warning',
+          error = 'error',
+        }
+      },
+    },
+    filetypes = {
+      xml = 'xmllint',
+      eruby = 'erblint',
+      markdown = 'mdl',
+      groovy = 'groovylint',
+      Jenkinsfile = 'groovylint',
+    },
+    formatters = {
+      stylua = {
+        command = 'stylua',
+        args = { '--color', 'Never', '-' },
+      },
+      puppetlint = {
+        command = 'puppet-lint',
+        doesWriteToFile = true,
+        args = { '-f', '%file' },
+      },
+    },
+    formatFiletypes = {
+      lua = 'stylua',
+      puppet = 'puppetlint',
+    },
+  },
+}))
+-- Debug
+-- vim.lsp.set_log_level('debug')
 
 -- Workaround for broken goto definition with puppet-editor-services
 -- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
+local puppet_tags_file = vim.env.HOME ..'/.config/nvim/tags/puppet'
 helpers.create_autocmds({
   puppet_lsp = {
-    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal tags=~/.config/nvim/tags-puppet' } }
-  }
-})
-vim.api.nvim_create_user_command('PuppetTagsGenerate', ':!ctags -R -o ~/.config/nvim/tags-puppet --languages=PuppetManifest --exclude=fixtures /code', {})
-
-lspconfig.ansiblels.setup({
-  settings = {
-    ansible = {
-      -- ansible-lint runs from null-ls to ignore local .ansible-lint file.
-      validation = {
-        enabled = true,
-        lint = {
-          enabled = false,
-        }
-      }
-    }
-  }
-})
-
-lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-
-lspconfig.golangci_lint_ls.setup({})
-
---vim.lsp.set_log_level("debug")
-lsp.setup()
-
-local null_ls = require('null-ls')
-null_ls.setup({
-  -- debug = true,
-  sources = {
-    -- Shellcheck is used with bash LSP
-    null_ls.builtins.diagnostics.shellcheck.with({
-      filetypes = { 'none' },
-    }),
-    null_ls.builtins.diagnostics.npm_groovy_lint.with({
-      filetypes = { 'groovy' },
-      extra_args = { '-r', homedir .. '/.codenarc/default.groovy', '--no-parse' },
-    }),
-    null_ls.builtins.diagnostics.npm_groovy_lint.with({
-      filetypes = { 'Jenkinsfile' },
-      extra_args = { '-r', homedir .. '/.codenarc/jenkinsfile.groovy' },
-    }),
-    null_ls.builtins.diagnostics.ansiblelint.with({
-      extra_args = { '-c', homedir .. '/.ansible-lint' },
-    }),
-    null_ls.builtins.formatting.puppet_lint.with({}),
-    null_ls.builtins.diagnostics.markdownlint.with({
-      extra_args = { '-c', homedir .. '/.markdownlint.yaml' }
-    }),
-  }
-})
-
-require('mason-null-ls').setup({
-  ensure_installed = {
-    'yamllint',
-    'markdownlint',
-    'pylint',
-    'vint',
-    'ansible-lint@6.13.1',
-    -- 'npm_groovy_lint',
-    'hadolint',
-    'shellcheck',
-    'trim_whitespace',
-    'xmllint',
-    'stylua',
-    'ansiblelint',
-    'tflint',
-    'golangci-lint',
-    'prettier',
+    {
+      event = { 'Filetype' },
+      opts = {
+        pattern = 'puppet',
+        callback = function()
+          vim.opt_local.tags = puppet_tags_file
+        end
+      },
+    },
   },
-  automatic_installation = true,
-  handlers = {},
 })
+vim.api.nvim_create_user_command(
+  'PuppetTagsGenerate',
+  function()
+    vim.cmd('!mkdir -p '.. vim.fs.dirname(puppet_tags_file))
+    vim.cmd('!ctags -R -o '.. puppet_tags_file ..' --languages=PuppetManifest --exclude=fixtures /code')
+  end, {}
+)
 
-require('mason-update-all').setup()
+-- Since groovy LSP was not working properly I switched to tags
+local function groovy_tags_file()
+  return vim.env.HOME ..'/.config/nvim/tags/'.. vim.fs.basename(vim.uv.cwd()) ..'/groovy'
+end
+helpers.create_autocmds({
+  groovy_lsp = {
+    {
+      event = { 'Filetype' },
+      opts = {
+        pattern = 'groovy',
+        callback = function()
+          vim.opt_local.tags = groovy_tags_file()
+        end
+      }
+    },
+  },
+})
+vim.api.nvim_create_user_command(
+  'GroovyTagsGenerate',
+  function()
+    vim.cmd('!mkdir -p '.. vim.fs.dirname(groovy_tags_file()))
+    vim.cmd('!ctags -R -o '.. groovy_tags_file() ..' --languages=groovy '.. vim.uv.cwd())
+  end, {}
+)

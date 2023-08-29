@@ -4,10 +4,21 @@
   "description": "Tools",
   "main": "index.js",
   "dependencies": {
+    "@ansible/ansible-language-server": "latest",
+    "@johnnymorganz/stylua-bin": "latest",
     "ajv-cli": "5.0.0",
     "ajv-formats": "2.1.1",
+    "bash-language-server": "latest",
+    "diagnostic-languageserver": "latest",
+    "dockerfile-language-server-nodejs": "latest",
+    "markdownlint": "latest",
+    "npm-groovy-lint": "latest",
+    "prettier": "latest",
     "tree-sitter-cli": "latest",
-    "npm-groovy-lint": "latest"
+    "typescript-language-server": "latest",
+    "vim-language-server": "latest",
+    "yaml-language-server": "latest",
+    "vscode-langservers-extracted": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

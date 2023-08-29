@@ -2,11 +2,12 @@
 #
 # Install NodeJs and tools.
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
 
 topic 'UPDATE NODEJS'
 
+# shellcheck disable=SC1091
 source "${HOME}/.nvm/nvm.sh"
 
 if [ ! -e ${HOME}/.nvm ] ; then
@@ -17,5 +18,6 @@ nvm install node
 nvm alias default node
 nvm use node
 npm install
+npm install -g
 npm update
 npm link

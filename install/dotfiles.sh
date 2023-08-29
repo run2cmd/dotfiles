@@ -2,22 +2,24 @@
 #
 # Setup dotfiles
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
-REPODIR=$(dirname $(dirname "$(readlink -f $0)"))
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
+#shellcheck disable=SC2046
+repodir=$(dirname $(dirname "$(readlink -f $0)"))
 
 topic 'SETUP DOTFILES'
 
-MAKE_DIRS=(
+make_dirs=(
   "${HOME}/.config/nvim/undo"
   "${HOME}/.config/nvim/tmp"
+  "${HOME}/.config/rubocop"
   "${HOME}/tools"
 )
-for mdir in "${MAKE_DIRS[@]}" ;do
+for mdir in "${make_dirs[@]}" ;do
   mkdir -p ${mdir}
 done
 
-declare -A MAKE_LINKS=(
+declare -A make_links=(
   ["bash.d"]=".bash.d"
   ["inputrc"]=".inputrc"
   ["bin"]="bin"
@@ -42,19 +44,20 @@ declare -A MAKE_LINKS=(
   ["screenrc"]=".screenrc"
   ["tmux.conf"]=".tmux.conf"
   ["vintrc.yaml"]=".vintrc.yaml"
-  ["codenarc"]=".codenarc"
   ["yamllint"]=".config/yamllint"
-  ["pylintrc"]=".pylintrc"
   ["Pythonfile"]="Pythonfile"
   ["package.json"]="package.json"
   ["Gemfile"]="Gemfile"
   ["Pkgfile"]="Pkgfile"
+  ["rubocop.yml"]=".config/rubocop/config.yml"
+  ["groovylintrc.json"]=".groovylintrc.json"
 )
-for mlink in "${!MAKE_LINKS[@]}" ;do
-  ln -snf ${REPODIR}/${mlink} ${HOME}/${MAKE_LINKS["${mlink}"]}
+for mlink in "${!make_links[@]}" ;do
+  ln -snf ${repodir}/${mlink} ${HOME}/${make_links["${mlink}"]}
 done
 
 if ! (grep -q '\.bash\.d' ${HOME}/.profile) ;then
  echo '# Laod custom dotfiles' >> ${HOME}/.profile
+ # shellcheck disable=SC2016
  echo 'for i in ${HOME}/bash.d/* ;do source ${i} ;done' >> ${HOME}/.profile
 fi

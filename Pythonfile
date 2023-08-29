@@ -6,3 +6,9 @@ jmespath
 requests
 twine
 wheel
+yamllint
+vim-vint
+ansible-lint
+yapf
+flake8
+python-lsp-server

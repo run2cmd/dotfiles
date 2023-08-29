@@ -2,46 +2,38 @@
 #
 # Install NeoVim
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
-TOOLSDIR=${HOME}/tools
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
+toolsdir=${HOME}/tools
 
 topic 'UPDATE NEOVIM'
 
-NVIM_APP=${TOOLSDIR}/nvim.appimage
-NVIM_SHA=/tmp/nvim.appimage.sha256sum
-wget -q -O ${NVIM_SHA} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum
-if [ ! -e ${NVIM_APP} ] || [ "$(cut -d " " -f1 < ${NVIM_SHA})" != "$(sha256sum ${NVIM_APP} |cut -d " " -f1)" ] ;then
-  wget -q -O ${NVIM_APP} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-  chmod u+x ${NVIM_APP}
-  ln -snf ${NVIM_APP} ~/bin/nvim
+appfile=${toolsdir}/nvim.appimage
+appsha=/tmp/nvim.appimage.sha256sum
+wget -q -O ${appsha} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum
+if [ ! -e ${appfile} ] || [ "$(cut -d " " -f1 < ${appsha})" != "$(sha256sum ${appfile} |cut -d " " -f1)" ] ;then
+  wget -q -O ${appfile} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+  chmod u+x ${appfile}
+  ln -snf ${appfile} ~/bin/nvim
   ~/bin/nvim --version
 fi
 
-PACKERPATH=~/.local/share/nvim/site/pack/packer/start
-if [ ! -e ${PACKERPATH}/packer.nvim ] ;then
- mkdir -p ${PACKERPATH}
- git clone --depth 1 https://github.com/wbthomason/packer.nvim ${PACKERPATH}/packer.nvim
+packerpath=~/.local/share/nvim/site/pack/packer/start
+if [ ! -e ${packerpath}/packer.nvim ] ;then
+ mkdir -p ${packerpath}
+ git clone --depth 1 https://github.com/wbthomason/packer.nvim ${packerpath}/packer.nvim
 fi
 
 task "Update Neovim plugins"
-PLUGINS_TIMESTAMP_FILE=~/.local/share/nvim/plugins_timestamp
-if ! test -f ${PLUGINS_TIMESTAMP_FILE} ;then date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE} ;fi
-PLUGINS_LAST_UPDATE=$(cat ${PLUGINS_TIMESTAMP_FILE})
+timestamp_file=~/.local/share/nvim/plugins_timestamp
+if ! test -f ${timestamp_file} ;then date +%Y-%m-%d > ${timestamp_file} ;fi
+last_update=$(cat ${timestamp_file})
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/packer) ;do
   echo "-> Update $(basename ${i})"
-  git --git-dir ${i}/.git log --oneline @\{0\}..origin --since="${PLUGINS_LAST_UPDATE}"
+  git --git-dir ${i}/.git log --oneline --since="${last_update}"
 done
-date +%Y-%m-%d > ${PLUGINS_TIMESTAMP_FILE}
-
-task "Update Mason registry"
-nvim --headless -c "MasonUpdate" -c qall
-echo ""
-
-task "Update tools"
-nvim --headless -c 'autocmd User MasonUpdateAllComplete quitall' -c 'MasonUpdateAll'
-echo ""
+date +%Y-%m-%d > ${timestamp_file}
 
 task "Update Neovim treesitter"
 nvim --headless -c 'TSUpdateSync | quitall'

@@ -9,6 +9,7 @@ dos2unix
 fd-find
 fuse
 git
+jq
 kubernetes-client
 libbz2-dev
 libffi-dev
@@ -32,6 +33,7 @@ rpm2cpio
 shellcheck
 sshpass
 terraform
+terraform-ls
 tk-dev
 universal-ctags
 unzip

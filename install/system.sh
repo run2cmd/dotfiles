@@ -2,22 +2,22 @@
 #
 # Update operating system and install required tools.
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
 
 topic 'UPDATE OPERATING SYSTEM'
 
 sudo apt update -q
 
-TO_INSTALL=''
+to_install=''
 while read -r line ;do
   if ! (dpkg -l | grep -q " ${line} ") ;then
-    TO_INSTALL="${TO_INSTALL} ${line}"
+    to_install="${to_install} ${line}"
   fi
 done < ${HOME}/Pkgfile
 
-if [ "${TO_INSTALL}" != '' ] ;then
-  sudo apt -q install -y $TO_INSTALL
+if [ "${to_install}" != '' ] ;then
+  sudo apt -q install -y $to_install
 fi
 
 sudo apt upgrade -q -y && sudo apt autoremove -y

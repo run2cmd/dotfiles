@@ -2,11 +2,13 @@
 #
 # Install windows configuration files
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
-REPODIR=$(dirname $(dirname "$(readlink -f $0)"))
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
+# shellcheck disable=SC2046
+repodir=$(dirname $(dirname "$(readlink -f $0)"))
 
 topic 'SETUP WINDOWS TOOLS CONFIGURATION'
-cp ${REPODIR}/viebrc /mnt/c/Users/${USER}/.viebrc
-cp ${REPODIR}/wezterm.lua /mnt/c/Users/${USER}/.wezterm.lua
-cp ${REPODIR}/winbin/* /mnt/c/Users/${USER}/bin/
+cp ${repodir}/viebrc /mnt/c/Users/${USER}/.viebrc
+cp ${repodir}/wezterm.lua /mnt/c/Users/${USER}/.wezterm.lua
+cp ${repodir}/winbin/* /mnt/c/Users/${USER}/bin/
+cp -rf ${repodir}/vieb /mnt/c/Users/${USER}/

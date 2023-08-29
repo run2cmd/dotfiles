@@ -2,13 +2,13 @@
 #
 # Install and/or update required dependencies for other tools.
 #
-LIBDIR=$(dirname "$(readlink -f $0)")
-source ${LIBDIR}/lib.sh
+libdir=$(dirname "$(readlink -f $0)")
+source ${libdir}/lib.sh
 
 topic 'INSTALL DEPENDENCIES'
 
-DEP_PKG_LIST=(curl wget apt-transport-https)
-for pkg in "${DEP_PKG_LIST[@]}" ;do
+dep_pkgs=(curl wget apt-transport-https)
+for pkg in "${dep_pkgs[@]}" ;do
   dpkg -l | grep -q " ${pkg} " || sudo apt install -qu ${pkg}
 done
 
