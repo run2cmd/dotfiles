@@ -53,7 +53,6 @@ M.merge = function(...)
   return tbl
 end
 
-
 --
 -- Concentrate arrays
 --
@@ -63,7 +62,7 @@ end
 --
 M.concat = function(...)
   local tbl = {}
-  for _, i in ipairs({...}) do
+  for _, i in ipairs({ ... }) do
     for _, v in pairs(i) do
       table.insert(tbl, v)
     end
@@ -154,7 +153,7 @@ M.run_term_cmd = function(params)
   end
 
   local terminal_win_exists = false
-  for _,v in pairs(vim.g.terminal_window_buffer_number) do
+  for _, v in pairs(vim.g.terminal_window_buffer_number) do
     if next(vim.fn.win_findbuf(v)) then
       terminal_win_exists = true
     end
@@ -242,7 +241,6 @@ M.cmd_output = function(cmd)
   return output
 end
 
-
 --
 -- Match pattern against buffer content
 --
@@ -253,8 +251,10 @@ end
 M.buf_string_match = function(buf, pattern, num_lines)
   local lines = vim.api.nvim_buf_get_lines(buf, 0, num_lines, false)
   local match = false
-  for _,v in ipairs(lines) do
-    if string.match(v, pattern) then match = true end
+  for _, v in ipairs(lines) do
+    if string.match(v, pattern) then
+      match = true
+    end
   end
   return match
 end

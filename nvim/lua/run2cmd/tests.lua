@@ -21,14 +21,14 @@ local test_tbl = {
   },
   gradle = {
     rootfile = 'build.gradle',
-    command = 'gradlew clean build --info'
+    command = 'gradlew clean build --info',
   },
   helm = {
     rootfile = 'helm',
     command = 'for i in $(ls helm) ;do mkdir -p templates_out/${i} && helm template helm/${i} --output-dir templates_out ;done',
   },
   ruby_proj = {
-    rootfile =  'Gemfile',
+    rootfile = 'Gemfile',
     exclude = { 'Puppetfile', 'metadata.json' },
     setup = ruby_env .. '&& bundle install',
     command = ruby_env .. '&& bundle exec rake spec',
@@ -43,15 +43,15 @@ local test_tbl = {
   tree_sitter = {
     rootfile = 'grammar.js',
     setup = 'npm install',
-    command = 'npm run lint && npm run build && npm run test'
+    command = 'npm run lint && npm run build && npm run test',
   },
   groovy = {
     command = 'groovy %',
-    ignore = 'Test.groovy'
+    ignore = 'Test.groovy',
   },
   groovy_test = {
     pattern = 'Test.groovy',
-    command = 'gradlew clean test --tests %:t:r --info'
+    command = 'gradlew clean test --tests %:t:r --info',
   },
   ruby = {
     command = ruby_env .. '&& ruby %',
@@ -82,7 +82,6 @@ local test_tbl = {
     command = 'go run %',
   },
 }
-
 
 --
 -- Find and parse test data.
@@ -115,7 +114,6 @@ local function find_test(setter)
       end
     end
   end
-
 
   return data
 end
@@ -170,6 +168,3 @@ mapkey('n', '`t', run_project)
 mapkey('n', '`l', run_last)
 mapkey('n', '`s', run_setup)
 mapkey('n', '`e', find_errors)
-
--- Groovy formatting.
-vim.api.nvim_create_user_command('GroovyFormat', ":lua require(\"run2cmd.helper-functions\").run_term_cmd('npm-groovy-lint -r ~/.codenarc.groovy --noserver --format --nolintafter --files \\\"**/'.expand('%').'\\\"", {})
