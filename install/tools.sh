@@ -30,8 +30,12 @@ task "Update helm"
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 task "Update helm LSP"
-wget -q -O ${HOME}/bin/helm_ls https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_linux_amd64
-chmod +x ${HOME}/bin/helm_ls
+helmls_file=${HOME}/bin/helm_ls
+helmls_sha_match="$(match_sha256sum https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_linux_amd64.sha256sum ${helmls_file})"
+if [ -e ${helmls_file} ] || [ ${helmls_sha_match} == 'no-match' ] ;then
+  wget -q -O ${HOME}/bin/helm_ls https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_linux_amd64
+  chmod +x ${HOME}/bin/helm_ls
+fi
 
 task "Update tflint"
 tflint_version="$(git_version "$(git_data https://api.github.com/repos/terraform-linters/tflint/releases/latest)")"

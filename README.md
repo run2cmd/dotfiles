@@ -105,7 +105,6 @@ possible. Here are some core features:
     - ``e` - In terminal window will search for failed tests.
     - ``s` - Run project setup. This will get dependencies and other things required for projects to setup.
     - `<leader>rk` - Run r10k in terminal (support for Puppet)
-    - `<leader>m` - Go to test file for currently open file.
     - `<leader>ge` - Search for Git conflicts project wide.
     - `<leader>gg` - Enter git status window.
     - `<leader>sw` - Search for word under cursor in current project.

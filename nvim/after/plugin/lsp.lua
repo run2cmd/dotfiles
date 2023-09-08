@@ -101,15 +101,13 @@ lspconfig.lua_ls.setup(config({
     Lua = {
       runtime = {
         version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
       },
       diagnostics = {
         globals = { 'vim' },
       },
       workspace = {
         library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+          library = { vim.env.VIMRUNTIME },
         },
       },
     },
@@ -232,7 +230,7 @@ lspconfig.diagnosticls.setup(config({
           note = 'info',
           warning = 'warning',
           error = 'error',
-        }
+        },
       },
     },
     filetypes = {
@@ -246,6 +244,7 @@ lspconfig.diagnosticls.setup(config({
       stylua = {
         command = 'stylua',
         args = { '--color', 'Never', '-' },
+        rootPatterns = { '.git' },
       },
       puppetlint = {
         command = 'puppet-lint',
@@ -264,7 +263,7 @@ lspconfig.diagnosticls.setup(config({
 
 -- Workaround for broken goto definition with puppet-editor-services
 -- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
-local puppet_tags_file = vim.env.HOME ..'/.config/nvim/tags/puppet'
+local puppet_tags_file = vim.env.HOME .. '/.config/nvim/tags/puppet'
 helpers.create_autocmds({
   puppet_lsp = {
     {
@@ -273,22 +272,19 @@ helpers.create_autocmds({
         pattern = 'puppet',
         callback = function()
           vim.opt_local.tags = puppet_tags_file
-        end
+        end,
       },
     },
   },
 })
-vim.api.nvim_create_user_command(
-  'PuppetTagsGenerate',
-  function()
-    vim.cmd('!mkdir -p '.. vim.fs.dirname(puppet_tags_file))
-    vim.cmd('!ctags -R -o '.. puppet_tags_file ..' --languages=PuppetManifest --exclude=fixtures /code')
-  end, {}
-)
+vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
+  vim.cmd('!mkdir -p ' .. vim.fs.dirname(puppet_tags_file))
+  vim.cmd('!ctags -R -o ' .. puppet_tags_file .. ' --languages=PuppetManifest --exclude=fixtures /code')
+end, {})
 
 -- Since groovy LSP was not working properly I switched to tags
 local function groovy_tags_file()
-  return vim.env.HOME ..'/.config/nvim/tags/'.. vim.fs.basename(vim.uv.cwd()) ..'/groovy'
+  return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/groovy'
 end
 helpers.create_autocmds({
   groovy_lsp = {
@@ -298,15 +294,12 @@ helpers.create_autocmds({
         pattern = 'groovy',
         callback = function()
           vim.opt_local.tags = groovy_tags_file()
-        end
-      }
+        end,
+      },
     },
   },
 })
-vim.api.nvim_create_user_command(
-  'GroovyTagsGenerate',
-  function()
-    vim.cmd('!mkdir -p '.. vim.fs.dirname(groovy_tags_file()))
-    vim.cmd('!ctags -R -o '.. groovy_tags_file() ..' --languages=groovy '.. vim.uv.cwd())
-  end, {}
-)
+vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
+  vim.cmd('!mkdir -p ' .. vim.fs.dirname(groovy_tags_file()))
+  vim.cmd('!ctags -R -o ' .. groovy_tags_file() .. ' --languages=groovy ' .. vim.uv.cwd())
+end, {})

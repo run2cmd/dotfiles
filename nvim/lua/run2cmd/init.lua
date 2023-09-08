@@ -5,7 +5,7 @@
 --
 require('run2cmd.vimset')
 require('run2cmd.helper-functions')
-require('run2cmd.packer')
+require('run2cmd.plugins')
 require('run2cmd.filetypes')
 require('run2cmd.auto-commands')
 require('run2cmd.tests')
