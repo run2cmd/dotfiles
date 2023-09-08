@@ -1,6 +1,6 @@
 local helpers = require('run2cmd.helper-functions')
 local dir_names = { '.git', '.svn' }
-local path_exclude = 'fixtures'
+local paths_exclude = { 'fixtures', '//' }
 local cache = {}
 
 -- Find project root directory
@@ -28,9 +28,12 @@ local function find_root(buf_id, names)
   end
 
   -- Exclude dir name
-  if string.match(root_file, path_exclude) then
-    return
+  for _, i in ipairs(paths_exclude) do
+    if string.match(root_file, i) then
+      return
+    end
   end
+
 
   -- Use full path
   result = vim.fn.fnamemodify(vim.fs.dirname(root_file), ':p')
