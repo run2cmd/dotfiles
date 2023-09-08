@@ -40,10 +40,12 @@ task 'Install rubies'
 rvm install $default_ruby --default
 rvm install 2.7.3 --with-openssl-dir=${rvm_path}/usr
 rvm install 2.4.10 --with-openssl-dir=${rvm_path}/usr
+rvm install 2.0.0 --with-openssl-dir=${rvm_path}/usr
 
 # Install rubocop per ruby version for solargraph proper support
 rvm use 2.7.3 && (which rubocop &>/dev/null|| gem install rubocop --version 0.79.0)
 rvm use 2.4.10 && (which rubocop &>/dev/null || gem install rubocop --version 0.71.0)
+rvm use 2.0.0 && (which rubocop &>/dev/null || gem install rubocop --version 0.71.0)
 
 task "Update default ruby"
 rvm use $default_ruby
