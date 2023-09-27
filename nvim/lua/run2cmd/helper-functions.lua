@@ -259,4 +259,24 @@ M.buf_string_match = function(buf, pattern, num_lines)
   return match
 end
 
+--
+-- Set Fugitive git log coloring for oneline.
+--
+M.set_gitlog = function()
+  local current_buf = vim.api.nvim_get_current_buf()
+  if vim.api.nvim_get_option_value('filetype', {}) == 'git' then
+    local content = vim.api.nvim_buf_get_lines(current_buf, 1, 6, false)
+    local count = 0
+    for _, c in ipairs(content) do
+      local sub = string.sub(c, 1, 7)
+      if not string.match(sub, ' ') then
+        count = count + 1
+      end
+    end
+    if count == 5 then
+      vim.cmd('ownsyntax gitlog')
+    end
+  end
+end
+
 return M

@@ -38,7 +38,7 @@ local autocmds = {
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
     -- Restore colen keyword for easier jump to definition
-    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=:' } },
+    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=: commentstring=#\\ %s' } },
   },
 }
 helpers.create_autocmds(autocmds)

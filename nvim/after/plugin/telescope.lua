@@ -146,7 +146,3 @@ mapkey('n', '<C-n>', find_notes)
 mapkey('n', '<leader>sw', builtin.grep_string)
 mapkey('n', '<leader>sl', builtin.live_grep)
 mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
-
--- Git Log and branches
-mapkey('n', '<leader>gl', builtin.git_commits)
-mapkey('n', '<leader>gb', builtin.git_branches)
