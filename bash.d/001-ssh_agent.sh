@@ -6,7 +6,9 @@ function start_agent {
   echo succeded
   chmod 600 "${SSH_ENV}"
   . "${SSH_ENV}" > /dev/null
-  /usr/bin/ssh-add;
+  for key in ~/.ssh/id*[^.pub] ;do
+    /usr/bin/ssh-add $key
+  done
 }
 if [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
