@@ -12,6 +12,7 @@ mapkey('n', '<leader>gw', ':Git blame<cr>')
 mapkey('n', '<leader>gc', ':Git checkout ')
 mapkey('n', '<leader>g-', ':Git checkout -<cr>')
 mapkey('n', '<leader>gb', ':Git branch -a<cr>')
+mapkey('n', '<leader>gm', ':Git merge ')
 
 -- diff
 mapkey('n', '<leader>gv', ':Gvdiffsplit<cr>')
