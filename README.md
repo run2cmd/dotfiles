@@ -105,8 +105,6 @@ possible. Here are some core features:
     - ``e` - In terminal window will search for failed tests.
     - ``s` - Run project setup. This will get dependencies and other things required for projects to setup.
     - `<leader>rk` - Run r10k in terminal (support for Puppet)
-    - `<leader>ge` - Search for Git conflicts project wide.
-    - `<leader>gg` - Enter git status window.
     - `<leader>sw` - Search for word under cursor in current project.
     - `<leader>sl` - Live search in current project.
     - `<leader>sb` - Live search in current buffer.
@@ -118,21 +116,23 @@ possible. Here are some core features:
         - `]d` - LSP next diagnostic message.
         - `[d` - LSP previous diagnostic message.
     Git support:
+    - `<leader>gg` - Enter git status window.
+    - `<leader>ge` - Search for Git conflicts project wide.
     - `<leader>gf` - Git pull.
     - `<leader>gp` - Git push.
-    - `<leader>g!p` - Git push with `--froce`
-    - `<leader>gw` - Git blame
-    - `<leader>g-` - Checkout to previous branch/tag.
-    - `<leader>ga` - Perform git add on current buffer.
-    - `<leader>gcm` - Enter git commit window.
-    - `<leader>gca` - Git commit with `--amend --no-edit`.
+    - `<leader>gw` - Git blame.
+    - `<leader>gc` - Git checkout (choose branch/tag/commit with autocompletion).
+    - `<leader>g-` - Checkout to previous branch/tag/commit.
+    - `<leader>gm` - Git merge (choose branch/tag/commit with autocompletion).
     - `<leader>gss` - Git stash.
     - `<leader>gsp` - Git stash pop.
     - `<leader>gv` - Diff split on current buffer.
     - `<leader>gdo` - Open DiffView in new tab for current project.
     - `<leader>gdc` - Close DiffView.
     - `<leader>gdr` - Refreash DiffView.
-    - `<leader>gl` - List git commits.
+    - `<leader>gll` - List git commits in simple view.
+    - `<leader>glp` - List git commits in detail view (with commit author, date and changes). Use `[[` and `]]` to jump between commits.
+    - `<leader>glf` - List git commits in detail view for specific file.
     - `<leader>gb` - List git branches. Use `<CR>` to change branch or `<c-t>` to checkout branch if not checkout before.
     Move around filesystem:
     - `<C-p>` - List files in current project and go to it after `<CR>` is hit.
