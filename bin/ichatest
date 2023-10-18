@@ -27,6 +27,10 @@ for yamlfile in $(find ./conf/jenkins -iname '*.yaml'); do
   ajv ${ajvParams} validate -s ${schemafile} -d ${yamlfile}
 done
 
-if [ -f data/env/${envName}.yaml ] && [ -f schemas/data/env/env_file.json ] ; then ajv ${ajvParams} validate -s schemas/data/env/env_file.json -d data/env/${envName}.yaml -c ${HOME}/node_modules/ajv-formats/dist/index.js; fi
+if [ -f data/env/${envName}.yaml ] ;then
+  if [ -f schemas/data/env/env_file.json ] ;then ajv ${ajvParams} validate -s schemas/data/env/env_file.json -d data/env/${envName}.yaml -c ${HOME}/node_modules/ajv-formats/dist/index.js ;fi
+  if [ -f inventory/hosts.sh ] ;then puppet_env=${envName} inventory/hosts.sh ;fi
+  if [ -f inventory/icha.sh ] ;then puppet_env=${envName} inventory/icha.sh ;fi
+fi
 
 if [ $FAILED = 0 ] ;then echo "SUCCESS" ;else echo "FAILED" ;fi
