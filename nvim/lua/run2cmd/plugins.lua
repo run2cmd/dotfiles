@@ -47,7 +47,4 @@ require("paq") {
   -- Fun stuff
   { 'goolord/alpha-nvim' },
   { 'ThePrimeagen/vim-be-good' },
-
-  -- To review
-  -- https://github.com/ibhagwan/fzf-lua
 }
