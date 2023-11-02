@@ -50,4 +50,5 @@ done
 task "Update default ruby"
 rvm use $default_ruby
 gem install bundle
+gem update --system
 bundle update
