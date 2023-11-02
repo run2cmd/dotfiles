@@ -3,7 +3,62 @@
 --
 local helpers = require('run2cmd.helper-functions')
 local mapkey = vim.keymap.set
+local cmd = vim.api.nvim_create_user_command
 local ruby_env = 'source ~/.rvm/scripts/rvm && rvm use'
+
+--
+-- Run terminal command.
+-- Will keep only single buffer per tab for all terminal commands closing previous buffer before launching new one.
+--
+-- @param params String of terminal command to run
+--
+-- @return open terminal window with params command output
+--
+local function run_term_cmd(params)
+  if params == nil or params == '' then
+    print('Missing terminal command to run')
+  end
+
+  -- Support vim builtin expand
+  local expand_match_string = '%%[^ ]*'
+  local expand_string = string.match(params, expand_match_string)
+  local command = string.gsub(params, expand_match_string, vim.fn.expand(expand_string))
+  local pstring = command .. ' '
+  local cwd = vim.fn.getcwd()
+
+  -- Set per project last terminal test
+  local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
+  local temp_last_table = vim.g.last_terminal_test
+  temp_last_table[cwd] = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
+  vim.g.last_terminal_test = temp_last_table
+
+  local term_buffer = vim.g.terminal_window_buffer_number[cwd]
+  if term_buffer and vim.api.nvim_buf_is_valid(term_buffer) then
+    vim.api.nvim_buf_delete(term_buffer, {})
+  end
+
+  local terminal_win_exists = false
+  for _, v in pairs(vim.g.terminal_window_buffer_number) do
+    if next(vim.fn.win_findbuf(v)) then
+      terminal_win_exists = true
+    end
+  end
+
+  if terminal_win_exists then
+    vim.cmd('exe "normal \\<c-w>b"')
+    vim.cmd('cd' .. cwd)
+    vim.cmd('vsplit term://' .. command)
+  else
+    vim.cmd('bo 15 split term://' .. command)
+  end
+  vim.cmd('normal G')
+
+  -- Set per project terminal buffer to use
+  local temp_buf_table = vim.g.terminal_window_buffer_number
+  temp_buf_table[cwd] = vim.api.nvim_get_current_buf()
+  vim.g.terminal_window_buffer_number = temp_buf_table
+end
+
 
 local test_tbl = {
   maven = {
@@ -97,7 +152,7 @@ local function find_test(setter)
     data.cmd = test_tbl[setter]['command']
     data.err = test_tbl[setter]['error'] or 'FAILED'
   else
-    for k, v in pairs(test_tbl) do
+    for _, v in pairs(test_tbl) do
       local excludes = false
       for _, f in ipairs(v.exclude or {}) do
         if helpers.file_exists(f) then
@@ -123,7 +178,7 @@ local function run_file()
   local test_data = helpers.merge(find_test(vim.bo.filetype), find_test(vim.fn.expand('%:t')))
   if test_data.cmd then
     vim.g.term_error_serach_string = test_data.err
-    helpers.run_term_cmd(test_data.cmd)
+    run_term_cmd(test_data.cmd)
   else
     print('[test] No test command configured.')
   end
@@ -134,7 +189,7 @@ local function run_project()
   local test_data = find_test('project')
   if test_data.proj then
     vim.g.term_error_serach_string = test_data.err
-    helpers.run_term_cmd(test_data.proj)
+    run_term_cmd(test_data.proj)
   else
     print('[test] Project not configured.')
   end
@@ -143,7 +198,7 @@ end
 -- Rerun last test
 local function run_last()
   local cwd = vim.fn.getcwd()
-  helpers.run_term_cmd(vim.g.last_terminal_test[cwd])
+  run_term_cmd(vim.g.last_terminal_test[cwd])
 end
 
 --- Find errors in test window
@@ -156,7 +211,7 @@ local function run_setup()
   local test_data = find_test('project')
   if test_data.prep then
     vim.g.term_error_serach_string = test_data.err
-    helpers.run_term_cmd(test_data.prep)
+    run_term_cmd(test_data.prep)
   else
     print('[test] No setup steps configured for project.')
   end
@@ -168,3 +223,18 @@ mapkey('n', '`t', run_project)
 mapkey('n', '`l', run_last)
 mapkey('n', '`s', run_setup)
 mapkey('n', '`e', find_errors)
+
+-- Easy r10k support based on git branch
+mapkey('n', '<leader>rk',
+  function(_)
+    run_term_cmd('ir10k')
+  end
+)
+
+-- Terminal command support
+cmd('Terminal',
+  function(params)
+    run_term_cmd(params.args)
+  end,
+  { nargs = '*' }
+)

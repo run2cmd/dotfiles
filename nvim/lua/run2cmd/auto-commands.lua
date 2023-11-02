@@ -28,12 +28,6 @@ local autocmds = {
     -- Close hidden buffers for Netrw
     { event = { 'FileType' }, opts = { pattern = 'netrw', command = 'setlocal bufhidden=wipe' } },
   },
-  autosave = {
-    {
-      event = { 'InsertLeave' },
-      opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').autosave()" },
-    },
-  },
   filetypes = {
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },

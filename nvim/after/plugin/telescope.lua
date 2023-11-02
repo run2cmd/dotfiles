@@ -139,7 +139,11 @@ mapkey('n', '<leader>p', builtin.registers)
 mapkey('n', '<C-p>', builtin.find_files)
 mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)
-mapkey('n', '<C-s>', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
+mapkey('n', '<C-s>',
+  function()
+    require('telescope.builtin').find_files({hidden=true, no_ignore=true})
+  end
+)
 mapkey('n', '<C-n>', find_notes)
 
 -- Search text in project

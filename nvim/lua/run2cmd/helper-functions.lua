@@ -71,45 +71,6 @@ M.concat = function(...)
 end
 
 --
--- Run call to https://cht.sh
---
--- @param prams API string got https://cht.sh
---
--- @return API response
---
-M.chtsh = function(params)
-  local buffer = vim.t.doc_window_buffer
-  if buffer and vim.api.nvim_buf_is_valid(buffer) then
-    vim.api.nvim_buf_delete(buffer, {})
-  end
-  vim.cmd('split term://chtsh ' .. params)
-  vim.t.doc_window_buffer = vim.api.nvim_get_current_buf()
-end
-
---
--- Automatically write buffer after switch form insert to normal mode
--- Won't run for excluded buffers like nofile, trminal, gitcommit
---
-M.autosave = function()
-  local buffer = vim.api.nvim_get_current_buf()
-  local excluded = { 'terminal', 'nofile', 'finished', 'gitcommit', 'startify' }
-
-  if vim.api.nvim_buf_get_name(buffer) ~= '' then
-    local modified = vim.api.nvim_buf_get_option(buffer, 'modified')
-    local filetype = vim.api.nvim_get_option_value('filetype', { buf = buffer })
-    local buftype = vim.api.nvim_get_option_value('buftype', { buf = buffer })
-
-    if modified then
-      if M.table_contains(excluded, filetype) or M.table_contains(excluded, buftype) then
-        return
-      else
-        vim.cmd('write')
-      end
-    end
-  end
-end
-
---
 -- Validate if filepath exists.
 --
 -- @param path Path to file. Can be relative or absolute.
@@ -119,59 +80,6 @@ end
 M.file_exists = function(path)
   local file = io.open(path, 'r')
   return file ~= nil and io.close(file)
-end
-
---
--- Run terminal command.
--- Will keep only single buffer per tab for all terminal commands closing previous buffer before launching new one.
---
--- @param params String of terminal command to run
---
--- @return open terminal window with params command output
---
-M.run_term_cmd = function(params)
-  if params == nil or params == '' then
-    print('Missing terminal command to run')
-  end
-
-  -- Support vim builtin expand
-  local expand_match_string = '%%[^ ]*'
-  local expand_string = string.match(params, expand_match_string)
-  local command = string.gsub(params, expand_match_string, vim.fn.expand(expand_string))
-  local pstring = command .. ' '
-  local cwd = vim.fn.getcwd()
-
-  -- Set per project last terminal test
-  local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
-  local temp_last_table = vim.g.last_terminal_test
-  temp_last_table[cwd] = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
-  vim.g.last_terminal_test = temp_last_table
-
-  local term_buffer = vim.g.terminal_window_buffer_number[cwd]
-  if term_buffer and vim.api.nvim_buf_is_valid(term_buffer) then
-    vim.api.nvim_buf_delete(term_buffer, {})
-  end
-
-  local terminal_win_exists = false
-  for _, v in pairs(vim.g.terminal_window_buffer_number) do
-    if next(vim.fn.win_findbuf(v)) then
-      terminal_win_exists = true
-    end
-  end
-
-  if terminal_win_exists then
-    vim.cmd('exe "normal \\<c-w>b"')
-    vim.cmd('cd' .. cwd)
-    vim.cmd('vsplit term://' .. command)
-  else
-    vim.cmd('bo 15 split term://' .. command)
-  end
-  vim.cmd('normal G')
-
-  -- Set per project terminal buffer to use
-  local temp_buf_table = vim.g.terminal_window_buffer_number
-  temp_buf_table[cwd] = vim.api.nvim_get_current_buf()
-  vim.g.terminal_window_buffer_number = temp_buf_table
 end
 
 --
@@ -257,26 +165,6 @@ M.buf_string_match = function(buf, pattern, num_lines)
     end
   end
   return match
-end
-
---
--- Set Fugitive git log coloring for oneline.
---
-M.set_gitlog = function()
-  local current_buf = vim.api.nvim_get_current_buf()
-  if vim.api.nvim_get_option_value('filetype', {}) == 'git' then
-    local content = vim.api.nvim_buf_get_lines(current_buf, 1, 6, false)
-    local count = 0
-    for _, c in ipairs(content) do
-      local sub = string.sub(c, 1, 7)
-      if not string.match(sub, ' ') then
-        count = count + 1
-      end
-    end
-    if count == 5 then
-      vim.cmd('ownsyntax gitlog')
-    end
-  end
 end
 
 return M

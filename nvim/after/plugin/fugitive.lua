@@ -32,7 +32,28 @@ local autocmds = {
     -- Go to insert mode when starting to edit messages
     { event = 'BufEnter', opts = { pattern = 'COMMIT_EDITMSG', command = 'startinsert' } },
     -- Pretty colors for git log
-    { event = 'BufEnter', opts = { pattern = '*', command = "lua require('run2cmd.helper-functions').set_gitlog()" } },
+    { event = 'BufEnter',
+      opts = {
+        pattern = '*',
+        callback = function()
+          local current_buf = vim.api.nvim_get_current_buf()
+          if vim.api.nvim_get_option_value('filetype', {}) == 'git' then
+            local content = vim.api.nvim_buf_get_lines(current_buf, 1, 6, false)
+            local count = 0
+            for _, c in ipairs(content) do
+              local sub = string.sub(c, 1, 7)
+              if not string.match(sub, ' ') then
+                count = count + 1
+              end
+            end
+            if count == 5 then
+              vim.cmd('ownsyntax gitlog')
+            end
+          end
+        end
+      }
+    }
   }
 }
+
 helpers.create_autocmds(autocmds)
