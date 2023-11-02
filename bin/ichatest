@@ -5,6 +5,8 @@ trap 'FAILED=1' ERR
 source ~/.rvm/scripts/rvm
 rvm use
 
+fdfind . 'modules/' -d 1 | xargs -i rm -rf {}
+
 yamllint .
 
 envName="$(basename ${PWD})_$(git rev-parse --abbrev-ref HEAD)"
