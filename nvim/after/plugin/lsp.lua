@@ -5,6 +5,10 @@ local cmp = require('cmp')
 local cmp_lsp = require('cmp_nvim_lsp')
 local mapkey = vim.keymap.set
 
+vim.diagnostic.config({
+  virtual_text = false
+})
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -61,7 +65,7 @@ local function config(_config)
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true, buffer = bufnr }
       mapkey('n', 'K', vim.lsp.buf.hover, opts)
-      mapkey('n', '<leader>q', vim.diagnostic.setloclist, opts)
+      mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
       mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
       mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
       mapkey('n', '[d', vim.diagnostic.goto_next, opts)
