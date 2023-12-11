@@ -75,10 +75,7 @@ set devtoolsposition=vsplit
 set menupage=never
 
 " Allow notifications
-set permissionsallowed+=mail.google.com~notifications,calendar.google.com~notifications,facebook.com~notifications
-
-" Fake we are Chrome for many websites support.
-set useragent='Mozilla/5.0 (%sys) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/%version Safari/537.36'
+set permissionsallowed+=["mail.google.com~notifications","calendar.google.com~notifications","facebook.com~notifications"]
 
 " Custom setup
 source ~/.viebrclocal
