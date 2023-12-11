@@ -14,3 +14,5 @@ ${libdir}/install/sdkman.sh
 ${libdir}/install/node.sh
 ${libdir}/install/neovim.sh
 ${libdir}/install/windows.sh
+
+ln -snf ${libdir}/install.sh ${HOME}/bin/dotfiles-update
