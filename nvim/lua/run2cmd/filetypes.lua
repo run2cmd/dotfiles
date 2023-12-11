@@ -53,3 +53,12 @@ addtype({
     end,
   },
 })
+
+-- Advanced Gemfile
+addtype({
+  pattern = {
+    ['Gemfile.*'] = function(_, _)
+      return 'ruby'
+    end
+  }
+})
