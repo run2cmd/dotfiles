@@ -6,6 +6,7 @@ cpio
 curl
 docker.io
 dos2unix
+dnsutils
 fd-find
 fuse
 git
