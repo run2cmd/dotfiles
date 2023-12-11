@@ -17,8 +17,9 @@
     "tree-sitter-cli": "latest",
     "typescript-language-server": "latest",
     "vim-language-server": "latest",
-    "yaml-language-server": "latest",
-    "vscode-langservers-extracted": "latest"
+    "vscode-json-languageservice": "^5.3.6",
+    "vscode-langservers-extracted": "latest",
+    "yaml-language-server": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
