@@ -165,7 +165,7 @@ lspconfig.puppet.setup(config({
   cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/a32-tools:/code/puppet:/code/puppet-forge' },
 }))
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'puppet', 'groovy', 'Jenkinsfile' },
+  filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'puppet', 'groovy', 'Jenkinsfile', 'yaml' },
   init_options = {
     linters = {
       mdl = {
@@ -176,6 +176,24 @@ lspconfig.diagnosticls.setup(config({
           line = 'line',
           message = '[mdl] ${rule} ${description}',
         },
+      },
+      yamllint = {
+        sourceName = 'yamllint',
+        command = 'yamllint',
+        args = { '-f', 'parsable', '%filepath' },
+        formatPattern = {
+          [[^.*:(\d+):(\d+): \[(\w+)\] (.*)$]],
+          {
+            line = 1,
+            column = 2,
+            security = 3,
+            message = { '[yamllint] ', 4 }
+          }
+        },
+        securities = {
+          warning = 'warning',
+          error = 'error'
+        }
       },
       xmllint = {
         sourceName = 'xmllint',
@@ -231,6 +249,7 @@ lspconfig.diagnosticls.setup(config({
       markdown = 'mdl',
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
+      yaml = 'yamllint',
     },
     formatters = {
       stylua = {
@@ -251,7 +270,7 @@ lspconfig.diagnosticls.setup(config({
   },
 }))
 -- Debug
--- vim.lsp.set_log_level('debug')
+vim.lsp.set_log_level('debug')
 
 -- Workaround for broken goto definition with puppet-editor-services
 -- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
