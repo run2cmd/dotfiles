@@ -19,10 +19,11 @@ WSL2 has much better performance.
 
 ## Installation
 
-Clone this project into WSL2 instance and Run `install.sh` to install
+Clone this project into WSL2 instance and Run `install.sh all` to install
 all tools.
 
 After 1st install new `dotfiles-update` link is created to which will be available on PATH.
+Run `dotfiles-update help` to list available options.
 
 ## Technology stack
 
