@@ -17,3 +17,5 @@
   ff = no
 [log]
   decorate = full
+[credential]
+	helper = cache
