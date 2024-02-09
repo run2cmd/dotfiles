@@ -47,10 +47,11 @@ local function run_term_cmd(params)
   if terminal_win_exists then
     vim.cmd('exe "normal \\<c-w>b"')
     vim.cmd('cd' .. cwd)
-    vim.cmd('vsplit term://' .. command)
+    vim.cmd('vsplit new')
   else
-    vim.cmd('bo 15 split term://' .. command)
+    vim.cmd('bo 15 split new')
   end
+  vim.fn.termopen(command)
   vim.cmd('normal G')
 
   -- Set per project terminal buffer to use
