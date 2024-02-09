@@ -75,7 +75,7 @@ set devtoolsposition=vsplit
 set menupage=never
 
 " Allow notifications
-set permissionsallowed+=["mail.google.com~notifications","calendar.google.com~notifications","facebook.com~notifications"]
+set permissionsallowed+=["mail.google.com~notifications","calendar.google.com~notifications","facebook.com~notifications","github.com~notifications"]
 
 " Custom setup
 source ~/.viebrclocal
