@@ -1,11 +1,16 @@
 #!/bin/bash
 
-baseconfig="${HOME}/.groovylintrc.json"
-setrules="-c ${baseconfig}"
-
 # Use project rules if available
-config="$(pwd)/gradle/codenarc.groovy"
-[ -e $config ] && setrules="-r ${config}"
+config="$(pwd)/build/codenarc.groovy"
+if [ -e $config ] ;then
+  ruleset=file:./build/codenarc.groovy
+  props=file:./gradle/codenarc.properties
+else
+  ruleset=file:/home/pbugala/test/StarterRuleSet-AllRules.groovy
+  props=file:${HOME}/.codenarc.properties
+fi
 
-# shellcheck disable=SC2068
-npm-groovy-lint $setrules $@
+echo "Using ruleset: ${ruleset}"
+echo "Using properties: ${props}"
+
+npm-groovy-lint --codenarcargs -basedir=$(pwd) -rulesetfiles=${ruleset} -properties=${props} -report=console -includes=$1

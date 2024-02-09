@@ -52,7 +52,7 @@ case $INSTALL_TYPE in
     echo "
     Usage: dotfiles-update [INSTALL_TYPE]
     Installation types available:
-      all - Run complex installation of everything. If this is 1st installtion you need to run this.
+      all - Run complex installation/update of everything. If this is 1st installtion you need to choose this option.
       system - System OS update.
       tools - Custom tools update that are not available through system package system.
       dotfiles - Install dotfiles.

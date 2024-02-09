@@ -1,8 +1,0 @@
-{
-  "extends": "recommended",
-  "rules": {
-    "comments.ClassJavadoc": "off",
-    "formatting.Indentation": "off",
-    "formatting.LineLength": "off"
-  }
-}

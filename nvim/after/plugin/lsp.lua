@@ -225,21 +225,21 @@ lspconfig.diagnosticls.setup(config({
       groovylint = {
         sourceName = 'groovylint',
         command = 'groovylint',
-        args = { '-o', 'sarif', '%relativepath' },
+        args = { '%relativepath' },
         rootPatterns = { '.git' },
-        parseJson = {
-          errorsRoot = 'runs[0].results',
-          line = 'locations[0].physicalLocation.region.startLine',
-          column = 'locations[0].physicalLocation.region.startColumn',
-          endLine = 'locations[0].physicalLocation.region.endLine',
-          endColumn = 'locations[0].physicalLocation.region.endColumn',
-          message = '[${ruleId}] ${message.text}',
-          security = 'level',
+        formatLines = 1,
+        formatPattern = {
+          'Violation: Rule=(.*) P=(\\d+) Line=(\\d+) Msg=\\[(.*)\\] Src=',
+          {
+            security = 2,
+            line = 3,
+            message = { '[groovylint]', ' [', 1, '] ', 4 },
+          },
         },
         securities = {
-          note = 'info',
-          warning = 'warning',
-          error = 'error',
+          ['1'] = 'error',
+          ['2'] = 'warning',
+          ['3'] = 'info',
         },
       },
     },

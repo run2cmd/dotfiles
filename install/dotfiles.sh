@@ -53,7 +53,7 @@ declare -A make_links=(
   ["Gemfile_2.0.0"]="Gemfile_2.0.0"
   ["Pkgfile"]="Pkgfile"
   ["rubocop.yml"]=".config/rubocop/config.yml"
-  ["groovylintrc.json"]=".groovylintrc.json"
+  ["codenarc.properties"]=".codenarc.properties"
 )
 for mlink in "${!make_links[@]}" ;do
   ln -snf ${repodir}/${mlink} ${HOME}/${make_links["${mlink}"]}
