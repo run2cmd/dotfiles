@@ -6,7 +6,7 @@ if [ -e $config ] ;then
   ruleset=file:./build/codenarc.groovy
   props=file:./gradle/codenarc.properties
 else
-  ruleset=file:/home/pbugala/test/StarterRuleSet-AllRules.groovy
+  ruleset=file:${HOME}/.config/codenarc/StarterRuleSet-AllRules.groovy
   props=file:${HOME}/.codenarc.properties
 fi
 
