@@ -23,7 +23,7 @@ mapkey('n', '<leader>gdc', ':DiffviewClose<cr>')
 mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>')
 
 -- Git Log
-mapkey('n', '<leader>gll', ':Git log --oneline --decorate=full<cr>')
+mapkey('n', '<leader>gll', ':Git log --pretty=format:"%h %an %ad%d %s" --date=short<cr>')
 mapkey('n', '<leader>glp', ':vert Git log --decorate=full -p --full-diff<cr>')
 mapkey('n', '<leader>glf', ':vert Git log --decorate=full -p --follow -- %<cr>')
 
