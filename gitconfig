@@ -18,4 +18,4 @@
 [log]
   decorate = full
 [credential]
-	helper = cache
+  helper = cache --timeout=28800
