@@ -270,7 +270,7 @@ lspconfig.diagnosticls.setup(config({
   },
 }))
 -- Debug
-vim.lsp.set_log_level('debug')
+-- vim.lsp.set_log_level('debug')
 
 -- Workaround for broken goto definition with puppet-editor-services
 -- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
