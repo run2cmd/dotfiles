@@ -12,6 +12,7 @@
     "diagnostic-languageserver": "latest",
     "dockerfile-language-server-nodejs": "latest",
     "markdownlint": "latest",
+    "minimist": "^1.2.8",
     "npm-groovy-lint": "latest",
     "prettier": "latest",
     "tree-sitter-cli": "latest",
@@ -33,5 +34,8 @@
   "bugs": {
     "url": "https://github.com/run2cmd/dotfiles/issues"
   },
-  "homepage": "https://github.com/run2cmd/dotfiles#readme"
+  "homepage": "https://github.com/run2cmd/dotfiles#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.19"
+  }
 }
