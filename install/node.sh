@@ -21,3 +21,12 @@ npm install
 npm install -g
 npm update
 npm link
+
+task "Cleanup after update"
+nvm cache clear
+node_path=${HOME}/.nvm/versions/node
+node_to_remove=$(ls --color=never $node_path | grep -Ev "${node --version}")
+for n in $node_to_remove ;do
+  echo "Remove ${n}"
+  rm -rf ${node_path}/${n}
+done

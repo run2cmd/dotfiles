@@ -52,3 +52,12 @@ rvm use $default_ruby
 gem install bundle
 gem update --system
 bundle update
+
+task "Cleanup after update"
+rvm cleanup all
+rubies_path=${HOME}/.rvm/rubies
+rubies_to_remove=$(ls --color=never $rubies_path | grep -Ev "${default_ruby}|${additional_rubies// /|}|default")
+for rb in $rubies_to_remove ;do
+  echo "Remove ${rb}"
+  rm -rf ${rubies_path}/${rb}
+done

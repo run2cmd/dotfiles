@@ -24,3 +24,6 @@ pyenv global ${pyver}
 python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
 ansible-galaxy collection install community.general
+
+task "Cleanup after update"
+pip cache purge
