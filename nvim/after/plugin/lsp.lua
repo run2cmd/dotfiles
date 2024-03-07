@@ -161,9 +161,9 @@ lspconfig.solargraph.setup(config({
   -- Run solargraph per RVM env
   cmd = { 'sgraph' },
 }))
-lspconfig.puppet.setup(config({
-  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/a32-tools:/code/puppet:/code/puppet-forge' },
-}))
+-- lspconfig.puppet.setup(config({
+--   cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/a32-tools:/code/puppet:/code/puppet-forge' },
+-- }))
 lspconfig.diagnosticls.setup(config({
   filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'puppet', 'groovy', 'Jenkinsfile', 'yaml' },
   init_options = {
