@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 # Dev libs
+gem 'erb_lint'
 gem 'ast'
 gem 'httparty'
 gem 'rake'
