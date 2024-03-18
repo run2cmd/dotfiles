@@ -1,8 +1,3 @@
---
--- Name: Bugi Neovim
--- Original Author: Piotr Bugała <piotr.bugala@gmail.com> <https://github.com/run2cmd/dotfiles>
--- License: The Vim License (this command will show it: ':help copyright')
---
 require('run2cmd.vimset')
 require('run2cmd.helper-functions')
 require('run2cmd.plugins')
@@ -16,6 +11,5 @@ require('run2cmd.autochdir')
 require('run2cmd.autosave')
 require('run2cmd.travel')
 
--- Enable debug mode
---vim.o.verbose = 20
---vim.o.verbosefile = '/home/pbugala/vim.log'
+-- vim.o.verbose = 20
+-- vim.o.verbosefile = '/home/pbugala/vim.log'

@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install and/or update required dependencies for other tools.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 

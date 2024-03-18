@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install Sdkman and tools.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 
@@ -19,10 +17,8 @@ sdk install java 11.0.12-open
 sdk install groovy 2.4.12
 sdk install maven && sdk install gradle
 
-# Update certificates
 ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/current/lib/security/cacerts
 
-# Add npm-groovy-lint starter rule set
 mkdir -p ${HOME}/.config/codenarc
 wget -q -O ${HOME}/.config/codenarc/StarterRuleSet-AllRules.groovy https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
 

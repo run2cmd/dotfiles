@@ -1,18 +1,11 @@
 require("paq") {
-  -- libs
   { 'nvim-lua/plenary.nvim' },
-
-  -- Plugin manager
   { "savq/paq-nvim" },
-
-  -- Movement
   { 'andymass/vim-matchup' },
 
-  -- File manager
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 
-  -- Auto completion and auto edit
   { 'neovim/nvim-lspconfig' },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },
@@ -27,7 +20,6 @@ require("paq") {
   { 'numToStr/Comment.nvim' },
   { 'mcauley-penney/tidy.nvim' },
 
-  -- Syntax highlight
   { 'nvim-treesitter/nvim-treesitter' },
   { 'RRethy/nvim-treesitter-endwise' },
   { 'windwp/nvim-ts-autotag' },
@@ -35,16 +27,12 @@ require("paq") {
   { 'martinda/Jenkinsfile-vim-syntax' },
   { 'aklt/plantuml-syntax' },
 
-  -- Git support
   { 'tpope/vim-fugitive' },
   { 'lewis6991/gitsigns.nvim' },
   { 'sindrets/diffview.nvim' },
 
-  -- Looks
   { 'marko-cerovac/material.nvim' },
   { 'nvimdev/indentmini.nvim' },
-
-  -- Fun stuff
   { 'goolord/alpha-nvim' },
   { 'ThePrimeagen/vim-be-good' },
 }

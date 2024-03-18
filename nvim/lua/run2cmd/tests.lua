@@ -1,32 +1,19 @@
---
--- Tests plugin
---
 local helpers = require('run2cmd.helper-functions')
 local mapkey = vim.keymap.set
 local cmd = vim.api.nvim_create_user_command
 local ruby_env = 'source ~/.rvm/scripts/rvm && rvm use'
 
---
--- Run terminal command.
--- Will keep only single buffer per tab for all terminal commands closing previous buffer before launching new one.
---
--- @param params String of terminal command to run
---
--- @return open terminal window with params command output
---
 local function run_term_cmd(params)
   if params == nil or params == '' then
     print('Missing terminal command to run')
   end
 
-  -- Support vim builtin expand
   local expand_match_string = '%%[^ ]*'
   local expand_string = string.match(params, expand_match_string)
   local command = string.gsub(params, expand_match_string, vim.fn.expand(expand_string))
   local pstring = command .. ' '
   local cwd = vim.fn.getcwd()
 
-  -- Set per project last terminal test
   local expand_filepath = vim.fn.expand(pstring:gsub('(.*) (%%.*) (.*)', '%2'))
   local temp_last_table = vim.g.last_terminal_test
   temp_last_table[cwd] = pstring:gsub('(.*) (%%.*) (.*)', '%1 ' .. expand_filepath .. ' %3')
@@ -54,7 +41,6 @@ local function run_term_cmd(params)
   vim.fn.termopen(command)
   vim.cmd('normal G')
 
-  -- Set per project terminal buffer to use
   local temp_buf_table = vim.g.terminal_window_buffer_number
   temp_buf_table[cwd] = vim.api.nvim_get_current_buf()
   vim.g.terminal_window_buffer_number = temp_buf_table
@@ -139,13 +125,6 @@ local test_tbl = {
   },
 }
 
---
--- Find and parse test data.
---
--- @param setter filename pattern to compare against test_tbl.
---
--- @return { cmd = String, err = String, proj = String, prep = String }
---
 local function find_test(setter)
   local data = {}
 
@@ -174,7 +153,6 @@ local function find_test(setter)
   return data
 end
 
--- Run current file test
 local function run_file()
   local test_data = helpers.merge(find_test(vim.bo.filetype), find_test(vim.fn.expand('%:t')))
   if test_data.cmd then
@@ -185,7 +163,6 @@ local function run_file()
   end
 end
 
--- Run project test
 local function run_project()
   local test_data = find_test('project')
   if test_data.proj then
@@ -196,18 +173,15 @@ local function run_project()
   end
 end
 
--- Rerun last test
 local function run_last()
   local cwd = vim.fn.getcwd()
   run_term_cmd(vim.g.last_terminal_test[cwd])
 end
 
---- Find errors in test window
 local function find_errors()
   vim.cmd('/' .. vim.g.term_error_serach_string)
 end
 
--- Run project preparation steps
 local function run_setup()
   local test_data = find_test('project')
   if test_data.prep then
@@ -218,21 +192,18 @@ local function run_setup()
   end
 end
 
--- Easy mappings for for running tests. Got used to vim-dispatch in past so use them.
 mapkey('n', '`f', run_file)
 mapkey('n', '`t', run_project)
 mapkey('n', '`l', run_last)
 mapkey('n', '`s', run_setup)
 mapkey('n', '`e', find_errors)
 
--- Easy r10k support based on git branch
 mapkey('n', '<leader>rk',
   function(_)
     run_term_cmd('ir10k')
   end
 )
 
--- Terminal command support
 cmd('Terminal',
   function(params)
     run_term_cmd(params.args)

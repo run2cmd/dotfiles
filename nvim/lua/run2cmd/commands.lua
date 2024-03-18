@@ -1,11 +1,7 @@
---
--- Custom commands
---
 local cmd = vim.api.nvim_create_user_command
 
 cmd('Config', ':e ~/dotfiles/README.md', {})
 
--- Run call to https://cht.sh with provided artuments
 cmd('Doc',
   function(params)
     local buffer = vim.t.doc_window_buffer

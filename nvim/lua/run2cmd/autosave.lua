@@ -1,9 +1,3 @@
---
--- Custom Auto Save
---
--- Automatically write buffer after switch form insert to normal mode
--- Won't run for excluded buffers like nofile, trminal, gitcommit
---
 local helpers = require('run2cmd.helper-functions')
 
 local autocmds = {

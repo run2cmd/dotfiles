@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Update operating system and install required tools.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 

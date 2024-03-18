@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install NeoVim
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 toolsdir=${HOME}/tools

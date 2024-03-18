@@ -1,6 +1,3 @@
---
--- Status line
---
 local helpers = require('run2cmd.helper-functions')
 
 vim.o.cmdheight = 2

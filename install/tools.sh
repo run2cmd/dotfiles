@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Update tools for development.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 tools_dir=${HOME}/tools
 source ${libdir}/lib.sh
@@ -17,7 +15,7 @@ if ! (hadolint --version | grep -q "${hadolint_version//v/}") ;then
   chmod +x ${HOME}/bin/hadolint
 fi
 
-#task "Update k9s"
+task "Update k9s"
 k9s_data="$(git_data https://api.github.com/repos/derailed/k9s/releases/latest)"
 k9s_version="$(git_version "${k9s_data}")"
 k9s_url="$(git_url "${k9s_data}" k9s_Linux_amd64.tar.gz)"

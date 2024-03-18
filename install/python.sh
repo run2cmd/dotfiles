@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install Python
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 

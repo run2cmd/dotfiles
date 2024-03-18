@@ -8,7 +8,6 @@ require('material').setup({
   custom_highlights = {
     String = { fg = colors.main.darkgreen },
     ['@keyword.function.ruby'] = { fg = colors.main.darkred },
-    --PuppetName = { fg = '#56b6c2' },
     DiagnosticUnderlineError = { underline = false },
     DiagnosticUnderlineWarn = { underline = false },
     DiagnosticUnderlineInfo = { underline = false },

@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install Ruby
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 
@@ -22,13 +20,11 @@ source "${HOME}/.rvm/scripts/rvm"
 rvm get stable
 rvm autolibs enable
 
-# Older ruby versions requires old OpenSSL
 # shellcheck disable=SC2154
 if [ ! -e ${rvm_path}/usr/bin/openssl ] ;then
   rvm pkg install openssl
 fi
 
-# Add proper certificates for older OpenSSL
 if [ ! -L "${rvm_path}/usr/ssl" ] ;then
   mv ${rvm_path}/usr/ssl ${rvm_path}/usr/ssl_orig
   ln -s /usr/lib/ssl ${rvm_path}/usr/ssl

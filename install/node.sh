@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Install NodeJs and tools.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 

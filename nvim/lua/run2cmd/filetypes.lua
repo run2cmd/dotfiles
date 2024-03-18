@@ -1,6 +1,5 @@
 local addtype = vim.filetype.add
 
--- Set Jenkinsfile filetype before all other code execution.
 addtype({
   pattern = {
     ['.*.groovy'] = function(_, bufnr)
@@ -16,16 +15,13 @@ addtype({
   },
 })
 
--- Add notes
 addtype({ extension = { note = 'note' } })
 
--- Terraform support
 addtype({ extension = { tf = 'hcl' } })
 addtype({ extension = { tfvars = 'hcl' } })
 addtype({ extension = { terraformrc = 'hcl' } })
 addtype({ extension = { tfstate = 'json' } })
 
--- Ansible support
 local function set_yaml(bufnr)
   local content = vim.api.nvim_buf_get_lines(bufnr, 1, 10, false)
   local filename = vim.api.nvim_buf_get_name(bufnr)
@@ -54,7 +50,6 @@ addtype({
   },
 })
 
--- Advanced Gemfile
 addtype({
   pattern = {
     ['Gemfile.*'] = function(_, _)

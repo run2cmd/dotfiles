@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Run installation and stup of the project.
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 
 ln -snf ${libdir}/install.sh ${HOME}/bin/dotfiles-update

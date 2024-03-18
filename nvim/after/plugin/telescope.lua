@@ -7,33 +7,18 @@ local builtin = require('telescope.builtin')
 local action_state = require('telescope.actions.state')
 local mapkey = vim.keymap.set
 
---
--- Get Telescope selection from picker list. Only single selection support
---
--- @param buffer Prompt buffer from telescope picker.
---
 local function get_selection(buffer)
   local table = action_state.get_selected_entry(buffer)
   local path = table[1]
   return path
 end
 
---
--- Open new telescope.find_files picker given selection as directory path.
---
--- @param buffer Prompt buffer from telescope picker.
---
 local function open_project(buffer)
   local dir_path = get_selection(buffer)
   actions.close(buffer)
   builtin.find_files({ cwd = string.gsub(dir_path, '/$', '') })
 end
 
---
--- Open Telescope selection in new float window and uses ESC for :q.
---
--- @param buffer Prompt buffer from telescope picker.
---
 local function open_float(buffer)
   local file_path = get_selection(buffer)
   actions.close(buffer)
@@ -41,21 +26,12 @@ local function open_float(buffer)
   helper.float_buffer(file_path, opts)
 end
 
---
--- Open Telescope selection in current window
---
--- @param buffer Prompt buffer from telescope picker.
---
 local function open_buffer(buffer)
   local file_path = get_selection(buffer)
   actions.close(buffer)
   vim.cmd.edit(file_path)
 end
 
---
--- List all project directories and open new find_files() for chosen one.
--- This speeds up moving around projects.
---
 local function find_projects()
   pickers
     .new({}, {
@@ -71,9 +47,6 @@ local function find_projects()
     :find()
 end
 
---
--- Setup notes support with telescope
---
 local function find_notes()
   pickers
     .new({}, {
@@ -132,10 +105,7 @@ require('telescope').setup({
 })
 require('telescope').load_extension('fzf')
 
--- Register support
 mapkey('n', '<leader>p', builtin.registers)
-
--- Move around projects
 mapkey('n', '<C-p>', builtin.find_files)
 mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)
@@ -145,8 +115,6 @@ mapkey('n', '<C-s>',
   end
 )
 mapkey('n', '<C-n>', find_notes)
-
--- Search text in project
 mapkey('n', '<leader>sw', builtin.grep_string)
 mapkey('n', '<leader>sl', builtin.live_grep)
 mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)

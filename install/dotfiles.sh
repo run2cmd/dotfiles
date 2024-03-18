@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# Setup dotfiles
-#
+
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
 #shellcheck disable=SC2046

@@ -35,10 +35,8 @@ cmp.setup({
   },
 })
 
--- Cmp Auto pairs integration
 cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
 
--- Setup lsp_status
 lsp_status.register_progress()
 lsp_status.config({
   status_symbol = '',
@@ -51,14 +49,8 @@ lsp_status.config({
   show_filename = false,
 })
 
--- Overwrite default tag jump to use LSP definitions and then fall back to tags
 vim.o.tagfunc = 'v:lua.vim.lsp.tagfunc'
 
---
--- Default lsp configuration for each server
---
--- @param _config Additional configuration passed to lspconfig.[server_name].setup
---
 local function config(_config)
   return vim.tbl_deep_extend('force', {
     capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
@@ -158,7 +150,6 @@ lspconfig.yamlls.setup(config({
   },
 }))
 lspconfig.solargraph.setup(config({
-  -- Run solargraph per RVM env
   cmd = { 'sgraph' },
 }))
 lspconfig.diagnosticls.setup(config({
@@ -267,11 +258,7 @@ lspconfig.diagnosticls.setup(config({
     },
   },
 }))
--- Debug
--- vim.lsp.set_log_level('debug')
 
--- Workaround for broken goto definition with puppet-editor-services
--- See https://github.com/puppetlabs/puppet-editor-services/issues/337 for details.
 local puppet_tags_file = vim.env.HOME .. '/.config/nvim/tags/puppet'
 helpers.create_autocmds({
   puppet_lsp = {
@@ -291,7 +278,6 @@ vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
   vim.cmd('!ctags -R -o ' .. puppet_tags_file .. ' --languages=PuppetManifest --exclude=fixtures /code')
 end, {})
 
--- Since groovy LSP was not working properly I switched to tags
 local function groovy_tags_file()
   return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/groovy'
 end
@@ -312,3 +298,5 @@ vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
   vim.cmd('!mkdir -p ' .. vim.fs.dirname(groovy_tags_file()))
   vim.cmd('!ctags -R -o ' .. groovy_tags_file() .. ' --languages=groovy ' .. vim.uv.cwd())
 end, {})
+
+-- vim.lsp.set_log_level('debug')
