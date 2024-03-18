@@ -60,16 +60,6 @@ if ! (grep -q "${md_version}" ${HOME}/tools/marksman.version) ;then
   chmod +x ${HOME}/bin/marksman
 fi
 
-task "Update puppet editor services (LSP)"
-puppet_dir=${tools_dir}/puppet-editor-services
-git_clone https://github.com/puppetlabs/puppet-editor-services.git $puppet_dir
-if [ "$(git_check_update ${puppet_dir} Gemfile.lock)" == "1" ] ;then
-  git -C ${puppet_dir} pull
-  bundle install --gemfile=${puppet_dir}/Gemfile
-  bundle exec rake -f ${puppet_dir}/Rakefile gem_revendor
-  ln -snf ${puppet_dir}/puppet-languageserver ~/bin/puppet-languageserver
-fi
-
 task "Update Lua Language Server"
 lua_data="$(git_data https://api.github.com/repos/LuaLS/lua-language-server/releases/latest)"
 lua_version="$(git_version "${lua_data}")"
