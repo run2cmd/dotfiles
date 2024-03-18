@@ -1,0 +1,9 @@
+---
+EnableDefaultLinters: true
+linters:
+  FinalNewLine:
+    enabled: false
+  ErbSafety:
+    enabled: true
+  Rubocop:
+    enabled: true

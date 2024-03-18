@@ -206,17 +206,18 @@ lspconfig.diagnosticls.setup(config({
           },
         },
       },
-      erblint = {
-        sourceName = 'erblint',
-        command = 'erblint',
-        args = { '--format', 'json', '%relativepath' },
-        parseJson = {
-          errorsRoot = 'files[0].offenses',
-          line = 'location.start_line',
-          endLine = 'location.last_line',
-          column = 'location.start_column',
-          endColumn = 'location.last_column',
-          message = '[erblint] ${linter} ${message}',
+      erb = {
+        sourceName = 'erb',
+        command = 'erbvalidate',
+        args = { '%relativepath' },
+        isStderr = true,
+        formatLines = 1,
+        formatPattern = {
+          '^-:(\\d+):(.*)$',
+          {
+            line = 1,
+            message = { '[erb]', 2 },
+          },
         },
       },
       groovylint = {
@@ -242,7 +243,7 @@ lspconfig.diagnosticls.setup(config({
     },
     filetypes = {
       xml = 'xmllint',
-      eruby = 'erblint',
+      eruby = 'erb',
       markdown = 'mdl',
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
