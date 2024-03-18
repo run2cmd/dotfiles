@@ -17,7 +17,8 @@ mapkey('n', '<leader>tn', ':tabnext<CR>')
 mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
 -- Terminal helper to open terminal window on right side.
-mapkey('n', '<leader>c', ':rightb vsplit term://bash<CR>i<CR>')
+--mapkey('n', '<leader>c', ':rightb vsplit term://bash<CR>i<CR>')
+mapkey('n', '<leader>c', '<cmd>silent !tmux split && tmux resize-pane -D 10<CR>')
 
 -- Remap wildmenu navigation
 mapkey('c', '<C-k>', '<Up>')
