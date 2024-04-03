@@ -4,61 +4,52 @@ local mapkey = vim.keymap.set
 local travel_marks = {
   puppet = {
     {
-      path = 'manifests',
-      pattern = '%.pp',
-      setto = '_spec.rb',
+      path_include = 'manifests',
+      replace = {
+        { pattern = '%.pp', set_to = '_spec.rb' },
+        { pattern = 'manifests', set_to = 'spec/classes' }
+      }
     },
     {
-      path = 'manifests',
-      condition = '^class',
-      setto = 'spec/classes',
-    },
-    {
-      path = 'manifests',
-      condition = '^define',
-      setto = 'spec/defines',
-    },
+      path_include = 'manifests',
+      replace = {
+        { pattern = '%.pp', set_to = '_spec.rb' },
+        { pattern = 'manifests', set_to = 'spec/defines' }
+      }
+    }
   },
   groovy = {
     {
-      path = 'src/main',
-      pattern = '%.groovy',
-      setto = 'Test.groovy',
+      path_include = 'src/main',
+      replace = {
+        { pattern = '%.groovy', set_to = 'Test.groovy' },
+        { pattern = 'src/main', set_to = 'src/test' }
+      }
     },
     {
-      path = 'src/main',
-      setto = 'src/test',
-    },
-    {
-      path = 'src/test',
-      pattern = 'Test%.groovy',
-      setto = '.groovy',
-    },
-    {
-      path = 'src/test',
-      setto = 'src/main',
-    },
+      path_include = 'src/test',
+      replace = {
+        { pattern = 'Test%.groovy', set_to = '.groovy' },
+        { path = 'src/test', set_to = 'src/main' }
+      }
+    }
   },
   ruby = {
     {
-      path = 'spec/classes',
-      pattern = '_spec%.rb',
-      setto = '.pp',
+      path_include = 'spec/classes',
+      replace = {
+        { pattern = '_spec%.rb', set_to = '.pp' },
+        { pattern = 'spec/classes', set_to = 'manifests' }
+      }
     },
     {
-      path = 'spec/defines',
-      pattern = '_spec%.rb',
-      setto = '.pp',
-    },
-    {
-      path = 'spec/classes',
-      setto = 'manifests',
-    },
-    {
-      path = 'spec/defines',
-      setto = 'manifests',
-    },
-  },
+      path_include = 'spec/defines',
+      replace = {
+        { pattern = '_spec%.rb', set_to = '.pp' },
+        { pattern = 'spec/defines', set_to = 'manifests' }
+      }
+    }
+  }
 }
 
 local function travel()
@@ -70,24 +61,17 @@ local function travel()
   local path = vim.api.nvim_buf_get_name(0)
   local altpath = path
 
-  for _, v in ipairs(mark) do
-    if not v.pattern then
-      v.pattern = v.path
-    end
-    if string.match(path, v.path) then
-      if v.condition then
-        if helpers.buf_string_match(0, v.condition, 300) then
-          altpath = string.gsub(altpath, v.pattern, v.setto)
-        end
-      else
-        altpath = string.gsub(altpath, v.pattern, v.setto)
+  for _, mark_item in ipairs(mark) do
+    if string.match(path, mark_item.path_include) then
+      for _, rule in ipairs(mark_item.replace) do
+        altpath = string.gsub(altpath, rule.pattern, rule.set_to)
+      end
+      if helpers.file_exists(altpath) and not string.match(path, altpath) then
+        vim.cmd(':e ' .. altpath)
+        break
       end
     end
   end
-
-  if helpers.file_exists(altpath) and not string.match(path, altpath) then
-    vim.cmd(':e ' .. altpath)
-  end
 end
 
-mapkey('n', '<leader>t', travel)
+mapkey('n', '<leader>tt', travel)
