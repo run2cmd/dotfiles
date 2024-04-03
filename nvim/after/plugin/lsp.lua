@@ -117,7 +117,6 @@ lspconfig.ansiblels.setup(config({
       ansible = {
         useFullyQualifiedCollectionNames = false,
       },
-      -- Run ansible-lint with python env
       python = {
         interpreterPath = 'pyenv',
       },
@@ -134,7 +133,6 @@ lspconfig.helm_ls.setup(config())
 lspconfig.yamlls.setup(config({
   settings = {
     yaml = {
-      -- Schemas to support ICHA
       schemas = {
         ['schemas/conf/ansible.json'] = 'conf/ansible.yaml',
         ['schemas/conf/jenkins/endpoints.json'] = 'conf/jenkins/endpoints.yaml',
@@ -231,6 +229,26 @@ lspconfig.diagnosticls.setup(config({
           ['3'] = 'info',
         },
       },
+      puppetlint = {
+        sourceName = 'puppetlint',
+        command = 'puppet-lint',
+        args = { '%relativepath', '-c', vim.env.HOME .. '/.puppet-lint.rc', '--relative', '--log-format', '%{kind} %{line}:%{column} %{message}' },
+        rootPatterns = { '.git' },
+        formatLines = 1,
+        formatPattern = {
+          '(.*) (\\d+):(\\d+) (.*)',
+          {
+            security = 1,
+            line = 2,
+            column = 3,
+            message = { '[puppetlint] ', 4 }
+          },
+        },
+        securities = {
+          error = 'error',
+          warning = 'warning'
+        }
+      },
     },
     filetypes = {
       xml = 'xmllint',
@@ -239,6 +257,7 @@ lspconfig.diagnosticls.setup(config({
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
       yaml = 'yamllint',
+      puppet = 'puppetlint',
     },
     formatters = {
       stylua = {
