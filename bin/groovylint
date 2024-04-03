@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Use project rules if available
 config="$(pwd)/build/codenarc.groovy"
 if [ -e $config ] ;then
   ruleset=file:./build/codenarc.groovy

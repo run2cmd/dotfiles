@@ -13,19 +13,13 @@ end
 
 function Status_line()
   return table.concat({
-    '[',
-    helpers.cmd_output('test -d .git && git branch --show-current'),
-    ']',
-    '[',
-    helpers.cmd_output('test -d .git && git describe --tags --always'),
-    ']',
+    '[', helpers.cmd_output('test -d .git && git branch --show-current'), ']',
+    '[', helpers.cmd_output('test -d .git && git describe --tags --always'), ']',
     ' %F',
     ' %y[%{&ff}]',
     '[%{strlen(&fenc)?&fenc:&enc}a]',
     ' %h%m%r%w',
-    '[',
-    get_lsp_status(),
-    ']',
+    '[', get_lsp_status(), ']',
   })
 end
 vim.o.statusline = "%!luaeval('Status_line()')"
