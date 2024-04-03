@@ -68,8 +68,7 @@ I use language version managers:
 - [pyenv](https://github.com/pyenv/pyenv)
 
 For browsing I use [Vieb](https://vieb.dev/) because I love speed and easy of
-using Vim keybindings. [WezTerm](https://wezfurlong.org/wezterm/index.html) as
-terminal on Windows however [tmux](https://github.com/tmux/tmux) as
+using Vim keybindings. Windows terminal and [tmux](https://github.com/tmux/tmux) as
 multiplexer.
 
 ## Neovim
@@ -88,7 +87,7 @@ possible. Here are some core features:
 - Disable arrow keys. We go pure Vim hardcode mode.
 - Custom keybindings:
     - `<c-l>` - Clear search and update diff.
-    - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code)
+    - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code) in tmux window
     - `<leader>tn`, `<leader>tp` - move to next or previous tab.
     - `<leader>to` - open new tab with Alpha.
     - `<leader>c` - open terminal.

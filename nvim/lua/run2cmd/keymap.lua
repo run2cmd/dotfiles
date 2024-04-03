@@ -10,7 +10,7 @@ mapkey('n', '<Right>', '')
 mapkey('n', '<leader>tn', ':tabnext<CR>')
 mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
-mapkey('n', '<leader>c', '<cmd>silent !tmux split && tmux resize-pane -D 10<CR>')
+mapkey('n', '<leader>c', '<cmd>silent !tmux split && tmux resize-pane -D 14<CR>')
 
 mapkey('c', '<C-k>', '<Up>')
 mapkey('c', '<C-j>', '<Down>')
@@ -29,6 +29,3 @@ mapkey('n', '[q', ':cprev<CR>')
 
 mapkey('n', ']l', ':lnext<CR>')
 mapkey('n', '[l', ':lprev<CR>')
-
-mapkey('n', '<C-u>', '<C-u>zz')
-mapkey('n', '<C-d>', '<C-d>zz')
