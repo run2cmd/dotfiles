@@ -58,6 +58,16 @@ if ! (grep -q "${md_version}" ${HOME}/tools/marksman.version) ;then
   chmod +x ${HOME}/bin/marksman
 fi
 
+task "Update puppet editor services (LSP)"
+puppet_dir=${tools_dir}/puppet-editor-services
+git_clone https://github.com/puppetlabs/puppet-editor-services.git $puppet_dir
+if [ "$(git_check_update ${puppet_dir} Gemfile.lock)" == "1" ] ;then
+  git -C ${puppet_dir} pull
+  bundle install --gemfile=${puppet_dir}/Gemfile
+  bundle exec rake -f ${puppet_dir}/Rakefile gem_revendor
+  ln -snf ${puppet_dir}/puppet-languageserver ~/bin/puppet-languageserver
+fi
+
 task "Update Lua Language Server"
 lua_data="$(git_data https://api.github.com/repos/LuaLS/lua-language-server/releases/latest)"
 lua_version="$(git_version "${lua_data}")"
@@ -69,4 +79,13 @@ if ! (luals.sh --version | grep -q "${lua_version}") ;then
   tar -xf /tmp/luals.tar.gz -C $lua_dir \
     && echo "exec \"${lua_dir}/bin/lua-language-server\" \"\$@\"" > ~/bin/luals.sh \
     && chmod +x ~/bin/luals.sh
+fi
+
+task "Update lemminx (XML LSP)"
+lemminx_bin=${HOME}/bin/lemminx
+lemminx_sha_match="$(match_sha256sum https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.sha256 ${lemminx_bin})"
+if [ -e ${lemminx_bin} ] || [ ${lemminx_sha_match} == 'no-match' ] ;then
+  wget -q -O /tmp/lemminx.zip https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.zip
+  unzip -q /tmp/lemminx.zip -d /tmp/
+  mv -f /tmp/lemminx-linux ${lemminx_bin}
 fi
