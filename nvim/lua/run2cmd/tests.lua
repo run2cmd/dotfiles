@@ -76,39 +76,14 @@ local test_tbl = {
   },
 }
 
-local function open_tmux()
-  vim.cmd('silent !tmux split && tmux resize-pane -D 14')
-end
-
-local function tmux_id()
-  local id = '0'
-  local panes = vim.api.nvim_exec2(
-    '!tmux list-panes -F "\\#D" ' ..
-    '-f "\\#{m:bottom,\\#{?pane_at_bottom,bottom,}}" '..
-    '-f "\\#{?\\#{m:nvim,\\#{pane_current_command}},0,1}"',
-    { output = true }
-  )
-  for pane_id in string.gmatch(panes.output, "[^\r\n]+") do
-    if string.match(pane_id, "^%%") then
-      id = pane_id
-    end
-  end
-  return id
-end
-
-local function tmux_cmd(id, cmd)
-  vim.cmd(string.format('silent !tmux send -t \\%s -X cancel', id))
-  vim.cmd(string.format('!tmux send -t \\%s "%s" ENTER', id, cmd))
-end
-
 local function run_test(cmd)
-  if tmux_id() == '0' then
-    open_tmux()
+  if helpers.tmux_id() == '0' then
+    helpers.open_tmux()
   end
-  local id = tmux_id()
-  tmux_cmd(id, 'cd ' .. vim.fn.getcwd())
-  tmux_cmd(id, 'clear')
-  tmux_cmd(id, cmd)
+  local id = helpers.tmux_id()
+  helpers.tmux_cmd(id, 'cd ' .. vim.fn.getcwd())
+  helpers.tmux_cmd(id, 'clear')
+  helpers.tmux_cmd(id, cmd)
 end
 
 local function find_test()
@@ -130,7 +105,7 @@ end
 local function run_file()
   local data = test_tbl[vim.bo.filetype]
   if data then
-    cmd = data.command
+    local cmd = data.command
     for _, alt in ipairs(data.alternative) do
       if string.match(vim.fn.expand('%:t'), alt.pattern) then
         cmd = alt.command
