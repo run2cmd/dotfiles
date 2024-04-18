@@ -30,8 +30,6 @@ vim.o.smartcase = true
 vim.o.cindent = true
 vim.o.wildignore = '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 
-vim.o.omnifunc = 'syntaxcomplete#Complete'
-
 vim.o.diffopt = vim.o.diffopt .. ',vertical,followwrap'
 
 vim.o.formatoptions = vim.o.formatoptions .. 'jnM'

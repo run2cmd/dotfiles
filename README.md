@@ -67,10 +67,6 @@ I use language version managers:
 - [sdkman](https://sdkman.io/)
 - [pyenv](https://github.com/pyenv/pyenv)
 
-For browsing I use [Vieb](https://vieb.dev/) because I love speed and easy of
-using Vim keybindings. Windows terminal and [tmux](https://github.com/tmux/tmux) as
-multiplexer.
-
 ## Neovim
 
 I use my own VIM workflow. I like it to be easy and as much automated as
@@ -87,10 +83,10 @@ possible. Here are some core features:
 - Disable arrow keys. We go pure Vim hardcode mode.
 - Custom keybindings:
     - `<c-l>` - Clear search and update diff.
-    - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code) in tmux window
+    - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code) (See [tests](#tests) section).
     - `<leader>tn`, `<leader>tp` - move to next or previous tab.
     - `<leader>to` - open new tab with Alpha.
-    - `<leader>c` - open terminal.
+    - `<leader>c` - open tmux pane in bottom of the screen and enter buffer root directory(based on autochdir). If pane is already open will only change directory to root directory for buffer.
     - `<leader>f` - Copy open file file path.
     - `<leader>y` - In visual mode copy text to windows clipboard.
     - `<C-w>t` - Easy leave terminal insert mode.
@@ -102,10 +98,8 @@ possible. Here are some core features:
     - `<leader>p` - Register list.
     - `<C-n>` - Open notes file TODO.
     Work with projects:
-    - ``t` - Run tests for entire project like gradle, maven rake.
-    - ``l` - Repeat last run tests regardless of open buffer.
-    - ``e` - In terminal window will search for failed tests.
-    - ``s` - Run project setup. This will get dependencies and other things required for projects to setup.
+    - ``t` - Run tests for entire project like gradle, maven rake (See [tests](#tests) section).
+    - ``l` - Repeat last run tests regardless of open buffer (See [tests](#tests) section).
     - `<leader>rk` - Run r10k in terminal (support for Puppet)
     - `<leader>sw` - Search for word under cursor in current project.
     - `<leader>sl` - Live search in current project.
@@ -144,13 +138,14 @@ possible. Here are some core features:
 
 ### Tests
 
-I use my own easy test implementation to run in terminal window. Following are goals for this:
+I use my own easy test implementation to run in new tmux pane placed in bottom of the screen. Following are goals for this:
 
 - Support for both projects and files tests.
 - Be able to run test for project, file, or setup to prepare environment.
 - Tests needs to run per project based on autochdir and root markers like `.git`, `.svn`.
 - Single test window per project. Running new test against project will close previous test window and open new one.
 - Be able to run test for different projects/files in separate windows.
+- Ruse same tmux pane.
 
 ## Docker Desktop
 
