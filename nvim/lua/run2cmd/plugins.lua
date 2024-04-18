@@ -34,5 +34,4 @@ require("paq") {
   { 'marko-cerovac/material.nvim' },
   { 'nvimdev/indentmini.nvim' },
   { 'goolord/alpha-nvim' },
-  { 'ThePrimeagen/vim-be-good' },
 }
