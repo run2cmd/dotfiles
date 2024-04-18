@@ -49,8 +49,6 @@ lsp_status.config({
   show_filename = false,
 })
 
-vim.o.tagfunc = 'v:lua.vim.lsp.tagfunc'
-
 local function config(_config)
   return vim.tbl_deep_extend('force', {
     capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
@@ -60,8 +58,9 @@ local function config(_config)
       mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
       mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
       mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
-      mapkey('n', '[d', vim.diagnostic.goto_next, opts)
-      mapkey('n', ']d', vim.diagnostic.goto_prev, opts)
+      mapkey('n', ']d', vim.diagnostic.goto_next, opts)
+      mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
+      --mapkey('n', '<space>q', vim.diagnostic.setloclist)
     end,
   }, _config or {})
 end
@@ -129,10 +128,15 @@ lspconfig.ansiblels.setup(config({
     },
   },
 }))
+lspconfig.puppet.setup(config())
 lspconfig.helm_ls.setup(config())
 lspconfig.yamlls.setup(config({
   settings = {
     yaml = {
+      format = { enable = true },
+      validate = true,
+      hoover = true,
+      completion = true,
       schemas = {
         ['schemas/conf/ansible.json'] = 'conf/ansible.yaml',
         ['schemas/conf/jenkins/endpoints.json'] = 'conf/jenkins/endpoints.yaml',
@@ -150,8 +154,9 @@ lspconfig.yamlls.setup(config({
 lspconfig.solargraph.setup(config({
   cmd = { 'sgraph' },
 }))
+lspconfig.lemminx.setup(config())
 lspconfig.diagnosticls.setup(config({
-  filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'puppet', 'groovy', 'Jenkinsfile', 'yaml' },
+  filetypes = { 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
   init_options = {
     linters = {
       mdl = {
@@ -161,38 +166,6 @@ lspconfig.diagnosticls.setup(config({
         parseJson = {
           line = 'line',
           message = '[mdl] ${rule} ${description}',
-        },
-      },
-      yamllint = {
-        sourceName = 'yamllint',
-        command = 'yamllint',
-        args = { '-f', 'parsable', '%filepath' },
-        formatPattern = {
-          [[^.*:(\d+):(\d+): \[(\w+)\] (.*)$]],
-          {
-            line = 1,
-            column = 2,
-            security = 3,
-            message = { '[yamllint] ', 4 }
-          }
-        },
-        securities = {
-          warning = 'warning',
-          error = 'error'
-        }
-      },
-      xmllint = {
-        sourceName = 'xmllint',
-        command = 'xmllint',
-        args = { '--noout', '-' },
-        isStderr = true,
-        formatLines = 1,
-        formatPattern = {
-          '^[^:]+:(\\d+):(.*)$',
-          {
-            line = 1,
-            message = { '[xmllint]', 2 },
-          },
         },
       },
       erb = {
@@ -229,35 +202,12 @@ lspconfig.diagnosticls.setup(config({
           ['3'] = 'info',
         },
       },
-      puppetlint = {
-        sourceName = 'puppetlint',
-        command = 'puppet-lint',
-        args = { '%relativepath', '-c', vim.env.HOME .. '/.puppet-lint.rc', '--relative', '--log-format', '%{kind} %{line}:%{column} %{message}' },
-        rootPatterns = { '.git' },
-        formatLines = 1,
-        formatPattern = {
-          '(.*) (\\d+):(\\d+) (.*)',
-          {
-            security = 1,
-            line = 2,
-            column = 3,
-            message = { '[puppetlint] ', 4 }
-          },
-        },
-        securities = {
-          error = 'error',
-          warning = 'warning'
-        }
-      },
     },
     filetypes = {
-      xml = 'xmllint',
       eruby = 'erb',
       markdown = 'mdl',
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
-      yaml = 'yamllint',
-      puppet = 'puppetlint',
     },
     formatters = {
       stylua = {
@@ -265,15 +215,9 @@ lspconfig.diagnosticls.setup(config({
         args = { '--color', 'Never', '-' },
         rootPatterns = { '.git' },
       },
-      puppetlint = {
-        command = 'puppet-lint',
-        doesWriteToFile = true,
-        args = { '-f', '%file' },
-      },
     },
     formatFiletypes = {
       lua = 'stylua',
-      puppet = 'puppetlint',
     },
   },
 }))
@@ -294,7 +238,7 @@ helpers.create_autocmds({
 })
 vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
   vim.cmd('!mkdir -p ' .. vim.fs.dirname(puppet_tags_file))
-  vim.cmd('!ctags -R -o ' .. puppet_tags_file .. ' --languages=PuppetManifest --exclude=fixtures /code')
+  vim.cmd('!ctags -R -o ' .. puppet_tags_file .. ' --languages=PuppetManifest --exclude=fixtures /code/igt-LotteryServiceDevops')
 end, {})
 
 local function groovy_tags_file()

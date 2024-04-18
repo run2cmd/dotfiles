@@ -1,3 +1,5 @@
+local mapkey = vim.keymap.set
+
 require('gitsigns').setup({
   signs = {
     add = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
@@ -7,3 +9,6 @@ require('gitsigns').setup({
     changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
   },
 })
+
+mapkey('n', ']c', ':Gitsigns next_hunk<CR>')
+mapkey('n', '[c', ':Gitsigns prev_hunk<CR>')
