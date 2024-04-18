@@ -59,9 +59,9 @@ local function travel()
   end
 
   local path = vim.api.nvim_buf_get_name(0)
-  local altpath = path
 
   for _, mark_item in ipairs(mark) do
+    local altpath = path
     if string.match(path, mark_item.path_include) then
       for _, rule in ipairs(mark_item.replace) do
         altpath = string.gsub(altpath, rule.pattern, rule.set_to)
@@ -74,4 +74,4 @@ local function travel()
   end
 end
 
-mapkey('n', '<leader>tt', travel)
+mapkey('n', '<leader>m', travel)
