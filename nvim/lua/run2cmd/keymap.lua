@@ -49,9 +49,7 @@ mapkey('n', '<leader>f', ":let @+=expand('%:p')<CR>")
 
 mapkey('v', '<leader>y', "\"+y :call system('clip.exe', @+)<CR><CR>")
 
-mapkey('t', '<C-w>t', '<C-\\><C-N>')
-
-mapkey('n', '<leader>qo', ':ccopen<CR>')
+mapkey('n', '<leader>qo', ':copen<CR>')
 mapkey('n', '<leader>qc', ':cclose<CR>')
 
 mapkey('n', ']q', ':cnext<CR>')
