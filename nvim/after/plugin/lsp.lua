@@ -128,7 +128,9 @@ lspconfig.ansiblels.setup(config({
     },
   },
 }))
-lspconfig.puppet.setup(config())
+lspconfig.puppet.setup(config({
+  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/igt-LotteryServiceDevops' },
+}))
 lspconfig.helm_ls.setup(config())
 lspconfig.yamlls.setup(config({
   settings = {
