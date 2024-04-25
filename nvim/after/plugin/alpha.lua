@@ -17,5 +17,5 @@ theme.section.bottom_buttons.val = {
 
 startup.setup(theme.config)
 
-mapkey('n', '<leader>l', ':bufdo %bd | Alpha<CR>:LspRestart<CR>')
+mapkey('n', '<leader>L', ':bufdo %bd | Alpha<CR>:LspRestart<CR>')
 mapkey('n', '<leader>to', ':tabnew<Bar>Alpha<CR>')

@@ -94,7 +94,7 @@ possible. Here are some core features:
     - `<leader>qc` - Close quickfix window.
     - `]q`, `[q` - Got to previous/next item on quickfix list.
     - `]l`, `[l` - Got to previous/next item on loclist list.
-    - `<leader>l` - Delete all open buffers (not files) and restart LSP servers.
+    - `<leader>ll` - Delete all open buffers (not files) and restart LSP servers.
     - `<leader>p` - Register list.
     - `<C-n>` - Open notes file TODO.
     Work with projects:
