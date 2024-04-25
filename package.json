@@ -4,7 +4,7 @@
   "description": "Tools",
   "main": "index.js",
   "dependencies": {
-    "@ansible/ansible-language-server": "latest",
+    "@ansible/ansible-language-server": "1.2.1",
     "@johnnymorganz/stylua-bin": "latest",
     "ajv-cli": "5.0.0",
     "ajv-formats": "2.1.1",
@@ -18,7 +18,7 @@
     "tree-sitter-cli": "latest",
     "typescript-language-server": "latest",
     "vim-language-server": "latest",
-    "vscode-json-languageservice": "^5.3.6",
+    "vscode-json-languageservice": "latest",
     "vscode-langservers-extracted": "latest",
     "yaml-language-server": "latest"
   },
