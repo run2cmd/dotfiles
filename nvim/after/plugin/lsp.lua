@@ -54,13 +54,11 @@ local function config(_config)
     capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
     on_attach = function(_, bufnr)
       local opts = { noremap = true, silent = true, buffer = bufnr }
-      mapkey('n', 'K', vim.lsp.buf.hover, opts)
       mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
       mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
       mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
       mapkey('n', ']d', vim.diagnostic.goto_next, opts)
       mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
-      --mapkey('n', '<space>q', vim.diagnostic.setloclist)
     end,
   }, _config or {})
 end
@@ -264,4 +262,4 @@ vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
   vim.cmd('!ctags -R -o ' .. groovy_tags_file() .. ' --languages=groovy ' .. vim.uv.cwd())
 end, {})
 
--- vim.lsp.set_log_level('debug')
+--vim.lsp.set_log_level('debug')
