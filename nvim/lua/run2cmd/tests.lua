@@ -106,7 +106,7 @@ local function run_file()
   local data = test_tbl[vim.bo.filetype]
   if data then
     local cmd = data.command
-    for _, alt in ipairs(data.alternative) do
+    for _, alt in ipairs(data.alternative or {}) do
       if string.match(vim.fn.expand('%:t'), alt.pattern) then
         cmd = alt.command
       end
