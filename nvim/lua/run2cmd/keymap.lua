@@ -18,7 +18,7 @@ for _, key in ipairs({ "h", "j", "k", "l", "+", "-" }) do
     if vim.v.count > 0 then
       count = 0
     end
-    if count >= 5 then
+    if count >= 4 then
       print("Hold on man. Use repeaters.")
     else
       count = count + 1
