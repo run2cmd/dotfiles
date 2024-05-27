@@ -7,3 +7,5 @@ bin/*
 !/bin/sgraph
 !/bin/vpnfix
 !/bin/groovylint
+!/bin/gentags
+!/bin/erbvalidate

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+FILE_TYPE=$1
+TAG_SOURCE=$2
+TAG_FILE=$3
+
+puppet_sed() {
+  cat </dev/stdin | sed -r 's/(.*):[0-9]+:(.*\$)([a-z_]+)(.*=.*)/\1\3	\1	\/^\2\3\4/'
+}
+
+puppet_awk() {
+  cat </dev/stdin | awk -F'\t' 'OFS="\t" { sub("/manifests/init.pp", "::", $1) } { sub("manifests/", "", $1) } { gsub("/", "::", $1) } { sub(".*puppet-", "", $1) } { sub("\\.pp", "::", $1) }1'
+}
+
+mkdir -p "$(dirname $TAG_FILE)"
+
+if [ $FILE_TYPE = 'puppet' ] ;then
+  ctags -R -o $TAG_FILE --languages=PuppetManifest --exclude=fixtures $TAG_SOURCE
+  rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\]\$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk >> $TAG_FILE
+elif [ $FILE_TYPE = 'icha' ] ;then
+  rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\][A-Z].* \$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk > $TAG_FILE
+elif [ $FILE_TYPE = 'groovy' ] ;then
+  ctags -R -o $TAG_FILE --languages=groovy $TAG_SOURCE
+fi

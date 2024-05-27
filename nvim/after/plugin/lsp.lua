@@ -23,15 +23,7 @@ cmp.setup({
   sources = {
     { name = 'path' },
     { name = 'nvim_lsp' },
-    {
-      name = 'buffer',
-      keyword_lenght = 3,
-      option = {
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end,
-      },
-    },
+    { name = 'tags', keyword_lenght = 2 },
   },
 })
 
@@ -237,8 +229,25 @@ helpers.create_autocmds({
   },
 })
 vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
-  vim.cmd('!mkdir -p ' .. vim.fs.dirname(puppet_tags_file))
-  vim.cmd('!ctags -R -o ' .. puppet_tags_file .. ' --languages=PuppetManifest --exclude=fixtures /code/igt-LotteryServiceDevops')
+  vim.cmd('!gentags puppet ' .. "'/code/igt-LotteryServiceDevops/puppet-*' " .. puppet_tags_file)
+end, {})
+
+local icha_tags_file = vim.env.HOME .. '/.config/nvim/tags/icha'
+helpers.create_autocmds({
+  icha_compl = {
+    {
+      event = { 'BufRead', 'BufEnter', 'BufNewFile' },
+      opts = {
+        pattern = { '*/icha-*', '*/ICHA/*' },
+        callback = function()
+          vim.opt_local.tags = icha_tags_file
+        end,
+      }
+    },
+  }
+})
+vim.api.nvim_create_user_command('IchaGenerateTags', function()
+  vim.cmd('!gentags icha '.. "'/code/igt-LotteryServiceDevops/puppet-*' " .. icha_tags_file )
 end, {})
 
 local function groovy_tags_file()
@@ -258,8 +267,7 @@ helpers.create_autocmds({
   },
 })
 vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
-  vim.cmd('!mkdir -p ' .. vim.fs.dirname(groovy_tags_file()))
-  vim.cmd('!ctags -R -o ' .. groovy_tags_file() .. ' --languages=groovy ' .. vim.uv.cwd())
+  vim.cmd('!gentags groovy ' .. vim.uv.cwd() .. ' ' .. groovy_tags_file())
 end, {})
 
 --vim.lsp.set_log_level('debug')
