@@ -4,12 +4,14 @@ build-essential
 bash-completion
 cpio
 curl
+colorized-logs
 docker.io
 dos2unix
 dnsutils
 fd-find
 fuse
 git
+gh
 jq
 kubernetes-client
 libbz2-dev
