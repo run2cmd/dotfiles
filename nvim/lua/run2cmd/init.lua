@@ -9,6 +9,7 @@ require('run2cmd.commands')
 require('run2cmd.statusline')
 require('run2cmd.autochdir')
 require('run2cmd.autosave')
+require('run2cmd.git')
 require('run2cmd.travel')
 require('run2cmd.convert')
 

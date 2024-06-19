@@ -24,7 +24,7 @@ local function find_projects()
   pickers
     .new({}, {
       prompt_title = 'Projects',
-      finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=2', '--full-path', '.', '/code' }),
+      finder = finders.new_oneshot_job({ 'fdfind', '--type=d', '--exact-depth=1', '--full-path', '.', '/code' }),
       sorter = config.values.generic_sorter({}),
       attach_mappings = function(_, map)
         map({ 'i', 'n' }, '<cr>', function (buffer)
@@ -70,7 +70,7 @@ local function find_gh_prs()
           vim.cmd('silent !gh pr checks ' .. selection .. ' &>> ' .. pr_file)
           vim.cmd('silent !gh pr diff ' .. selection .. ' &>> ' .. pr_file)
           actions.close(buffer)
-          local opts = { width = 220, height = 50, anchor = 'NW', col = 10, row = 2, border = 'double' }
+          local opts = { height = 50, border = 'double' }
           helper.float_buffer(pr_file, opts)
           vim.opt_local.filetype = 'git'
         end)
@@ -106,6 +106,16 @@ end
 require('telescope').setup({
   defaults = {
     file_ignore_patterns = { '.git/', '.svn/' },
+    vimgrep_arguments = {
+     'rg',
+     '--color=never',
+     '--no-heading',
+     '--with-filename',
+     '--line-number',
+     '--column',
+     '--smart-case',
+     '--hidden',
+    },
     mappings = {
       i = {
         ['<C-n>'] = actions.preview_scrolling_up,
@@ -135,16 +145,28 @@ require('telescope').setup({
       },
     },
     git_branches = {
-      layout_strategy = 'vertical',
+      wrap_results = true,
+    },
+    git_bcommits = {
+      wrap_results = true,
     },
     git_commits = {
-      layout_strategy = 'vertical',
       wrap_results = true,
       git_command = { 'git', 'log', '--full-history', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
     },
   },
+  extensions = {
+    advanced_git_search = {
+      diff_plugin = 'diffview',
+      keymaps = {
+        show_entire_commit = "<cr>",
+      },
+    },
+  },
 })
+
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('advanced_git_search')
 
 mapkey('n', '<leader>p', builtin.registers)
 mapkey('n', '<C-p>', builtin.find_files)
@@ -161,3 +183,6 @@ mapkey('n', '<leader>sl', builtin.live_grep)
 mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
 mapkey('n', '<leader>sp', find_gh_prs)
 mapkey('n', '<leader>sr', find_gh_runs)
+mapkey('n', '<leader>gc', builtin.git_branches)
+mapkey('n', '<leader>gll', ':AdvancedGitSearch search_log_content<cr>')
+mapkey('n', '<leader>glf', ':AdvancedGitSearch search_log_content_file<cr>')
