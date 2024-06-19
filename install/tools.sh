@@ -89,3 +89,20 @@ if [ -e ${lemminx_bin} ] || [ ${lemminx_sha_match} == 'no-match' ] ;then
   unzip -q /tmp/lemminx.zip -d /tmp/
   mv -f /tmp/lemminx-linux ${lemminx_bin}
 fi
+
+task "Install Azure CLI"
+if which az ;then
+  echo "Already installed. Updates through apt during system update."
+else
+  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+fi
+
+task "Update terragrunt"
+tg_data="$(git_data https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest)"
+tg_version="$(git_version "${tg_data}")"
+tg_url="$(git_url "${tg_data}" terragrunt_linux_amd64)"
+if ! (grep -q "${tg_version}" ${HOME}/tools/terragrunt.version) ;then
+  echo ${tg_version} > ${HOME}/tools/terragrunt.version
+  wget -q -O ${HOME}/bin/terragrunt "${tg_url}"
+  chmod +x ${HOME}/bin/terragrunt
+fi
