@@ -52,4 +52,4 @@ export PATH="/usr/local/bin:$PATH"
 alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
 
 # Easy switch dir for /code directory
-alias cdc='cd $(fdfind --type directory --full-path --exact-depth 2 . /code | fzf)'
+alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
