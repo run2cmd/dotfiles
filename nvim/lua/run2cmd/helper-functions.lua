@@ -2,12 +2,15 @@ local mapkey = vim.keymap.set
 local M = {}
 
 local function default_float_params(opts)
+  local ui = vim.api.nvim_list_uis()[1]
+  local height = opts.height or 10
+  local widht = opts.width or 100
   local defaults = {
     relative = 'editor',
-    width = 100,
-    height = 10,
-    col = 250,
-    row = 0,
+    width = widht,
+    height = height,
+    col = (ui.width/2) - (widht/2),
+    row = (ui.height/2) - (height/2),
     anchor = 'NW',
     style = 'minimal',
     noautocmd = true,
@@ -120,6 +123,20 @@ end
 M.tmux_cmd = function(id, cmd)
   vim.cmd(string.format('silent !tmux send -t \\%s -X cancel', id))
   vim.cmd(string.format('silent !tmux send -t \\%s "%s" ENTER', id, cmd))
+end
+
+M.line_virtual_text = function(namespace, text)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local ns_id = vim.api.nvim_create_namespace(namespace)
+  local row,col = unpack(vim.api.nvim_win_get_cursor(0))
+  local opts = {
+    end_line = 10,
+    id = 1,
+    virt_text = {{text, "Comment"}},
+    virt_text_pos = 'eol',
+  }
+  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, ns_id, row - 1, col, opts)
+  return mark_id
 end
 
 return M
