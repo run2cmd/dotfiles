@@ -5,10 +5,10 @@ local commit_file = '.git/COMMIT_EDITMSG'
 local status_file = '.git/nvim_git_status'
 
 local function git_commit()
-  vim.cmd(':q!')
   helper.float_buffer(commit_file, {
     border = 'double',
     height = 1,
+    row = 3,
     title = 'Git Commit Message',
     title_pos = 'center',
   })
@@ -35,6 +35,7 @@ local function git_status_reload()
     '\'-\' to toggle stage/unstage, ' ..
     '\'cc\' to commit, ' ..
     '\'ca\' to amend commit ' ..
+    '\'p\' to push to remote ' ..
     '" > ' .. status_file
   )
   vim.cmd('silent !echo "\\#\\# $(git config --get remote.origin.url)" >> ' .. status_file)
@@ -99,6 +100,7 @@ local function git_status()
   mapkey('n', 'cc', git_commit, { buffer = true })
   mapkey('n', 'ca', git_amend, { buffer = true })
   mapkey('n', 'i', git_diff_file, { buffer = true })
+  mapkey('n', 'p', ':!git push<cr>', { buffer = true })
 end
 
 helper.create_autocmds({
@@ -109,6 +111,7 @@ helper.create_autocmds({
         pattern = commit_file,
         callback = function()
           vim.cmd('!git commit -F ' .. commit_file)
+          git_status_reload()
         end
       }
     }
@@ -120,7 +123,6 @@ helper.create_autocmds({
 mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>')
 mapkey('n', '<leader>gg', git_status)
 mapkey('n', '<leader>gf', ':!git pull<cr>')
-mapkey('n', '<leader>gp', ':!git push<cr>')
 mapkey('n', '<leader>g-', ':!git checkout -<cr>')
 mapkey('n', '<leader>gss', ':!git stash<cr>')
 mapkey('n', '<leader>gsp', ':!git stash pop<cr>')
