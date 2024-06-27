@@ -53,3 +53,13 @@ alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a 
 
 # Easy switch dir for /code directory
 alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
+
+alias luamake=${HOME}/tools/lua-language-server/3rd/luamake/luamake
+export PATH=$PATH:${HOME}/.pulumi/bin
+export ANSIBLE_ROLES_PATH=/code/a32-tools/ansible-igt-puppet/roles:/code/a32-tools/ansible-igt-services/roles:/code/dew/ansible-dew-common/roles
+
+set -o vi
+
+# Fix for IGT VPN
+if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
+
