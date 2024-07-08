@@ -79,6 +79,13 @@ M.float_buffer = function(filepath, fopts)
   mapkey('n', '<c-v>', ':q | e' .. filepath .. '<cr>', { buffer = true })
 end
 
+M.float_terminal = function(cmd, fopts)
+  local buf = vim.api.nvim_create_buf(false, true)
+  local opts = default_float_params(fopts)
+  vim.api.nvim_open_win(buf, 1, opts)
+  vim.cmd('term ' .. cmd)
+end
+
 M.cmd_output = function(cmd)
   local output = ''
   local handle = io.popen(cmd)

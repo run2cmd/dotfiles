@@ -112,24 +112,24 @@ possible. Here are some core features:
         - `]d` - LSP next diagnostic message.
         - `[d` - LSP previous diagnostic message.
     Git support:
+    - `:Git <cmd>` - Run any Git command in floating terminal window.
     - `<leader>gg` - Enter git status window.
-    - `<leader>ge` - Search for Git conflicts project wide.
     - `<leader>gf` - Git pull.
-    - `<leader>gp` - Git push.
-    - `<leader>gw` - Git blame.
-    - `<leader>gc` - Git checkout (choose branch/tag/commit with autocompletion).
-    - `<leader>g-` - Checkout to previous branch/tag/commit.
-    - `<leader>gm` - Git merge (choose branch/tag/commit with autocompletion).
-    - `<leader>gss` - Git stash.
-    - `<leader>gsp` - Git stash pop.
     - `<leader>gv` - Diff split on current buffer.
+    - `<leader>ge` - Search for Git conflicts project wide.
+    - `<leader>gb` - Git blame.
+    - `<leader>gc` - Git checkout.
+    - `<leader>g-` - Checkout to previous branch/tag/commit.
     - `<leader>gdo` - Open DiffView in new tab for current project.
     - `<leader>gdc` - Close DiffView.
     - `<leader>gdr` - Refreash DiffView.
     - `<leader>gll` - List git commits in simple view.
-    - `<leader>glp` - List git commits in detail view (with commit author, date and changes). Use `[[` and `]]` to jump between commits.
     - `<leader>glf` - List git commits in detail view for specific file.
-    - `<leader>gb` - List git branches. Use `<CR>` to change branch or `<c-t>` to checkout branch if not checkout before.
+      From git status window (see git status inline description for more options):
+      - `p` - Git push.
+      - `-` - Stage/Unstage file.
+      - `cc` - Commit changes.
+      - `ca` - Amend changes to latest commit.
     Move around filesystem:
     - `<C-p>` - List files in current project and go to it after `<CR>` is hit.
     - `<C-h>` - Same as `<c-p>` but for open buffers.

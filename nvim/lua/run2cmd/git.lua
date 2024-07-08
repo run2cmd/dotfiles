@@ -79,6 +79,7 @@ local function git_diff_file()
 end
 
 local function git_status()
+  local map_opts = { buffer = true }
   if not helper.file_exists('.git') then
     print('Not in git repository')
     return
@@ -93,14 +94,29 @@ local function git_status()
   })
   vim.wo.number = true
   vim.wo.relativenumber = true
-  mapkey('n', '.', git_add_all, { buffer = true })
-  mapkey('n', '-', git_stage_toggle, { buffer = true })
-  mapkey('n', '<cr>', git_enter_file, { buffer = true })
-  mapkey('n', '<Esc>', ':q!<cr>', { buffer = true })
-  mapkey('n', 'cc', git_commit, { buffer = true })
-  mapkey('n', 'ca', git_amend, { buffer = true })
-  mapkey('n', 'i', git_diff_file, { buffer = true })
-  mapkey('n', 'p', ':!git push<cr>', { buffer = true })
+  mapkey('n', '.', git_add_all, map_opts)
+  mapkey('n', '-', git_stage_toggle, map_opts)
+  mapkey('n', '<cr>', git_enter_file, map_opts)
+  mapkey('n', '<Esc>', ':q!<cr>', map_opts)
+  mapkey('n', 'cc', git_commit, map_opts)
+  mapkey('n', 'ca', git_amend, map_opts)
+  mapkey('n', 'i', git_diff_file, map_opts)
+  mapkey('n', 'p', ':!git push<cr>', map_opts)
+end
+
+local function git_cmd(command)
+  helper.float_terminal('git ' .. command, {
+    width = 120,
+    height = 40,
+    border = 'double',
+    title = 'git ' .. command,
+    title_pos = 'center',
+  })
+  mapkey('n', '<cr>',
+    function()
+      vim.api.nvim_buf_delete(0, { force = true })
+    end, { buffer = true }
+  )
 end
 
 helper.create_autocmds({
@@ -120,18 +136,15 @@ helper.create_autocmds({
 
 -- git log maps managed by telescope
 -- git blame and file diff done with gitsigns
-mapkey('n', '<leader>ge', ':Ggrep "^<<<<<"<CR>')
 mapkey('n', '<leader>gg', git_status)
 mapkey('n', '<leader>gf', ':!git pull<cr>')
 mapkey('n', '<leader>g-', ':!git checkout -<cr>')
-mapkey('n', '<leader>gss', ':!git stash<cr>')
-mapkey('n', '<leader>gsp', ':!git stash pop<cr>')
 mapkey('n', '<leader>gdo', ':DiffviewOpen ')
 mapkey('n', '<leader>gdc', ':DiffviewClose<cr>')
 mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>')
+mapkey('n', '<leader>ge', ':grep "^<<<<<"<cr>')
 cmd('Git',
   function(params)
-    vim.cmd('!git ' .. params.args)
+    git_cmd(params.args)
   end, { nargs = '*' }
 )
--- mapkey for git rebase and process
