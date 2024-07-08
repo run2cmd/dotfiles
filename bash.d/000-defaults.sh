@@ -63,3 +63,5 @@ set -o vi
 # Fix for IGT VPN
 if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
 
+# SSH Agent
+pgrep ssh-agent &>/dev/null || eval `keychain --eval --agents ssh id_rsa`

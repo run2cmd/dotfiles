@@ -14,6 +14,7 @@ git
 gh
 jq
 kubernetes-client
+keychain
 libbz2-dev
 libffi-dev
 liblzma-dev
