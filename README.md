@@ -97,44 +97,44 @@ possible. Here are some core features:
     - `<leader>ll` - Delete all open buffers (not files) and restart LSP servers.
     - `<leader>p` - Register list.
     - `<C-n>` - Open notes file TODO.
-    Work with projects:
-    - ``t` - Run tests for entire project like gradle, maven rake (See [tests](#tests) section).
-    - ``l` - Repeat last run tests regardless of open buffer (See [tests](#tests) section).
-    - `<leader>rk` - Run r10k in terminal (support for Puppet)
-    - `<leader>sw` - Search for word under cursor in current project.
-    - `<leader>sl` - Live search in current project.
-    - `<leader>sb` - Live search in current buffer.
-    - `<leader>t` - Jump to test file for current open file. This supports ruby, groovy and puppet.
-    - LSP key bindings:
+    - Work with projects:
+      - ``t` - Run tests for entire project like gradle, maven rake (See [tests](#tests) section).
+      - ``l` - Repeat last run tests regardless of open buffer (See [tests](#tests) section).
+      - `<leader>rk` - Run r10k in terminal (support for Puppet)
+      - `<leader>sw` - Search for word under cursor in current project.
+      - `<leader>sl` - Live search in current project.
+      - `<leader>sb` - Live search in current buffer.
+      - `<leader>t` - Jump to test file for current open file. This supports ruby, groovy and puppet.
+      - LSP key bindings:
         - `K` - LSP hover.
         - `<leader>bf` - LSP format.
         - `<leader>br` - LSP rename.
         - `]d` - LSP next diagnostic message.
         - `[d` - LSP previous diagnostic message.
-    Git support:
-    - `:Git <cmd>` - Run any Git command in floating terminal window.
-    - `<leader>gg` - Enter git status window.
-    - `<leader>gf` - Git pull.
-    - `<leader>gv` - Diff split on current buffer.
-    - `<leader>ge` - Search for Git conflicts project wide.
-    - `<leader>gb` - Git blame.
-    - `<leader>gc` - Git checkout.
-    - `<leader>g-` - Checkout to previous branch/tag/commit.
-    - `<leader>gdo` - Open DiffView in new tab for current project.
-    - `<leader>gdc` - Close DiffView.
-    - `<leader>gdr` - Refreash DiffView.
-    - `<leader>gll` - List git commits in simple view.
-    - `<leader>glf` - List git commits in detail view for specific file.
-      From git status window (see git status inline description for more options):
-      - `p` - Git push.
-      - `-` - Stage/Unstage file.
-      - `cc` - Commit changes.
-      - `ca` - Amend changes to latest commit.
-    Move around filesystem:
-    - `<C-p>` - List files in current project and go to it after `<CR>` is hit.
-    - `<C-h>` - Same as `<c-p>` but for open buffers.
-    - `<C-k>` - List of projects in '/code' path. Assuming they are git projects will list projects following pattern: `/code/<project-group>/<repository-name>`.
-    - `<C-s>` - List all files in project (with no ignore and hidden enabled).
+    - Git support:
+      - `:Git <cmd>` - Run any Git command in floating terminal window.
+      - `<leader>gg` - Enter git status window.
+      - `<leader>gf` - Git pull.
+      - `<leader>gv` - Diff split on current buffer.
+      - `<leader>ge` - Search for Git conflicts project wide.
+      - `<leader>gb` - Git blame.
+      - `<leader>gc` - Git checkout.
+      - `<leader>g-` - Checkout to previous branch/tag/commit.
+      - `<leader>gdo` - Open DiffView in new tab for current project.
+      - `<leader>gdc` - Close DiffView.
+      - `<leader>gdr` - Refreash DiffView.
+      - `<leader>gll` - List git commits in simple view.
+      - `<leader>glf` - List git commits in detail view for specific file.
+      - From git status window (see git status inline description for more options):
+        - `p` - Git push.
+        - `-` - Stage/Unstage file.
+        - `cc` - Commit changes.
+        - `ca` - Amend changes to latest commit.
+    - Move around filesystem:
+      - `<C-p>` - List files in current project and go to it after `<CR>` is hit.
+      - `<C-h>` - Same as `<c-p>` but for open buffers.
+      - `<C-k>` - List of projects in '/code' path. Assuming they are git projects will list projects following pattern: `/code/<project-group>/<repository-name>`.
+      - `<C-s>` - List all files in project (with no ignore and hidden enabled).
 
 ### Tests
 
