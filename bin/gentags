@@ -21,4 +21,6 @@ elif [ $FILE_TYPE = 'icha' ] ;then
   rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\][A-Z].* \$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk > $TAG_FILE
 elif [ $FILE_TYPE = 'groovy' ] ;then
   ctags -R -o $TAG_FILE --languages=groovy $TAG_SOURCE
+elif [ $FILE_TYPE = 'sh' ] ;then
+  ctags -R -o $TAG_FILE --languages=sh $TAG_SOURCE
 fi

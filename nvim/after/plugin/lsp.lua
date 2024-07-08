@@ -78,7 +78,7 @@ lspconfig.pylsp.setup(config({
 lspconfig.jsonls.setup(config())
 lspconfig.vimls.setup(config())
 lspconfig.dockerls.setup(config())
-lspconfig.terraformls.setup(config())
+lspconfig.terraformls.setup(config({ filetypes = { 'hcl', 'tf' } }))
 lspconfig.marksman.setup(config())
 lspconfig.lua_ls.setup(config({
   cmd = { 'luals.sh' },
@@ -119,7 +119,7 @@ lspconfig.ansiblels.setup(config({
   },
 }))
 lspconfig.puppet.setup(config({
-  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code/igt-LotteryServiceDevops' },
+  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code' },
 }))
 lspconfig.helm_ls.setup(config())
 lspconfig.yamlls.setup(config({
@@ -215,6 +215,9 @@ lspconfig.diagnosticls.setup(config({
 }))
 
 local puppet_tags_file = vim.env.HOME .. '/.config/nvim/tags/puppet'
+vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
+  vim.cmd('!gentags puppet ' .. "'/code/puppet-*' " .. puppet_tags_file)
+end, {})
 helpers.create_autocmds({
   puppet_lsp = {
     {
@@ -228,11 +231,11 @@ helpers.create_autocmds({
     },
   },
 })
-vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
-  vim.cmd('!gentags puppet ' .. "'/code/igt-LotteryServiceDevops/puppet-*' " .. puppet_tags_file)
-end, {})
 
 local icha_tags_file = vim.env.HOME .. '/.config/nvim/tags/icha'
+vim.api.nvim_create_user_command('IchaGenerateTags', function()
+  vim.cmd('!gentags icha '.. "'/code/puppet-*' " .. icha_tags_file )
+end, {})
 helpers.create_autocmds({
   icha_compl = {
     {
@@ -246,13 +249,13 @@ helpers.create_autocmds({
     },
   }
 })
-vim.api.nvim_create_user_command('IchaGenerateTags', function()
-  vim.cmd('!gentags icha '.. "'/code/igt-LotteryServiceDevops/puppet-*' " .. icha_tags_file )
-end, {})
 
 local function groovy_tags_file()
   return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/groovy'
 end
+vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
+  vim.cmd('!gentags groovy ' .. vim.uv.cwd() .. ' ' .. groovy_tags_file())
+end, {})
 helpers.create_autocmds({
   groovy_lsp = {
     {
@@ -266,8 +269,24 @@ helpers.create_autocmds({
     },
   },
 })
-vim.api.nvim_create_user_command('GroovyTagsGenerate', function()
-  vim.cmd('!gentags groovy ' .. vim.uv.cwd() .. ' ' .. groovy_tags_file())
-end, {})
 
+local function bash_tags_file()
+  return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/bash'
+end
+vim.api.nvim_create_user_command('BashTagsGenerate', function()
+  vim.cmd('!gentags sh ' .. vim.uv.cwd() .. ' ' .. bash_tags_file())
+end, {})
+helpers.create_autocmds({
+  bash_lsp = {
+    {
+      event = { 'Filetype' },
+      opts = {
+        pattern = 'sh',
+        callback = function()
+          vim.opt_local.tags = bash_tags_file()
+        end,
+      },
+    },
+  },
+})
 --vim.lsp.set_log_level('debug')
