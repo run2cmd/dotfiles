@@ -90,13 +90,6 @@ if [ -e ${lemminx_bin} ] || [ ${lemminx_sha_match} == 'no-match' ] ;then
   mv -f /tmp/lemminx-linux ${lemminx_bin}
 fi
 
-task "Install Azure CLI"
-if which az ;then
-  echo "Already installed. Updates through apt during system update."
-else
-  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-fi
-
 task "Update terragrunt"
 tg_data="$(git_data https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest)"
 tg_version="$(git_version "${tg_data}")"
