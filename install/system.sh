@@ -15,7 +15,7 @@ while read -r line ;do
 done < ${HOME}/Pkgfile
 
 if [ "${to_install}" != '' ] ;then
-  sudo apt -q install -y $to_install
+  sudo apt -q install --allow-downgrades -y $to_install
 fi
 
-sudo apt upgrade -q -y && sudo apt autoremove -y
+sudo apt upgrade --allow-downgrades -q -y && sudo apt autoremove -y
