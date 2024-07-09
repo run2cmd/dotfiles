@@ -112,7 +112,7 @@ local function git_cmd(command)
     title = 'git ' .. command,
     title_pos = 'center',
   })
-  mapkey('n', '<cr>',
+  mapkey('n', '<Esc>',
     function()
       vim.api.nvim_buf_delete(0, { force = true })
     end, { buffer = true }
