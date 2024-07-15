@@ -49,8 +49,8 @@ local function config(_config)
       mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
       mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
       mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
-      mapkey('n', ']d', vim.diagnostic.goto_next, opts)
-      mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
+      mapkey('n', ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+      mapkey('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
     end,
   }, _config or {})
 end
