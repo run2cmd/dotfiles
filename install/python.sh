@@ -18,6 +18,7 @@ pyenv update
 pyenv install -s ${pyver}
 pyenv install -s 3.8.17
 pyenv global ${pyver}
+cd ~/.pyenv && src/configure && make -C src
 
 python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
