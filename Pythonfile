@@ -13,4 +13,3 @@ ansible-lint
 yapf
 flake8
 python-lsp-server
-sshuttle

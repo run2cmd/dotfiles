@@ -8,7 +8,7 @@ cmd('Doc',
     if buffer and vim.api.nvim_buf_is_valid(buffer) then
       vim.api.nvim_buf_delete(buffer, {})
     end
-    vim.cmd('split term://chtsh ' .. params.args)
+    vim.cmd('split term://cht.sh ' .. params.args)
     vim.t.doc_window_buffer = vim.api.nvim_get_current_buf()
   end,
   { nargs = '*' }

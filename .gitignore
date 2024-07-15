@@ -1,6 +1,5 @@
 Gemfile*.lock
 bin/*
-!/bin/chtsh
 !/bin/db2con
 !/bin/gradlew
 !/bin/ichatest
