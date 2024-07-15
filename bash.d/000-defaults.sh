@@ -28,7 +28,6 @@ export PATH=~/bin:$PATH
 
 # Terminal settings
 export TERM=xterm-256color
-set bell-style none
 
 # Tmux Wrapper for ssh so it displays hostname in title
 settitle() {
