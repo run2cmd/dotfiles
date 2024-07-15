@@ -9,4 +9,4 @@ export GRADLE_OPTS=-Dorg.gradle.daemon=false
 export JAVA_OPTS='-Xms256m -Xmx2048m'
 
 # Allow broken certs for maven
-export MVN_ARGS='-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -Dmaven.resolver.transport=wagon'
+export MAVEN_ARGS='-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -Dmaven.resolver.transport=wagon'
