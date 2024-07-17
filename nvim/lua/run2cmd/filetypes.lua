@@ -1,4 +1,13 @@
 local addtype = vim.filetype.add
+local helpers = require('run2cmd.helper-functions')
+
+helpers.create_autocmds({
+  filetypes = {
+    { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
+    { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
+    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=: commentstring=#\\ %s' } },
+  }
+})
 
 addtype({
   pattern = {

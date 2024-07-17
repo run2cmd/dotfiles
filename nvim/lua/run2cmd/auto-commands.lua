@@ -18,19 +18,6 @@ local autocmds = {
     { event = { 'QuickFixCmdPost' }, opts = { pattern = 'l*', command = 'lopen 10' } },
     { event = { 'FileType' }, opts = { pattern = 'qf', command = 'wincmd J' } },
     { event = { 'FileType' }, opts = { pattern = 'netrw', command = 'setlocal bufhidden=wipe' } },
-  },
-  filetypes = {
-    { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
-    { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
-    { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=: commentstring=#\\ %s' } },
-  },
+  }
 }
 helpers.create_autocmds(autocmds)
-
-require('editorconfig').properties.end_of_line = function(_, val, opts)
-  if not opts.end_of_line then
-    return 'lf'
-  else
-    return val
-  end
-end
