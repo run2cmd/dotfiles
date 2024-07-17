@@ -29,6 +29,7 @@ llvm
 lua5.3
 make
 ninja-build
+nmap
 openssh-client
 pdk
 plantuml
