@@ -32,17 +32,11 @@ M.merge = function(...)
   local tbl = {}
   for _, i in ipairs({ ... }) do
     for k, v in pairs(i) do
-      tbl[k] = v
-    end
-  end
-  return tbl
-end
-
-M.concat = function(...)
-  local tbl = {}
-  for _, i in ipairs({ ... }) do
-    for _, v in pairs(i) do
-      table.insert(tbl, v)
+      if type(k) == 'number' then
+        table.insert(tbl, v)
+      else
+        tbl[k] = v
+      end
     end
   end
   return tbl
@@ -102,17 +96,6 @@ M.cmd_output = function(cmd)
   return output
 end
 
-M.buf_string_match = function(buf, pattern, num_lines)
-  local lines = vim.api.nvim_buf_get_lines(buf, 0, num_lines, false)
-  local match = false
-  for _, v in ipairs(lines) do
-    if string.match(v, pattern) then
-      match = true
-    end
-  end
-  return match
-end
-
 M.open_tmux = function()
   vim.cmd('silent !tmux split && tmux resize-pane -D 14')
 end
@@ -136,20 +119,6 @@ end
 M.tmux_cmd = function(id, cmd)
   vim.cmd(string.format('silent !tmux send -t \\%s -X cancel', id))
   vim.cmd(string.format('silent !tmux send -t \\%s "%s" ENTER', id, cmd))
-end
-
-M.line_virtual_text = function(namespace, text)
-  local bufnr = vim.api.nvim_get_current_buf()
-  local ns_id = vim.api.nvim_create_namespace(namespace)
-  local row,col = unpack(vim.api.nvim_win_get_cursor(0))
-  local opts = {
-    end_line = 10,
-    id = 1,
-    virt_text = {{text, "Comment"}},
-    virt_text_pos = 'eol',
-  }
-  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, ns_id, row - 1, col, opts)
-  return mark_id
 end
 
 return M
