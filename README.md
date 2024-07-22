@@ -47,6 +47,7 @@ Configurations is set to focus on them.
 - Jenkins Pipeline
 - Go
 - Terraform
+- Terragrunt
 
 ## Tools
 
