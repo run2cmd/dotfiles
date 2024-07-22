@@ -16,6 +16,7 @@ case $INSTALL_TYPE in
     ${libdir}/install/python.sh
     ${libdir}/install/sdkman.sh
     ${libdir}/install/node.sh
+    ${libdir}/install/tfsuite.sh
     ${libdir}/install/neovim.sh
     ${libdir}/install/windows.sh
   ;;
@@ -46,6 +47,9 @@ case $INSTALL_TYPE in
   windows)
     ${libdir}/install/windows.sh
   ;;
+  tfsuite)
+    ${libdir}/install/tfsuite.sh
+  ;;
   *)
     echo "
     Usage: dotfiles-update [INSTALL_TYPE]
@@ -60,6 +64,7 @@ case $INSTALL_TYPE in
       nodejs - Update NodeJS.
       neovim - Update Neovim.
       windows - Update windows dotfiles.
+      tfsuite - Terraform and Terragrunt.
     "
   ;;
 esac

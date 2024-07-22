@@ -102,16 +102,6 @@ function install_lemminx() {
   fi
 }
 
-function install_terragrunt() {
-  task "Update terragrunt"
-  declare -A data="$(git_data https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest terragrunt_linux_amd64)"
-  if ! (grep -q ${data[version]} ${HOME}/tools/terragrunt.version) ;then
-    echo ${version} > ${HOME}/tools/terragrunt.version
-    wget -q -O ${HOME}/bin/terragrunt ${data[url]}
-    chmod +x ${HOME}/bin/terragrunt
-  fi
-}
-
 function install_argocd_cli() {
   task "Update ArgoCD CLI"
   declare -A data="$(git_data https://api.github.com/repos/argoproj/argo-cd/releases/latest)"
@@ -131,7 +121,6 @@ install_lua_lsp
 install_lemminx
 install_hadolint
 install_marksman
-install_terragrunt
 install_golangci_lint
 install_puppet_editor_services
 install_argocd_cli

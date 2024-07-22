@@ -39,8 +39,6 @@ rpm2cpio
 shellcheck
 sshpass
 sshuttle
-terraform=1.2.9
-terraform-ls
 tk-dev
 universal-ctags
 unzip
