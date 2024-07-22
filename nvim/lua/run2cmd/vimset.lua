@@ -3,7 +3,6 @@ vim.o.confirm = true
 vim.o.undofile = true
 vim.o.path = vim.o.path .. ',**'
 vim.o.grepprg = 'rg --vimgrep --hidden --no-ignore -S'
-vim.o.tabline = '%{getcwd()}'
 vim.o.switchbuf = 'useopen,usetab'
 vim.o.updatetime = 50
 vim.o.mouse = ''
