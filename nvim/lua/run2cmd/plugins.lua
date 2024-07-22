@@ -29,7 +29,6 @@ require("paq") {
   { 'martinda/Jenkinsfile-vim-syntax' },
   { 'aklt/plantuml-syntax' },
 
-  { 'aaronhallaert/advanced-git-search.nvim' },
   { 'lewis6991/gitsigns.nvim' },
   { 'sindrets/diffview.nvim' },
 

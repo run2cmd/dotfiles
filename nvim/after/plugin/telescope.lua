@@ -5,6 +5,7 @@ local finders = require('telescope.finders')
 local config = require('telescope.config')
 local builtin = require('telescope.builtin')
 local action_state = require('telescope.actions.state')
+local make_entry = require('telescope.make_entry')
 local mapkey = vim.keymap.set
 
 local function get_selection(buffer)
@@ -118,8 +119,6 @@ require('telescope').setup({
     },
     mappings = {
       i = {
-        ['<C-n>'] = actions.preview_scrolling_up,
-        ['<C-p>'] = actions.preview_scrolling_down,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
       },
@@ -155,18 +154,9 @@ require('telescope').setup({
       git_command = { 'git', 'log', '--full-history', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
     },
   },
-  extensions = {
-    advanced_git_search = {
-      diff_plugin = 'diffview',
-      keymaps = {
-        show_entire_commit = "<cr>",
-      },
-    },
-  },
 })
 
 require('telescope').load_extension('fzf')
-require('telescope').load_extension('advanced_git_search')
 
 mapkey('n', '<leader>p', builtin.registers)
 mapkey('n', '<C-p>', builtin.find_files)
@@ -178,11 +168,9 @@ mapkey('n', '<C-s>',
   end
 )
 mapkey('n', '<C-n>', find_notes)
-mapkey('n', '<leader>sw', builtin.grep_string)
 mapkey('n', '<leader>sl', builtin.live_grep)
-mapkey('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
 mapkey('n', '<leader>sp', find_gh_prs)
 mapkey('n', '<leader>sr', find_gh_runs)
 mapkey('n', '<leader>gc', builtin.git_branches)
-mapkey('n', '<leader>gll', ':AdvancedGitSearch search_log_content<cr>')
-mapkey('n', '<leader>glf', ':AdvancedGitSearch search_log_content_file<cr>')
+mapkey('n', '<leader>gll', builtin.git_commits)
+mapkey('n', '<leader>glf', builtin.git_bcommits)

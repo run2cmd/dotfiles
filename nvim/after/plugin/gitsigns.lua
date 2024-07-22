@@ -13,5 +13,3 @@ require('gitsigns').setup({
 
 mapkey('n', ']c', ':Gitsigns next_hunk<CR>')
 mapkey('n', '[c', ':Gitsigns prev_hunk<CR>')
-mapkey('n', '<leader>gv', ':Gitsigns diffthis ')
-mapkey('n', '<leader>gb', ':Gitsigns blame<cr>')

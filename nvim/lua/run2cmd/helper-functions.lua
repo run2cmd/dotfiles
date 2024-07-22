@@ -68,6 +68,7 @@ M.float_text = function(ftext, fopts)
   local opts = default_float_params(fopts)
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
   vim.api.nvim_open_win(buf, 1, opts)
+  mapkey('n', '<ESC>', ':q<cr>', { buffer = true })
 end
 
 M.float_buffer = function(filepath, fopts)
@@ -84,6 +85,11 @@ M.float_terminal = function(cmd, fopts)
   local opts = default_float_params(fopts)
   vim.api.nvim_open_win(buf, 1, opts)
   vim.cmd('term ' .. cmd)
+  mapkey('n', '<Esc>',
+    function()
+      vim.api.nvim_buf_delete(0, { force = true })
+    end, { buffer = true }
+  )
 end
 
 M.cmd_output = function(cmd)
