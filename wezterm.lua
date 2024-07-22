@@ -1,15 +1,15 @@
 local wezterm = require('wezterm')
+config = {}
 
-return {
-  -- Fonts
-  font = wezterm.font('Consolas'),
-  font_size = 11.0,
+config.font = wezterm.font('Hermit')
+config.font_size = 10.0
 
-  -- Tabs
-  hide_tab_bar_if_only_one_tab = true,
+config.hide_tab_bar_if_only_one_tab = true
 
-  --  Colors
-  colors = {
-    background = 'Gray15',
-  },
+config.colors = {
+  background = 'Gray15',
 }
+
+config.default_prog = { 'wsl.exe', '-d', 'Debian', '--cd', '~' }
+
+return config
