@@ -11,9 +11,6 @@ theme.section.header.val = {
 
 theme.section.mru_cwd.val = { { type = 'padding', val = 0 } }
 theme.nvim_web_devicons.enabled = false
-theme.section.bottom_buttons.val = {
-  theme.button('c', '~/dotfiles/nvim/init.lua', ':e ~/dotfiles/nvim/init.lua<cr>'),
-}
 
 startup.setup(theme.config)
 
