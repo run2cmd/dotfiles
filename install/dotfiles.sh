@@ -18,7 +18,6 @@ for mdir in "${make_dirs[@]}" ;do
 done
 
 declare -A make_links=(
-  ["bash.d"]=".bash.d"
   ["inputrc"]=".inputrc"
   ["bin"]="bin"
   ["nvim/init.lua"]=".config/nvim/init.lua"
@@ -57,8 +56,12 @@ for mlink in "${!make_links[@]}" ;do
   ln -snf ${repodir}/${mlink} ${HOME}/${make_links["${mlink}"]}
 done
 
-if ! (grep -q '\.bash\.d' ${HOME}/.profile) ;then
- echo '# Laod custom dotfiles' >> ${HOME}/.profile
+if ! (grep -q 'dotfiles' ${HOME}/.bashrc) ;then
+ echo '# Laod dotfiles setup' >> ${HOME}/.bashrc
  # shellcheck disable=SC2016
- echo 'for i in ${HOME}/bash.d/* ;do source ${i} ;done' >> ${HOME}/.profile
+ echo 'source ${HOME}/dotfiles/bashrc' >> ${HOME}/.bashrc
+fi
+
+if [ ! -e ${HOME}/.bash_profile ] ;then
+  echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > ${HOME}/.bash_profile
 fi
