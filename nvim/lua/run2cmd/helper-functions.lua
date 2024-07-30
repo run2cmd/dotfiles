@@ -62,7 +62,11 @@ M.float_text = function(ftext, fopts)
   local opts = default_float_params(fopts)
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
   vim.api.nvim_open_win(buf, 1, opts)
-  mapkey('n', '<ESC>', ':q<cr>', { buffer = true })
+  mapkey('n', '<Esc>',
+    function()
+      vim.api.nvim_buf_delete(0, { force = true })
+    end, { buffer = true }
+  )
 end
 
 M.float_buffer = function(filepath, fopts)
@@ -70,7 +74,11 @@ M.float_buffer = function(filepath, fopts)
   local opts = default_float_params(fopts)
   vim.api.nvim_open_win(buf, 1, opts)
   vim.cmd.edit(filepath)
-  mapkey('n', '<ESC>', ':q<cr>', { buffer = true })
+  mapkey('n', '<Esc>',
+    function()
+      vim.api.nvim_buf_delete(0, { force = true })
+    end, { buffer = true }
+  )
   mapkey('n', '<c-v>', ':q | e' .. filepath .. '<cr>', { buffer = true })
 end
 

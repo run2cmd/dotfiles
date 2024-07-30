@@ -7,3 +7,4 @@ require('diffview').setup({
 mapkey('n', '<leader>gdo', ':DiffviewOpen ')
 mapkey('n', '<leader>gdc', ':DiffviewClose<cr>')
 mapkey('n', '<leader>gdr', ':DiffviewRefreash<cr>')
+mapkey('n', '<leader>gdv', ':DiffviewOpen HEAD~1 -- %<cr>')
