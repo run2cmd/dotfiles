@@ -88,11 +88,6 @@ local function git_commit()
     git_cmd_small('commit -F ' .. commit_file, {})
     git_status_reload()
   end, { buffer = true })
-  mapkey('i', '<C-c>',
-    function()
-      vim.api.nvim_buf_delete(0, { force = true })
-    end, { buffer = true }
-  )
   vim.cmd('startinsert')
 end
 

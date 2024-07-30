@@ -6,6 +6,7 @@ helpers.create_autocmds({
     { event = { 'FileType' }, opts = { pattern = 'markdown', command = 'setlocal spell' } },
     { event = { 'FileType' }, opts = { pattern = 'Terminal', command = 'setlocal nowrap' } },
     { event = { 'Filetype' }, opts = { pattern = 'puppet', command = 'setlocal iskeyword+=: commentstring=#\\ %s' } },
+    { event = { 'Filetype' }, opts = { pattern = 'gitcommit', command = 'setlocal textwidth=250' } }
   }
 })
 
