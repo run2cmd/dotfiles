@@ -46,8 +46,8 @@ local function git_status_reload()
     'silent !echo "' ..
     '\\#\\# press: ' ..
     '\'i\' to view diff for file, ' ..
-    '\'.\' to add all to commit, ' ..
-    '\'-\' to toggle stage/unstage, ' ..
+    '\'.\' to toggle stage/unstage all files, ' ..
+    '\'-\' to toggle stage/unstage file under cursor, ' ..
     '\'cc\' to commit, ' ..
     '\'ca\' to amend commit ' ..
     '\'p\' to push to remote ' ..
@@ -74,8 +74,13 @@ local function git_stage_toggle()
   git_status_reload()
 end
 
-local function git_add_all()
-  vim.cmd('silent !git add .')
+local function git_add_all_toggle()
+  local not_staged = helper.cmd_output('git status | grep "not staged"')
+  if string.match(not_staged, 'not staged') then
+    vim.cmd('silent !git add .')
+  else
+    vim.cmd('silent !git reset .')
+  end
   git_status_reload()
 end
 
@@ -120,7 +125,7 @@ local function git_status()
   helper.float_buffer(status_file, { height = 30, row = 6, border = 'double', title = 'Git Status' })
   vim.wo.number = true
   vim.wo.relativenumber = true
-  mapkey('n', '.', git_add_all, map_opts)
+  mapkey('n', '.', git_add_all_toggle, map_opts)
   mapkey('n', '-', git_stage_toggle, map_opts)
   mapkey('n', '<cr>', git_enter_file, map_opts)
   mapkey('n', 'cc', git_commit, map_opts)
