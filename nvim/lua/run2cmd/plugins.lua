@@ -29,6 +29,7 @@ require("paq") {
   { 'martinda/Jenkinsfile-vim-syntax' },
   { 'aklt/plantuml-syntax' },
 
+  { 'kdheepak/lazygit.nvim' },
   { 'lewis6991/gitsigns.nvim' },
   { 'sindrets/diffview.nvim' },
 
