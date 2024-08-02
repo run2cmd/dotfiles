@@ -9,9 +9,9 @@ task() {
 }
 
 git_data() {
-  git_api="$(curl --no-progress-meter ${1})"
+  git_api="$(curl --no-progress-meter https://api.github.com/repos/${1}/releases/latest)"
   version=$(echo "${git_api}" | jq -r .tag_name)
-  url=$(echo "${git_api}" | jq -r --arg name "${2}" '.assets[] | select(.name == $name).browser_download_url')
+  url=$(echo "${git_api}" | jq -r --arg name "${2}" 'first(.assets[] | select(.name | contains($name)).browser_download_url)')
   echo "(
     [version]='${version}'
     [url]='${url}'

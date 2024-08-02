@@ -8,17 +8,18 @@ topic 'UPDATE DEVELOPMENT TOOLS'
 
 function install_hadolint() {
   task 'Update hadolint'
-  declare -A data="$(git_data https://api.github.com/repos/hadolint/hadolint/releases/latest hadolint-Linux-x86_64)"
-  if ! (hadolint --version | grep -q ${data[version]//v/}) ;then
-    wget -q -O ${HOME}/bin/hadolint ${data[url]}
-    chmod +x ${HOME}/bin/hadolint
+  declare -A data="$(git_data hadolint/hadolint hadolint-Linux-x86_64)"
+  bin_file="${HOME}/bin/hadolint"
+  if [ ! -e ${bin_file} ] || ! (hadolint --version | grep -q ${data[version]//v/}) ;then
+    wget -q -O ${bin_file} ${data[url]}
+    chmod +x ${bin_file}
   fi
 }
 
 function install_k9s() {
   task "Update k9s"
-  declare -A data="$(git_data https://api.github.com/repos/derailed/k9s/releases/latest k9s_Linux_amd64.tar.gz)"
-  if ! (k9s version |grep -q ${data[version]}) ;then
+  declare -A data="$(git_data derailed/k9s k9s_Linux_amd64.tar.gz)"
+  if [ ! -e ${HOME}/bin/k9s ] || ! (k9s version |grep -q ${data[version]}) ;then
     wget -q -O /tmp/k9s.tar.gz ${data[url]}
     tar -xvf /tmp/k9s.tar.gz -C ${HOME}/bin k9s
   fi
@@ -31,38 +32,40 @@ function install_helm() {
 
 function install_helm_lsp() {
   task "Update helm LSP"
-  file_name=${HOME}/bin/helm_ls
-  sha_match="$(match_sha256sum https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_linux_amd64.sha256sum ${file_name})"
-  if [ -e ${file_name} ] || [ ${sha_match} == 'no-match' ] ;then
-    wget -q -O ${HOME}/bin/helm_ls https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_linux_amd64
-    chmod +x ${HOME}/bin/helm_ls
+  declare -A data="$(git_data mrjosh/helm-ls helm_ls_linux_amd64)"
+  bin_file=${HOME}/bin/helm_ls
+  if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/helm_lsp.version) ;then
+    echo ${data[version]} > ${HOME}/tools/helm_lsp.version
+    wget -q -O ${bin_file} ${data[url]}
+    chmod +x ${bin_file}
   fi
 }
 
 function install_tflint() {
   task "Update tflint"
-  declare -A data="$(git_data https://api.github.com/repos/terraform-linters/tflint/releases/latest)"
-  if ! (tflint --version | grep -q ${data[version]//v/}) ;then
+  declare -A data="$(git_data terraform-linters/tflint)"
+  if ! (command -v tflint &> /dev/null) || ! (tflint --version | grep -q ${data[version]//v/}) ;then
     curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
   fi
 }
 
 function install_golangci_lint() {
   task "Update golangci-lint"
-  declare -A data="$(git_data https://api.github.com/repos/golangci/golangci-lint/releases/latest)"
-  if (golangci-lint --version | grep -q ${data[version]//v/}) ;then
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s ${version}
+  declare -A data="$(git_data golangci/golangci-lint)"
+  if ! (command -v golangci-lint &> /dev/null) || ! (golangci-lint --version | grep -q ${data[version]//v/}) ;then
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s ${data[version]}
+    go install github.com/nametake/golangci-lint-langserver@latest
   fi
-  go install github.com/nametake/golangci-lint-langserver@latest
 }
 
 function install_marksman() {
   task "Update marksman (Markdown LSP)"
-  declare -A data="$(git_data https://api.github.com/repos/artempyanykh/marksman/releases/latest marksman-linux-x64)"
-  if ! (grep -q ${data[version]} ${HOME}/tools/marksman.version) ;then
+  declare -A data="$(git_data artempyanykh/marksman marksman-linux-x64)"
+  bin_file=${HOME}/bin/marksman
+  if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/marksman.version) ;then
     echo ${data[version]} > ${HOME}/tools/marksman.version
-    wget -q -O ${HOME}/bin/marksman ${data[url]}
-    chmod +x ${HOME}/bin/marksman
+    wget -q -O ${bin_file} ${data[url]}
+    chmod +x ${bin_file}
   fi
 }
 
@@ -80,23 +83,25 @@ function install_puppet_editor_services() {
 
 function install_lua_lsp() {
   task "Update Lua Language Server"
-  declare -A data="$(git_data https://api.github.com/repos/LuaLS/lua-language-server/releases/latest lua-language-server-${version}-linux-x64.tar.gz)"
+  declare -A data="$(git_data LuaLS/lua-language-server linux-x64.tar.gz)"
   dir_name=${tools_dir}/lua-language-server
+  bin_file=${HOME}/bin/luals.sh
   mkdir -p $dir_name
-  if ! (luals.sh --version | grep -q ${data[version]}) ;then
+  if [ ! -e ${bin_file} ] || ! (luals.sh --version | grep -q ${data[version]}) ;then
     wget -q -O /tmp/luals.tar.gz ${data[url]}
-    tar -xf /tmp/luals.tar.gz -C $dir_name \
-      && echo "exec \"${dir_name}/bin/lua-language-server\" \"\$@\"" > ~/bin/luals.sh \
-      && chmod +x ~/bin/luals.sh
+    tar -xf /tmp/luals.tar.gz -C ${dir_name} \
+      && echo "exec \"${dir_name}/bin/lua-language-server\" \"\$@\"" > ${bin_file} \
+      && chmod +x ${bin_file}
   fi
 }
 
 function install_lemminx() {
   task "Update lemminx (XML LSP)"
+  declare -A data="$(git_data redhat-developer/vscode-xml linux.zip)"
   bin_file=${HOME}/bin/lemminx
-  sha_match="$(match_sha256sum https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.sha256 ${bin_file})"
-  if [ -e ${bin_file} ] || [ ${sha_match} == 'no-match' ] ;then
-    wget -q -O /tmp/lemminx.zip https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.zip
+  if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/lemminx.version) ;then
+    echo ${data[version]} > ${HOME}/tools/lemminx.version
+    wget -q -O /tmp/lemminx.zip ${data[url]}
     unzip -q /tmp/lemminx.zip -d /tmp/
     mv -f /tmp/lemminx-linux ${bin_file}
   fi
@@ -104,12 +109,22 @@ function install_lemminx() {
 
 function install_argocd_cli() {
   task "Update ArgoCD CLI"
-  declare -A data="$(git_data https://api.github.com/repos/argoproj/argo-cd/releases/latest)"
+  declare -A data="$(git_data argoproj/argo-cd linux-amd64)"
   bin_file=${HOME}/bin/argocd
-  if ! (argocd version --client | head -1 | grep -q ${data[version]}) ;then
+  if [ ! -e ${bin_file} ] || ! (argocd version --client | head -1 | grep -q ${data[version]}) ;then
     rm -f ${bin_file}
-    wget -q -O ${bin_file} https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-    chmod +x ${bin_file}
+    wget -q -O ${bin_file} ${data[url]}
+    chmod +x ${HOME}/bin/argocd
+  fi
+}
+
+function install_lazygit() {
+  task 'Update lazygit'
+  declare -A data="$(git_data jesseduffield/lazygit Linux_x86_64.tar.gz)"
+  bin_file=${HOME}/bin/lazygit
+  if [ ! -e ${bin_file} ] || ! (lazygit --version | grep -q ${data[version]//v/}) ;then
+    wget -q -O /tmp/lazygit.tar.gz ${data[url]}
+    tar -xvf /tmp/lazygit.tar.gz -C ${HOME}/bin lazygit
   fi
 }
 
@@ -124,3 +139,4 @@ install_marksman
 install_golangci_lint
 install_puppet_editor_services
 install_argocd_cli
+install_lazygit
