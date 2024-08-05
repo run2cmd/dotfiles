@@ -44,5 +44,6 @@ universal-ctags
 unzip
 wget
 xz-utils
+yq
 zip
 zlib1g-dev
