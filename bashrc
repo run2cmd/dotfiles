@@ -22,6 +22,7 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 export EDITOR='vi'
 export VISUAL='vi'
 export PAGER=less
+set -o vi
 
 # Setup path
 export PATH=~/bin:$PATH
@@ -57,8 +58,6 @@ alias luamake=${HOME}/tools/lua-language-server/3rd/luamake/luamake
 export PATH=$PATH:${HOME}/.pulumi/bin
 export ANSIBLE_ROLES_PATH=/code/ansible-igt-puppet/roles:/code/ansible-igt-services/roles:/code/ansible-dew-common/roles
 
-set -o vi
-
 # Git nice PS
 parse_git_branch() {
   if test -d .git ;then
@@ -74,14 +73,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 if [ -e $PYENV_ROOT ] ;then
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
-  [ -s "$NVM_DIR/bash_completion" ] && source $PYENV_ROOT/completions/pyenv.bash
+  source $PYENV_ROOT/completions/pyenv.bash
 fi
 
 ## Load nvm and nvm bash_completion
 export NVM_DIR="$HOME/.nvm"
 if [ -e $NVM_DIR ] ;then
-  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+  source "$NVM_DIR/nvm.sh"
+  source "$NVM_DIR/bash_completion"
   export PATH=$HOME/node_modules/.bin:$PATH
 fi
 
@@ -89,7 +88,7 @@ fi
 export RVM_ROOT="$HOME/.rvm"
 if [ -e $RVM_ROOT ] ;then
   export PATH="$PATH:$RVM_ROOT/bin"
-  [ -s "$RVM_ROOT/scripts/rvm" ] && source "$RVM_ROOT/scripts/rvm"
+  source "$RVM_ROOT/scripts/rvm"
 fi
 
 # Load sdkman
@@ -108,8 +107,9 @@ export PATH=$PATH:/home/pbugala/tools/go/main/go/bin
 export PATH=$HOME/tools/tfenv/bin:$PATH
 export PATH=$HOME/tools/tgenv/bin:$PATH
 
+# Fix for IGT VPN
+if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
+
 # SSH Agent
 pgrep ssh-agent &>/dev/null || eval `keychain --eval --agents ssh id_rsa`
 
-# Fix for IGT VPN
-if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
