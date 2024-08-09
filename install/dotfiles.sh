@@ -51,6 +51,7 @@ declare -A make_links=(
   ["Pkgfile"]="Pkgfile"
   ["rubocop.yml"]=".config/rubocop/config.yml"
   ["codenarc.properties"]=".codenarc.properties"
+  ["gitexclude"]=".gitignore"
 )
 for mlink in "${!make_links[@]}" ;do
   ln -snf ${repodir}/${mlink} ${HOME}/${make_links["${mlink}"]}
