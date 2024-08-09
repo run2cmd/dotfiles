@@ -11,24 +11,31 @@ run_command() {
 current_sub=$(az account show --query name)
 echo "Using ${current_sub} subscription"
 
-subscriptions() {
-  echo "List subscriptions"
-  run_command az account list --query [].[name,id]
-}
+storage() {
+  PS3="Choice: "
 
-storage_accounts() {
-  echo "List storage accounts"
-  run_command az storage account list --query [].name
-}
+  echo "Choose storage account"
+  accounts="$(az storage account list --query [].name)"
+  readarray -t acc_array < <(echo $accounts| jq -c .[])
+  select acc_opt in "${acc_array[@]}" ;do
+    case "${acc_opt}" in
+      *)
+        containers="$(az storage container list --account-name ${acc_opt//\"/} --auth-mode login --query [].name)"
+        break
+      ;;
+    esac
+  done
 
-storage_containers() {
-  echo "List containers on ${1}"
-  run_command az storage container list --account-name ${1} --auth-mode login --query [].name
-}
-
-storage_blobs() {
-  echo "List blobs on ${1} in container ${2}"
-  run_command az storage blob list --account-name ${1} --auth-mode login --container-name ${2} --query [].name
+  echo "Choose container"
+  readarray -t cont_array < <(echo $containers | jq -c .[])
+  select cont_opt in "${cont_array[@]}" ;do
+    case "${cont_opt}" in
+      *)
+        run_command az storage blob list --account-name ${acc_opt//\"/} --auth-mode login --container-name ${cont_opt//\"/} --query [].name
+        break
+      ;;
+    esac
+  done
 }
 
 resources() {
@@ -41,24 +48,38 @@ aks() {
   run_command az aks list --query [].name
 }
 
-set_sub() {
-  echo "Set subscription ${1}"
-  run_command az account set --subscription ${1}
+set_subscription() {
+  PS3="Choice: "
+
+  echo "Choose subscription:"
+  subs="$(az account list --query [].[name])"
+  readarray -t sub_array < <(echo $subs| jq -c .[])
+  select opt in "${sub_array[@]}" ;do
+    case "${opt}" in
+      *) run_command az account set --subscription $(echo $opt | jq .[0] |sed 's/"//g') && break ;;
+    esac
+  done
 }
 
-acr_registries() {
-  echo "List container registires"
-  run_command az acr list --query [].name
-}
+acr() {
+  PS3="Choice: "
 
-acr_cache() {
-  echo "List ACR cache for ${1}"
-  run_command az acr cache list --registry ${1} --query [].name
-}
+  echo "Chose registry:"
+  registries="$(az acr list --query [].name)"
+  readarray -t acr_array < <(echo $registries | jq -c .[])
+  select reg_opt in "${acr_array[@]}" ;do
+    case "${reg_opt}" in
+      *) reg="${reg_opt//\"/}" && break ;;
+    esac
+  done
 
-acr_repo() {
-  echo "List ACR repository for ${1} registry"
-  run_command az acr repository list --name ${1}
+  echo "Choose acr mode:"
+  select mode_opt in cache repository ;do
+    case "${mode_opt}" in
+      cache) run_command az acr cache list --registry ${reg} --query [].name && break ;;
+      repository) run_command az acr repository list --name ${reg} && break ;;
+    esac
+  done
 }
 
 sshuttle() {
@@ -86,57 +107,49 @@ ssh_vm() {
   ssh -F ${ssh_file} ${ip_address}
 }
 
-list_keyvaults() {
-  echo "List keyvaults"
-  run_command az keyvault list --query "[].name"
-}
+keyvaults() {
+  vaults="$(az keyvault list --query [].name)"
+  PS3="Choice: "
 
-list_keyvault_secrets() {
-  echo "List secrets for ${1} keyvault"
-  run_command az keyvault secret list --vault-name ${1} --query "[].name"
-}
+  echo "Choose keyvault:"
+  readarray -t vault_array < <(echo $vaults | jq -c .[])
+  select key_opt in "${vault_array[@]}" ;do
+    case "${key_opt}" in
+      *) secrets="$(az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
+    esac
+  done
 
-show_keyvault_secret_value() {
-  echo "Show secret ${2} for keyvault ${1}"
-  run_command az keyvault secret show --vault-name ${1} --name ${2} --query "[name, value]"
+  echo "Choose secret:"
+  readarray -t sec_array < <(echo $secrets | jq -c .[])
+  select sec_opt in "${sec_array[@]}" ;do
+    case "${sec_opt}" in
+      *) run_command az keyvault secret show --vault-name ${key_opt//\"/} --name ${sec_opt//\"/} --query "[name, value]" && break ;;
+    esac
+  done
 }
 
 case $MODE in
-  subs) subscriptions ;;
-  set-sub) set_sub $2 ;;
-  str-storage) storage_accounts ;;
-  str-blobs) storage_blobs $2 $3 ;;
-  str-con) storage_containers $2 ;;
-  acr-regs) acr_registries ;;
-  acr-cache) acr_cache $2 ;;
-  acr-repo) acr_repo $2 ;;
+  sub) set_subscription ;;
+  blobs) storage ;;
+  acr) acr ;;
   resources) resources ;;
   aks) aks ;;
+  kvs) keyvaults ;;
   tunnel) sshuttle $2 $3 ;;
   ssh) ssh_vm $2 ;;
-  kvs) list_keyvaults ;;
-  kv-secrets) list_keyvault_secrets $2 ;;
-  kv-secret-show) show_keyvault_secret_value $2 $3 ;;
   *) echo '
     Usage: azw [mode] [mode_parameters]
-    
+
     You need to login to Azure using `az login` command
 
     Modes:
-      subs - List available subscriptions
-      set-sub - Set subscription, params: $1=subscription_name
-      str-storage - List storage accounts
-      str-blobs - List blobs, params: $1=storage_account, $2=container_name
-      str-cont - List containers, params: $1=storage_account
-      acr-regs - List container registires
-      acr-cache - List ACR caches, params: $1=registry_name
-      acr-repo - List ACR repository, params: $1=registry_name
+      sub - Set subscription
+      blobs - Show blobs in storage container
+      acr - Show ACR contents. Supports cache and registry containers
       aks - List AKS instances
+      kvs - Show keyvault secret value
       resources - List all resources
       tunnel - Open tunnel for environment using sshuttle, params: $1=product_name, $2=environment
       ssh - SSH to resource in Azure, params: $1=ip_address
-      kvs - List keyvaults
-      kv-secrets - List secrets for keyvault, params $1=keyvault_name
-      kv-secret-show - Show secret vaule, params: $1=keyvault_name, $2=secret_name
     '
 esac
