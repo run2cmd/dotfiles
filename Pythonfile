@@ -13,3 +13,5 @@ ansible-lint
 yapf
 flake8
 python-lsp-server
+harlequin
+harlequin-postgres
