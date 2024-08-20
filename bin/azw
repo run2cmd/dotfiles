@@ -2,25 +2,29 @@
 
 MODE=$1
 
+trun() {
+  timeout 20 "$@" || echo "Error: Timeout after 20 seconds"
+}
+
 run_command() {
   echo "Command: ${*}"
   echo ""
-  "$@"
+  timeout 20 "$@" || echo "Error: Timeout after 20 seconds"
 }
 
-current_sub=$(az account show --query name)
+current_sub=$(trun az account show --query name)
 echo "Using ${current_sub} subscription"
 
 storage() {
   PS3="Choice: "
 
   echo "Choose storage account"
-  accounts="$(az storage account list --query [].name)"
+  accounts="$(trun az storage account list --query [].name)"
   readarray -t acc_array < <(echo $accounts| jq -c .[])
   select acc_opt in "${acc_array[@]}" ;do
     case "${acc_opt}" in
       *)
-        containers="$(az storage container list --account-name ${acc_opt//\"/} --auth-mode login --query [].name)"
+        containers="$(trun az storage container list --account-name ${acc_opt//\"/} --auth-mode login --query [].name)"
         break
       ;;
     esac
@@ -52,7 +56,7 @@ set_subscription() {
   PS3="Choice: "
 
   echo "Choose subscription:"
-  subs="$(az account list --query [].[name])"
+  subs="$(trun az account list --query [].[name])"
   readarray -t sub_array < <(echo $subs| jq -c .[])
   select opt in "${sub_array[@]}" ;do
     case "${opt}" in
@@ -65,7 +69,7 @@ acr() {
   PS3="Choice: "
 
   echo "Chose registry:"
-  registries="$(az acr list --query [].name)"
+  registries="$(trun az acr list --query [].name)"
   readarray -t acr_array < <(echo $registries | jq -c .[])
   select reg_opt in "${acr_array[@]}" ;do
     case "${reg_opt}" in
@@ -108,14 +112,14 @@ ssh_vm() {
 }
 
 keyvaults() {
-  vaults="$(az keyvault list --query [].name)"
+  vaults="$(trun az keyvault list --query [].name)"
   PS3="Choice: "
 
   echo "Choose keyvault:"
   readarray -t vault_array < <(echo $vaults | jq -c .[])
   select key_opt in "${vault_array[@]}" ;do
     case "${key_opt}" in
-      *) secrets="$(az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
+      *) secrets="$(trun az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
     esac
   done
 
