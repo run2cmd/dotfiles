@@ -11,6 +11,7 @@ function install_hadolint() {
   declare -A data="$(git_data hadolint/hadolint hadolint-Linux-x86_64)"
   bin_file="${HOME}/bin/hadolint"
   if [ ! -e ${bin_file} ] || ! (hadolint --version | grep -q ${data[version]//v/}) ;then
+    rm -f ${bin_file}
     wget -q -O ${bin_file} ${data[url]}
     chmod +x ${bin_file}
   fi
@@ -35,6 +36,7 @@ function install_helm_lsp() {
   declare -A data="$(git_data mrjosh/helm-ls helm_ls_linux_amd64)"
   bin_file=${HOME}/bin/helm_ls
   if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/helm_lsp.version) ;then
+    rm -f ${bin_file}
     echo ${data[version]} > ${HOME}/tools/helm_lsp.version
     wget -q -O ${bin_file} ${data[url]}
     chmod +x ${bin_file}
@@ -63,6 +65,7 @@ function install_marksman() {
   declare -A data="$(git_data artempyanykh/marksman marksman-linux-x64)"
   bin_file=${HOME}/bin/marksman
   if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/marksman.version) ;then
+    rm -f ${bin_file}
     echo ${data[version]} > ${HOME}/tools/marksman.version
     wget -q -O ${bin_file} ${data[url]}
     chmod +x ${bin_file}
@@ -88,6 +91,7 @@ function install_lua_lsp() {
   bin_file=${HOME}/bin/luals.sh
   mkdir -p $dir_name
   if [ ! -e ${bin_file} ] || ! (luals.sh --version | grep -q ${data[version]}) ;then
+    rm -f ${bin_file}
     wget -q -O /tmp/luals.tar.gz ${data[url]}
     tar -xf /tmp/luals.tar.gz -C ${dir_name} \
       && echo "exec \"${dir_name}/bin/lua-language-server\" \"\$@\"" > ${bin_file} \
@@ -123,8 +127,20 @@ function install_lazygit() {
   declare -A data="$(git_data jesseduffield/lazygit Linux_x86_64.tar.gz)"
   bin_file=${HOME}/bin/lazygit
   if [ ! -e ${bin_file} ] || ! (lazygit --version | grep -q ${data[version]//v/}) ;then
+    rm -f ${bin_file}
     wget -q -O /tmp/lazygit.tar.gz ${data[url]}
     tar -xvf /tmp/lazygit.tar.gz -C ${HOME}/bin lazygit
+  fi
+}
+
+function install_yq() {
+  task 'Update yq (yaml processor)'
+  declare -A data="$(git_data mikefarah/yq yq_linux_amd64)"
+  bin_file=${HOME}/bin/yq
+  if [ ! -e ${bin_file} ] || ! (yq --version | grep -q ${data[version]}) ; then
+    rm -f ${bin_file}
+    wget -q -O $bin_file ${data[url]}
+    chmod +x ${bin_file}
   fi
 }
 
@@ -140,3 +156,4 @@ install_golangci_lint
 install_puppet_editor_services
 install_argocd_cli
 install_lazygit
+install_yq
