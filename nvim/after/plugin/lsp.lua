@@ -147,7 +147,7 @@ lspconfig.yamlls.setup(config({
 lspconfig.solargraph.setup(config({
   cmd = { 'sgraph' },
 }))
-lspconfig.lemminx.setup(config())
+lspconfig.marksman.setup(config())
 lspconfig.diagnosticls.setup(config({
   filetypes = { 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
   init_options = {

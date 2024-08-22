@@ -1,34 +1,24 @@
 # run2cmd dotfiles
 
-This is my personal configuration that I use to work day to day. My setup is
-Windows OS + WSL2(Debian). My setup mostly resides in WSL but there is some
-Windows integration is use, however it is WSL2 based and only few tools are on
-Windows so this solution in 100% compatible with any Linux setup.
+This is my personal configuration that I use to work day to day. My setup is Windows OS + WSL2(Debian). My setup mostly resides in WSL but there is some Windows integration is use, however it is WSL2 based and only few tools are on Windows so this solution in 100% compatible with any Linux setup.
 
 ## Workflow 2.0
 
-I'm doing devops(ich) work so my environment is setup to support multiple
-tools. I choose [WezTerm](https://wezfurlong.org/wezterm/index.html) as default
-terminal on Windows however multiplexing is mostly done in
-[tmux](https://github.com/tmux/tmux). Entire work flow is created around
-[NeoVim](https://github.com/neovim/neovim) and its plugins and features. In most cases I
-only leave it when I SSH to remote servers.
+I'm doing devops(ich) work so my environment is setup to support multiple tools. I choose [WezTerm](https://wezfurlong.org/wezterm/index.html) as default terminal on Windows however multiplexing is mostly done in [tmux](https://github.com/tmux/tmux). Entire work flow is created around [NeoVim](https://github.com/neovim/neovim) and its plugins and features. In most cases I only leave it when I SSH to remote servers.
 
-Previously I used VIM for Windows with WSL2 support but it appeared that VIM on
-WSL2 has much better performance.
+Previously I used VIM for Windows with WSL2 support but it appeared that VIM on WSL2 has much better performance.
 
 ## Installation
 
-Clone this project into WSL2 instance and Run `install.sh all` to install
-all tools.
+Clone this project into WSL2 instance and Run `install.sh all` to install all tools.
 
-After 1st install new `dotfiles-update` link is created to which will be available on PATH.
-Run `dotfiles-update help` to list available options.
+After 1st install new `dotfiles-update` link is created to which will be available on PATH. Run `dotfiles-update help` to list available options.
+
+Bare in mind that a lot of tools have Git based installation. Running `dotfiles-update` often might cause timeout from `github.com` page due to connection limit.
 
 ## Technology stack
 
-Entire workflow is build around languages, tools and filetypes I work with day to day.
-Configurations is set to focus on them.
+Entire workflow is build around languages, tools and filetypes I work with day to day. Configurations is set to focus on them.
 
 - Puppet
 - Ansible
@@ -51,12 +41,15 @@ Configurations is set to focus on them.
 
 ## Tools
 
-I use [Winget](https://github.com/microsoft/winget-cli) to download software in Windows and APT for
-Ubuntu. Some tools are installed based on language they are written in. Check
-list of packages.
+I use [Winget](https://github.com/microsoft/winget-cli) to download software in Windows and APT for Ubuntu. For some development tools I use [Homebrew](https://docs.brew.sh/Homebrew-on-Linux) as they get more recent version. Other might be installed based on language they are written in.
+
+The basic idea is to first try to install tools for specific language. So use Gemfile for Ruby or Pythonfile for Python, etc. Then use Homebrew but only in case of not much dependencies. Since Homebrew install everything in separate directory it will download packages like openssl or gcc which duplicates your system packages. And as last goes system packages.
+
+Check list of packages:
 
 - [Windows packages](Winfile)
 - [Ubuntu packages](Pkgfile)
+- [Brew packages](Brewfile)
 - [Ruby gems](Gemfile)
 - [Python packages](Pythonfile)
 - [Nodejs packages](package.json)
@@ -70,8 +63,7 @@ I use language version managers:
 
 ## Neovim
 
-I use my own VIM workflow. I like it to be easy and as much automated as
-possible. Here are some core features:
+I use my own VIM workflow. I like it to be easy and as much automated as possible. Here are some core features:
 
 - LSP support enabled by default. Support for languages and filetypes I work with.
 - Automcompletion enabled by default. Utilize LSP, buffers and snippets.
@@ -150,8 +142,7 @@ I use my own easy test implementation to run in new tmux pane placed in bottom o
 
 ## Docker Desktop
 
-To have Systemd work in Docker images you need to create `systemd` cgroup in
-Docker WSL. This might work out of the box with Docker on WSL2.
+To have Systemd work in Docker images you need to create `systemd` cgroup in Docker WSL. This might work out of the box with Docker on WSL2.
 
 ```bash
 mkdir -p /sys/fs/cgroup/systemd

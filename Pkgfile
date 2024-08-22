@@ -11,8 +11,6 @@ dnsutils
 fd-find
 fuse
 git
-gh
-jq
 keychain
 libbz2-dev
 libffi-dev
@@ -29,12 +27,10 @@ make
 ninja-build
 nmap
 openssh-client
-pdk
 plantuml
 ripgrep
 rpm
 rpm2cpio
-shellcheck
 sshpass
 sshuttle
 tk-dev

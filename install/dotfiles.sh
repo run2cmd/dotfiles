@@ -49,6 +49,7 @@ declare -A make_links=(
   ["Gemfile_2.4.10"]="Gemfile_2.4.10"
   ["Gemfile_2.0.0"]="Gemfile_2.0.0"
   ["Pkgfile"]="Pkgfile"
+  ["Brewfile"]="Brewfile"
   ["rubocop.yml"]=".config/rubocop/config.yml"
   ["codenarc.properties"]=".codenarc.properties"
   ["gitexclude"]=".gitignore"

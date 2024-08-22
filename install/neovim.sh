@@ -7,8 +7,9 @@ toolsdir=${HOME}/tools
 topic 'UPDATE NEOVIM'
 
 appfile=${toolsdir}/nvim.appimage
-sha_match="$(match_sha256sum https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum ${appfile})"
-if [ ! -e ${appfile} ] || [ ${sha_match} == 'no-match' ] ;then
+git_sha="$(wget -qO- https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum | cut -d' ' -f1)"
+file_sha="$(sha256sum ${appfile} | cut -d' ' -f1)"
+if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
   wget -q -O ${appfile} https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
   chmod u+x ${appfile}
   ln -snf ${appfile} ~/bin/nvim

@@ -16,37 +16,28 @@ task 'Update brew packages'
 
 brew update
 
-brewpkgs=(hadolint k9s helm helm-ls tflint golangci-lint marksman lua-language-server argocd lazygit yq kubectl)
+to_install=''
+pkglist="$(brew list)"
+while read -r line ;do
+  if ! (echo "${pkglist}" | grep -q "${line}") ;then
+    to_install="${to_install} ${line}"
+  fi
+done < ${HOME}/Brewfile
 
-for pkg in "${brewpkgs[@]}" ;do
-  brew install $pkg
-done
+if [ "${to_install}" != '' ] ;then
+  brew install ${to_install}
+fi
 
 brew upgrade
 
-install_puppet_editor_services() {
-  task "Update puppet editor services (LSP)"
-  dir_path=${tools_dir}/puppet-editor-services
-  git_clone https://github.com/puppetlabs/puppet-editor-services.git $dir_path
-  if [ "$(git_check_update ${dir_path} Gemfile.lock)" == "1" ] ;then
-    git -C ${dir_path} pull
-    bundle install --gemfile=${dir_path}/Gemfile
-    bundle exec rake -f ${dir_path}/Rakefile gem_revendor
-    ln -snf ${dir_path}/puppet-languageserver ~/bin/puppet-languageserver
-  fi
-}
-
-install_lemminx() {
-  task "Update lemminx (XML LSP)"
-  declare -A data="$(git_data redhat-developer/vscode-xml linux.zip)"
-  bin_file=${HOME}/bin/lemminx
-  if [ ! -e ${bin_file} ] || ! (grep -q ${data[version]} ${HOME}/tools/lemminx.version) ;then
-    echo ${data[version]} > ${HOME}/tools/lemminx.version
-    wget -q -O /tmp/lemminx.zip ${data[url]}
-    unzip -q /tmp/lemminx.zip -d /tmp/
-    mv -f /tmp/lemminx-linux ${bin_file}
-  fi
-}
-
-install_lemminx
-install_puppet_editor_services
+task "Update puppet editor services (LSP)"
+dir_path=${tools_dir}/puppet-editor-services
+[ ! -e ${dir_path} ] && git clone https://github.com/puppetlabs/puppet-editor-services.git ${dir_path}
+if [ ! -e "${dir_path}/Gemfile.lock" ] || git -C ${dir_path} remote show origin | grep 'out of date' ;then
+  cd ${dir_path}
+  git pull
+  bundle install --gemfile=${dir_path}/Gemfile
+  bundle exec rake -f ${dir_path}/Rakefile gem_revendor
+  cd -
+  ln -snf ${dir_path}/puppet-languageserver ~/bin/puppet-languageserver
+fi
