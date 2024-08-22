@@ -1,6 +1,5 @@
 augeas-tools
 bat
-build-essential
 bash-completion
 cht.sh
 cpio
@@ -14,7 +13,6 @@ fuse
 git
 gh
 jq
-kubernetes-client
 keychain
 libbz2-dev
 libffi-dev

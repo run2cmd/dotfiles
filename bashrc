@@ -57,6 +57,9 @@ alias luamake=${HOME}/tools/lua-language-server/3rd/luamake/luamake
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
 alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
 
+# Add brew to path
+[ -e /home/linuxbrew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # Add pulumi
 export PATH=$PATH:${HOME}/.pulumi/bin
 
@@ -111,6 +114,9 @@ export PATH=$PATH:/home/pbugala/tools/go/main/go/bin
 # Tgenv and tfenv setup
 export PATH=$HOME/tools/tfenv/bin:$PATH
 export PATH=$HOME/tools/tgenv/bin:$PATH
+
+# Kubernetes completion
+type kubectl &> /dev/null && source <(kubectl completion bash)
 
 # Network fix for VPN
 (ip addr | grep -q eth0 | grep -q 1360) || sudo ip link set mtu 1360 eth0
