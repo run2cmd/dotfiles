@@ -155,11 +155,15 @@ lspconfig.diagnosticls.setup(config({
       mdl = {
         sourceName = 'mdl',
         command = 'mdl',
-        args = { '-j' },
-        parseJson = {
-          line = 'line',
-          message = '[mdl] ${rule} ${description}',
-        },
+        args = { '%relativepath' },
+        formatLines = 1,
+        formatPattern = {
+          '.*:(\\d+):(.*)',
+          {
+            line = 1,
+            message = { '[mdl]', 2 }
+          }
+        }
       },
       erb = {
         sourceName = 'erb',
