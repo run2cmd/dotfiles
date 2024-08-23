@@ -14,13 +14,18 @@ puppet_awk() {
 
 mkdir -p "$(dirname $TAG_FILE)"
 
-if [ $FILE_TYPE = 'puppet' ] ;then
-  ctags -R -o $TAG_FILE --languages=PuppetManifest --exclude=fixtures $TAG_SOURCE
-  rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\]\$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk >> $TAG_FILE
-elif [ $FILE_TYPE = 'icha' ] ;then
-  rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\][A-Z].* \$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk > $TAG_FILE
-elif [ $FILE_TYPE = 'groovy' ] ;then
-  ctags -R -o $TAG_FILE --languages=groovy $TAG_SOURCE
-elif [ $FILE_TYPE = 'sh' ] ;then
-  ctags -R -o $TAG_FILE --languages=sh $TAG_SOURCE
-fi
+case $FILE_TYPE in
+  puppet)
+    ctags -R -o $TAG_FILE --languages=PuppetManifest --exclude=fixtures $TAG_SOURCE
+    rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\]\$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk >> $TAG_FILE
+  ;;
+  icha)
+    rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\][A-Z].* \$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk > $TAG_FILE
+  ;;
+  groovy)
+    ctags -R -o $TAG_FILE --languages=groovy $TAG_SOURCE
+  ;;
+  sh)
+    ctags -R -o $TAG_FILE --languages=sh $TAG_SOURCE
+  ;;
+esac
