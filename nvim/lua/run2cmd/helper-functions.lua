@@ -28,20 +28,6 @@ M.table_contains = function(table, pattern)
   return exists
 end
 
-M.merge = function(...)
-  local tbl = {}
-  for _, i in ipairs({ ... }) do
-    for k, v in pairs(i) do
-      if type(k) == 'number' then
-        table.insert(tbl, v)
-      else
-        tbl[k] = v
-      end
-    end
-  end
-  return tbl
-end
-
 M.file_exists = function(path)
   local file = io.open(path, 'r')
   return file ~= nil and io.close(file)
@@ -57,18 +43,6 @@ M.create_autocmds = function(map)
   end
 end
 
-M.float_text = function(ftext, fopts)
-  local buf = vim.api.nvim_create_buf(false, true)
-  local opts = default_float_params(fopts)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, true, ftext)
-  vim.api.nvim_open_win(buf, 1, opts)
-  mapkey('n', '<Esc>',
-    function()
-      vim.api.nvim_buf_delete(0, { force = true })
-    end, { buffer = true }
-  )
-end
-
 M.float_buffer = function(filepath, fopts)
   local buf = vim.api.nvim_create_buf(false, true)
   local opts = default_float_params(fopts)
@@ -80,18 +54,6 @@ M.float_buffer = function(filepath, fopts)
     end, { buffer = true }
   )
   mapkey('n', '<c-v>', ':q | e' .. filepath .. '<cr>', { buffer = true })
-end
-
-M.float_terminal = function(cmd, fopts)
-  local buf = vim.api.nvim_create_buf(false, true)
-  local opts = default_float_params(fopts)
-  vim.api.nvim_open_win(buf, 1, opts)
-  vim.cmd('term ' .. cmd)
-  mapkey('n', '<Esc>',
-    function()
-      vim.api.nvim_buf_delete(0, { force = true })
-    end, { buffer = true }
-  )
 end
 
 M.cmd_output = function(cmd)
