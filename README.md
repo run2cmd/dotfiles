@@ -97,7 +97,6 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
       - `<leader>sw` - Search for word under cursor in current project.
       - `<leader>sl` - Live search in current project.
       - `<leader>sb` - Live search in current buffer.
-      - `<leader>t` - Jump to test file for current open file. This supports ruby, groovy and puppet.
       - LSP key bindings:
         - `K` - LSP hover.
         - `<leader>bf` - LSP format.
