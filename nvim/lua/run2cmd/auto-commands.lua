@@ -7,12 +7,6 @@ local autocmds = {
   disable_bell = {
     { event = { 'GUIEnter' }, opts = { pattern = '*', command = 'set visualbell t_vb=' } },
   },
-  set_title = {
-    {
-      event = { 'BufFilePre', 'BufEnter', 'BufWinEnter', 'DirChanged' },
-      opts = { pattern = { '*', '!qf' }, command = 'let &titlestring = " " . getcwd()' },
-    },
-  },
   quickfix_window = {
     { event = { 'QuickFixCmdPost' }, opts = { pattern = '[^l]*', command = 'copen 10' } },
     { event = { 'QuickFixCmdPost' }, opts = { pattern = 'l*', command = 'lopen 10' } },
