@@ -81,7 +81,6 @@ lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config({ filetypes = { 'hcl', 'tf' } }))
 lspconfig.marksman.setup(config())
 lspconfig.lua_ls.setup(config({
-  cmd = { 'luals.sh' },
   settings = {
     Lua = {
       runtime = {
