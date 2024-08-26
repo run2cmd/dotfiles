@@ -32,9 +32,10 @@ export PATH=~/bin:$PATH
 export TERM=xterm-256color
 
 # SSH Agent
+eval `keychain -q --eval --agents ssh id_rsa`
 if [ -z $SSH_AUTH_SOCK ] || [ ! -e $SSH_AUTH_SOCK ] ;then
   pgrep ssh-agent &>/dev/null && killall -9 ssh-agent ssh-add
-  eval `keychain --eval --agents ssh id_rsa`
+  eval `keychain -q --eval --agents ssh id_rsa`
 fi
 
 # Tmux Wrapper for ssh so it displays hostname in title
