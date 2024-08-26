@@ -10,6 +10,16 @@ config.colors = {
   background = 'Gray15',
 }
 
-config.default_prog = { 'wsl.exe', '-d', 'Debian', '--cd', '~' }
+config.default_domain = 'WSL:Debian'
+
+config.keys = {
+  {
+    key = 'j',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SpawnTab {
+      DomainName = 'local',
+    },
+  }
+}
 
 return config
