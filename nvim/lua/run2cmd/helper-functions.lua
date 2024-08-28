@@ -1,10 +1,10 @@
 local mapkey = vim.keymap.set
 local M = {}
 
-local function default_float_params(opts)
+local function default_float_params()
   local ui = vim.api.nvim_list_uis()[1]
-  local height = opts.height or 10
-  local widht = opts.width or 100
+  local height = 10
+  local widht = 100
   local defaults = {
     relative = 'editor',
     width = widht,
@@ -15,7 +15,7 @@ local function default_float_params(opts)
     style = 'minimal',
     noautocmd = true,
   }
-  return M.merge(defaults, opts)
+  return defaults
 end
 
 M.table_contains = function(table, pattern)
@@ -43,9 +43,9 @@ M.create_autocmds = function(map)
   end
 end
 
-M.float_buffer = function(filepath, fopts)
+M.float_buffer = function(filepath)
   local buf = vim.api.nvim_create_buf(false, true)
-  local opts = default_float_params(fopts)
+  local opts = default_float_params()
   vim.api.nvim_open_win(buf, 1, opts)
   vim.cmd.edit(filepath)
   mapkey('n', '<Esc>',
