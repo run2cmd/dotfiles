@@ -14,6 +14,10 @@ run_command() {
   trun "$@"
 }
 
+jq_array() {
+  echo "$@" | jq -c .[]
+}
+
 current_sub=$(trun az account show --query name)
 echo "Using ${current_sub} subscription"
 
@@ -22,7 +26,7 @@ storage() {
 
   echo "Choose storage account"
   accounts="$(trun az storage account list --query [].name)"
-  readarray -t acc_array < <(echo $accounts| jq -c .[])
+  readarray -t acc_array < <(jq_array $accounts)
   select acc_opt in "${acc_array[@]}" ;do
     case "${acc_opt}" in
       *)
@@ -33,7 +37,7 @@ storage() {
   done
 
   echo "Choose container"
-  readarray -t cont_array < <(echo $containers | jq -c .[])
+  readarray -t cont_array < <(jq_array $containers)
   select cont_opt in "${cont_array[@]}" ;do
     case "${cont_opt}" in
       *)
@@ -59,7 +63,7 @@ set_subscription() {
 
   echo "Choose subscription:"
   subs="$(trun az account list --query [].[name])"
-  readarray -t sub_array < <(echo $subs| jq -c .[])
+  readarray -t sub_array < <(jq_array $subs)
   select opt in "${sub_array[@]}" ;do
     case "${opt}" in
       *) run_command az account set --subscription $(echo $opt | jq .[0] |sed 's/"//g') && break ;;
@@ -72,7 +76,7 @@ acr() {
 
   echo "Chose registry:"
   registries="$(trun az acr list --query [].name)"
-  readarray -t acr_array < <(echo $registries | jq -c .[])
+  readarray -t acr_array < <(jq_array $registries)
   select reg_opt in "${acr_array[@]}" ;do
     case "${reg_opt}" in
       *) reg="${reg_opt//\"/}" && break ;;
@@ -120,7 +124,7 @@ keyvaults() {
   PS3="Choice: "
 
   echo "Choose keyvault:"
-  readarray -t vault_array < <(echo $vaults | jq -c .[])
+  readarray -t vault_array < <(jq_array $vaults)
   select key_opt in "${vault_array[@]}" ;do
     case "${key_opt}" in
       *) secrets="$(trun az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
@@ -128,7 +132,7 @@ keyvaults() {
   done
 
   echo "Choose secret:"
-  readarray -t sec_array < <(echo $secrets | jq -c .[])
+  readarray -t sec_array < <(jq_array $secrets)
   select sec_opt in "${sec_array[@]}" ;do
     case "${sec_opt}" in
       *) run_command az keyvault secret show --vault-name ${key_opt//\"/} --name ${sec_opt//\"/} --query "[name, value]" && break ;;
@@ -142,7 +146,7 @@ pipelines() {
 
   echo "Choose project:"
   projects="$(trun az devops project list --query value[].name)"
-  readarray -t project_array < <(echo ${projects} | jq -c .[])
+  readarray -t project_array < <(jq_array ${projects})
   select project_opt in "${project_array[@]}" ;do
     case "${project_opt}" in
       *)
@@ -153,7 +157,7 @@ pipelines() {
   done
 
   echo "Choose pipeline:"
-  readarray -t pipeline_array < <(echo ${pipelines} | jq -c .[])
+  readarray -t pipeline_array < <(jq_array ${pipelines})
   select pipeline_opt in "${pipeline_array[@]}" ;do
     case "${pipeline_opt}" in
       *)
@@ -164,7 +168,7 @@ pipelines() {
   done
 
   echo "Choose run:"
-  readarray -t runs_array < <(echo ${runs} | jq -c .[])
+  readarray -t runs_array < <(jq_array ${runs})
   select run_opt in "${runs_array[@]}" ;do
     case "${run_opt}" in
       *)
