@@ -31,6 +31,9 @@ export PATH=~/bin:$PATH
 # Terminal settings
 export TERM=xterm-256color
 
+# Own completion
+source ${HOME}/.bash_completion
+
 # SSH Agent
 eval `keychain -q --eval --agents ssh id_rsa`
 if [ -z $SSH_AUTH_SOCK ] || [ ! -e $SSH_AUTH_SOCK ] ;then
