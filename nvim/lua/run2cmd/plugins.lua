@@ -1,11 +1,12 @@
 require("paq") {
   { 'nvim-lua/plenary.nvim' },
-  { "savq/paq-nvim" },
+  { 'savq/paq-nvim' },
   { 'andymass/vim-matchup' },
   { 'rcarriga/nvim-notify' },
 
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope-ui-select.nvim' },
 
   { 'neovim/nvim-lspconfig' },
   { 'hrsh7th/cmp-nvim-lsp' },

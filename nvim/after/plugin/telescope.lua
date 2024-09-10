@@ -104,6 +104,23 @@ local function find_gh_runs()
     :find()
 end
 
+local function easy_registers()
+  local reglist = {}
+  local yank_reg = helper.yank_registers
+  table.sort(yank_reg)
+  for i,v in ipairs(yank_reg) do
+    reglist[i] = i .. ": " .. vim.fn.getreg(v)
+  end
+  vim.ui.select(reglist, {
+      prompt = 'Choose register',
+  }, function(choice)
+    if choice then
+      local paste_text = string.gsub(choice, '[0-9]*: ', '')
+      vim.api.nvim_paste(paste_text, true ,-1)
+    end
+  end)
+end
+
 require('telescope').setup({
   defaults = {
     file_ignore_patterns = { '.git/', '.svn/' },
@@ -154,11 +171,22 @@ require('telescope').setup({
       git_command = { 'git', 'log', '--full-history', '--format=%h%Cred%d (%cr) (%ce) %s', '--', '.' },
     },
   },
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown({
+        layout_config = {
+          width = 0.5,
+          height = 0.7
+        }
+      })
+    }
+  }
 })
 
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('ui-select')
 
-mapkey('n', '<leader>p', builtin.registers)
+mapkey('n', '<leader>p', easy_registers)
 mapkey('n', '<C-p>', builtin.find_files)
 mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)

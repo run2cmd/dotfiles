@@ -68,6 +68,7 @@ end
 
 M.open_tmux = function()
   vim.cmd('silent !tmux split && tmux resize-pane -D 14')
+  vim.wait(1500, function() end)
 end
 
 M.tmux_id = function()
@@ -90,5 +91,7 @@ M.tmux_cmd = function(id, cmd)
   vim.cmd(string.format('silent !tmux send -t \\%s -X cancel', id))
   vim.cmd(string.format('silent !tmux send -t \\%s "%s" ENTER', id, cmd))
 end
+
+M.yank_registers = { 't', 's', 'r', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a' }
 
 return M

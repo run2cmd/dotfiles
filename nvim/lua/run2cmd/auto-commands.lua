@@ -12,6 +12,22 @@ local autocmds = {
     { event = { 'QuickFixCmdPost' }, opts = { pattern = 'l*', command = 'lopen 10' } },
     { event = { 'FileType' }, opts = { pattern = 'qf', command = 'wincmd J' } },
     { event = { 'FileType' }, opts = { pattern = 'netrw', command = 'setlocal bufhidden=wipe' } },
+  },
+  register_rule = {
+    {
+      event = { 'TextYankPost' },
+      opts = {
+        pattern = "*",
+        callback = function()
+          for idx,reg in ipairs(helpers.yank_registers) do
+            if helpers.yank_registers[idx+1] then
+              vim.cmd('let @' .. reg .. '=@' .. helpers.yank_registers[idx+1])
+            end
+          end
+          vim.cmd('let @a=@"')
+        end
+      }
+    }
   }
 }
 helpers.create_autocmds(autocmds)
