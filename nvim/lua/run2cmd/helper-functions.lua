@@ -92,6 +92,6 @@ M.tmux_cmd = function(id, cmd)
   vim.cmd(string.format('silent !tmux send -t \\%s "%s" ENTER', id, cmd))
 end
 
-M.yank_registers = { 't', 's', 'r', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a' }
+M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }
 
 return M

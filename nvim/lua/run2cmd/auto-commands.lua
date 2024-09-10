@@ -19,9 +19,11 @@ local autocmds = {
       opts = {
         pattern = "*",
         callback = function()
+          local yank_reg = helpers.yank_registers
+          table.sort(yank_reg, function(a,b) return a > b end)
           for idx,reg in ipairs(helpers.yank_registers) do
-            if helpers.yank_registers[idx+1] then
-              vim.cmd('let @' .. reg .. '=@' .. helpers.yank_registers[idx+1])
+            if yank_reg[idx+1] then
+              vim.cmd('let @' .. reg .. '=@' .. yank_reg[idx+1])
             end
           end
           vim.cmd('let @a=@"')
