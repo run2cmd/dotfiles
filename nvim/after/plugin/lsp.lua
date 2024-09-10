@@ -98,7 +98,7 @@ lspconfig.lua_ls.setup(config({
   },
 }))
 lspconfig.golangci_lint_ls.setup(config())
-lspconfig.tsserver.setup(config())
+lspconfig.ts_ls.setup(config())
 lspconfig.jdtls.setup(config())
 lspconfig.ansiblels.setup(config({
   settings = {
