@@ -18,6 +18,10 @@ jq_array() {
   echo "$@" | jq -c .[]
 }
 
+txrw() {
+  if pgrep tmux &> /dev/null ;then tmux rename-window $1 ;fi
+}
+
 current_sub=$(trun az account show --query name)
 echo "Using ${current_sub} subscription"
 
@@ -41,7 +45,7 @@ storage() {
   select cont_opt in "${cont_array[@]}" ;do
     case "${cont_opt}" in
       *)
-        run_command az storage blob list --account-name ${acc_opt//\"/} --auth-mode login --container-name ${cont_opt//\"/} --query [].name
+        run_command az storage blob list --account-name ${acc_opt//\"/} --auth-mode login --container-name ${cont_opt//\"/} --query "[].[name, properties.lastModified"
         break
       ;;
     esac
@@ -99,9 +103,8 @@ sshuttle() {
   if [ -e $script_path ] ; then
     cd $(dirname $script_path)
     echo "Open tunnel with: ${script_path}"
-    if pgrep tmux &> /dev/null ;then tmux rename-window "sshuttle-${product}-${environment}" ;fi
+    txrw "sshuttle-${product}-${environment}"
     $script_path
-    if pgrep tmux &> /dev/null ;then tmux rename-window "bash" ;fi
   else
     echo "Script ${script_path} not found"
   fi
@@ -113,10 +116,10 @@ ssh_vm() {
   if [ ! -e ${ssh_file} ] || [ $((($(date +%s) - $(date -r ${ssh_file} +%s))/60)) -gt 50 ] ;then
     az ssh config --file ${ssh_file} --ip \* --overwrite
   fi
-  tmux rename-window "${ip_address}"
+  txrw "${ip_address}"
   echo "SSH to ${ip_address} using ${ssh_file}"
   ssh -F ${ssh_file} ${ip_address}
-  tmux rename-window "bash"
+  txrw "bash"
 }
 
 keyvaults() {
@@ -162,23 +165,25 @@ pipelines() {
     case "${pipeline_opt}" in
       *)
         pipeline_id=$(echo $pipeline_opt | cut -d"," -f3 | sed 's/]//')
-        runs="$(trun az pipelines runs list --project "${project_name}" --pipeline-ids ${pipeline_id} --query "[].[sourceBranch, id]")"
+        echo "Command: az pipelines runs list --project \"${project_name}\" --pipeline-ids ${pipeline_id} --query \"[].[sourceBranch, buildNumber, startTime, status, result]\""
+        az pipelines runs list --project "${project_name}" --pipeline-ids ${pipeline_id} --query "[].[sourceBranch, buildNumber, startTime, status, result]" | jq -r '["branch", "buildNumber", "startTime", "status", "result"], ["------", "-----------", "---------", "------", "------"], (.[]) | @tsv' | column -t
         break ;;
     esac
   done
+}
 
-  echo "Choose run:"
-  readarray -t runs_array < <(jq_array ${runs})
-  select run_opt in "${runs_array[@]}" ;do
-    case "${run_opt}" in
-      *)
-        run_id=$(echo $run_opt | cut -d"," -f2 | sed 's/]//')
-        run_command az pipelines runs show --project "${project_name}" --id ${run_id} --query "[repository.id, sourceBranch, startTime, status, result]"
-        echo "https://dev.azure.com/IGT-Lottery/${project_name// /%20}/_build/results?buildId=${run_id}&view=results"
-        break ;;
-    esac
-  done
+az_login() {
+  az login --use-device-code
+}
 
+port_forward() {
+  local_port=$1
+  destination_ip=$2
+  destination_port=$3
+  txrw "tunnel-${local_port}:${destination_ip}:${destination_port}"
+  echo "Open local port ${local_port} to point to ${destination_ip}:${destination_port}. For Docker/k8s use 'host.docker.internal' to reach host IP"
+  echo "CTRL + C to stop"
+  nc -l -k -p $local_port -c "nc ${destination_ip} ${destination_port}"
 }
 
 case $MODE in
@@ -191,12 +196,15 @@ case $MODE in
   tunnel) sshuttle $2 $3 ;;
   ssh) ssh_vm $2 ;;
   pipelines) pipelines ;;
+  portfw) port_forward $2 $3 $4 ;;
+  login) az_login ;;
   *) echo '
     Usage: azw [mode] [mode_parameters]
 
     You need to login to Azure using `az login` command
 
     Modes:
+      login - Login with device code
       sub - Set subscription
       blobs - Show blobs in storage container
       acr - Show ACR contents. Supports cache and registry containers
@@ -206,5 +214,8 @@ case $MODE in
       pipelines - Show pipeline status
       tunnel - Open tunnel for environment using sshuttle, params: $1=product_name, $2=environment
       ssh - SSH to resource in Azure, params: $1=ip_address
+      port_fw - Setup local port forwarding (ncat), params: $1=local_port, $2=dest_ip, $3=dest_port
     '
 esac
+
+txrw 'bash'
