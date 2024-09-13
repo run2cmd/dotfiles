@@ -57,6 +57,22 @@ resources() {
   run_command az resource list --query [].name
 }
 
+vm_info() {
+  PS3="Choice: "
+
+  echo "Choose virtual machine:"
+  vms="$(trun az vm list --query [].name)"
+  readarray -t vm_array < <(jq_array $vms)
+  select opt in "${vm_array[@]}" ;do
+    case "${opt}" in
+      *)
+        vm_rg="$(trun az vm list --query "[?name=='${opt//\"/}'].resourceGroup" --output tsv)"
+        run_command az vm list-ip-addresses --resource-group ${vm_rg} --name ${opt//\"/}
+        break ;;
+    esac
+  done
+}
+
 aks() {
   echo "List AKS"
   run_command az aks list --query [].name
@@ -198,6 +214,7 @@ case $MODE in
   pipelines) pipelines ;;
   portfw) port_forward $2 $3 $4 ;;
   login) az_login ;;
+  vms) vm_info ;;
   *) echo '
     Usage: azw [mode] [mode_parameters]
 
@@ -211,6 +228,7 @@ case $MODE in
       aks - List AKS instances
       kvs - Show keyvault secret value
       resources - List all resources
+      vms - Show information about VM
       pipelines - Show pipeline status
       tunnel - Open tunnel for environment using sshuttle, params: $1=product_name, $2=environment
       ssh - SSH to resource in Azure, params: $1=ip_address
