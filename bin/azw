@@ -4,14 +4,11 @@
 
 MODE=$1
 
-trun() {
-  timeout 20 "$@" || echo "Error: Timeout after 20 seconds"
-}
-
 run_command() {
-  echo "Command: ${*}"
-  echo ""
-  trun "$@"
+  (
+    set -x
+    "$@"
+  )
 }
 
 jq_array() {
@@ -22,19 +19,19 @@ txrw() {
   if pgrep tmux &> /dev/null ;then tmux rename-window $1 ;fi
 }
 
-current_sub=$(trun az account show --query name)
+current_sub=$(az account show --query name)
 echo "Using ${current_sub} subscription"
 
 storage() {
   PS3="Choice: "
 
   echo "Choose storage account"
-  accounts="$(trun az storage account list --query [].name)"
+  accounts="$(az storage account list --query [].name)"
   readarray -t acc_array < <(jq_array $accounts)
   select acc_opt in "${acc_array[@]}" ;do
     case "${acc_opt}" in
       *)
-        containers="$(trun az storage container list --account-name ${acc_opt//\"/} --auth-mode login --query [].name)"
+        containers="$(az storage container list --account-name ${acc_opt//\"/} --auth-mode login --query [].name)"
         break
       ;;
     esac
@@ -61,12 +58,12 @@ vm_info() {
   PS3="Choice: "
 
   echo "Choose virtual machine:"
-  vms="$(trun az vm list --query [].name)"
+  vms="$(az vm list --query [].name)"
   readarray -t vm_array < <(jq_array $vms)
   select opt in "${vm_array[@]}" ;do
     case "${opt}" in
       *)
-        vm_rg="$(trun az vm list --query "[?name=='${opt//\"/}'].resourceGroup" --output tsv)"
+        vm_rg="$(az vm list --query "[?name=='${opt//\"/}'].resourceGroup" --output tsv)"
         run_command az vm list-ip-addresses --resource-group ${vm_rg} --name ${opt//\"/}
         break ;;
     esac
@@ -82,7 +79,7 @@ set_subscription() {
   PS3="Choice: "
 
   echo "Choose subscription:"
-  subs="$(trun az account list --query [].[name])"
+  subs="$(az account list --query [].[name])"
   readarray -t sub_array < <(jq_array $subs)
   select opt in "${sub_array[@]}" ;do
     case "${opt}" in
@@ -95,7 +92,7 @@ acr() {
   PS3="Choice: "
 
   echo "Chose registry:"
-  registries="$(trun az acr list --query [].name)"
+  registries="$(az acr list --query [].name)"
   readarray -t acr_array < <(jq_array $registries)
   select reg_opt in "${acr_array[@]}" ;do
     case "${reg_opt}" in
@@ -139,14 +136,14 @@ ssh_vm() {
 }
 
 keyvaults() {
-  vaults="$(trun az keyvault list --query [].name)"
+  vaults="$(az keyvault list --query [].name)"
   PS3="Choice: "
 
   echo "Choose keyvault:"
   readarray -t vault_array < <(jq_array $vaults)
   select key_opt in "${vault_array[@]}" ;do
     case "${key_opt}" in
-      *) secrets="$(trun az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
+      *) secrets="$(az keyvault secret list --vault-name ${key_opt//\"/} --query [].name)" && break ;;
     esac
   done
 
@@ -164,13 +161,13 @@ pipelines() {
   PS3="Choice: "
 
   echo "Choose project:"
-  projects="$(trun az devops project list --query value[].name)"
+  projects="$(az devops project list --query value[].name)"
   readarray -t project_array < <(jq_array ${projects})
   select project_opt in "${project_array[@]}" ;do
     case "${project_opt}" in
       *)
         project_name="${project_opt//\"/}"
-        pipelines="$(trun az pipelines list --project "${project_name}" --query "[].[name, path, id]")"
+        pipelines="$(az pipelines list --project "${project_name}" --query "[].[name, path, id]")"
         break ;;
     esac
   done
@@ -181,8 +178,7 @@ pipelines() {
     case "${pipeline_opt}" in
       *)
         pipeline_id=$(echo $pipeline_opt | cut -d"," -f3 | sed 's/]//')
-        echo "Command: az pipelines runs list --project \"${project_name}\" --pipeline-ids ${pipeline_id} --query \"[].[sourceBranch, buildNumber, startTime, status, result]\""
-        az pipelines runs list --project "${project_name}" --pipeline-ids ${pipeline_id} --query "[].[sourceBranch, buildNumber, startTime, status, result]" | jq -r '["branch", "buildNumber", "startTime", "status", "result"], ["------", "-----------", "---------", "------", "------"], (.[]) | @tsv' | column -t
+        run_command az pipelines runs list --project "${project_name}" --pipeline-ids ${pipeline_id} --query "[].{SourceBranch:sourceBranch, BuildNumber:buildNumber, StartTime:startTime, Status:status, Result:result}" --output table
         break ;;
     esac
   done
