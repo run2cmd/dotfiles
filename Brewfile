@@ -14,3 +14,4 @@ kubernetes-cli
 marksman
 gh
 shellcheck
+oras
