@@ -42,7 +42,7 @@ storage() {
   select cont_opt in "${cont_array[@]}" ;do
     case "${cont_opt}" in
       *)
-        run_command az storage blob list --account-name ${acc_opt//\"/} --auth-mode login --container-name ${cont_opt//\"/} --query "[].[name, properties.lastModified"
+        run_command az storage blob list --account-name ${acc_opt//\"/} --auth-mode login --container-name ${cont_opt//\"/} --query "[].[name, properties.lastModified]"
         break
       ;;
     esac
@@ -104,9 +104,24 @@ acr() {
   select mode_opt in cache repository ;do
     case "${mode_opt}" in
       cache) run_command az acr cache list --registry ${reg} --query [].name && break ;;
-      repository) run_command az acr repository list --name ${reg} && break ;;
+      repository) repos=$(az acr repository list --name ${reg}) && break ;;
     esac
   done
+
+  if [ "${mode_opt}" = "repository" ] ;then
+    echo "Choose repo:"
+    readarray -t repos_array < <(jq_array $repos)
+    select repo in "${repos_array[@]}" ;do
+      case "${repo}" in
+        *)
+          _repo=${repo//\"/}
+          info="$(az acr repository show --name ${reg} --repository ${_repo} --query '{imageName:imageName, lastUpdateTime:lastUpdateTime}')"
+          tags="$(az acr repository show-tags -n ${reg} --repository ${_repo})"
+          echo "${info}, tags: ${tags}"
+          break ;;
+      esac
+    done
+  fi
 }
 
 sshuttle() {
