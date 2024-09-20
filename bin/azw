@@ -213,6 +213,23 @@ port_forward() {
   nc -l -k -p $local_port -c "nc ${destination_ip} ${destination_port}"
 }
 
+run_k9s() {
+  PS3="Choice: "
+  if ! ps -ef | grep -q -E [s]shuttle ;then
+    echo "ERROR: sshuttle not running. Run 'azw tunnel' and rerun."
+    exit 1
+  fi
+  product="$(ps -eo args | grep sshuttle | head -1 | tr -s '/' '\n' |grep 'azure' | cut -d '-' -f1)"
+
+  echo "Choose k8s cluster:"
+  readarray -t contexts_array < <(grep -A3 context ${HOME}/.kube/config | grep name | grep $product | sed 's/.*name: //g')
+  select context in "${contexts_array[@]}" ;do
+    case "${context}" in
+      *) k9s --context $context && break ;;
+    esac
+  done
+}
+
 case $MODE in
   sub) set_subscription ;;
   blobs) storage ;;
@@ -226,6 +243,7 @@ case $MODE in
   portfw) port_forward $2 $3 $4 ;;
   login) az_login ;;
   vms) vm_info ;;
+  k9s) run_k9s ;;
   *) echo '
     Usage: azw [mode] [mode_parameters]
 
@@ -244,6 +262,7 @@ case $MODE in
       tunnel - Open tunnel for environment using sshuttle, params: $1=product_name, $2=environment
       ssh - SSH to resource in Azure, params: $1=ip_address
       port_fw - Setup local port forwarding (ncat), params: $1=local_port, $2=dest_ip, $3=dest_port
+      k9s - List available k8s clusters for product. Product is based on actively running sshuttle process
     '
 esac
 
