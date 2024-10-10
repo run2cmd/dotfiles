@@ -67,23 +67,16 @@ M.cmd_output = function(cmd)
 end
 
 M.open_tmux = function()
-  vim.cmd('silent !tmux split && tmux resize-pane -D 14')
+  if M.tmux_id() == os.getenv('TMUX_PANE') then
+    vim.cmd('silent !tmux split && tmux resize-pane -D 14')
+    vim.wait(3000, function() end)
+  end
 end
 
 M.tmux_id = function()
-  local id = '0'
-  local panes = vim.api.nvim_exec2(
-    '!tmux list-panes -F "\\#D" ' ..
-    '-f "\\#{m:bottom,\\#{?pane_at_bottom,bottom,}}" '..
-    '-f "\\#{?\\#{m:nvim,\\#{pane_current_command}},0,1}"',
-    { output = true }
-  )
-  for pane_id in string.gmatch(panes.output, "[^\r\n]+") do
-    if string.match(pane_id, "^%%") then
-      id = pane_id
-    end
-  end
-  return id
+  local pane_id = vim.api.nvim_exec2('!tmux list-panes -F "\\#D" | tail -1', {output = true})['output']
+  local strip_id = vim.trim(vim.split(pane_id, '\n')[3])
+  return strip_id
 end
 
 M.tmux_cmd = function(id, cmd)

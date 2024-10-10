@@ -77,12 +77,9 @@ local test_tbl = {
 }
 
 local function run_test(cmd)
-  if helpers.tmux_id() == '0' then
-    helpers.open_tmux()
-  end
+  helpers.open_tmux()
   local id = helpers.tmux_id()
-  helpers.tmux_cmd(id, 'cd ' .. vim.fn.getcwd())
-  helpers.tmux_cmd(id, 'clear')
+  helpers.tmux_cmd(id, 'cd ' .. vim.fn.getcwd() .. ' && clear')
   helpers.tmux_cmd(id, cmd)
 end
 

@@ -2,12 +2,9 @@ local mapkey = vim.keymap.set
 local helpers = require('run2cmd.helper-functions')
 
 local function tmux_terminal()
-  if helpers.tmux_id() == '0' then
-    helpers.open_tmux()
-  else
-    local id = helpers.tmux_id()
-    helpers.tmux_cmd(id, 'cd ' .. vim.uv.cwd() .. ' && clear')
-  end
+  helpers.open_tmux()
+  local id = helpers.tmux_id()
+  helpers.tmux_cmd(id, 'cd ' .. vim.uv.cwd() .. ' && clear')
 end
 
 for _, key in ipairs({ "h", "j", "k", "l", "+", "-" }) do
