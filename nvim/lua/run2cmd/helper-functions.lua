@@ -68,7 +68,6 @@ end
 
 M.open_tmux = function()
   vim.cmd('silent !tmux split && tmux resize-pane -D 14')
-  vim.wait(1500, function() end)
 end
 
 M.tmux_id = function()

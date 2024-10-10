@@ -18,6 +18,7 @@ ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/11.0.12-open
 sdk install java 17.0.2-open
 ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/17.0.2-open/lib/security/cacerts
 sdk install groovy 2.4.12
+sdk install groovy 2.4.21
 sdk install maven
 sdk install gradle
 
