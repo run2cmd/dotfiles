@@ -116,6 +116,10 @@ local function easy_registers()
   }, function(choice)
     if choice then
       local paste_text = string.gsub(choice, '[0-9]*: ', '')
+      if string.match(paste_text, '\n$') then
+        paste_text = string.gsub(paste_text, '\n$', '')
+        vim.cmd('normal o')
+      end
       vim.api.nvim_paste(paste_text, true ,-1)
     end
   end)
@@ -186,7 +190,7 @@ require('telescope').setup({
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('ui-select')
 
-mapkey('n', '<leader>p', easy_registers)
+mapkey({'n', 'v'}, '<C-y>', easy_registers)
 mapkey('n', '<C-p>', builtin.find_files)
 mapkey('n', '<C-h>', builtin.buffers)
 mapkey('n', '<C-k>', find_projects)
