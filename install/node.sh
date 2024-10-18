@@ -13,6 +13,7 @@ if [ ! -e ${HOME}/.nvm ] ; then
 fi
 
 nvm install node
+nvm install 18.20.4
 nvm alias default node
 nvm use node
 npm install
