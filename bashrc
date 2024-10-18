@@ -36,7 +36,7 @@ source ${HOME}/.bash_completion
 
 # SSH Agent
 eval `keychain -q --eval --agents ssh id_rsa`
-if [ -z $SSH_AUTH_SOCK ] || [ ! -e $SSH_AUTH_SOCK ] ;then
+if [ -z $SSH_AUTH_SOCK ] || [ ! -e $SSH_AUTH_SOCK ] || pgrep ssh-add &>/dev/null ;then
   pgrep ssh-agent &>/dev/null && killall -9 ssh-agent ssh-add
   eval `keychain -q --eval --agents ssh id_rsa`
 fi
