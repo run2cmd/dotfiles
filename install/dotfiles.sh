@@ -54,6 +54,7 @@ declare -A make_links=(
   ["codenarc.properties"]=".codenarc.properties"
   ["gitexclude"]=".gitignore"
   ["bash_completion"]=".bash_completion"
+  ["k9s/plugins.yaml"]=".config/k9s/plugins.yaml"
 )
 for mlink in "${!make_links[@]}" ;do
   ln -snf ${repodir}/${mlink} ${HOME}/${make_links["${mlink}"]}
