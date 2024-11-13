@@ -26,7 +26,7 @@ task "Update Neovim plugins"
 timestamp_file=~/.local/share/nvim/plugins_timestamp
 if ! test -f ${timestamp_file} ;then date +%Y-%m-%d > ${timestamp_file} ;fi
 last_update=$(cat ${timestamp_file})
-nvim --headless -c 'autocmd User PaqDoneSync quitall' -c 'PaqSync'
+nvim --headless -c 'autocmd User PaqDoneRemove quitall' -c 'PaqSync'
 for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/paqs) ;do
   echo "-> Update $(basename ${i})"
   git --git-dir ${i}/.git log --oneline --since="${last_update}"
