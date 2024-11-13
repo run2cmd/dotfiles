@@ -38,6 +38,7 @@ Entire workflow is build around languages, tools and filetypes I work with day t
 - Go
 - Terraform
 - Terragrunt
+- Lazygit
 
 ## Tools
 
@@ -104,24 +105,13 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
         - `]d` - LSP next diagnostic message.
         - `[d` - LSP previous diagnostic message.
     - Git support:
-      - `:Git <cmd>` - Run any Git command in floating terminal window.
-      - `<leader>gg` - Enter git status window.
-      - `<leader>gf` - Git pull.
-      - `<leader>gv` - Diff split on current buffer.
-      - `<leader>ge` - Search for Git conflicts project wide.
-      - `<leader>gb` - Git blame.
-      - `<leader>gc` - Git checkout.
-      - `<leader>g-` - Checkout to previous branch/tag/commit.
+      - `<leader>gg` - Open lazygit.
       - `<leader>gdo` - Open DiffView in new tab for current project.
       - `<leader>gdc` - Close DiffView.
       - `<leader>gdr` - Refreash DiffView.
-      - `<leader>gll` - List git commits in simple view.
-      - `<leader>glf` - List git commits in detail view for specific file.
-      - From git status window (see git status inline description for more options):
-        - `p` - Git push.
-        - `-` - Stage/Unstage file.
-        - `cc` - Commit changes.
-        - `ca` - Amend changes to latest commit.
+    - GitHub support:
+      - `<leader>sp` - List GitHub pull requests.
+      - `<leader>sr` - List GitHub Actions runs.
     - Move around filesystem:
       - `<C-p>` - List files in current project and go to it after `<CR>` is hit.
       - `<C-h>` - Same as `<c-p>` but for open buffers.
