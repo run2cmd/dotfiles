@@ -3,8 +3,8 @@ local M = {}
 
 local function default_float_params()
   local ui = vim.api.nvim_list_uis()[1]
-  local height = 10
-  local widht = 100
+  local height = 40
+  local widht = 150
   local defaults = {
     relative = 'editor',
     width = widht,
@@ -14,6 +14,7 @@ local function default_float_params()
     anchor = 'NW',
     style = 'minimal',
     noautocmd = true,
+    border = 'double',
   }
   return defaults
 end
@@ -67,21 +68,22 @@ M.cmd_output = function(cmd)
 end
 
 M.open_tmux = function()
-  if M.tmux_id() == os.getenv('TMUX_PANE') then
-    vim.cmd('silent !tmux split && tmux resize-pane -D 14')
-    vim.wait(3000, function() end)
+  local num_panes = vim.system({ 'tmux', 'display-message', '-p', '#{window_panes}' }, { text = true }):wait()['stdout']
+  if tonumber(vim.trim(num_panes)) < 2 then
+    vim.system({ 'tmux', 'split' })
+    vim.system({ 'tmux', 'resize-pane' ,'-D', '14' })
+    -- Wait for Bash to load
+    vim.wait(1500, function() end)
   end
 end
 
 M.tmux_id = function()
-  local pane_id = vim.api.nvim_exec2('!tmux list-panes -F "\\#D" | tail -1', {output = true})['output']
-  local strip_id = vim.trim(vim.split(pane_id, '\n')[3])
-  return strip_id
+  return '{bottom}'
 end
 
 M.tmux_cmd = function(id, cmd)
-  vim.cmd(string.format('silent !tmux send -t \\%s -X cancel', id))
-  vim.cmd(string.format('silent !tmux send -t \\%s "%s" ENTER', id, cmd))
+  vim.system({ 'tmux', 'send', '-t', id, '-X', 'cancel' })
+  vim.system({ 'tmux', 'send', '-t', id, cmd, 'ENTER' })
 end
 
 M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }

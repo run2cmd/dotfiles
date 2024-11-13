@@ -5,7 +5,6 @@ local finders = require('telescope.finders')
 local config = require('telescope.config')
 local builtin = require('telescope.builtin')
 local action_state = require('telescope.actions.state')
-local make_entry = require('telescope.make_entry')
 local mapkey = vim.keymap.set
 
 local function get_selection(buffer)
@@ -17,7 +16,6 @@ end
 local function open_float(buffer)
   local file_path = get_selection(buffer)
   actions.close(buffer)
-  local opts = { width = 100, height = 30 }
   helper.float_buffer(file_path)
 end
 
@@ -71,7 +69,6 @@ local function find_gh_prs()
           vim.cmd('silent !gh pr checks ' .. selection .. ' &>> ' .. pr_file)
           vim.cmd('silent !gh pr diff ' .. selection .. ' &>> ' .. pr_file)
           actions.close(buffer)
-          local opts = { height = 50, border = 'double' }
           helper.float_buffer(pr_file)
           vim.opt_local.filetype = 'git'
         end)
