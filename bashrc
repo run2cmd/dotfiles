@@ -35,9 +35,9 @@ export TERM=xterm-256color
 source ${HOME}/.bash_completion
 
 # SSH Agent
-eval `keychain -q --eval --agents ssh id_rsa`
-if [ -z $SSH_AUTH_SOCK ] || [ ! -e $SSH_AUTH_SOCK ] || pgrep ssh-add &>/dev/null ;then
-  pgrep ssh-agent &>/dev/null && killall -9 ssh-agent ssh-add
+if ! ssh-add -l &> /dev/null ;then
+  pgrep ssh-add &> /dev/null && killall -9 ssh-add
+  pgrep ssh-agent &> /dev/null && killall -9 ssh-agent
   eval `keychain -q --eval --agents ssh id_rsa`
 fi
 
@@ -121,11 +121,3 @@ export PATH=$HOME/tools/tgenv/bin:$PATH
 
 # Kubernetes completion
 type kubectl &> /dev/null && source <(kubectl completion bash)
-
-# Network fix for VPN
-(ip addr | grep -q eth0 | grep -q 1360) || sudo ip link set mtu 1360 eth0
-if ! sysctl net.ipv6.conf.all.disable_ipv6 | grep -q 1 ;then
-  sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
-  sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
-  sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
-fi
