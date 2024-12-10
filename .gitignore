@@ -8,4 +8,3 @@ bin/*
 !/bin/groovylint
 !/bin/gentags
 !/bin/erbvalidate
-!/bin/azw
