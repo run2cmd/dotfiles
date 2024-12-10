@@ -1,10 +1,1 @@
 Gemfile*.lock
-bin/*
-!/bin/db2con
-!/bin/gradlew
-!/bin/ichatest
-!/bin/sgraph
-!/bin/vpnfix
-!/bin/groovylint
-!/bin/gentags
-!/bin/erbvalidate

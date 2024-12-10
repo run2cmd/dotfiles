@@ -12,6 +12,7 @@ make_dirs=(
   "${HOME}/.config/nvim/tmp"
   "${HOME}/.config/rubocop"
   "${HOME}/tools"
+  "${HOME}/bin"
 )
 for mdir in "${make_dirs[@]}" ;do
   mkdir -p ${mdir}
@@ -19,7 +20,13 @@ done
 
 declare -A make_links=(
   ["inputrc"]=".inputrc"
-  ["bin"]="bin"
+  ["bin/db2con"]="bin/db2con"
+  ["bin/gradlew"]="bin/gradlew"
+  ["bin/ichatest"]="bin/ichatest"
+  ["bin/sgraph"]="bin/sgraph"
+  ["bin/groovylint"]="bin/groovylint"
+  ["bin/gentags"]="bin/gentags"
+  ["bin/erbvalidate"]="bin/erbvalidate"
   ["nvim/init.lua"]=".config/nvim/init.lua"
   ["nvim/syntax"]=".config/nvim/syntax"
   ["nvim/minisnip"]=".config/nvim/minisnip"
