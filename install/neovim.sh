@@ -13,9 +13,9 @@ file_sha="$(sha256sum ${appfile} | cut -d' ' -f1)"
 if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
   wget -q -O ${appfile} ${url}/nvim.appimage
   chmod u+x ${appfile}
-  ln -snf ${appfile} ~/bin/nvim
-  ~/bin/nvim --version
+  ${url}/nvim.appimage --version
 fi
+ln -snf ${appfile} ${HOME}/bin/nvim
 
 pm_path="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 if [ ! -e ${pm_path} ] ;then
