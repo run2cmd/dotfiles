@@ -76,6 +76,17 @@ local test_tbl = {
   },
 }
 
+local function evaluate_cmd(cmd)
+  local file_path = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+  local file_name = string.match(file_path, '/([a-z0-9A-Z.]*)$')
+  local file_no_ext = string.match(file_name, '[a-z0-9A-Z]*')
+  local eval_cmd = cmd
+  eval_cmd = string.gsub(eval_cmd, '%%:t:r', file_no_ext)
+  eval_cmd = string.gsub(eval_cmd, '%%:t', file_name)
+  eval_cmd = string.gsub(eval_cmd, '%%', file_path)
+  return eval_cmd
+end
+
 local function run_test(cmd)
   helpers.open_tmux()
   local id = helpers.tmux_id()
@@ -93,7 +104,7 @@ local function find_test()
       end
     end
     if helpers.file_exists(v.rootfile or '-') and not exclude then
-      data.proj = v.command
+      data.proj = evaluate_cmd(v.command)
     end
   end
   return data
@@ -108,7 +119,7 @@ local function run_file()
         cmd = alt.command
       end
     end
-    run_test(cmd)
+    run_test(evaluate_cmd(cmd))
   else
     print('[test] No file test pattern found.')
   end
