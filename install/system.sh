@@ -5,7 +5,7 @@ source ${libdir}/lib.sh
 
 topic 'UPDATE OPERATING SYSTEM'
 
-sudo apt update -q
+sudo apt clean && sudo apt update -q
 
 to_install=''
 while read -r line ;do
@@ -18,4 +18,4 @@ if [ "${to_install}" != '' ] ;then
   sudo apt -q install --allow-downgrades -y $to_install
 fi
 
-sudo apt upgrade --allow-downgrades -q -y && sudo apt autoremove -y
+sudo apt upgrade -q -y && sudo apt full-upgrade --allow-downgrades -q -y && sudo apt autoremove -y
