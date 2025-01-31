@@ -17,6 +17,7 @@ require("paq") {
   { 'L3MON4D3/LuaSnip' },
   { 'saadparwaiz1/cmp_luasnip' },
   { 'nvim-lua/lsp-status.nvim' },
+  { 'b0o/SchemaStore.nvim' },
 
   { 'kylechui/nvim-surround', tag = '*' },
   { 'windwp/nvim-autopairs' },

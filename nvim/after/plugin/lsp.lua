@@ -4,6 +4,7 @@ local lsp_status = require('lsp-status')
 local cmp = require('cmp')
 local cmp_lsp = require('cmp_nvim_lsp')
 local mapkey = vim.keymap.set
+local schemas = require('schemastore')
 
 vim.diagnostic.config({
   virtual_text = false
@@ -75,7 +76,15 @@ lspconfig.pylsp.setup(config({
     },
   },
 }))
-lspconfig.jsonls.setup(config())
+lspconfig.jsonls.setup(config({
+  settings = {
+    json = {
+      schemas = schemas.json.schemas(),
+      validate = { enable = true },
+
+    }
+  }
+}))
 lspconfig.vimls.setup(config())
 lspconfig.dockerls.setup(config())
 lspconfig.terraformls.setup(config({ filetypes = { 'hcl', 'tf' } }))
@@ -129,16 +138,10 @@ lspconfig.yamlls.setup(config({
       validate = true,
       hoover = true,
       completion = true,
-      schemas = {
-        ['schemas/conf/ansible.json'] = 'conf/ansible.yaml',
-        ['schemas/conf/jenkins/endpoints.json'] = 'conf/jenkins/endpoints.yaml',
-        ['schemas/conf/jenkins/settings.json'] = 'conf/jenkins/settings.yaml',
-        ['schemas/conf/jenkins/config.json'] = 'conf/jenkins/**/config.yaml',
-        ['schemas/conf/jenkins/components.json'] = 'conf/jenkins/**/components.yaml',
-        ['schemas/conf/pullrequests.json'] = 'conf/jenkins/pullrequests.yaml',
-        ['schemas/data/env/env_file.json'] = 'data/env/*.yaml',
-        ['schemas/profiles.json'] = 'profiles/**/*.yaml',
-        ['schemas/products.json'] = 'products/**/*.yaml',
+      schemas = schemas.yaml.schemas(),
+      schemaStore = {
+        enable = false,
+        url = "",
       },
     },
   },
