@@ -37,7 +37,7 @@ local function set_yaml(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local matcher = { '^- hosts:', '^- name:' }
   local type = 'yaml'
-  if string.find(filename, 'helm') then
+  if string.find(filename, 'charts') then
     type = 'helm'
   end
   for _, m in ipairs(matcher) do

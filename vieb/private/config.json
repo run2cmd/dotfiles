@@ -1,9 +1,0 @@
-{
-  "name": "Private",
-  "apps": [
-    {
-      "container": "Private",
-      "url": "https://duckduckgo.com"
-    }
-  ]
-}

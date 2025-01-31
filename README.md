@@ -4,7 +4,7 @@ This is my personal configuration that I use to work day to day. My setup is Win
 
 ## Workflow 2.0
 
-I'm doing devops(ich) work so my environment is setup to support multiple tools. I choose [WezTerm](https://wezfurlong.org/wezterm/index.html) as default terminal on Windows however multiplexing is mostly done in [tmux](https://github.com/tmux/tmux). Entire work flow is created around [NeoVim](https://github.com/neovim/neovim) and its plugins and features. In most cases I only leave it when I SSH to remote servers.
+I'm doing devops(ich) work so my environment is setup to support multiple tools. Use your favorite terminal but multiplexing is mostly done in [tmux](https://github.com/tmux/tmux). Entire work flow is created around [NeoVim](https://github.com/neovim/neovim) and its plugins and features. In most cases I only leave it when I SSH to remote servers.
 
 Previously I used VIM for Windows with WSL2 support but it appeared that VIM on WSL2 has much better performance.
 
@@ -61,6 +61,7 @@ I use language version managers:
 - [nvm](https://github.com/nvm-sh/nvm)
 - [sdkman](https://sdkman.io/)
 - [pyenv](https://github.com/pyenv/pyenv)
+- [tfenv](https://github.com/tfutils/tfenv)
 
 ## Neovim
 
@@ -129,15 +130,6 @@ I use my own easy test implementation to run in new tmux pane placed in bottom o
 - Be able to run test for different projects/files in separate windows.
 - Ruse same tmux pane.
 
-## Docker Desktop
-
-To have Systemd work in Docker images you need to create `systemd` cgroup in Docker WSL. This might work out of the box with Docker on WSL2.
-
-```bash
-mkdir -p /sys/fs/cgroup/systemd
-mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
-```
-
 ## Optimize WSL disk space
 
 This is useful if any of WSL instances reserves a lot of space that was used in the past. Run in PowerShell:
@@ -153,6 +145,7 @@ optimize-vhd -Path [vhdx-path] -Mode full
 
 Useful in case of VPN restrictions. Add following to `~/.bashrc`:
 
-```# Fix for VPN
+```bash
+# Fix for VPN
 if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
 ```

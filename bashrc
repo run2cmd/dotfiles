@@ -121,3 +121,6 @@ export PATH=$HOME/tools/tgenv/bin:$PATH
 
 # Kubernetes completion
 type kubectl &> /dev/null && source <(kubectl completion bash)
+
+# WSL GUI fix
+test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)

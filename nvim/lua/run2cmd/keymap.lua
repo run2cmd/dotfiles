@@ -54,3 +54,6 @@ mapkey('n', '[q', ':cprev<CR>')
 
 mapkey('n', ']l', ':lnext<CR>')
 mapkey('n', '[l', ':lprev<CR>')
+
+mapkey('n', ']b', ':bnext<CR>')
+mapkey('n', '[b', ':bprev<CR>')
