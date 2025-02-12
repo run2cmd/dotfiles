@@ -7,13 +7,15 @@ toolsdir=${HOME}/tools
 topic 'UPDATE NEOVIM'
 
 url=https://github.com/neovim/neovim/releases/latest/download
+image_file=nvim-linux-x86_64.appimage
 appfile=${toolsdir}/nvim.appimage
 git_sha="$(wget -qO- ${url}/nvim.appimage.sha256sum | cut -d' ' -f1)"
 file_sha="$(sha256sum ${appfile} | cut -d' ' -f1)"
 if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
-  wget -q -O ${appfile} ${url}/nvim.appimage
+  wget -q -O ${appfile} ${url}/${image_file}
+  [ $(wc -l ${appfile} | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}/${image_file}" && exit 1
   chmod u+x ${appfile}
-  ${url}/nvim.appimage --version
+  ${appfile} --version
 fi
 ln -snf ${appfile} ${HOME}/bin/nvim
 
