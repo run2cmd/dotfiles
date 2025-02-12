@@ -18,7 +18,6 @@ case $INSTALL_TYPE in
     ${libdir}/install/node.sh
     ${libdir}/install/tfsuite.sh
     ${libdir}/install/neovim.sh
-    ${libdir}/install/windows.sh
   ;;
   system)
     ${libdir}/install/system.sh
@@ -44,9 +43,6 @@ case $INSTALL_TYPE in
   neovim)
     ${libdir}/install/neovim.sh
   ;;
-  windows)
-    ${libdir}/install/windows.sh
-  ;;
   tfsuite)
     ${libdir}/install/tfsuite.sh
   ;;
@@ -63,7 +59,6 @@ case $INSTALL_TYPE in
       sdk - Update SDKMAN tools.
       nodejs - Update NodeJS.
       neovim - Update Neovim.
-      windows - Update windows dotfiles.
       tfsuite - Terraform and Terragrunt.
     "
   ;;
