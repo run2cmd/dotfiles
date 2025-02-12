@@ -124,3 +124,4 @@ type kubectl &> /dev/null && source <(kubectl completion bash)
 
 # WSL GUI fix
 test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
+test /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
