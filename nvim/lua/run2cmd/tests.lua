@@ -78,8 +78,8 @@ local test_tbl = {
 
 local function evaluate_cmd(cmd)
   local file_path = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  local file_name = string.match(file_path, '/([a-z0-9A-Z.]*)$')
-  local file_no_ext = string.match(file_name, '[a-z0-9A-Z]*')
+  local file_name = string.match(file_path, '/([^/]*)$')
+  local file_no_ext = string.match(file_name, '[^.]*')
   local eval_cmd = cmd
   eval_cmd = string.gsub(eval_cmd, '%%:t:r', file_no_ext)
   eval_cmd = string.gsub(eval_cmd, '%%:t', file_name)
