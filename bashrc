@@ -78,7 +78,7 @@ parse_git_branch() {
     echo " (${GBRANCH})(${GDESC})"
   fi
 }
-export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(parse_git_branch)\[\e[00m\]]$ "
+export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(parse_git_branch)\[\e[00m\]]\n$ "
 
 # Load pyenv
 export PYENV_ROOT="$HOME/.pyenv"
