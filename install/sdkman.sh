@@ -17,6 +17,8 @@ sdk install java 11.0.12-open
 ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/11.0.12-open/lib/security/cacerts
 sdk install java 17.0.2-open
 ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/17.0.2-open/lib/security/cacerts
+sdk install java 21.0.7-tem
+ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/21.0.7-tem/lib/security/cacerts
 sdk install groovy 2.4.12
 sdk install groovy 2.4.21
 sdk install maven
