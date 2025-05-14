@@ -35,11 +35,7 @@ export TERM=xterm-256color
 source ${HOME}/.bash_completion
 
 # SSH Agent
-if ! ssh-add -l &> /dev/null ;then
-  pgrep ssh-add &> /dev/null && killall -9 ssh-add
-  pgrep ssh-agent &> /dev/null && killall -9 ssh-agent
-  eval `keychain -q --eval --agents ssh id_rsa`
-fi
+ssh-add -l &>/dev/null || eval `keychain -q --eval --agents ssh id_rsa`
 
 # Tmux Wrapper for ssh so it displays hostname in title
 settitle() {
