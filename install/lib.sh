@@ -7,4 +7,3 @@ topic() {
 task() {
   echo "$(tput setaf 2)${1}$(tput sgr0)"
 }
-

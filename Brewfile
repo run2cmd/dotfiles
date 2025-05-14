@@ -7,11 +7,4 @@ golangci-lint
 marksman
 lua-language-server
 argocd
-lazygit
-jq
-yq
-kubernetes-cli
 marksman
-gh
-shellcheck
-oras

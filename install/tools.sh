@@ -29,6 +29,7 @@ if [ "${to_install}" != '' ] ;then
 fi
 
 brew upgrade
+brew cleanup
 
 task "Update puppet editor services (LSP)"
 dir_path=${tools_dir}/puppet-editor-services
