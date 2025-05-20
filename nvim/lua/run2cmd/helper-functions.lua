@@ -70,15 +70,14 @@ end
 M.open_tmux = function()
   local num_panes = vim.system({ 'tmux', 'display-message', '-p', '#{window_panes}' }, { text = true }):wait()['stdout']
   if tonumber(vim.trim(num_panes)) < 2 then
-    vim.system({ 'tmux', 'split' })
-    vim.system({ 'tmux', 'resize-pane' ,'-D', '14' })
+    vim.system({ 'tmux', 'split', '-h' })
     -- Wait for Bash to load
     vim.wait(1500, function() end)
   end
 end
 
 M.tmux_id = function()
-  return '{bottom}'
+  return '{right}'
 end
 
 M.tmux_cmd = function(id, cmd)
