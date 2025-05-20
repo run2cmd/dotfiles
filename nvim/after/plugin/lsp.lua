@@ -1,5 +1,4 @@
 local helpers = require('run2cmd.helper-functions')
-local lspconfig = require('lspconfig')
 local lsp_status = require('lsp-status')
 local cmp = require('cmp')
 local cmp_lsp = require('cmp_nvim_lsp')
@@ -42,22 +41,30 @@ lsp_status.config({
   show_filename = false,
 })
 
-local function config(_config)
-  return vim.tbl_deep_extend('force', {
-    capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
-    on_attach = function(_, bufnr)
-      local opts = { noremap = true, silent = true, buffer = bufnr }
-      mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
-      mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
-      mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
-      mapkey('n', ']d', vim.diagnostic.goto_next, opts)
-      mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
-    end,
-  }, _config or {})
-end
+vim.lsp.config('*', {
+  capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
+  on_attach = function(_, bufnr)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
+    mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
+    mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
+    mapkey('n', ']d', vim.diagnostic.goto_next, opts)
+    mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
+  end
+})
 
-lspconfig.bashls.setup(config())
-lspconfig.pylsp.setup(config({
+vim.lsp.enable('bashls')
+vim.lsp.enable('jsonls')
+vim.lsp.enable('vimls')
+vim.lsp.enable('dockerls')
+vim.lsp.enable('marksman')
+vim.lsp.enable('golangci_lint_ls')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('jdtls')
+vim.lsp.enable('helm_ls')
+vim.lsp.enable('marksman')
+
+vim.lsp.config('pylsp',{
   settings = {
     pylsp = {
       configurationSources = { 'flake8' },
@@ -75,21 +82,23 @@ lspconfig.pylsp.setup(config({
       },
     },
   },
-}))
-lspconfig.jsonls.setup(config({
+})
+vim.lsp.enable('pylsp')
+
+vim.lsp.config('jsonls', {
   settings = {
     json = {
       schemas = schemas.json.schemas(),
       validate = { enable = true },
-
     }
   }
-}))
-lspconfig.vimls.setup(config())
-lspconfig.dockerls.setup(config())
-lspconfig.terraformls.setup(config({ filetypes = { 'hcl', 'tf' } }))
-lspconfig.marksman.setup(config())
-lspconfig.lua_ls.setup(config({
+})
+vim.lsp.enable('jsonls')
+
+vim.lsp.config('terraformls', { filetypes = { 'hcl', 'tf' } })
+vim.lsp.enable('terraformls')
+
+vim.lsp.config('lua_ls',{
   settings = {
     Lua = {
       runtime = {
@@ -105,11 +114,10 @@ lspconfig.lua_ls.setup(config({
       },
     },
   },
-}))
-lspconfig.golangci_lint_ls.setup(config())
-lspconfig.ts_ls.setup(config())
-lspconfig.jdtls.setup(config())
-lspconfig.ansiblels.setup(config({
+})
+vim.lsp.enable('lua_ls')
+
+vim.lsp.config('ansiblels',{
   settings = {
     ansible = {
       ansible = {
@@ -126,12 +134,13 @@ lspconfig.ansiblels.setup(config({
       },
     },
   },
-}))
-lspconfig.puppet.setup(config({
-  cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code' },
-}))
-lspconfig.helm_ls.setup(config())
-lspconfig.yamlls.setup(config({
+})
+vim.lsp.enable('ansiblels')
+
+vim.lsp.config('puppet', { cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code' }})
+vim.lsp.enable('puppet')
+
+vim.lsp.config('yamlls', {
   settings = {
     yaml = {
       format = { enable = true },
@@ -145,12 +154,13 @@ lspconfig.yamlls.setup(config({
       },
     },
   },
-}))
-lspconfig.solargraph.setup(config({
-  cmd = { 'sgraph' },
-}))
-lspconfig.marksman.setup(config())
-lspconfig.diagnosticls.setup(config({
+})
+vim.lsp.enable('yamlls')
+
+vim.lsp.config('solargraph', { cmd = { 'sgraph' }})
+vim.lsp.enable('solargraph')
+
+vim.lsp.config('diagnosticls', {
   filetypes = { 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
   init_options = {
     linters = {
@@ -219,7 +229,9 @@ lspconfig.diagnosticls.setup(config({
       lua = 'stylua',
     },
   },
-}))
+
+})
+vim.lsp.enable('diagnosticls')
 
 local puppet_tags_file = vim.env.HOME .. '/.config/nvim/tags/puppet'
 vim.api.nvim_create_user_command('PuppetTagsGenerate', function()
@@ -277,23 +289,4 @@ helpers.create_autocmds({
   },
 })
 
-local function bash_tags_file()
-  return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/bash'
-end
-vim.api.nvim_create_user_command('BashTagsGenerate', function()
-  vim.system({ 'gentags', 'sh', vim.uv.cwd(), bash_tags_file() })
-end, {})
-helpers.create_autocmds({
-  bash_lsp = {
-    {
-      event = { 'Filetype' },
-      opts = {
-        pattern = 'sh',
-        callback = function()
-          vim.opt_local.tags = bash_tags_file()
-        end,
-      },
-    },
-  },
-})
 --vim.lsp.set_log_level('debug')
