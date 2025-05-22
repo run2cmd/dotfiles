@@ -81,10 +81,9 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
     - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code) (See [tests](#tests) section).
     - `<leader>tn`, `<leader>tp` - move to next or previous tab.
     - `<leader>to` - open new tab with Alpha.
-    - `<leader>c` - open tmux pane in bottom of the screen and enter buffer root directory(based on autochdir). If pane is already open will only change directory to root directory for buffer.
+    - `<leader>c` - open tmux floating window in current working directory.
     - `<leader>f` - Copy open file file path.
     - `<leader>y` - In visual mode copy text to windows clipboard.
-    - `<C-w>t` - Easy leave terminal insert mode.
     - `<leader>qo` - Open quickfix window.
     - `<leader>qc` - Close quickfix window.
     - `]q`, `[q` - Got to previous/next item on quickfix list.

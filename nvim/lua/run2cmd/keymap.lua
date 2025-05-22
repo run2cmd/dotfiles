@@ -1,12 +1,6 @@
 local mapkey = vim.keymap.set
 local helpers = require('run2cmd.helper-functions')
 
-local function tmux_terminal()
-  helpers.open_tmux()
-  local id = helpers.tmux_id()
-  helpers.tmux_cmd(id, 'cd ' .. vim.uv.cwd() .. ' && clear')
-end
-
 for _, key in ipairs({ "h", "j", "k", "l", "+", "-" }) do
   local count = 0
   local timer = assert(vim.loop.new_timer())
@@ -37,7 +31,7 @@ mapkey('n', '<Right>', '')
 mapkey('n', '<leader>tn', ':tabnext<CR>')
 mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
-mapkey('n', '<leader>c', tmux_terminal)
+mapkey('n', '<leader>c', ':!tmux display-popup -d "$(pwd)" -E<CR>')
 
 mapkey('c', '<C-k>', '<Up>')
 mapkey('c', '<C-j>', '<Down>')
