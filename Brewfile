@@ -8,4 +8,3 @@ marksman
 lua-language-server
 argocd
 marksman
-jdtls
