@@ -13,6 +13,8 @@ if [ ! -e ${HOME}/.nvm ] ; then
   source ${HOME}/.bashrc
 fi
 
+cd ~/
+
 nvm install node
 nvm install 18.20.4
 nvm alias default node
