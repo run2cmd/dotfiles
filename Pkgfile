@@ -35,6 +35,7 @@ shellcheck
 sshpass
 sshuttle
 tk-dev
+tmux
 universal-ctags
 unzip
 wget
