@@ -8,7 +8,7 @@ source ${HOME}/.bashrc
 topic 'UPDATE RUBY'
 
 default_ruby=3.2.2
-additional_rubies='2.7.3 2.4.10 2.0.0'
+additional_rubies='2.7.3 2.4.10'
 
 task 'Update rvm'
 if [ ! -e ${HOME}/.rvm ] ;then
@@ -39,7 +39,7 @@ task 'Install rubies'
 rvm install $default_ruby --default
 
 for rb in $additional_rubies ;do
-  rvm install ${rb} --with-openssl-dir=${rvm_path}/usr
+  rvm install ${rb} --with-openssl-dir=${rvm_path}/usr --autolibs=disable
   rvm use ${rb}
   BUNDLE_GEMFILE=Gemfile_${rb} gem install bundle
   BUNDLE_GEMFILE=Gemfile_${rb} bundle install
