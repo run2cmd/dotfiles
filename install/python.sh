@@ -10,7 +10,6 @@ pyver=3.11.4
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
 if [ ! -e ${HOME}/.pyenv ] ;then
-  export PYENV_GIT_TAG=v${pyver}
   curl -fsSL https://pyenv.run | bash
   source ${HOME}/.bashrc
 fi
