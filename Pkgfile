@@ -19,6 +19,8 @@ keychain
 kubectl
 lazygit
 llvm
+libssl-dev
+liblzma-dev
 lua5.3
 make
 ninja-build

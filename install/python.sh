@@ -14,6 +14,9 @@ if [ ! -e ${HOME}/.pyenv ] ;then
   source ${HOME}/.bashrc
 fi
 
+export CPPFLAGS="-I/usr/include/openssl"
+export LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
+
 pyenv update
 pyenv install -s ${pyver}
 pyenv install -s 3.8.17
