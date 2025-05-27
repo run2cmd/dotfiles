@@ -76,3 +76,5 @@ fi
 if [ ! -e ${HOME}/.bash_profile ] ;then
   echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > ${HOME}/.bash_profile
 fi
+
+source ${HOME}/.bashrc

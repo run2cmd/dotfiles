@@ -16,6 +16,7 @@ if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
   [ $(wc -l ${appfile} | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}/${image_file}" && exit 1
   chmod u+x ${appfile}
   ${appfile} --version
+  source ${HOME}/.bashrc
 fi
 ln -snf ${appfile} ${HOME}/bin/nvim
 

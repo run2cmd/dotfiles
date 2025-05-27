@@ -2,6 +2,7 @@
 
 libdir=$(dirname "$(readlink -f $0)")
 source ${libdir}/lib.sh
+source ${HOME}/.bashrc
 
 topic 'UPDATE RUBY'
 
@@ -57,3 +58,16 @@ for rb in $rubies_to_remove ;do
   echo "Remove ${rb}"
   rm -rf ${rubies_path}/${rb}
 done
+
+task "Update puppet editor services (LSP)"
+dir_path=${tools_dir}/puppet-editor-services
+[ ! -e ${dir_path} ] && git clone https://github.com/puppetlabs/puppet-editor-services.git ${dir_path}
+if [ ! -e "${dir_path}/Gemfile.lock" ] || git -C ${dir_path} remote show origin | grep 'out of date' ;then
+  cd ${dir_path}
+  git reset --hard main
+  git pull
+  bundle install --gemfile=${dir_path}/Gemfile
+  bundle exec rake -f ${dir_path}/Rakefile gem_revendor
+  cd -
+  ln -snf ${dir_path}/puppet-languageserver ~/bin/puppet-languageserver
+fi
