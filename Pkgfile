@@ -12,6 +12,7 @@ fd-find
 fuse
 git
 gh
+gpg
 jq
 keychain
 kubectl
