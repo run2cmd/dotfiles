@@ -148,3 +148,13 @@ Useful in case of VPN restrictions. Add following to `~/.bashrc`:
 # Fix for VPN
 if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
 ```
+
+## Remap caps lock as ctrl on windows
+
+You need to edit/add `Scancode Map` Binary key in registry (regedit) path `Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout` and set it to following value:
+
+```
+00 00 00 00 00 00 00 00
+03 00 00 00 1D 00 3A 00
+3A 00 00 00 00 00 00 00
+```
