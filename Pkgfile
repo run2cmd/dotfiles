@@ -21,6 +21,7 @@ lazygit
 llvm
 libssl-dev
 liblzma-dev
+libxml2-utils
 lua5.3
 make
 ninja-build
