@@ -1,6 +1,7 @@
 #!/bin/bash
 
 libdir=$(dirname "$(readlink -f $0)")
+tools_dir=${HOME}/tools
 source ${libdir}/lib.sh
 source ${HOME}/.bashrc
 
