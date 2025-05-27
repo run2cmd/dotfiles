@@ -11,6 +11,7 @@ make_dirs=(
   "${HOME}/.config/nvim/undo"
   "${HOME}/.config/nvim/tmp"
   "${HOME}/.config/rubocop"
+  "${HOME}/.config/k9s"
   "${HOME}/.bash_completion.d"
   "${HOME}/tools"
   "${HOME}/bin"
