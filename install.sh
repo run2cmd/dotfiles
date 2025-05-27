@@ -2,6 +2,7 @@
 
 libdir=$(dirname "$(readlink -f $0)")
 
+mkdir -p ${HOME}/bin
 ln -snf ${libdir}/install.sh ${HOME}/bin/dotfiles-update
 
 INSTALL_TYPE=$1
