@@ -27,8 +27,8 @@ if [ ! -e ${rvm_path}/usr/bin/openssl ] ;then
 fi
 
 if [ ! -L "${rvm_path}/usr/ssl" ] ;then
-  mv ${rvm_path}/usr/ssl ${rvm_path}/usr/ssl_orig
-  ln -s /usr/lib/ssl ${rvm_path}/usr/ssl
+  sudo mv ${rvm_path}/usr/ssl ${rvm_path}/usr/ssl_orig
+  sudo ln -s /usr/lib/ssl ${rvm_path}/usr/ssl
 fi
 
 # shellcheck disable=SC1091
