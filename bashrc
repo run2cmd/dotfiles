@@ -32,7 +32,10 @@ export PATH=~/bin:$PATH
 export TERM=xterm-256color
 
 # Own completion
-source ${HOME}/.bash_completion
+if [ -e ${HOME}/bash_completion.d ] ;then
+  source ${HOME}/.bash_completion.d/bash_completion
+  source ${HOME}/.bash_completion.d/gita_completion
+fi
 
 # SSH Agent
 ssh-add -l &>/dev/null || eval `keychain -q --eval --agents ssh id_rsa`

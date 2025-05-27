@@ -24,5 +24,7 @@ python -m pip install --upgrade pip
 pip install -r ${HOME}/Pythonfile --upgrade
 ansible-galaxy collection install community.general
 
+wget -q -O ${HOME}/.bash_completion.d/gita_completion https://github.com/nosarthur/gita/blob/master/.gita-completion.bash
+
 task "Cleanup after update"
 pip cache purge
