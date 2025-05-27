@@ -10,6 +10,7 @@ dos2unix
 dnsutils
 fd-find
 fuse
+fzf
 git
 gh
 gpg
