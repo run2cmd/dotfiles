@@ -29,6 +29,7 @@ nmap
 openssh-client
 oras
 plantuml
+postgresql
 ripgrep
 rpm
 rpm2cpio
