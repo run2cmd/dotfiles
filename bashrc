@@ -121,6 +121,13 @@ export PATH=$HOME/tools/tgenv/bin:$PATH
 # Kubernetes completion
 type kubectl &> /dev/null && source <(kubectl completion bash)
 
-# WSL GUI fix
-test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
-test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
+if [ -e /mnt/c/Windows/system32/wsl.exe ] ; then
+  win_user=$(cmd.exe /c echo %USERNAME% 2>/dev/null)
+  export WINUSER=${win_user%[$'\r\t\n ']}
+  export WINHOME=/mnt/c/Users/${WINUSER}
+
+  # WSL GUI fix
+  test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
+  test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
+fi
+
