@@ -8,7 +8,7 @@ plugins:
     background: false
     args:
     - -c
-    - '"$@" | less'
+    - '"$@" | less -R'
     - dummy-arg
     - kubectl
     - logs
@@ -28,7 +28,7 @@ plugins:
     background: false
     args:
     - -c
-    - '"$@" | less'
+    - '"$@" | less -R'
     - dummy-arg
     - kubectl
     - logs
