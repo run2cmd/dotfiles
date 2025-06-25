@@ -9,7 +9,7 @@ if [ ! -e ${HOME}/.sdkman ] ;then
  curl -s 'https://get.sdkman.io' | bash
 fi
 
-# shellcheck disable=SC1091
+# shellcheck source=../../.sdkman/bin/sdkman-init.sh
 source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
 sdk update
@@ -39,6 +39,6 @@ for app in maven gradle ;do
   app_to_remove=$(ls --color=never ${candidates_root} | grep -Ev "${curr_ver}|current")
   for ver in $app_to_remove ;do
     echo "Remove ${ver}"
-    rm -rf ${candidates_root}/${ver}
+    rm -rf ${candidates_root:?}/${ver}
   done
 done

@@ -12,6 +12,7 @@ if [ ! -e ${tools_dir}/tfenv ] ;then
   export PATH=${tools_dir}/tfenv/bin:$PATH
 else
   git -C ${tools_dir}/tfenv pull
+  # shellcheck source=../bashrc
   source ${HOME}/.bashrc
 fi
 tfenv install 1.2.9

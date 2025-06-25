@@ -13,9 +13,11 @@ git_sha="$(wget -qO- ${url}/nvim.appimage.sha256sum | cut -d' ' -f1)"
 file_sha="$(sha256sum ${appfile} | cut -d' ' -f1)"
 if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
   wget -q -O ${appfile} ${url}/${image_file}
+  # shellcheck disable=SC2046
   [ $(wc -l ${appfile} | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}/${image_file}" && exit 1
   chmod u+x ${appfile}
   ${appfile} --version
+  # shellcheck source=../bashrc
   source ${HOME}/.bashrc
 fi
 ln -snf ${appfile} ${HOME}/bin/nvim

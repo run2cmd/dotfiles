@@ -11,6 +11,7 @@ export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
 if [ ! -e ${HOME}/.pyenv ] ;then
   curl -fsSL https://pyenv.run | bash
+  # shellcheck source=../bashrc
   source ${HOME}/.bashrc
 fi
 

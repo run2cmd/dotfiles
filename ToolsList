@@ -1,0 +1,7 @@
+hadolint/hadolint
+derailed/k9s
+mrjosh/helm-ls
+terraform-linters/tflint
+golangci/golangci-lint
+artempyanykh/marksman
+argoproj/argo-cd

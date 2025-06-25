@@ -13,10 +13,12 @@ fuse
 fzf
 git
 gh
+golang
 gpg
 jq
 keychain
 kubectl
+kcat
 lazygit
 llvm
 libssl-dev
@@ -24,6 +26,8 @@ liblzma-dev
 libxml2-utils
 lua5.3
 make
+man-db
+nc
 ninja-build
 nmap
 openssh-client
@@ -38,6 +42,7 @@ sshpass
 sshuttle
 tk-dev
 tmux
+tcpdump
 universal-ctags
 unzip
 wget

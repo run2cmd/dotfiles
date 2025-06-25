@@ -42,15 +42,12 @@ Entire workflow is build around languages, tools and filetypes I work with day t
 
 ## Tools
 
-I use [Winget](https://github.com/microsoft/winget-cli) to download software in Windows and APT for Ubuntu. For some development tools I use [Homebrew](https://docs.brew.sh/Homebrew-on-Linux) as they get more recent version. Other might be installed based on language they are written in.
-
-The basic idea is to first try to install tools for specific language. So use Gemfile for Ruby or Pythonfile for Python, etc. Then use Homebrew but only in case of not much dependencies. Since Homebrew install everything in separate directory it will download packages like openssl or gcc which duplicates your system packages. And as last goes system packages.
+The basic idea is to first try to install tools for specific language. So use Gemfile for Ruby or Pythonfile for Python, etc. Then use system packaging (apt) and then use [install-release](https://github.com/Rishang/install-release) for everything else.
 
 Check list of packages:
 
 - [Windows packages](Winfile)
 - [Ubuntu packages](Pkgfile)
-- [Brew packages](Brewfile)
 - [Ruby gems](Gemfile)
 - [Python packages](Pythonfile)
 - [Nodejs packages](package.json)

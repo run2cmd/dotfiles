@@ -60,9 +60,6 @@ alias luamake=${HOME}/tools/lua-language-server/3rd/luamake/luamake
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
 alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
 
-# Add brew to path
-[ -e /home/linuxbrew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
 # Add pulumi
 export PATH=$PATH:${HOME}/.pulumi/bin
 
@@ -111,12 +108,12 @@ if [ -e $SDKMAN_DIR ] ; then
   export MAVEN_ARGS='-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -Dmaven.resolver.transport=wagon'
 fi
 
-# Add golang to path
-export PATH=$PATH:/home/pbugala/tools/go/main/go/bin
-
 # Tgenv and tfenv setup
 export PATH=$HOME/tools/tfenv/bin:$PATH
 export PATH=$HOME/tools/tgenv/bin:$PATH
+
+# install-release completion
+source '/home/pbugala/.bash_completions/ir.sh'
 
 # Kubernetes completion
 type kubectl &> /dev/null && source <(kubectl completion bash)
@@ -127,7 +124,7 @@ if [ -e /mnt/c/Windows/system32/wsl.exe ] ; then
   export WINHOME=/mnt/c/Users/${WINUSER}
 
   # WSL GUI fix
-  test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
-  test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
+  # test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
+  # test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
 fi
 

@@ -58,7 +58,7 @@ declare -A make_links=(
   ["Gemfile_2.4.10"]="Gemfile_2.4.10"
   ["Gemfile_2.0.0"]="Gemfile_2.0.0"
   ["Pkgfile"]="Pkgfile"
-  ["Brewfile"]="Brewfile"
+  ["ToolsList"]="ToolsList"
   ["rubocop.yml"]=".config/rubocop/config.yml"
   ["codenarc.properties"]=".codenarc.properties"
   ["gitexclude"]=".gitignore"
@@ -76,7 +76,9 @@ if ! (grep -q 'dotfiles' ${HOME}/.bashrc) ;then
 fi
 
 if [ ! -e ${HOME}/.bash_profile ] ;then
+  # shellcheck disable=SC2016
   echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > ${HOME}/.bash_profile
 fi
 
+# shellcheck source=../bashrc
 source ${HOME}/.bashrc

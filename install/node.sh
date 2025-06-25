@@ -5,15 +5,16 @@ source ${libdir}/lib.sh
 
 topic 'UPDATE NODEJS'
 
-# shellcheck disable=SC1091
+# shellcheck source=~/.nvm/nvm.sh
 source "${HOME}/.nvm/nvm.sh"
 
 if [ ! -e ${HOME}/.nvm ] ; then
- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  # shellcheck source=../bashrc
   source ${HOME}/.bashrc
 fi
 
-cd ~/
+cd ~/ || exit 1
 
 nvm install node
 nvm install 18.20.4
@@ -30,5 +31,5 @@ node_path=${HOME}/.nvm/versions/node
 node_to_remove=$(ls --color=never $node_path | grep -Ev "$(node --version)")
 for n in $node_to_remove ;do
   echo "Remove ${n}"
-  rm -rf ${node_path}/${n}
+  rm -rf ${node_path:?}/${n}
 done

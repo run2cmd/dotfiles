@@ -1,6 +1,7 @@
 #!/bin/bash
 
 libdir=$(dirname "$(readlink -f $0)")
+# shellcheck disable=SC2046
 repodir=$(dirname $(dirname "$(readlink -f $0)"))
 source ${libdir}/lib.sh
 

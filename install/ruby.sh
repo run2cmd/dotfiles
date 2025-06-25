@@ -3,6 +3,7 @@
 libdir=$(dirname "$(readlink -f $0)")
 tools_dir=${HOME}/tools
 source ${libdir}/lib.sh
+# shellcheck source=../bashrc
 source ${HOME}/.bashrc
 
 topic 'UPDATE RUBY'
@@ -16,7 +17,7 @@ if [ ! -e ${HOME}/.rvm ] ;then
   curl -sSL https://get.rvm.io | bash -s stable
 fi
 
-# shellcheck disable=SC1091
+# shellcheck source=../../.rvm/scripts/rvm
 source "${HOME}/.rvm/scripts/rvm"
 
 rvm get stable
@@ -57,18 +58,18 @@ rubies_path=${HOME}/.rvm/rubies
 rubies_to_remove=$(ls --color=never $rubies_path | grep -Ev "${default_ruby}|${additional_rubies// /|}|default")
 for rb in $rubies_to_remove ;do
   echo "Remove ${rb}"
-  rm -rf ${rubies_path}/${rb}
+  rm -rf ${rubies_path:?}/${rb}
 done
 
 task "Update puppet editor services (LSP)"
 dir_path=${tools_dir}/puppet-editor-services
 [ ! -e ${dir_path} ] && git clone https://github.com/puppetlabs/puppet-editor-services.git ${dir_path}
 if [ ! -e "${dir_path}/Gemfile.lock" ] || git -C ${dir_path} remote show origin | grep 'out of date' ;then
-  cd ${dir_path}
+  cd ${dir_path} || exit 1
   git reset --hard main
   git pull
   bundle install --gemfile=${dir_path}/Gemfile
   bundle exec rake -f ${dir_path}/Rakefile gem_revendor
-  cd -
+  cd - || exit 1
   ln -snf ${dir_path}/puppet-languageserver ~/bin/puppet-languageserver
 fi
