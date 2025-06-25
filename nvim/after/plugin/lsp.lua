@@ -57,10 +57,8 @@ vim.lsp.enable('bashls')
 vim.lsp.enable('jsonls')
 vim.lsp.enable('vimls')
 vim.lsp.enable('dockerls')
-vim.lsp.enable('marksman')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('ts_ls')
-vim.lsp.enable('jdtls')
 vim.lsp.enable('helm_ls')
 vim.lsp.enable('marksman')
 
@@ -161,7 +159,7 @@ vim.lsp.config('solargraph', { cmd = { 'sgraph' }})
 vim.lsp.enable('solargraph')
 
 vim.lsp.config('diagnosticls', {
-  filetypes = { 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
+  filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
   init_options = {
     linters = {
       mdl = {
@@ -211,12 +209,27 @@ vim.lsp.config('diagnosticls', {
           ['3'] = 'info',
         },
       },
+      xmllint = {
+        sourceName = 'xmllint',
+        command = 'xmllint',
+        args = { '--noout', '-' },
+        isStderr = true,
+        formatLines = 1,
+        formatPattern = {
+          '^[^:]+:(\\d+):(.*)$',
+          {
+            line = 1,
+            message = { '[xmllint]', 2 },
+          },
+        },
+      },
     },
     filetypes = {
       eruby = 'erb',
       markdown = 'mdl',
       groovy = 'groovylint',
       Jenkinsfile = 'groovylint',
+      xml = 'xmllint',
     },
     formatters = {
       stylua = {
