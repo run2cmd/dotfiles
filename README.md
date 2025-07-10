@@ -42,14 +42,14 @@ Entire workflow is build around languages, tools and filetypes I work with day t
 
 ## Tools
 
-The basic idea is to first try to install tools for specific language. So use Gemfile for Ruby or Pythonfile for Python, etc. Then use system packaging (apt) and then use [install-release](https://github.com/Rishang/install-release) for everything else.
+The basic idea is to first try to install tools using system packaging (apt) then for specific language using ruby, python etc, and then use [install-release](https://github.com/Rishang/install-release) for everything else.
+
+Most of the configuration for installation is in [config.yaml](config.yaml) file. For now only ruby and nodejs has separate package configuration.
 
 Check list of packages:
 
-- [Windows packages](Winfile)
-- [Ubuntu packages](Pkgfile)
+- [config.yaml](config.yaml)
 - [Ruby gems](Gemfile)
-- [Python packages](Pythonfile)
 - [Nodejs packages](package.json)
 
 I use language version managers:

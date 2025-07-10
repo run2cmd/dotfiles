@@ -5,77 +5,8 @@ WORKDIR=${HOME}
 
 REPODIR=$(dirname "$(readlink -f $0)")
 TOOLS_DIR=${HOME}/tools
-
-INSTALL_NVM_VERSION=v0.39.1
-DEFAULT_PYTHON_VERSION=3.11.4
-DEFAULT_RUBY_VERSION=3.2.2
-DEFAULT_TFENV_VERSION='1.2.9'
-DEFAULT_TGENV_VERSION='0.48.7'
-
-# Space separated variables
-EXTRA_NODE_VERSIONS='18.20.4'
-EXTRA_PYTHON_VERSIONS='3.8.17'
-EXTRA_RUBY_VERSIONS='2.7.3 2.4.10'
-JAVA_VERSIONS='11.0.12-open 17.0.2-open 21.0.7-tem'
-GROOVY_VERSIONS='2.4.12 2.4.21'
-
+CONFIG_FILE=${REPODIR}/config.yaml
 INSTALL_TYPE=$1
-
-declare -A MAKE_LINKS=(
-  ["inputrc"]=".inputrc"
-  ["bin/db2con"]="bin/db2con"
-  ["bin/gradlew"]="bin/gradlew"
-  ["bin/ichatest"]="bin/ichatest"
-  ["bin/sgraph"]="bin/sgraph"
-  ["bin/groovylint"]="bin/groovylint"
-  ["bin/gentags"]="bin/gentags"
-  ["bin/erbvalidate"]="bin/erbvalidate"
-  ["nvim/init.lua"]=".config/nvim/init.lua"
-  ["nvim/syntax"]=".config/nvim/syntax"
-  ["nvim/minisnip"]=".config/nvim/minisnip"
-  ["nvim/scripts"]=".config/nvim/scripts"
-  ["nvim/spell"]=".config/nvim/spell"
-  ["nvim/lua"]=".config/nvim/lua"
-  ["nvim/after"]=".config/nvim/after"
-  ["mdlrc"]=".mdlrc"
-  ["markdownlint.yaml"]="markdownlint.yaml"
-  ["mdl_style.rb"]=".mdl_style.rb"
-  ["shellcheckrc"]=".shellcheckrc"
-  ["ctags.d"]=".ctags.d"
-  ["gitattributes"]=".gitattributes"
-  ["gitconfig"]=".gitconfig"
-  ["irbrc"]=".irbrc"
-  ["rvmrc"]=".rvmrc"
-  ["puppet-lint.rc"]=".puppet-lint.rc"
-  ["reek"]=".reek"
-  ["screenrc"]=".screenrc"
-  ["tmux.conf"]=".tmux.conf"
-  ["vintrc.yaml"]=".vintrc.yaml"
-  ["yamllint"]=".config/yamllint"
-  ["Pythonfile"]="Pythonfile"
-  ["package.json"]="package.json"
-  ["Gemfile"]="Gemfile"
-  ["Gemfile_2.7.3"]="Gemfile_2.7.3"
-  ["Gemfile_2.4.10"]="Gemfile_2.4.10"
-  ["Gemfile_2.0.0"]="Gemfile_2.0.0"
-  ["Pkgfile"]="Pkgfile"
-  ["ToolsList"]="ToolsList"
-  ["rubocop.yml"]=".config/rubocop/config.yml"
-  ["codenarc.properties"]=".codenarc.properties"
-  ["gitexclude"]=".gitignore"
-  ["bash_completion"]=".bash_completion.d/bash_completion"
-  ["k9s/plugins.yaml"]=".config/k9s/plugins.yaml"
-)
-
-MAKE_DIRS=(
-  "${HOME}/.config/nvim/undo"
-  "${HOME}/.config/nvim/tmp"
-  "${HOME}/.config/rubocop"
-  "${HOME}/.config/k9s"
-  "${HOME}/.bash_completion.d"
-  "${HOME}/tools"
-  "${HOME}/bin"
-)
 
 mkdir -p ${HOME}/bin
 ln -snf ${REPODIR}/install.sh ${HOME}/bin/dotfiles-update
@@ -84,10 +15,22 @@ topic() {
   echo "$(tput bold)$(tput setaf 4)${1}$(tput sgr0)"
 }
 
+yaml_value() {
+  yq -r "${1}" $CONFIG_FILE
+}
+
+yaml_keys() {
+  yaml_value "${1} | keys | join(\" \")"
+}
+
+yaml_array() {
+  yaml_value "${1} | join(\" \")"
+}
+
 dependencies() {
   topic 'Install dependencies'
   local dep_pkgs
-  dep_pkgs=(curl wget apt-transport-https build-essential)
+  dep_pkgs=(curl wget apt-transport-https build-essential jq yq)
   for pkg in "${dep_pkgs[@]}" ;do
     dpkg -l | grep -q " ${pkg} " || sudo apt install -qu ${pkg}
   done
@@ -96,17 +39,17 @@ dependencies() {
 setup_dotfiles() {
   topic 'Setup dotfiles'
 
-  for mdir in "${MAKE_DIRS[@]}" ;do
+  for mdir in $(yaml_array '.dotfiles.dirs') ;do
     mkdir -p ${mdir}
   done
 
-  for mlink in "${!MAKE_LINKS[@]}" ;do
-    ln -snf ${REPODIR}/${mlink} ${HOME}/${MAKE_LINKS["${mlink}"]}
+  for mlink in $(yaml_keys '.dotfiles.links') ;do
+    ln -snf ${REPODIR}/${mlink} ${HOME}/$(yaml_value ".dotfiles.links[\"${mlink}\"]")
   done
 
   if ! grep -q 'dotfiles' ${HOME}/.bashrc ;then
    echo '# Laod dotfiles setup' >> ${HOME}/.bashrc
-  # shellcheck disable=SC2016
+   # shellcheck disable=SC2016
    echo 'source ${HOME}/dotfiles/bashrc' >> ${HOME}/.bashrc
   fi
 
@@ -170,7 +113,7 @@ setup_node() {
   source "${HOME}/.nvm/nvm.sh"
 
   if [ ! -e ${HOME}/.nvm ] ; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${INSTALL_NVM_VERSION}/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$(yaml_value '.nvm.version')/install.sh | bash
     # shellcheck source=./bashrc
     source ${HOME}/.bashrc
   fi
@@ -178,7 +121,7 @@ setup_node() {
   cd $WORKDIR || exit 1
 
   nvm install node
-  for nver in $EXTRA_NODE_VERSIONS ;do
+  for nver in $(yaml_array '.nvm.nodeVersions') ;do
     nvm install $nver
   done
   nvm alias default node
@@ -216,26 +159,25 @@ setup_pyenv() {
 
 install_python() {
   topic 'Install python'
+  local pydefault
 
-  pyenv install -s ${DEFAULT_PYTHON_VERSION}
-  for pyver in $EXTRA_PYTHON_VERSIONS ;do
+  pydefault=$(yaml_value '.pyenv.pythonVersion')
+  pyenv install -s $pydefault
+  for pyver in $(yaml_array '.pyenv.extraPythonVersions') ;do
     pyenv install -s $pyver
   done
 
   export CPPFLAGS="-I/usr/include/openssl"
   export LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
-  pyenv global ${DEFAULT_PYTHON_VERSION}
+  pyenv global $pydefault
   cd ~/.pyenv && src/configure && make -C src
   cd $WORKDIR || exit 1
 }
 
 update_pip() {
   topic 'Update Python packages'
-
-  python -m pip install --upgrade pip
-  pip install -r ${HOME}/Pythonfile --upgrade
-
-  wget -q -O ${HOME}/.bash_completion.d/gita_completion https://github.com/nosarthur/gita/blob/master/.gita-completion.bash
+  pip install -r ${REPODIR}/Pythonfile --upgrade
+  type gita &> /dev/null && wget -q -O ${HOME}/.bash_completion.d/gita_completion https://github.com/nosarthur/gita/blob/master/.gita-completion.bash
 }
 
 install_ansible_galaxy() {
@@ -277,19 +219,22 @@ setup_rvm() {
 install_rubies() {
   # shellcheck disable=SC1091
   source "${HOME}/.rvm/scripts/rvm"
+  local rbver
 
   topic 'Install rubies'
-  rvm install $DEFAULT_RUBY_VERSION --default
+  rbver=$(yaml_value '.rvm.rubyVersion')
 
-  for rb in $EXTRA_RUBY_VERSIONS ;do
+  rvm install $rbver --default
+
+  for rb in $(yaml_array '.rvm.extraRubiesVersions') ;do
     rvm install ${rb} --with-openssl-dir=${rvm_path}/usr --autolibs=disable
     rvm use ${rb}
-    BUNDLE_GEMFILE=Gemfile_${rb} gem install bundle
-    BUNDLE_GEMFILE=Gemfile_${rb} bundle install
+    BUNDLE_GEMFILE=${REPODIR}/Gemfile_${rb} gem install bundle
+    BUNDLE_GEMFILE=${REPODIR}/Gemfile_${rb} bundle install
   done
 
   topic "Update default ruby"
-  rvm use $DEFAULT_RUBY_VERSION
+  rvm use $rbver
   gem install bundle
   gem update --system
   bundle update
@@ -297,9 +242,12 @@ install_rubies() {
 
 rvm_cleanup() {
   topic "Cleanup rvm after update"
+  local rbver
+  rbver=$(yaml_value '.rvm.rubyVersion')
+
   rvm cleanup all
   rubies_path=${HOME}/.rvm/rubies
-  rubies_to_remove=$(ls --color=never $rubies_path | grep -Ev "${DEFAULT_RUBY_VERSION}|${EXTRA_RUBY_VERSIONS// /|}|default")
+  rubies_to_remove=$(ls --color=never $rubies_path | grep -Ev "${rbver}|$(yaml_value '.rvm.extraRubiesVersions | join("|")')|default")
   for rb in $rubies_to_remove ;do
     echo "Remove ${rb}"
     rm -rf ${rubies_path:?}/${rb}
@@ -333,7 +281,7 @@ setup_sdkman() {
 
 install_java() {
   topic "Install Java"
-  for jver in $JAVA_VERSIONS ;do
+  for jver in $(yaml_array '.sdkman.javaVersions') ;do
     sdk install java $jver
     ln -snf /etc/ssl/certs/java/cacerts ${HOME}/.sdkman/candidates/java/${jver}/lib/security/cacerts
   done
@@ -341,7 +289,7 @@ install_java() {
 
 install_groovy() {
   topic "Install Groovy"
-  for gver in $GROOVY_VERSIONS ;do
+  for gver in $(yaml_array '.sdkman.groovyVersions') ;do
     sdk install groovy $gver
   done
 }
@@ -388,11 +336,11 @@ update_os() {
 install_packages() {
   topic "Install packages"
 
-  while read -r line ;do
-    if ! (dpkg -l | grep -q " ${line} ") ;then
-      to_install="${to_install} ${line}"
+  for pkg_name in $(yaml_array '.systemPackages') ;do
+    if ! (dpkg -l | grep -q " ${pkg_name} ") ;then
+      to_install="${to_install} ${pkg_name}"
     fi
-  done < ${HOME}/Pkgfile
+  done
 
   if [[ -n $to_install ]] ;then
     sudo apt -q install --allow-downgrades -y $to_install
@@ -417,7 +365,7 @@ install_tfenv() {
     # shellcheck source=./bashrc
     source ${HOME}/.bashrc
   fi
-  tfenv install $DEFAULT_TFENV_VERSION
+  tfenv install $(yaml_value '.terraform.tfenvVersion')
 }
 
 install_tgenv() {
@@ -428,7 +376,7 @@ install_tgenv() {
   else
     git -C ${TOOLS_DIR}/tgenv pull
   fi
-  tgenv install $DEFAULT_TGENV_VERSION
+  tgenv install $(yaml_value '.terraform.tgenvVersion')
 }
 
 install_git_tools() {
@@ -440,9 +388,9 @@ install_git_tools() {
   gh auth status | grep "Logged in to github" || gh auth refresh -s read:project
   ir config --token "$(gh auth token)"
 
-  while read -r line ;do
-    type ${line/*\//} &> /dev/null || ir get https://github.com/${line} -y
-  done < ${HOME}/ToolsList
+  for tool in $(yaml_array '.installReleaseTools') ;do
+    type ${tool/*\//} &> /dev/null || ir get https://github.com/${tool} -y
+  done
 
   ir upgrade
 }
@@ -474,9 +422,10 @@ install_lua_lsp() {
   type az &>/dev/null || curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
 
+dependencies
+
 case $INSTALL_TYPE in
   all)
-    dependencies
     update_os
     install_packages
     update_wsl_config

@@ -1,7 +1,0 @@
-7zip.7zip
-gerardog.gsudo
-Google.GoogleDrive
-Microsoft.PowerShell
-KeePassXCTeam.KeePassXC
-Spotify
-WinDirStat
