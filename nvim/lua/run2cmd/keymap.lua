@@ -31,8 +31,6 @@ mapkey('n', '<Right>', '')
 mapkey('n', '<leader>tn', ':tabnext<CR>')
 mapkey('n', '<leader>tp', ':tabprevious<CR>')
 
-mapkey('n', '<leader>c', ":call system(['tmux', 'display-popup', '-E', '-d', getcwd()])<CR>")
-
 mapkey('c', '<C-k>', '<Up>')
 mapkey('c', '<C-j>', '<Down>')
 
