@@ -422,6 +422,11 @@ install_lua_lsp() {
   type az &>/dev/null || curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
 
+setup_permissions() {
+  topic "Setup required permissions"
+  groups | rg -q docker || sudo usermod -aG docker "$(whoami)"
+}
+
 dependencies
 
 case $INSTALL_TYPE in
