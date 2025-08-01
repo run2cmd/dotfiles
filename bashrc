@@ -112,6 +112,9 @@ fi
 export PATH=$HOME/tools/tfenv/bin:$PATH
 export PATH=$HOME/tools/tgenv/bin:$PATH
 
+# Go setup
+export PATH=$HOME/go/bin:$PATH
+
 # install-release completion
 source '/home/pbugala/.bash_completions/ir.sh'
 

@@ -42,7 +42,6 @@ dotfiles:
     inputrc: .inputrc
     bin/db2con: bin/db2con
     bin/gradlew: bin/gradlew
-    bin/ichatest: bin/ichatest
     bin/sgraph: bin/sgraph
     bin/groovylint: bin/groovylint
     bin/gentags: bin/gentags
@@ -120,6 +119,7 @@ systemPackages:
   - shellcheck
   - sshpass
   - sshuttle
+  - terraformls
   - tk-dev
   - tmux
   - tcpdump
@@ -134,6 +134,5 @@ installReleaseTools:
   - derailed/k9s
   - mrjosh/helm-ls
   - terraform-linters/tflint
-  - golangci/golangci-lint
   - artempyanykh/marksman
   - argoproj/argo-cd

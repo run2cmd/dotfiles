@@ -59,6 +59,7 @@ vim.lsp.enable('vimls')
 vim.lsp.enable('dockerls')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('ts_ls')
+vim.lsp.config('helm_ls', { cmd = { 'helm-ls', 'serve' } })
 vim.lsp.enable('helm_ls')
 vim.lsp.enable('marksman')
 
@@ -264,24 +265,6 @@ helpers.create_autocmds({
   },
 })
 
-local icha_tags_file = vim.env.HOME .. '/.config/nvim/tags/icha'
-vim.api.nvim_create_user_command('IchaGenerateTags', function()
-  vim.system({ 'gentags', 'icha', "'/code/puppet-*'", icha_tags_file })
-end, {})
-helpers.create_autocmds({
-  icha_compl = {
-    {
-      event = { 'BufRead', 'BufEnter', 'BufNewFile' },
-      opts = {
-        pattern = { '*/icha-*', '*/ICHA/*' },
-        callback = function()
-          vim.opt_local.tags = icha_tags_file
-        end,
-      }
-    },
-  }
-})
-
 local function groovy_tags_file()
   return vim.env.HOME .. '/.config/nvim/tags/' .. vim.fs.basename(vim.uv.cwd()) .. '/groovy'
 end
@@ -296,6 +279,24 @@ helpers.create_autocmds({
         pattern = 'groovy',
         callback = function()
           vim.opt_local.tags = groovy_tags_file()
+        end,
+      },
+    },
+  },
+})
+
+local java_tags_file = vim.env.HOME .. '/.config/nvim/tags/java'
+vim.api.nvim_create_user_command('JavaTagsGenerate', function()
+  vim.system({ 'gentags', 'groovy', '/code', java_tags_file })
+end, {})
+helpers.create_autocmds({
+  java_lsp = {
+    {
+      event = { 'Filetype' },
+      opts = {
+        pattern = 'java',
+        callback = function()
+          vim.opt_local.tags = java_tags_file
         end,
       },
     },

@@ -11,10 +11,6 @@ local test_tbl = {
     exclude = { 'grammar.js' },
     command = 'yarn install & yarn build:prod',
   },
-  icha = {
-    rootfile = 'Puppetfile',
-    command = 'ichatest',
-  },
   gradle = {
     rootfile = 'build.gradle',
     command = 'gradlew clean build --info',

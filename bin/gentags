@@ -19,13 +19,12 @@ case $FILE_TYPE in
     ctags -R -o $TAG_FILE --languages=PuppetManifest --exclude=fixtures $TAG_SOURCE
     rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\]\$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk >> $TAG_FILE
   ;;
-  icha)
-    rg -N --vimgrep --type=puppet -g !spec -g !fixtures '[^\\][A-Z].* \$[a-zA-Z_]+[ ]+= ' $TAG_SOURCE | puppet_sed | puppet_awk > $TAG_FILE
-  ;;
   groovy)
     ctags -R -o $TAG_FILE --languages=groovy $TAG_SOURCE
   ;;
   sh)
     ctags -R -o $TAG_FILE --languages=sh $TAG_SOURCE
   ;;
+  java)
+    ctags -R -o $TAG_FILE --languages=java $TAG_SOURCE
 esac

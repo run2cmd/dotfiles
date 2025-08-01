@@ -30,10 +30,20 @@ yaml_array() {
 dependencies() {
   topic 'Install dependencies'
   local dep_pkgs
-  dep_pkgs=(curl wget apt-transport-https build-essential jq yq)
+  dep_pkgs=(curl wget apt-transport-https build-essential jq yq gpg)
   for pkg in "${dep_pkgs[@]}" ;do
     dpkg -l | grep -q " ${pkg} " || sudo apt install -qu ${pkg}
   done
+}
+
+hashicorp_repo() {
+  if [ ! -e /usr/share/keyrings/hashicorp-archive-keyring.gpg ] ;then
+    wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+  fi
+  if [ ! -e /etc/apt/sources.list.d/hashicorp.list ] ;then
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com bookworm main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+  fi
 }
 
 setup_dotfiles() {
@@ -328,13 +338,13 @@ install_maven() {
 
 update_os() {
   topic 'Update operating system'
-  local to_install
   sudo apt clean && sudo apt update -q
   sudo apt upgrade -q -y && sudo apt full-upgrade --allow-downgrades -q -y && sudo apt autoremove -y
 }
 
 install_packages() {
   topic "Install packages"
+  local to_install
 
   for pkg_name in $(yaml_array '.systemPackages') ;do
     if ! (dpkg -l | grep -q " ${pkg_name} ") ;then
@@ -422,6 +432,11 @@ install_lua_lsp() {
   type az &>/dev/null || curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
 
+install_go_lsp() {
+  go install github.com/nametake/golangci-lint-langserver@latest
+  go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+}
+
 setup_permissions() {
   topic "Setup required permissions"
   groups | rg -q docker || sudo usermod -aG docker "$(whoami)"
@@ -432,6 +447,7 @@ dependencies
 case $INSTALL_TYPE in
   all)
     update_os
+    hashicorp_repo
     install_packages
     update_wsl_config
     setup_dotfiles
@@ -457,10 +473,12 @@ case $INSTALL_TYPE in
     install_git_tools
     install_helm
     install_lua_lsp
+    install_go_lsp
     install_neovim
     install_neovim_plugins
   ;;
   system)
+    hashicorp_repo
     update_os
     install_packages
     update_wsl_config
@@ -506,6 +524,9 @@ case $INSTALL_TYPE in
     install_tgenv
     install_tfenv
   ;;
+  go)
+    install_go_lsp
+  ;;
   *)
     echo "
     Usage: dotfiles-update [INSTALL_TYPE]
@@ -520,6 +541,7 @@ case $INSTALL_TYPE in
       nodejs - Update NodeJS.
       neovim - Update Neovim.
       tfsuite - Terraform and Terragrunt.
+      go - Go language
     "
   ;;
 esac
