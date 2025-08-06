@@ -38,7 +38,8 @@ if [ -e ${HOME}/bash_completion.d ] ;then
 fi
 
 # SSH Agent
-ssh-add -l &>/dev/null || eval `keychain -q --eval --agents ssh id_rsa`
+eval `keychain -q --eval --agents ssh`
+ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_rsa
 
 # Tmux Wrapper for ssh so it displays hostname in title
 settitle() {
@@ -130,4 +131,3 @@ if [ -e /mnt/c/Windows/system32/wsl.exe ] ; then
   # test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
   # test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
 fi
-
