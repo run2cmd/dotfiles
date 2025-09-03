@@ -9,6 +9,8 @@ require("paq") {
   { 'nvim-telescope/telescope-ui-select.nvim' },
 
   { 'neovim/nvim-lspconfig' },
+  { 'mason-org/mason.nvim' },
+  { 'mason-org/mason-lspconfig.nvim' },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },
   { 'hrsh7th/cmp-path' },
@@ -34,6 +36,7 @@ require("paq") {
   { 'kdheepak/lazygit.nvim' },
   { 'lewis6991/gitsigns.nvim' },
   { 'sindrets/diffview.nvim' },
+  { 'will133/vim-dirdiff' },
 
   { 'marko-cerovac/material.nvim' },
   { 'nvimdev/indentmini.nvim' },

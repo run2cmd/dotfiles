@@ -53,13 +53,19 @@ vim.lsp.config('*', {
   end
 })
 
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    'bashls', 'jsonls', 'vimls', 'dockerls', 'golangci_lint_ls', 'ts_ls', 'helm_ls',
+    'marksman', 'pylsp', 'terraformls', 'lua_ls', 'ansiblels', 'puppet', 'yamlls'
+  },
+})
+
 vim.lsp.enable('bashls')
-vim.lsp.enable('jsonls')
 vim.lsp.enable('vimls')
 vim.lsp.enable('dockerls')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('ts_ls')
-vim.lsp.config('helm_ls', { cmd = { 'helm-ls', 'serve' } })
 vim.lsp.enable('helm_ls')
 vim.lsp.enable('marksman')
 

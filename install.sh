@@ -1,6 +1,9 @@
 #!/bin/bash
 # shellcheck extended-analysis=false
 
+set -e
+[ "${@: -1}" == "debug" ] && set -x
+
 WORKDIR=${HOME}
 
 REPODIR=$(dirname "$(readlink -f $0)")
@@ -30,7 +33,7 @@ yaml_array() {
 dependencies() {
   topic 'Install dependencies'
   local dep_pkgs
-  dep_pkgs=(curl wget apt-transport-https build-essential jq yq gpg)
+  dep_pkgs=(curl wget apt-transport-https build-essential jq yq gpg ripgrep fd-find)
   for pkg in "${dep_pkgs[@]}" ;do
     dpkg -l | grep -q " ${pkg} " || sudo apt install -qu ${pkg}
   done
@@ -57,7 +60,7 @@ setup_dotfiles() {
     ln -snf ${REPODIR}/${mlink} ${HOME}/$(yaml_value ".dotfiles.links[\"${mlink}\"]")
   done
 
-  if ! grep -q 'dotfiles' ${HOME}/.bashrc ;then
+  if ! rg -q 'dotfiles' ${HOME}/.bashrc ;then
    echo '# Laod dotfiles setup' >> ${HOME}/.bashrc
    # shellcheck disable=SC2016
    echo 'source ${HOME}/dotfiles/bashrc' >> ${HOME}/.bashrc
@@ -66,28 +69,24 @@ setup_dotfiles() {
   # shellcheck disable=SC2016
   [ ! -e ${HOME}/.bash_profile ] && echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > ${HOME}/.bash_profile
 
+  echo 'Load ~/.bashrc'
   # shellcheck source=./bashrc
   source ${HOME}/.bashrc
 }
 
 install_neovim() {
   topic 'Update neovim'
-  local url image_file appfile git_sha file_sha
+  local url appfile
 
-  url=https://github.com/neovim/neovim/releases/latest/download
-  image_file=nvim-linux-x86_64.appimage
+  url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
   appfile=${TOOLS_DIR}/nvim.appimage
-  git_sha="$(wget -qO- ${url}/nvim.appimage.sha256sum | cut -d' ' -f1)"
-  file_sha="$(sha256sum ${appfile} | cut -d' ' -f1)"
-  if [ ! -e ${appfile} ] || [ "${git_sha}" != "${file_sha}" ] ;then
-    wget -q -O ${appfile} ${url}/${image_file}
-    # shellcheck disable=SC2046
-    [ $(wc -l ${appfile} | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}/${image_file}" && exit 1
-    chmod u+x ${appfile}
-    ${appfile} --version
-    # shellcheck source=./bashrc
-    source ${HOME}/.bashrc
-  fi
+
+  wget -O ${appfile} ${url}
+  # shellcheck disable=SC2046
+  [ $(wc -l ${appfile} | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}" && exit 1
+
+  chmod u+x ${appfile}
+  ${appfile} --version
   ln -snf ${appfile} ${HOME}/bin/nvim
 }
 
@@ -109,24 +108,18 @@ install_neovim_plugins() {
     git --git-dir ${i}/.git log --oneline --since="${last_update}"
   done
   date +%Y-%m-%d > ${timestamp_file}
-
-  topic "Update Neovim treesitter"
-  nvim --headless -c 'TSUpdateSync | quitall'
-  echo ""
 }
 
 setup_node() {
   topic 'Update nodejs'
   local node_path
 
-  # shellcheck source=../.nvm/nvm.sh
-  source "${HOME}/.nvm/nvm.sh"
-
   if [ ! -e ${HOME}/.nvm ] ; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$(yaml_value '.nvm.version')/install.sh | bash
-    # shellcheck source=./bashrc
-    source ${HOME}/.bashrc
   fi
+
+  # shellcheck source=../.nvm/nvm.sh
+  source "${HOME}/.nvm/nvm.sh"
 
   cd $WORKDIR || exit 1
 
@@ -147,7 +140,7 @@ nodejs_cleanup() {
   local  node_to_remove
   nvm cache clear
   node_path=${HOME}/.nvm/versions/node
-  node_to_remove=$(ls --color=never $node_path | grep -Ev "$(node --version)")
+  node_to_remove=$(ls --color=never $node_path | rg -v "$(node --version)")
   for n in $node_to_remove ;do
     echo "Remove ${n}"
     rm -rf ${node_path:?}/${n}
@@ -159,17 +152,24 @@ setup_pyenv() {
 
   export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
-  if [ ! -e ${HOME}/.pyenv ] ;then
-    curl -fsSL https://pyenv.run | bash
-    # shellcheck source=./bashrc
-    source ${HOME}/.bashrc
+  [ ! -e ${HOME}/.pyenv ] && curl -fsSL https://pyenv.run | bash
+
+  if ! type pyenv &> /dev/null ;then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
   fi
+
   pyenv update
 }
 
 install_python() {
   topic 'Install python'
   local pydefault
+
+  if ! type pyenv &> /dev/null ;then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+  fi
 
   pydefault=$(yaml_value '.pyenv.pythonVersion')
   pyenv install -s $pydefault
@@ -186,8 +186,9 @@ install_python() {
 
 update_pip() {
   topic 'Update Python packages'
+  pip install --upgrade pip
   pip install -r ${REPODIR}/Pythonfile --upgrade
-  type gita &> /dev/null && wget -q -O ${HOME}/.bash_completion.d/gita_completion https://github.com/nosarthur/gita/blob/master/.gita-completion.bash
+  type gita &> /dev/null && wget -O ${HOME}/.bash_completion.d/gita_completion https://github.com/nosarthur/gita/blob/master/auto-completion/bash/.gita-completion.bash
 }
 
 install_ansible_galaxy() {
@@ -200,14 +201,13 @@ python_cleanup() {
 }
 
 setup_rvm() {
-  # shellcheck source=./bashrc
-  source ${HOME}/.bashrc
-
   topic 'Update rvm'
   if [ ! -e ${HOME}/.rvm ] ;then
     gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     curl -sSL https://get.rvm.io | bash -s stable
   fi
+
+  type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
 
   # shellcheck source=../.rvm/scripts/rvm
   source "${HOME}/.rvm/scripts/rvm"
@@ -227,9 +227,10 @@ setup_rvm() {
 }
 
 install_rubies() {
-  # shellcheck disable=SC1091
-  source "${HOME}/.rvm/scripts/rvm"
   local rbver
+
+  type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
+  source "${HOME}/.rvm/scripts/rvm"
 
   topic 'Install rubies'
   rbver=$(yaml_value '.rvm.rubyVersion')
@@ -256,27 +257,14 @@ rvm_cleanup() {
   rbver=$(yaml_value '.rvm.rubyVersion')
 
   rvm cleanup all
-  rubies_path=${HOME}/.rvm/rubies
-  rubies_to_remove=$(ls --color=never $rubies_path | grep -Ev "${rbver}|$(yaml_value '.rvm.extraRubiesVersions | join("|")')|default")
-  for rb in $rubies_to_remove ;do
-    echo "Remove ${rb}"
-    rm -rf ${rubies_path:?}/${rb}
+  all_rubies="${rbver} $(yaml_value '.rvm.extraRubiesVersions | join(" ")') default"
+  for rb in ${HOME}/.rvm/rubies/* ;do
+    base_ruby=$(basename $rb | sed 's/ruby-//g')
+    if [[ "${all_rubies}" != *${base_ruby}* ]] ;then
+      echo "Remove ${rb}"
+      rm -rf ${rubies_path:?}/${rb}
+    fi
   done
-}
-
-install_puppet_lsp() {
-  topic "Update puppet editor services (LSP)"
-  dir_path=${TOOLS_DIR}/puppet-editor-services
-  [ ! -e ${dir_path} ] && git clone https://github.com/puppetlabs/puppet-editor-services.git ${dir_path}
-  if [ ! -e "${dir_path}/Gemfile.lock" ] || git -C ${dir_path} remote show origin | grep 'out of date' ;then
-    cd ${dir_path} || exit 1
-    git reset --hard main
-    git pull
-    bundle install --gemfile=${dir_path}/Gemfile
-    bundle exec rake -f ${dir_path}/Rakefile gem_revendor
-    cd $WORKDIR || exit 1
-    ln -snf ${dir_path}/puppet-languageserver ~/bin/puppet-languageserver
-  fi
 }
 
 setup_sdkman() {
@@ -307,7 +295,7 @@ install_groovy() {
 install_codenarc() {
   topic "Install Codenarc"
   mkdir -p ${HOME}/.config/codenarc
-  wget -q -O ${HOME}/.config/codenarc/StarterRuleSet-AllRules.groovy https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
+  wget -O ${HOME}/.config/codenarc/StarterRuleSet-AllRules.groovy https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
 }
 
 cleanup_sdk() {
@@ -328,10 +316,12 @@ install_maven() {
   for app in maven gradle ;do
     candidates_root=${HOME}/.sdkman/candidates/${app}
     curr_ver=$(readlink ${candidates_root}/current)
-    app_to_remove=$(ls --color=never ${candidates_root} | grep -Ev "${curr_ver}|current")
-    for ver in $app_to_remove ;do
-      echo "Remove ${ver}"
-      rm -rf ${candidates_root:?}/${ver}
+    for ver in ${candidates_root}/* ;do
+      base_sdk=$(basename $ver)
+      if [[ "${curr_ver} current" != *${base_sdk}* ]] ;then
+        echo "Remove ${ver}"
+        rm -rf ${ver}
+      fi
     done
   done
 }
@@ -347,7 +337,7 @@ install_packages() {
   local to_install
 
   for pkg_name in $(yaml_array '.systemPackages') ;do
-    if ! (dpkg -l | grep -q " ${pkg_name} ") ;then
+    if ! (dpkg -l | rg -q " ${pkg_name} ") ;then
       to_install="${to_install} ${pkg_name}"
     fi
   done
@@ -369,12 +359,10 @@ install_tfenv() {
   topic 'Update tfenv'
   if [ ! -e ${TOOLS_DIR}/tfenv ] ;then
     git clone --depth=1 https://github.com/tfutils/tfenv.git ${TOOLS_DIR}/tfenv
-    export PATH=${TOOLS_DIR}/tfenv/bin:$PATH
   else
     git -C ${TOOLS_DIR}/tfenv pull
-    # shellcheck source=./bashrc
-    source ${HOME}/.bashrc
   fi
+  type tfenv &> /dev/null || export PATH=$HOME/tools/tfenv/bin:$PATH
   tfenv install $(yaml_value '.terraform.tfenvVersion')
 }
 
@@ -382,10 +370,10 @@ install_tgenv() {
   topic 'Update tgenv'
   if [ ! -e ${TOOLS_DIR}/tgenv ] ;then
     git clone https://github.com/sigsegv13/tgenv.git ${TOOLS_DIR}/tgenv
-    export PATH=${TOOLS_DIR}/tgenv/bin:$PATH
   else
     git -C ${TOOLS_DIR}/tgenv pull
   fi
+  type tgenv &> /dev/null || export PATH=${TOOLS_DIR}/tgenv/bin:$PATH
   tgenv install $(yaml_value '.terraform.tgenvVersion')
 }
 
@@ -395,46 +383,20 @@ install_git_tools() {
   [ ! -e ${HOME}/.bash_completions/ir.sh ] && ir --install-completion bash
 
   topic 'Login to github'
-  gh auth status | grep "Logged in to github" || gh auth refresh -s read:project
+  gh auth status | rg "You are not logged into any GitHub hosts" && gh auth login -h github.com -p ssh -s read:project
   ir config --token "$(gh auth token)"
 
   for tool in $(yaml_array '.installReleaseTools') ;do
     type ${tool/*\//} &> /dev/null || ir get https://github.com/${tool} -y
   done
 
-  ir upgrade
+  ir upgrade -y
 }
 
 install_helm() {
   topic "Install Helm"
   export HELM_INSTALL_DIR=${HOME}/bin
   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-}
-
-install_lua_lsp() {
-  topic "Install Lua LSP"
-  local lua_tag lua_path lua_bin
-
-  [ -e ${HOME}/tools/lua-language-server ] && lua_ver="$(lua-language-server --version)" || lua_ver='none'
-  lua_tag="$(gh repo view LuaLS/lua-language-server --json latestRelease -q .latestRelease.name)"
-  if [ "${lua_ver}" != "${lua_tag}" ] ;then
-    lua_path=${HOME}/tools/lua-language-server
-    lua_bin=${lua_path}/bin/lua-language-server
-    mkdir -p ${HOME}/tools/lua-language-server
-    wget -O /tmp/lua-ls.tar.gz https://github.com/LuaLS/lua-language-server/releases/download/${lua_tag}/lua-language-server-${lua_tag}-linux-x64.tar.gz
-    tar -xf /tmp/lua-ls.tar.gz -C ${lua_path}
-    chmod +x ${lua_bin}
-    ln -snf ${lua_bin} ${HOME}/bin/lua-language-server
-  else
-    echo "lua-language-server already at latest version ${lua_ver}"
-  fi
-
-  type az &>/dev/null || curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-}
-
-install_go_lsp() {
-  go install github.com/nametake/golangci-lint-langserver@latest
-  go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 }
 
 setup_permissions() {
@@ -459,7 +421,6 @@ case $INSTALL_TYPE in
     setup_rvm
     install_rubies
     rvm_cleanup
-    install_puppet_lsp
     setup_sdkman
     install_java
     install_groovy
@@ -472,8 +433,6 @@ case $INSTALL_TYPE in
     install_tfenv
     install_git_tools
     install_helm
-    install_lua_lsp
-    install_go_lsp
     install_neovim
     install_neovim_plugins
   ;;
@@ -486,7 +445,6 @@ case $INSTALL_TYPE in
   tools)
     install_git_tools
     install_helm
-    install_lua_lsp
   ;;
   dotfiles)
     setup_dotfiles
@@ -495,7 +453,6 @@ case $INSTALL_TYPE in
     setup_rvm
     install_rubies
     rvm_cleanup
-    install_puppet_lsp
   ;;
   python)
     setup_pyenv
@@ -524,9 +481,6 @@ case $INSTALL_TYPE in
     install_tgenv
     install_tfenv
   ;;
-  go)
-    install_go_lsp
-  ;;
   *)
     echo "
     Usage: dotfiles-update [INSTALL_TYPE]
@@ -541,7 +495,6 @@ case $INSTALL_TYPE in
       nodejs - Update NodeJS.
       neovim - Update Neovim.
       tfsuite - Terraform and Terragrunt.
-      go - Go language
     "
   ;;
 esac

@@ -88,7 +88,6 @@ systemPackages:
   - docker.io
   - dos2unix
   - dnsutils
-  - fd-find
   - fuse
   - fzf
   - git
@@ -113,13 +112,11 @@ systemPackages:
   - oras
   - plantuml
   - postgresql
-  - ripgrep
   - rpm
   - rpm2cpio
   - shellcheck
   - sshpass
   - sshuttle
-  - terraformls
   - tk-dev
   - tmux
   - tcpdump
@@ -132,7 +129,5 @@ systemPackages:
 installReleaseTools:
   - hadolint/hadolint
   - derailed/k9s
-  - mrjosh/helm-ls
   - terraform-linters/tflint
-  - artempyanykh/marksman
   - argoproj/argo-cd
