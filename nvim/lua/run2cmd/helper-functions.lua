@@ -67,22 +67,16 @@ M.cmd_output = function(cmd)
   return output
 end
 
-M.open_tmux = function()
+M.tmux_cmd = function(cmd)
+  local tmux_id = '{right}'
   local num_panes = vim.system({ 'tmux', 'display-message', '-p', '#{window_panes}' }, { text = true }):wait()['stdout']
   if tonumber(vim.trim(num_panes)) < 2 then
-    vim.system({ 'tmux', 'split', '-h' })
-    -- Wait for Bash to load
-    vim.wait(1500, function() end)
+    vim.system({ 'tmux', 'split', '-h', cmd .. '&& bash' })
+  else
+    vim.system({ 'tmux', 'send', '-t', tmux_id, 'cd ' .. vim.fn.getcwd() .. ' && clear', 'ENTER' })
+    vim.system({ 'tmux', 'send', '-t', tmux_id, '-X', 'cancel' })
+    vim.system({ 'tmux', 'send', '-t', tmux_id, cmd, 'ENTER' })
   end
-end
-
-M.tmux_id = function()
-  return '{right}'
-end
-
-M.tmux_cmd = function(id, cmd)
-  vim.system({ 'tmux', 'send', '-t', id, '-X', 'cancel' })
-  vim.system({ 'tmux', 'send', '-t', id, cmd, 'ENTER' })
 end
 
 M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }

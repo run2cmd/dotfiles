@@ -83,13 +83,6 @@ local function evaluate_cmd(cmd)
   return eval_cmd
 end
 
-local function run_test(cmd)
-  helpers.open_tmux()
-  local id = helpers.tmux_id()
-  helpers.tmux_cmd(id, 'cd ' .. vim.fn.getcwd() .. ' && clear')
-  helpers.tmux_cmd(id, cmd)
-end
-
 local function find_test()
   local data = {}
   for _, v in pairs(test_tbl) do
@@ -115,7 +108,7 @@ local function run_file()
         cmd = alt.command
       end
     end
-    run_test(evaluate_cmd(cmd))
+    helpers.tmux_cmd(evaluate_cmd(cmd))
   else
     print('[test] No file test pattern found.')
   end
@@ -124,7 +117,7 @@ end
 local function run_project()
   local test_data = find_test()
   if test_data.proj then
-    run_test(test_data.proj)
+    helpers.tmux_cmd(test_data.proj)
   else
     print('[test] Project not configured.')
   end
@@ -134,6 +127,6 @@ mapkey('n', '`f', run_file)
 mapkey('n', '`t', run_project)
 mapkey('n', '<leader>rk',
   function(_)
-    run_test('ir10k')
+    helpers.tmux_cmd('ir10k')
   end
 )
