@@ -39,6 +39,8 @@ Entire workflow is build around languages, tools and filetypes I work with day t
 - Terraform
 - Terragrunt
 - Lazygit
+- gh (GitHub)
+- copilot (GitHub Copilot)
 
 ## Tools
 

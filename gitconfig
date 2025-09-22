@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
   name = Bugala Piotr
-  email = Piotr.Bugala@igt.com
+  email = Piotr.Bugala@brightstarlottery.com
 [core]
   longpaths = true
   editor = nvim --clean -c 'set laststatus=0'
