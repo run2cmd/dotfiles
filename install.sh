@@ -364,6 +364,7 @@ install_tfenv() {
   fi
   type tfenv &> /dev/null || export PATH=$HOME/tools/tfenv/bin:$PATH
   tfenv install $(yaml_value '.terraform.tfenvVersion')
+  tfenv use $(yaml_value '.terraform.tfenvVersion')
 }
 
 install_tgenv() {
