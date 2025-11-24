@@ -360,22 +360,29 @@ install_tfenv() {
   if [ ! -e ${TOOLS_DIR}/tfenv ] ;then
     git clone --depth=1 https://github.com/tfutils/tfenv.git ${TOOLS_DIR}/tfenv
   else
+    git -C ${TOOLS_DIR}/tfenv reset --hard
     git -C ${TOOLS_DIR}/tfenv pull
   fi
   type tfenv &> /dev/null || export PATH=$HOME/tools/tfenv/bin:$PATH
-  tfenv install $(yaml_value '.terraform.tfenvVersion')
-  tfenv use $(yaml_value '.terraform.tfenvVersion')
+  for ver in $(yaml_array '.terraform.tfenvVersion') ;do
+    tfenv install $ver
+  done
+  tfenv use $(yaml_array '.terraform.tfenvVersion' | cut -d' ' -f1)
 }
 
 install_tgenv() {
   topic 'Update tgenv'
   if [ ! -e ${TOOLS_DIR}/tgenv ] ;then
-    git clone https://github.com/sigsegv13/tgenv.git ${TOOLS_DIR}/tgenv
+    git clone https://github.com/tgenv/tgenv.git ${TOOLS_DIR}/tgenv
   else
+    git -C ${TOOLS_DIR}/tgenv reset --hard
     git -C ${TOOLS_DIR}/tgenv pull
   fi
   type tgenv &> /dev/null || export PATH=${TOOLS_DIR}/tgenv/bin:$PATH
-  tgenv install $(yaml_value '.terraform.tgenvVersion')
+  for ver in $(yaml_array '.terraform.tgenvVersion') ;do
+    tgenv install $ver
+  done
+  tfenv use $(yaml_array '.terraform.tgenvVersion' | cut -d' ' -f1)
 }
 
 install_git_tools() {

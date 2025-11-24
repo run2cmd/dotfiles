@@ -25,8 +25,12 @@ sdkman:
     - 2.4.21
 
 terraform:
-  tfenvVersion: latest
-  tgenvVersion: latest
+  tfenvVersion:
+    - latest
+    - 1.5.3
+  tgenvVersion:
+    - latest
+    - 0.48.7
 
 # Directories and files links to be create in $HOME. Use relative path.
 dotfiles:
