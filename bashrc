@@ -68,14 +68,7 @@ export PATH=$PATH:${HOME}/.pulumi/bin
 export ANSIBLE_ROLES_PATH=/code/ansible-igt-puppet/roles:/code/ansible-igt-services/roles:/code/ansible-dew-common/roles
 
 # Git nice PS
-parse_git_branch() {
-  if test -d .git ;then
-    GBRANCH=$(git branch --show-current)
-    GDESC=$(git describe --tags --always)
-    echo " (${GBRANCH})(${GDESC})"
-  fi
-}
-export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(parse_git_branch)\[\e[00m\]]\n$ "
+export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]\n$ "
 
 # Load pyenv
 export PYENV_ROOT="$HOME/.pyenv"
