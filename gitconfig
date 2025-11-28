@@ -6,6 +6,7 @@
   longpaths = true
   editor = nvim --clean -c 'set laststatus=0'
   excludesFile = ~/.gitignore
+  autocrlf = false
 [http]
   sslVerify = false
 [pull]
