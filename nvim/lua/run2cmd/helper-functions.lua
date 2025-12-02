@@ -30,11 +30,6 @@ M.table_contains = function(table, pattern)
   return exists
 end
 
-M.file_exists = function(path)
-  local file = io.open(path, 'r')
-  return file ~= nil and io.close(file)
-end
-
 M.create_autocmds = function(map)
   for group_name, cmds in pairs(map) do
     vim.api.nvim_create_augroup(group_name, { clear = true })
@@ -66,18 +61,6 @@ M.cmd_output = function(cmd)
     handle:close()
   end
   return output
-end
-
-M.tmux_cmd = function(cmd)
-  local tmux_id = '{right}'
-  local num_panes = vim.system({ 'tmux', 'display-message', '-p', '#{window_panes}' }, { text = true }):wait()['stdout']
-  if tonumber(vim.trim(num_panes)) < 2 then
-    vim.system({ 'tmux', 'split', '-h', cmd .. '&& bash' })
-  else
-    vim.system({ 'tmux', 'send', '-t', tmux_id, 'cd ' .. vim.fn.getcwd() .. ' && clear', 'ENTER' })
-    vim.system({ 'tmux', 'send', '-t', tmux_id, '-X', 'cancel' })
-    vim.system({ 'tmux', 'send', '-t', tmux_id, cmd, 'ENTER' })
-  end
 end
 
 M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }

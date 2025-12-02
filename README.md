@@ -77,7 +77,6 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
 - Disable arrow keys. We go pure Vim hardcode mode.
 - Custom keybindings:
     - `<c-l>` - Clear search and update diff.
-    - ``f` - Run test including currently open buffer (like specific spec) or execute buffer (like ruby or python code) (See [tests](#tests) section).
     - `<leader>tn`, `<leader>tp` - move to next or previous tab.
     - `<leader>to` - open new tab with Alpha.
     - `<leader>c` - open tmux floating window in current working directory.
@@ -91,8 +90,6 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
     - `<leader>p` - Register list.
     - `<C-n>` - Open notes file TODO.
     - Work with projects:
-      - ``t` - Run tests for entire project like gradle, maven rake (See [tests](#tests) section).
-      - ``l` - Repeat last run tests regardless of open buffer (See [tests](#tests) section).
       - `<leader>rk` - Run r10k in terminal (support for Puppet)
       - `<leader>sw` - Search for word under cursor in current project.
       - `<leader>sl` - Live search in current project.
@@ -116,17 +113,6 @@ I use my own VIM workflow. I like it to be easy and as much automated as possibl
       - `<C-h>` - Same as `<c-p>` but for open buffers.
       - `<C-k>` - List of projects in '/code' path. Assuming they are git projects will list projects following pattern: `/code/<project-group>/<repository-name>`.
       - `<C-s>` - List all files in project (with no ignore and hidden enabled).
-
-### Tests
-
-I use my own easy test implementation to run in new tmux pane placed in bottom of the screen. Following are goals for this:
-
-- Support for both projects and files tests.
-- Be able to run test for project, file, or setup to prepare environment.
-- Tests needs to run per project based on autochdir and root markers like `.git`, `.svn`.
-- Single test window per project. Running new test against project will close previous test window and open new one.
-- Be able to run test for different projects/files in separate windows.
-- Ruse same tmux pane.
 
 ## Optimize WSL disk space
 
