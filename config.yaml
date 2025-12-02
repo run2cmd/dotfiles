@@ -48,7 +48,6 @@ dotfiles:
     bin/gradlew: bin/gradlew
     bin/sgraph: bin/sgraph
     bin/groovylint: bin/groovylint
-    bin/gentags: bin/gentags
     bin/erbvalidate: bin/erbvalidate
     nvim/init.lua: .config/nvim/init.lua
     nvim/syntax: .config/nvim/syntax
