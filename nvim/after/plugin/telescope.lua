@@ -55,52 +55,6 @@ local function find_notes()
     :find()
 end
 
-local function find_gh_prs()
-  pickers
-    .new({}, {
-      prompt_title = 'GitHub Pull Requests',
-      finder = finders.new_oneshot_job({ 'gh', 'pr', 'list' }),
-      sorter = config.values.generic_sorter({}),
-      attach_mappings = function(_, map)
-        map({ 'i', 'n' }, '<cr>', function(buffer)
-          local selection = get_selection(buffer):match('%d+')
-          local pr_file = '/tmp/gh_pr.git'
-          vim.cmd('silent !gh pr view ' .. selection .. ' &> ' .. pr_file)
-          vim.cmd('silent !gh pr checks ' .. selection .. ' &>> ' .. pr_file)
-          vim.cmd('silent !gh pr diff ' .. selection .. ' &>> ' .. pr_file)
-          actions.close(buffer)
-          helper.float_buffer(pr_file)
-          vim.opt_local.filetype = 'git'
-        end)
-        return true
-      end,
-    })
-    :find()
-end
-
-local function find_gh_runs()
-  pickers
-    .new({}, {
-      prompt_title = 'GitHub Workflow Runs',
-      finder = finders.new_oneshot_job({ 'gh', 'run', 'list' }),
-      sorter = config.values.generic_sorter({}),
-      attach_mappings = function(_, map)
-        map({ 'i', 'n' }, '<cr>', function(buffer)
-          local selection = get_selection(buffer):match('%d+%d+%d+%d+%d+')
-          local runs_file = '/tmp/gh_runs.git'
-          vim.cmd('silent !gh run view --log ' .. selection .. '| ansi2txt &> ' .. runs_file)
-          actions.close(buffer)
-          vim.cmd('vsplit')
-          vim.cmd.edit(runs_file)
-          vim.opt_local.list = false
-          vim.cmd('/warning\\|error\\|failed')
-        end)
-        return true
-      end,
-    })
-    :find()
-end
-
 local function easy_registers()
   local reglist = {}
   local yank_reg = helper.yank_registers
@@ -198,5 +152,3 @@ mapkey('n', '<C-s>',
 )
 mapkey('n', '<C-n>', find_notes)
 mapkey('n', '<leader>sl', builtin.live_grep)
-mapkey('n', '<leader>sp', find_gh_prs)
-mapkey('n', '<leader>sr', find_gh_runs)
