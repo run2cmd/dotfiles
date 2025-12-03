@@ -1,9 +1,0 @@
-#
-# @summay {{+define summary+}}
-# 
-# @example 
-#   {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}}+}} { {{+title+}}: }
-#
-define {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
-  {{++}}
-}

@@ -8,7 +8,6 @@ vim.o.updatetime = 50
 vim.o.mouse = ''
 vim.o.errorbells = false
 vim.o.visualbell = true
-vim.cmd("let mapleader = ' '")
 
 vim.o.langmenu = 'en_US.UTF-8'
 vim.env.LANG = 'en_US'
@@ -61,3 +60,6 @@ vim.g.netrw_use_errorwindow = 1
 
 vim.g.last_terminal_test = {}
 vim.g.terminal_window_buffer_number = {}
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"

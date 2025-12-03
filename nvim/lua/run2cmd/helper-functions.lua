@@ -1,24 +1,4 @@
-local mapkey = vim.keymap.set
 local M = {}
-local root_cache = {}
-
-local function default_float_params()
-  local ui = vim.api.nvim_list_uis()[1]
-  local height = 40
-  local widht = 150
-  local defaults = {
-    relative = 'editor',
-    width = widht,
-    height = height,
-    col = (ui.width/2) - (widht/2),
-    row = (ui.height/2) - (height/2),
-    anchor = 'NW',
-    style = 'minimal',
-    noautocmd = true,
-    border = 'double',
-  }
-  return defaults
-end
 
 M.table_contains = function(table, pattern)
   local exists = false
@@ -40,19 +20,6 @@ M.create_autocmds = function(map)
   end
 end
 
-M.float_buffer = function(filepath)
-  local buf = vim.api.nvim_create_buf(false, true)
-  local opts = default_float_params()
-  vim.api.nvim_open_win(buf, 1, opts)
-  vim.cmd.edit(filepath)
-  mapkey('n', '<Esc>',
-    function()
-      vim.api.nvim_buf_delete(0, { force = true })
-    end, { buffer = true }
-  )
-  mapkey('n', '<c-v>', ':q | e' .. filepath .. '<cr>', { buffer = true })
-end
-
 M.cmd_output = function(cmd)
   local output = ''
   local handle = io.popen(cmd)
@@ -64,41 +31,5 @@ M.cmd_output = function(cmd)
 end
 
 M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }
-
-M.find_root = function(buf_id)
-  local dir_names = { '.git', '.svn' }
-  local paths_exclude = { 'fixtures', '//' }
-  local file_path = vim.api.nvim_buf_get_name(buf_id)
-
-  if file_path == '' then
-    return
-  end
-  local path = vim.fs.dirname(file_path)
-
-  local result = root_cache[path]
-  if result ~= nil then
-    return result
-  end
-
-  local root_file = vim.fs.find(dir_names, { path = path, upward = true })[1]
-  if root_file == nil then
-    if vim.api.nvim_get_option_value('filetype', { buf = buf_id }) ~= '' then
-      root_file = file_path
-    else
-      return
-    end
-  end
-
-  for _, i in ipairs(paths_exclude) do
-    if string.match(root_file, i) then
-      return
-    end
-  end
-
-  result = vim.fn.fnamemodify(vim.fs.dirname(root_file), ':p')
-  root_cache[path] = result
-
-  return result
-end
 
 return M

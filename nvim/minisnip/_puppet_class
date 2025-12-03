@@ -1,9 +1,0 @@
-#
-# @summary {{+class summary+}}
-# 
-# @example 
-#   contain {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}}
-#
-class {{+~substitute(substitute(expand("%:r"), 'manifests', fnamemodify(getcwd(), ':t'), 'g'), '\', '::', 'g')+}} {
-  {{++}}
-}
