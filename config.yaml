@@ -46,7 +46,6 @@ dotfiles:
     inputrc: .inputrc
     bin/db2con: bin/db2con
     bin/gradlew: bin/gradlew
-    bin/sgraph: bin/sgraph
     bin/groovylint: bin/groovylint
     bin/erbvalidate: bin/erbvalidate
     nvim/init.lua: .config/nvim/init.lua
