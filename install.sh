@@ -90,26 +90,6 @@ install_neovim() {
   ln -snf ${appfile} ${HOME}/bin/nvim
 }
 
-install_neovim_plugins() {
-  topic "Update Neovim plugins"
-  local timestamp_file last_update pm_path
-
-  pm_path="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
-  if [ ! -e ${pm_path} ] ;then
-    git clone --depth=1 https://github.com/savq/paq-nvim.git ${pm_path}
-  fi
-
-  timestamp_file=~/.local/share/nvim/plugins_timestamp
-  if ! test -f ${timestamp_file} ;then date +%Y-%m-%d > ${timestamp_file} ;fi
-  last_update=$(cat ${timestamp_file})
-  nvim --headless -c 'autocmd User PaqDoneSync quitall' -c 'PaqSync'
-  for i in $(fdfind --type d --exact-depth 2 . ~/.local/share/nvim/site/pack/paqs) ;do
-    echo "-> Update $(basename ${i})"
-    git --git-dir ${i}/.git log --oneline --since="${last_update}"
-  done
-  date +%Y-%m-%d > ${timestamp_file}
-}
-
 setup_node() {
   topic 'Update nodejs'
   local node_path
@@ -442,7 +422,6 @@ case $INSTALL_TYPE in
     install_git_tools
     install_helm
     install_neovim
-    install_neovim_plugins
   ;;
   system)
     hashicorp_repo
@@ -483,7 +462,6 @@ case $INSTALL_TYPE in
   ;;
   neovim)
     install_neovim
-    install_neovim_plugins
   ;;
   tfsuite)
     install_tgenv
