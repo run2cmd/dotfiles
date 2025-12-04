@@ -46,7 +46,6 @@ return {
             'vim-language-server',
             'stylua',
             'tflint',
-            'hadolint'
           },
         })
       end
