@@ -109,9 +109,6 @@ export PATH=$HOME/tools/tgenv/bin:$PATH
 # Go setup
 export PATH=$HOME/go/bin:$PATH
 
-# install-release completion
-source '/home/pbugala/.bash_completions/ir.sh'
-
 # Kubernetes completion
 type kubectl &> /dev/null && source <(kubectl completion bash)
 

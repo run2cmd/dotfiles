@@ -4,11 +4,10 @@
 set -e
 
 REPODIR=$(dirname "$(readlink -f "${0}")")
-TOOLS_DIR=${HOME}/tools
+TOOLS_DIR=/usr/local/bin
 INSTALL_TYPE=$1
 
-mkdir -p "${HOME}/bin"
-ln -snf "${REPODIR}/install.sh" "${HOME}/bin/dotfiles-update"
+sudo ln -snf "${REPODIR}/install.sh" "${TOOLS_DIR}/dotfiles-update"
 
 topic() {
   echo "$(tput bold)$(tput setaf 4)${1}$(tput sgr0)"
@@ -30,8 +29,6 @@ setup_dotfiles_dirs() {
     "${HOME}/.config/nvim/undo"
     "${HOME}/.config/nvim/tmp"
     "${HOME}/.bash_completion.d"
-    "${HOME}/tools"
-    "${HOME}/bin"
   )
 
   for dir in "${create_dirs[@]}" ;do
@@ -85,15 +82,13 @@ install_neovim() {
   local url appfile
 
   url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
-  appfile=${TOOLS_DIR}/nvim.appimage
 
-  wget -O "${appfile}" "${url}"
+  sudo wget -O "${TOOLS_DIR}/nvim" "${url}"
   # shellcheck disable=SC2046
-  [ $(wc -l "${appfile}" | cut -d" " -f1) -eq 0 ] && echo "Failed to download ${url}" && exit 1
+  [ ! -e "${TOOLS_DIR}/nvim" ] && echo "Failed to download ${url}" && exit 1
 
-  chmod u+x "${appfile}"
-  $appfile --version
-  ln -snf "${appfile}" "${HOME}/bin/nvim"
+  sudo chmod +x "${TOOLS_DIR}/nvim"
+  nvim --version
 }
 
 setup_node() {
@@ -350,33 +345,36 @@ update_wsl_config() {
 
 install_tfenv() {
   topic 'Update tfenv'
-  if [ ! -e "${TOOLS_DIR}/tfenv" ] ;then
-    git clone --depth=1 https://github.com/tfutils/tfenv.git "${TOOLS_DIR}/tfenv"
+  mkdir -p "${HOME}/tools"
+  if [ ! -e "${HOME}/tools/tfenv" ] ;then
+    git clone --depth=1 https://github.com/tfutils/tfenv.git "${HOME}/tools/tfenv"
   else
-    git -C "${TOOLS_DIR}/tfenv" reset --hard
-    git -C "${TOOLS_DIR}/tfenv" pull
+    git -C "${HOME}/tools/tfenv" reset --hard
+    git -C "${HOME}/tools/tfenv" pull
   fi
-  type tfenv &> /dev/null || export PATH=$HOME/tools/tfenv/bin:$PATH
+  type tfenv &> /dev/null || export PATH=${HOME}/tools/tfenv/bin:$PATH
   tfenv install latest
   tfenv use latest
 }
 
 install_tgenv() {
   topic 'Update tgenv'
-  if [ ! -e "${TOOLS_DIR}/tgenv" ] ;then
-    git clone https://github.com/tgenv/tgenv.git "${TOOLS_DIR}/tgenv"
+  local tools_home
+  mkdir -p "${HOME}/tools"
+  if [ ! -e "${HOME}/tools/tgenv" ] ;then
+    git clone https://github.com/tgenv/tgenv.git "${HOME}/tools/tgenv"
   else
-    git -C "${TOOLS_DIR}/tgenv" reset --hard
-    git -C "${TOOLS_DIR}/tgenv" pull
+    git -C "${HOME}/tools/tgenv" reset --hard
+    git -C "${HOME}/tools/tgenv" pull
   fi
-  type tgenv &> /dev/null || export PATH=${TOOLS_DIR}/tgenv/bin:$PATH
+  type tgenv &> /dev/null || export PATH=${HOME}/tools/tgenv/bin:$PATH
   tgenv install latest
-  tfenv use latest
+  tgenv use latest
 }
 
 install_helm() {
   topic "Install Helm"
-  export HELM_INSTALL_DIR=${HOME}/bin
+  export HELM_INSTALL_DIR="${TOOLS_DIR}"
   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 }
 
