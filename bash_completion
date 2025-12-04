@@ -1,14 +1,6 @@
 #!/bin/bash
 # Personal bash completeion for in project commands
 
-_comp_azw() {
-  if [ "${#COMP_WORDS[@]}" != "2" ]; then
-    return
-  fi
-  local opts="$(awk '/case \$MODE/{flag=1;next}/esac/{flag=0}flag' $(which azw) | grep [a-z]\).*\; | sed 's/\(.*\)).*/\1/g' | tr -s '\n' ' ')"
-  COMPREPLY=($(compgen -W "${opts}" "${COMP_WORDS[1]}"))
-}
-
 _comp_dotfiles() {
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
@@ -17,5 +9,4 @@ _comp_dotfiles() {
   COMPREPLY=($(compgen -W "${opts}" "${COMP_WORDS[1]}"))
 }
 
-complete -F _comp_azw azw
 complete -F _comp_dotfiles dotfiles-update

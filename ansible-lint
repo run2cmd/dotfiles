@@ -1,6 +1,0 @@
-use_default_rules: true
-skip_list:
-  - fqcn-builtins
-  - line-length
-  - name[play]
-  - name[missing]

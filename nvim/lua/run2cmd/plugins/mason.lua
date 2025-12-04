@@ -32,7 +32,21 @@ return {
             'ansiblels',
             'puppet',
             'yamlls',
-            'solargraph'
+            'solargraph',
+            'ansible-lint',
+            'flake8',
+            'yapf',
+            'shellcheck',
+            'erb-lint',
+            'erb-formatter',
+            'rubocop',
+            'diagnostic-languageserver',
+            'npm-groovy-lint',
+            'prettier',
+            'vim-language-server',
+            'stylua',
+            'tflint',
+            'hadolint'
           },
         })
       end
