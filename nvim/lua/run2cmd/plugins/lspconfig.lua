@@ -103,7 +103,7 @@ return {
             validation = {
               lint = {
                 path = 'exec',
-                arguments = 'ansible-lint -c ~/.ansible-lint',
+                arguments = 'ansible-lint',
               },
             },
           },

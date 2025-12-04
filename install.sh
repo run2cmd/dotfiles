@@ -79,7 +79,7 @@ setup_dotfiles_bash() {
 
 install_neovim() {
   topic 'Update neovim'
-  local url appfile
+  local url
 
   url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
 
@@ -288,6 +288,7 @@ install_packages() {
     augeas-tools
     bat
     bash-completion
+    binutils-dev
     chromium
     cpio
     colorized-logs
@@ -304,6 +305,7 @@ install_packages() {
     lazygit
     llvm
     lua5.3
+    libunwind8
     make
     man-db
     ncat
@@ -359,7 +361,6 @@ install_tfenv() {
 
 install_tgenv() {
   topic 'Update tgenv'
-  local tools_home
   mkdir -p "${HOME}/tools"
   if [ ! -e "${HOME}/tools/tgenv" ] ;then
     git clone https://github.com/tgenv/tgenv.git "${HOME}/tools/tgenv"
