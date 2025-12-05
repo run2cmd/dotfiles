@@ -6,7 +6,6 @@ require('run2cmd.auto-commands')
 require('run2cmd.keymap')
 require('run2cmd.commands')
 require('run2cmd.statusline')
-require('run2cmd.autosave')
 require('run2cmd.editorconfig')
 
 -- vim.o.verbose = 20
