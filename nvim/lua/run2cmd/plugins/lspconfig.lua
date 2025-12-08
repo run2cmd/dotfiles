@@ -14,9 +14,7 @@ return {
       local lsp_status = require('lsp-status')
       local cmp_lsp = require('cmp_nvim_lsp')
 
-      vim.diagnostic.config({
-        virtual_text = false
-      })
+      local custom_schemas =
 
       vim.lsp.config('*', {
         capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
@@ -30,13 +28,13 @@ return {
         end
       })
 
-      vim.lsp.enable('bashls')
-      vim.lsp.enable('vimls')
-      vim.lsp.enable('dockerls')
-      vim.lsp.enable('golangci_lint_ls')
-      vim.lsp.enable('ts_ls')
-      vim.lsp.enable('helm_ls')
-      vim.lsp.enable('marksman')
+      vim.lsp.config('bashls', {
+        settings = {
+          bashIde = {
+            shellcheckArguments = { "-x" },
+          },
+        }
+      })
 
       vim.lsp.config('pylsp',{
         settings = {
@@ -57,7 +55,6 @@ return {
           },
         },
       })
-      vim.lsp.enable('pylsp')
 
       vim.lsp.config('jsonls', {
         settings = {
@@ -67,10 +64,8 @@ return {
           }
         }
       })
-      vim.lsp.enable('jsonls')
 
       vim.lsp.config('terraformls', { filetypes = { 'hcl', 'tf' } })
-      vim.lsp.enable('terraformls')
 
       vim.lsp.config('lua_ls',{
         settings = {
@@ -89,7 +84,6 @@ return {
           },
         },
       })
-      vim.lsp.enable('lua_ls')
 
       vim.lsp.config('ansiblels',{
         settings = {
@@ -109,10 +103,10 @@ return {
           },
         },
       })
-      vim.lsp.enable('ansiblels')
+
+      vim.lsp.enable('ruby_lsp')
 
       vim.lsp.config('puppet', { cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code' }})
-      vim.lsp.enable('puppet')
 
       vim.lsp.config('yamlls', {
         settings = {
@@ -121,17 +115,19 @@ return {
             validate = true,
             hoover = true,
             completion = true,
-            schemas = schemas.yaml.schemas(),
+            schemas = (function()
+              local ok, schemastore = pcall(require, "schemastore")
+              local base = ok and schemastore.yaml.schemas() or {}
+              base["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = { "**/.azuredevops/**/*.yaml" }
+              return base
+            end)(),
             schemaStore = {
               enable = false,
-              url = "",
+              url = "https://www.schemastore.org/api/json/catalog.json",
             },
           },
         },
       })
-      vim.lsp.enable('yamlls')
-
-      vim.lsp.enable('solargraph')
 
       vim.lsp.config('diagnosticls', {
         filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
@@ -139,8 +135,8 @@ return {
           linters = {
             mdl = {
               sourceName = 'mdl',
-              command = 'mdl',
-              args = { '%relativepath' },
+              command = 'rumdl',
+              args = { 'check', '%relativepath' },
               formatLines = 1,
               formatPattern = {
                 '.*:(\\d+):(.*)',
@@ -166,8 +162,8 @@ return {
             },
             groovylint = {
               sourceName = 'groovylint',
-              command = 'groovylint',
-              args = { '%relativepath' },
+              command = 'npm-groovy-lint',
+              args = { '--codenarcargs -report=console %relativepath' },
               rootPatterns = { '.git' },
               formatLines = 1,
               formatPattern = {
@@ -219,9 +215,7 @@ return {
         },
 
       })
-      vim.lsp.enable('diagnosticls')
-
-      --vim.lsp.set_log_level('debug')
+      -- vim.lsp.set_log_level('debug')
     end
   },
 }

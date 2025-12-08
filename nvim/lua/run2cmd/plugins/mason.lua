@@ -2,10 +2,33 @@ return {
   {
     {
       'mason-org/mason.nvim',
-      name = 'mason',
       config = function()
         require("mason").setup()
       end
+    },
+
+    {
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      dependencies = { 'mason-org/mason.nvim' },
+      config = function()
+        require('mason-tool-installer').setup({
+          ensure_installed = {
+            'shellcheck',
+            'yapf',
+            'prettier',
+            'yamllint',
+            'flake8',
+            'ansible-lint',
+            'erb-lint',
+            'stylua',
+            'npm-groovy-lint',
+            'hclfmt',
+            'hadolint',
+            'rumdl'
+          }
+        })
+      end
+
     },
 
     {
@@ -17,25 +40,28 @@ return {
       },
       config = function()
         require("mason-lspconfig").setup({
+          automatic_enable = true,
           ensure_installed = {
             'bashls',
             'jsonls',
             'vimls',
             'dockerls',
             'golangci_lint_ls',
-            'ts_ls',
             'helm_ls',
             'marksman',
             'pylsp',
             'terraformls',
-            'lua_ls',
+            'lua_ls@3.15.0',
             'ansiblels',
             'puppet',
             'yamlls',
-            'solargraph',
-            'rubocop',
             'stylua',
-            'tflint',
+            'sqlls',
+            'diagnosticls',
+            'gradle_ls',
+            'groovyls',
+            'puppet',
+            'lemminx'
           },
         })
       end
