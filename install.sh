@@ -43,11 +43,9 @@ setup_dotfiles_links() {
     "inputrc .inputrc"
     "nvim/init.lua .config/nvim/init.lua"
     "nvim/syntax .config/nvim/syntax"
-    "nvim/minisnip .config/nvim/minisnip"
     "nvim/scripts .config/nvim/scripts"
     "nvim/spell .config/nvim/spell"
     "nvim/lua .config/nvim/lua"
-    "nvim/after .config/nvim/after"
     "gitattributes .gitattributes"
     "gitconfig .gitconfig"
     "tmux.conf .tmux.conf"
@@ -80,6 +78,8 @@ setup_dotfiles_bash() {
 install_neovim() {
   topic 'Update neovim'
   local url
+
+  sudo apt install -u binutils-dev libunwind8
 
   url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
 
@@ -200,7 +200,7 @@ install_rubies() {
   topic "Update default ruby"
   rvm use "${rbver}"
   gem update --system
-  gem install bundle mdl puppet
+  gem install bundle puppet ruby-lsp
 }
 
 rvm_cleanup() {
@@ -288,7 +288,6 @@ install_packages() {
     augeas-tools
     bat
     bash-completion
-    binutils-dev
     chromium
     cpio
     colorized-logs
@@ -305,7 +304,6 @@ install_packages() {
     lazygit
     llvm
     lua5.3
-    libunwind8
     make
     man-db
     ncat
@@ -314,6 +312,7 @@ install_packages() {
     plantuml
     postgresql
     podman
+    ripgrep
     rpm
     rpm2cpio
     sshpass
