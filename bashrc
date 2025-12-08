@@ -8,9 +8,6 @@ export HISTSIZE=10000
 export HISTFILESIZE=2000
 PROMPT_COMMAND='history -a'
 
-# Ignore case for autocompletion
-bind "set completion-ignore-case on"
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -55,7 +52,7 @@ ssh() {
 alias ls='ls --color'
 alias grep='grep --color'
 alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
-alias luamake=${HOME}/tools/lua-language-server/3rd/luamake/luamake
+alias hst='history | fzf'
 
 # Workaround WSL 2 issues with not releasing memory
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
@@ -121,3 +118,7 @@ if [ -e /mnt/c/Windows/system32/wsl.exe ] ; then
   # test -h /tmp/.X11-unix || (sudo rm -rf /tmp/.X11-unix && ln -s /mnt/wslg/.X11-unix /tmp/.X11-unix)
   # test -h /run/user/1000/wayland-0 || ln -s /mnt/wslg/runtime-dir/wayland-0 /run/user/1000/wayland-0
 fi
+
+# Ignore case for autocompletion
+bind "set completion-ignore-case on"
+bind 'set show-all-if-ambiguous on'

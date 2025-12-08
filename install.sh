@@ -40,7 +40,6 @@ setup_dotfiles_links() {
   topic 'Setup dotfiles links'
 
   create_links=(
-    "inputrc .inputrc"
     "nvim/init.lua .config/nvim/init.lua"
     "nvim/syntax .config/nvim/syntax"
     "nvim/scripts .config/nvim/scripts"
