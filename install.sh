@@ -18,7 +18,7 @@ dependencies() {
   local dep_pkgs
   dep_pkgs=(curl wget apt-transport-https build-essential gpg)
   for pkg in "${dep_pkgs[@]}" ;do
-    dpkg -l | grep -q " ${pkg} " || sudo apt install -qu "${pkg}"
+    dpkg -l | grep -q " ${pkg} " || sudo apt install -yqu "${pkg}"
   done
 }
 
@@ -79,7 +79,7 @@ install_neovim() {
   topic 'Update neovim'
   local url
 
-  sudo apt install -u binutils-dev libunwind8
+  sudo apt install -yu binutils-dev libunwind8
 
   url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
 
