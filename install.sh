@@ -29,6 +29,7 @@ setup_dotfiles_dirs() {
     "${HOME}/.config/nvim/undo"
     "${HOME}/.config/nvim/tmp"
     "${HOME}/.bash_completion.d"
+    "${HOME}/.tmux/scripts"
   )
 
   for dir in "${create_dirs[@]}" ;do
@@ -48,6 +49,7 @@ setup_dotfiles_links() {
     "gitattributes .gitattributes"
     "gitconfig .gitconfig"
     "tmux.conf .tmux.conf"
+    "tmux/switch_session_window.sh .tmux/scripts/switch_session_window.sh"
     "gitexclude .gitignore"
     "bash_completion .bash_completion.d/bash_completion"
   )
@@ -63,7 +65,7 @@ setup_dotfiles_bash() {
   if ! grep -q 'dotfiles' "${HOME}/.bashrc" ;then
    echo '# Laod dotfiles setup' >> "${HOME}/.bashrc"
    # shellcheck disable=SC2016
-   echo 'source ${HOME}/dotfiles/bashrc' >> "${HOME}/.bashrc"
+   echo 'source /code/dotfiles/bashrc' >> "${HOME}/.bashrc"
   fi
 
   # shellcheck disable=SC2016
