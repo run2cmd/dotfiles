@@ -24,6 +24,7 @@ dependencies() {
 
 setup_dotfiles_dirs() {
   topic 'Setup dotfiles directories'
+  local create_dirs
 
   create_dirs=(
     "${HOME}/.config/nvim/undo"
@@ -39,6 +40,7 @@ setup_dotfiles_dirs() {
 
 setup_dotfiles_links() {
   topic 'Setup dotfiles links'
+  local create_links
 
   create_links=(
     "nvim/init.lua .config/nvim/init.lua"
@@ -72,7 +74,7 @@ setup_dotfiles_bash() {
   [ ! -e "${HOME}/.bash_profile" ] && echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > "${HOME}/.bash_profile"
 
   echo 'Load ~/.bashrc'
-  # shellcheck source=./bashrc
+  # shellcheck disable=SC1091
   source "${HOME}/.bashrc"
 }
 
@@ -94,11 +96,13 @@ install_neovim() {
 
 setup_node() {
   topic 'Update nodejs'
+  local nvm_version
+
   nvm_version="v0.40.3"
 
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh" | bash
 
-  # shellcheck source=../.nvm/nvm.sh
+  # shellcheck disable=SC1091
   source "${HOME}/.nvm/nvm.sh"
 
   nvm install node
@@ -138,12 +142,13 @@ install_python() {
   topic 'Install python'
   local pydefault
 
+  pydefault=3
+
   if ! type pyenv &> /dev/null ;then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
   fi
 
-  pydefault=3
   pyenv install -s "${pydefault}"
 
   export CPPFLAGS="-I/usr/include/openssl"
@@ -177,7 +182,7 @@ setup_rvm() {
 
   type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
 
-  # shellcheck source=../.rvm/scripts/rvm
+  # shellcheck disable=SC1091
   source "${HOME}/.rvm/scripts/rvm"
 
   rvm get stable
@@ -185,13 +190,14 @@ setup_rvm() {
 }
 
 install_rubies() {
+  topic 'Install rubies'
   local rbver
+
   type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
 
-  # shellcheck source=../.rvm/scripts/rvm
+  # shellcheck disable=SC1091
   source "${HOME}/.rvm/scripts/rvm"
 
-  topic 'Install rubies'
   rbver=3.4.7
 
   rvm install "${rbver}" --default
@@ -209,7 +215,9 @@ rvm_cleanup() {
   local default_ruby
 
   default_ruby="$(rvm list default string)"
+
   rvm cleanup all
+
   for rb in "${HOME}"/.rvm/rubies/* ;do
     if [[ "${rb}" != *${default_ruby}* ]] && [[ "${rb}" != *default* ]]  ;then
       echo "Remove ${rb}"
@@ -220,10 +228,12 @@ rvm_cleanup() {
 
 setup_sdkman() {
   topic 'Update sdkman'
+
   if [ ! -e "${HOME}/.sdkman" ] ;then
    curl -s 'https://get.sdkman.io' | bash
   fi
-  # shellcheck source=../.sdkman/bin/sdkman-init.sh
+
+  # shellcheck disable=SC1091
   source "${HOME}/.sdkman/bin/sdkman-init.sh"
   sdk update
 }
@@ -261,7 +271,7 @@ install_maven() {
 
 cleanup_maven() {
   topic "Cleanup maven and gradle"
-  local candidates_root curr_ver
+
   for app in maven gradle ;do
     candidates_root=${HOME}/.sdkman/candidates/${app}
     curr_ver=$(readlink "${candidates_root}/current")
@@ -283,7 +293,7 @@ update_os() {
 
 install_packages() {
   topic "Install packages"
-  local to_install
+  local to_install sys_packages
 
   sys_packages=(
     augeas-tools
@@ -339,6 +349,7 @@ install_packages() {
 
 update_wsl_config() {
   topic "Update WSL config"
+
   if ! diff "${REPODIR}/wsl.conf" /etc/wsl.conf &> /dev/null ;then
     echo 'Update /etc/wsl.conf. WSL reboot required.'
     sudo cp -f "${REPODIR}/wsl.conf" /etc/wsl.conf
@@ -347,13 +358,16 @@ update_wsl_config() {
 
 install_tfenv() {
   topic 'Update tfenv'
+
   mkdir -p "${HOME}/tools"
+
   if [ ! -e "${HOME}/tools/tfenv" ] ;then
     git clone --depth=1 https://github.com/tfutils/tfenv.git "${HOME}/tools/tfenv"
   else
     git -C "${HOME}/tools/tfenv" reset --hard
     git -C "${HOME}/tools/tfenv" pull
   fi
+
   type tfenv &> /dev/null || export PATH=${HOME}/tools/tfenv/bin:$PATH
   tfenv install latest
   tfenv use latest
@@ -361,13 +375,16 @@ install_tfenv() {
 
 install_tgenv() {
   topic 'Update tgenv'
+
   mkdir -p "${HOME}/tools"
+
   if [ ! -e "${HOME}/tools/tgenv" ] ;then
     git clone https://github.com/tgenv/tgenv.git "${HOME}/tools/tgenv"
   else
     git -C "${HOME}/tools/tgenv" reset --hard
     git -C "${HOME}/tools/tgenv" pull
   fi
+
   type tgenv &> /dev/null || export PATH=${HOME}/tools/tgenv/bin:$PATH
   tgenv install latest
   tgenv use latest
