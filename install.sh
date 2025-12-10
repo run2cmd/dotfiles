@@ -78,6 +78,15 @@ setup_dotfiles_bash() {
   source "${HOME}/.bashrc"
 }
 
+setup_dotfiles_ahk() {
+  topic 'Setup Windows autohotkey startup files'
+  local startup_dir
+
+  startup_dir=$(wslpath "$(cmd.exe /C "echo %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" 2>/dev/null | tr -d '\r')")
+
+  cp "${REPODIR}/autohotkey"/* "${startup_dir}"
+}
+
 install_neovim() {
   topic 'Update neovim'
   local url
@@ -410,6 +419,7 @@ run_dotfiles() {
   setup_dotfiles_dirs
   setup_dotfiles_links
   setup_dotfiles_bash
+  setup_dotfiles_ahk
 }
 
 run_ruby() {
