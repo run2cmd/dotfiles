@@ -53,16 +53,6 @@ export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]\n$ "
 eval "$(keychain -q --eval --agents ssh)"
 ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_rsa
 
-# Tmux Wrapper for ssh so it displays hostname in title
-settitle() {
-  printf "\033k%s\033\\" "${1}"
-}
-ssh() {
-  settitle "$*"
-  command ssh "$@"
-  settitle "bash"
-}
-
 # Add pulumi
 export PATH=$PATH:${HOME}/.pulumi/bin
 
@@ -121,4 +111,19 @@ alias hst='history | fzf'
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
 alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
 
+# Tmux Wrapper for ssh so it displays hostname in title
+ssh() {
+  settitle "$*"
+  command ssh "$@"
+  printf "\033k%s\033\\" "bash"
+}
+
+# Open 1st tmux session in dotfiles
+tmux() {
+  if [ $# -eq 0 ]; then
+    command tmux new-session -A -s dotfiles -c /code/dotfiles
+  else
+    command tmux "$@"
+  fi
+}
 
