@@ -106,6 +106,7 @@ alias ls='ls --color'
 alias grep='grep --color'
 alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
 alias hst='history | fzf'
+alias nvim='vim'
 
 # Workaround WSL 2 issues with not releasing memory
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
