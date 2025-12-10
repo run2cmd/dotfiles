@@ -1,45 +1,44 @@
 return {
-  { 'b0o/SchemaStore.nvim' },
+  { "b0o/SchemaStore.nvim" },
 
   {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
-      'b0o/SchemaStore.nvim',
-      'hrsh7th/cmp-nvim-lsp',
-      'nvim-lua/lsp-status.nvim'
+      "b0o/SchemaStore.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "nvim-lua/lsp-status.nvim",
     },
     config = function()
       local mapkey = vim.keymap.set
-      local schemas = require('schemastore')
-      local lsp_status = require('lsp-status')
-      local cmp_lsp = require('cmp_nvim_lsp')
+      local schemas = require("schemastore")
+      local lsp_status = require("lsp-status")
+      local cmp_lsp = require("cmp_nvim_lsp")
 
-      local custom_schemas =
-
-      vim.lsp.config('*', {
-        capabilities = cmp_lsp.default_capabilities(vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
+      vim.lsp.config("*", {
+        capabilities = cmp_lsp.default_capabilities(vim.tbl_extend("keep", vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
         on_attach = function(_, bufnr)
           local opts = { noremap = true, silent = true, buffer = bufnr }
-          mapkey('n', '<leader>qf', vim.diagnostic.setqflist, opts)
-          mapkey('n', '<leader>bf', vim.lsp.buf.format, opts)
-          mapkey('n', '<leader>br', vim.lsp.buf.rename, opts)
-          mapkey('n', ']d', vim.diagnostic.goto_next, opts)
-          mapkey('n', '[d', vim.diagnostic.goto_prev, opts)
-        end
+          mapkey("n", "<leader>qf", vim.diagnostic.setqflist, opts)
+          mapkey("n", "<leader>bf", vim.lsp.buf.format, opts)
+          mapkey("n", "<leader>br", vim.lsp.buf.rename, opts)
+          mapkey("n", "<leader>vr", vim.lsp.buf.references, opts)
+          mapkey("n", "]d", vim.diagnostic.goto_next, opts)
+          mapkey("n", "[d", vim.diagnostic.goto_prev, opts)
+        end,
       })
 
-      vim.lsp.config('bashls', {
+      vim.lsp.config("bashls", {
         settings = {
           bashIde = {
             shellcheckArguments = { "-x" },
           },
-        }
+        },
       })
 
-      vim.lsp.config('pylsp',{
+      vim.lsp.config("pylsp", {
         settings = {
           pylsp = {
-            configurationSources = { 'flake8' },
+            configurationSources = { "flake8" },
             plugins = {
               autopep8 = { enabled = false },
               pycodestyle = { enabled = false },
@@ -56,25 +55,25 @@ return {
         },
       })
 
-      vim.lsp.config('jsonls', {
+      vim.lsp.config("jsonls", {
         settings = {
           json = {
             schemas = schemas.json.schemas(),
             validate = { enable = true },
-          }
-        }
+          },
+        },
       })
 
-      vim.lsp.config('terraformls', { filetypes = { 'hcl', 'tf' } })
+      vim.lsp.config("terraformls", { filetypes = { "hcl", "tf" } })
 
-      vim.lsp.config('lua_ls',{
+      vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
             runtime = {
-              version = 'LuaJIT',
+              version = "LuaJIT",
             },
             diagnostics = {
-              globals = { 'vim' },
+              globals = { "vim" },
             },
             workspace = {
               library = {
@@ -85,30 +84,30 @@ return {
         },
       })
 
-      vim.lsp.config('ansiblels',{
+      vim.lsp.config("ansiblels", {
         settings = {
           ansible = {
             ansible = {
               useFullyQualifiedCollectionNames = false,
             },
             python = {
-              interpreterPath = 'pyenv',
+              interpreterPath = "pyenv",
             },
             validation = {
               lint = {
-                path = 'exec',
-                arguments = 'ansible-lint',
+                path = "exec",
+                arguments = "ansible-lint",
               },
             },
           },
         },
       })
 
-      vim.lsp.enable('ruby_lsp')
+      vim.lsp.enable("ruby_lsp")
 
-      vim.lsp.config('puppet', { cmd = { 'puppet-languageserver', '--stdio', '--puppet-settings=--modulepath,/code' }})
+      vim.lsp.config("puppet", { cmd = { "puppet-languageserver", "--stdio", "--puppet-settings=--modulepath,/code" } })
 
-      vim.lsp.config('yamlls', {
+      vim.lsp.config("yamlls", {
         settings = {
           yaml = {
             format = { enable = true },
@@ -129,93 +128,92 @@ return {
         },
       })
 
-      vim.lsp.config('diagnosticls', {
-        filetypes = { 'xml', 'eruby', 'lua', 'markdown', 'groovy', 'Jenkinsfile' },
+      vim.lsp.config("diagnosticls", {
+        filetypes = { "xml", "eruby", "lua", "markdown", "groovy", "Jenkinsfile" },
         init_options = {
           linters = {
             mdl = {
-              sourceName = 'mdl',
-              command = 'rumdl',
-              args = { 'check', '%relativepath' },
+              sourceName = "mdl",
+              command = "rumdl",
+              args = { "check", "%relativepath" },
               formatLines = 1,
               formatPattern = {
-                '.*:(\\d+):(.*)',
+                ".*:(\\d+):(.*)",
                 {
                   line = 1,
-                  message = { '[mdl]', 2 }
-                }
-              }
+                  message = { "[mdl]", 2 },
+                },
+              },
             },
             erb = {
-              sourceName = 'erb',
-              command = 'erbvalidate',
-              args = { '%relativepath' },
+              sourceName = "erb",
+              command = "erbvalidate",
+              args = { "%relativepath" },
               isStderr = true,
               formatLines = 1,
               formatPattern = {
-                '^-:(\\d+):(.*)$',
+                "^-:(\\d+):(.*)$",
                 {
                   line = 1,
-                  message = { '[erb]', 2 },
+                  message = { "[erb]", 2 },
                 },
               },
             },
             groovylint = {
-              sourceName = 'groovylint',
-              command = 'npm-groovy-lint',
-              args = { '--codenarcargs -report=console %relativepath' },
-              rootPatterns = { '.git' },
+              sourceName = "groovylint",
+              command = "npm-groovy-lint",
+              args = { "--codenarcargs -report=console %relativepath" },
+              rootPatterns = { ".git" },
               formatLines = 1,
               formatPattern = {
-                'Violation: Rule=(.*) P=(\\d+) Line=(\\d+) Msg=\\[(.*)\\] Src=',
+                "Violation: Rule=(.*) P=(\\d+) Line=(\\d+) Msg=\\[(.*)\\] Src=",
                 {
                   security = 2,
                   line = 3,
-                  message = { '[groovylint]', ' [', 1, '] ', 4 },
+                  message = { "[groovylint]", " [", 1, "] ", 4 },
                 },
               },
               securities = {
-                ['1'] = 'error',
-                ['2'] = 'warning',
-                ['3'] = 'info',
+                ["1"] = "error",
+                ["2"] = "warning",
+                ["3"] = "info",
               },
             },
             xmllint = {
-              sourceName = 'xmllint',
-              command = 'xmllint',
-              args = { '--noout', '-' },
+              sourceName = "xmllint",
+              command = "xmllint",
+              args = { "--noout", "-" },
               isStderr = true,
               formatLines = 1,
               formatPattern = {
-                '^[^:]+:(\\d+):(.*)$',
+                "^[^:]+:(\\d+):(.*)$",
                 {
                   line = 1,
-                  message = { '[xmllint]', 2 },
+                  message = { "[xmllint]", 2 },
                 },
               },
             },
           },
           filetypes = {
-            eruby = 'erb',
-            markdown = 'mdl',
-            groovy = 'groovylint',
-            Jenkinsfile = 'groovylint',
-            xml = 'xmllint',
+            eruby = "erb",
+            markdown = "mdl",
+            groovy = "groovylint",
+            Jenkinsfile = "groovylint",
+            xml = "xmllint",
           },
           formatters = {
             stylua = {
-              command = 'stylua',
-              args = { '--color', 'Never', '-' },
-              rootPatterns = { '.git' },
+              command = "stylua",
+              args = { "--color", "Never", "-" },
+              rootPatterns = { ".git" },
             },
           },
           formatFiletypes = {
-            lua = 'stylua',
+            lua = "stylua",
           },
         },
-
       })
       -- vim.lsp.set_log_level('debug')
-    end
+    end,
   },
 }

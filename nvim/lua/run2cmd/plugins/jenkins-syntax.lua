@@ -1,3 +1,3 @@
 return {
-  { 'martinda/Jenkinsfile-vim-syntax' }
+  { "martinda/Jenkinsfile-vim-syntax" },
 }

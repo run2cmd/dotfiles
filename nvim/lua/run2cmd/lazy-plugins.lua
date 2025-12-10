@@ -15,6 +15,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  spec = 'run2cmd.plugins',
+  spec = "run2cmd.plugins",
   checker = { enabled = true },
 })

@@ -21,15 +21,15 @@ M.create_autocmds = function(map)
 end
 
 M.cmd_output = function(cmd)
-  local output = ''
+  local output = ""
   local handle = io.popen(cmd)
   if handle ~= nil then
-    output = handle:read('*a'):gsub('\n', '')
+    output = handle:read("*a"):gsub("\n", "")
     handle:close()
   end
   return output
 end
 
-M.yank_registers = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't' }
+M.yank_registers = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t" }
 
 return M

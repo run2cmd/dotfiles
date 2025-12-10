@@ -1,10 +1,10 @@
 return {
   {
-    'sindrets/diffview.nvim',
+    "sindrets/diffview.nvim",
     config = function()
-      require('diffview').setup({
+      require("diffview").setup({
         use_icons = false,
       })
-    end
-  }
+    end,
+  },
 }

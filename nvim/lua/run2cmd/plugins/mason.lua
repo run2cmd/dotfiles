@@ -1,70 +1,69 @@
 return {
   {
     {
-      'mason-org/mason.nvim',
+      "mason-org/mason.nvim",
       config = function()
         require("mason").setup()
-      end
+      end,
     },
 
     {
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-      dependencies = { 'mason-org/mason.nvim' },
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      dependencies = { "mason-org/mason.nvim" },
       config = function()
-        require('mason-tool-installer').setup({
+        require("mason-tool-installer").setup({
           ensure_installed = {
-            'shellcheck',
-            'yapf',
-            'prettier',
-            'yamllint',
-            'flake8',
-            'ansible-lint',
-            'erb-lint',
-            'stylua',
-            'npm-groovy-lint',
-            'hclfmt',
-            'hadolint',
-            'rumdl'
-          }
+            "shellcheck",
+            "yapf",
+            "prettier",
+            "yamllint",
+            "flake8",
+            "ansible-lint",
+            "erb-lint",
+            "stylua",
+            "npm-groovy-lint",
+            "hclfmt",
+            "hadolint",
+            "rumdl",
+          },
         })
-      end
-
+      end,
     },
 
     {
-      'mason-org/mason-lspconfig.nvim',
-      name = 'mason-lspconfig',
+      "mason-org/mason-lspconfig.nvim",
+      name = "mason-lspconfig",
       dependencies = {
-        'mason-org/mason.nvim',
-        'neovim/nvim-lspconfig'
+        "mason-org/mason.nvim",
+        "neovim/nvim-lspconfig",
       },
       config = function()
         require("mason-lspconfig").setup({
           automatic_enable = true,
           ensure_installed = {
-            'bashls',
-            'jsonls',
-            'vimls',
-            'dockerls',
-            'golangci_lint_ls',
-            'helm_ls',
-            'marksman',
-            'pylsp',
-            'terraformls',
-            'lua_ls@3.15.0',
-            'ansiblels',
-            'puppet',
-            'yamlls',
-            'stylua',
-            'sqlls',
-            'diagnosticls',
-            'gradle_ls',
-            'groovyls',
-            'puppet',
-            'lemminx'
+            "bashls",
+            "jsonls",
+            "vimls",
+            "dockerls",
+            "golangci_lint_ls",
+            "helm_ls",
+            "marksman",
+            "pylsp",
+            "terraformls",
+            "lua_ls@3.15.0",
+            "ansiblels",
+            "puppet",
+            "yamlls",
+            "stylua",
+            "sqlls",
+            "diagnosticls",
+            "gradle_ls",
+            "groovyls",
+            "puppet",
+            "lemminx",
           },
         })
-      end
+      end,
     },
-  }
+  },
 }

@@ -1,9 +1,9 @@
 return {
-  { 'github/copilot.vim' },
+  { "github/copilot.vim" },
   {
-    'olimorris/codecompanion.nvim',
+    "olimorris/codecompanion.nvim",
     config = function()
       require("codecompanion").setup({})
-    end
-  }
+    end,
+  },
 }

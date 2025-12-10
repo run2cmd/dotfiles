@@ -1,7 +1,7 @@
 return {
   {
-    'eoh-bse/minintro.nvim',
+    "eoh-bse/minintro.nvim",
     config = true,
-    lazy = false
-  }
+    lazy = false,
+  },
 }

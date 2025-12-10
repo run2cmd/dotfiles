@@ -1,3 +1,3 @@
 return {
-  { 'aklt/plantuml-syntax' }
+  { "aklt/plantuml-syntax" },
 }

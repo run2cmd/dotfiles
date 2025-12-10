@@ -1,3 +1,3 @@
 return {
-  { 'rcarriga/nvim-notify' }
+  { "rcarriga/nvim-notify" },
 }
