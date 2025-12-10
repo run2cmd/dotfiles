@@ -86,12 +86,12 @@ install_neovim() {
 
   url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
 
-  sudo wget -O "${TOOLS_DIR}/nvim" "${url}"
+  sudo wget -O "${TOOLS_DIR}/vim" "${url}"
   # shellcheck disable=SC2046
-  [ ! -e "${TOOLS_DIR}/nvim" ] && echo "Failed to download ${url}" && exit 1
+  [ ! -e "${TOOLS_DIR}/vim" ] && echo "Failed to download ${url}" && exit 1
 
-  sudo chmod +x "${TOOLS_DIR}/nvim"
-  nvim --version
+  sudo chmod +x "${TOOLS_DIR}/vim"
+  vim --version
 }
 
 setup_node() {
