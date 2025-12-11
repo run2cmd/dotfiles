@@ -3,7 +3,9 @@ return {
   {
     "olimorris/codecompanion.nvim",
     config = function()
-      require("codecompanion").setup({})
+      require("codecompanion").setup({
+        ignore_warnings = true
+      })
     end,
   },
 }
