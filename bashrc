@@ -46,11 +46,12 @@ export PATH="/usr/local/bin:$PATH"
 export PATH=~/bin:$PATH
 
 # Git nice PS
+[ -e /usr/share/git/completion/git-prompt.sh ] && source /usr/share/git/completion/git-prompt.sh
 # shellcheck disable=SC2025
-export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]\n$ "
+export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]$ "
 
 # SSH Agent
-eval "$(keychain -q --eval --agents ssh)"
+eval "$(keychain -q --eval)"
 ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_rsa
 
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
@@ -67,7 +68,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
 alias hst='history | fzf'
-alias nvim='vim'
+alias vim='nvim'
 
 # Workaround WSL 2 issues with not releasing memory
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643

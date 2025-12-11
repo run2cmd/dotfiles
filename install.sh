@@ -16,9 +16,9 @@ topic() {
 dependencies() {
   topic 'Install dependencies'
   local dep_pkgs
-  dep_pkgs=(curl wget build-essential gpg)
+  dep_pkgs=(curl wget)
   for pkg in "${dep_pkgs[@]}" ;do
-    dpkg -l | grep -q " ${pkg} " || sudo pacman -Sq --noconfirm "${pkg}"
+   sudo pacman -Qq "${pkg}" &> /dev/null || sudo pacman -S --noconfirm "${pkg}"
   done
 }
 
@@ -82,12 +82,6 @@ setup_dotfiles_ahk() {
   startup_dir=$(wslpath "$(cmd.exe /C "echo %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" 2>/dev/null | tr -d '\r')")
 
   cp "${REPODIR}/autohotkey"/* "${startup_dir}"
-}
-
-install_neovim() {
-  topic 'Update neovim'
-  sudo pacman -Sq --noconfirm binutils-dev libunwind8 neovim
-  nvim --version
 }
 
 setup_node() {
@@ -165,7 +159,7 @@ install_python() {
 update_pip() {
   topic 'Update Python packages'
   pip install --upgrade pip
-  pip install ansible twine wheel gita
+  pip install twine wheel gita
   type gita &> /dev/null && wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
   {
     echo ''
@@ -216,7 +210,7 @@ install_rubies() {
   topic "Update default ruby"
   rvm use "${rbver}"
   gem update --system
-  gem install bundle puppet ruby-lsp
+  gem install bundle ruby-lsp
 }
 
 rvm_cleanup() {
@@ -276,28 +270,6 @@ cleanup_sdk() {
   sdk flush version
 }
 
-install_maven() {
-  topic "Instlal maven and gradle"
-  sdk install maven
-  sdk install gradle
-}
-
-cleanup_maven() {
-  topic "Cleanup maven and gradle"
-
-  for app in maven gradle ;do
-    candidates_root=~/.sdkman/candidates/${app}
-    curr_ver=$(readlink "${candidates_root}/current")
-    for ver in "${candidates_root}"/* ;do
-      base_sdk=$(basename "${ver}")
-      if [[ "${curr_ver} current" != *${base_sdk}* ]] ;then
-        echo "Remove ${ver}"
-        rm -rf "${ver}"
-      fi
-    done
-  done
-}
-
 update_os() {
   topic 'Update operating system'
   sudo pacman -Sc --noconfirm && sudo pacman -Syu --noconfirm
@@ -308,55 +280,63 @@ install_packages() {
   local to_install sys_packages
 
   sys_packages=(
-    augeas-tools
+    ansible
+    augeas
     bat
     bash-completion
     chromium
     cpio
-    colorized-logs
+    diffutils
     dos2unix
     dnsutils
-    fd-find
+    fd
     fuse
     fzf
-    git
-    gh
-    golang
+    gcc
+    glibc-locales
+    github-cli
+    go
+    gradle
+    helm
     jq
     keychain
+    kubectl
     lazygit
+    libunwind
     llvm
-    lua5.3
+    lua
     make
     man-db
-    ncat
+    maven
+    neovim
+    openbsd-netcat
     nmap
-    openssh-client
     plantuml
     postgresql
     podman
+    puppet
     ripgrep
     rpm
-    rpm2cpio
+    rpmextract
     sshpass
     tmux
     tcpdump
     unzip
     which
-    xz-utils
+    xz
     yq
     zip
   )
 
   for pkg_name in "${sys_packages[@]}" ;do
-    if ! (dpkg -l | grep -q " ${pkg_name} ") ;then
+    if ! (pacman -Qq "${pkg_name}" &> /dev/null) ;then
       to_install="${to_install} ${pkg_name}"
     fi
   done
 
   if [[ -n $to_install ]] ;then
    # shellcheck disable=SC2086
-    sudo pacman -Sq --noconfirm $to_install
+    sudo pacman -S --noconfirm $to_install
   fi
 }
 
@@ -413,20 +393,10 @@ install_tgenv() {
   tgenv use latest
 }
 
-install_helm() {
-  topic "Install Helm"
-  export HELM_INSTALL_DIR="${TOOLS_DIR}"
-  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-}
-
 run_system() {
   update_os
   install_packages
   update_wsl_config
-}
-
-run_tools() {
-  install_helm
 }
 
 run_dotfiles() {
@@ -453,7 +423,6 @@ run_sdk() {
   install_java
   install_groovy
   install_codenarc
-  install_maven
 }
 
 run_node() {
@@ -465,16 +434,11 @@ run_tf() {
   install_tfenv
 }
 
-run_nvim() {
-  install_neovim
-}
-
 run_cleanup() {
   rvm_cleanup
   python_cleanup
   cleanup_sdk
   nodejs_cleanup
-  cleanup_maven
 }
 
 dependencies
@@ -483,22 +447,18 @@ case $INSTALL_TYPE in
   all)
     run_system
     run_dotfiles
-    run_tools
     run_ruby
     run_python
     run_sdk
     run_node
-    run_nvim
     run_tf
   ;;
   system) run_system ;;
-  tools) run_tools ;;
   dotfiles) run_dotfiles ;;
   ruby) run_ruby ;;
   python) run_python ;;
   sdk) run_sdk ;;
   nodejs) run_node ;;
-  neovim) run_nvim ;;
   tfsuite) run_tf ;;
   cleanup) run_cleanup ;;
   *)
@@ -507,13 +467,11 @@ case $INSTALL_TYPE in
     Installation types available:
       all - Run complex installation/update of everything. If this is 1st installtion you need to choose this option.
       system - System OS update.
-      tools - Custom tools update that are not available through system package system.
       dotfiles - Install dotfiles.
       ruby - Update rubies.
       python - Update python.
       sdk - Update SDKMAN tools.
       nodejs - Update NodeJS.
-      neovim - Update Neovim.
       tfsuite - Terraform and Terragrunt.
       cleanup - Clean up old tools not managed by dotfiles configuration.
     "

@@ -13,11 +13,14 @@ Install ArchLinux
 ```bash
 # In CMD
 wsl --install archLinux
-wsl useradd -m -aG wheel username
-wsl --manage archlinux --set-default-user username
 
-# in WSL
-sudo chmod 0755 /run/systemd/user-generators
+# In WSL
+pacman -Syu
+pacman -Sy sudo git openssh less diffutils
+useradd -m -aG wheel username
+
+# in CMD
+wsl --manage archlinux --set-default-user username
 ```
 
 Clone this project into WSL2 instance and Run `install.sh all` to install all tools.
@@ -50,7 +53,7 @@ if ip addr | grep eth0 | grep -q 1500 ;then ~/bin/vpnfix ; fi
 
 You need to edit/add `Scancode Map` Binary key in registry (regedit) path `Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout` and set it to following value:
 
-```
+```txt
 00 00 00 00 00 00 00 00
 03 00 00 00 1D 00 3A 00
 3A 00 00 00 00 00 00 00
