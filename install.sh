@@ -31,6 +31,7 @@ setup_dotfiles_dirs() {
     "${HOME}/.config/nvim/tmp"
     "${HOME}/.bash_completion.d"
     "${HOME}/.tmux/scripts"
+    "${HOME}/.tmux/plugins/tpm"
   )
 
   for dir in "${create_dirs[@]}" ;do
@@ -393,6 +394,14 @@ install_tgenv() {
   tgenv use latest
 }
 
+tmux_plugins_update() {
+  if [ -e  ~/.tmux/plugins/tpm ] ;then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  else
+    git -C ~/.tmux/plugins/tpm pull
+  fi
+}
+
 run_system() {
   update_os
   install_packages
@@ -441,12 +450,17 @@ run_cleanup() {
   nodejs_cleanup
 }
 
+run_tmux_plugins() {
+  tmux_plugins_update
+}
+
 dependencies
 
 case $INSTALL_TYPE in
   all)
     run_system
     run_dotfiles
+    run_tmux_plugins
     run_ruby
     run_python
     run_sdk
@@ -460,6 +474,7 @@ case $INSTALL_TYPE in
   sdk) run_sdk ;;
   nodejs) run_node ;;
   tfsuite) run_tf ;;
+  tmux) run_tmux_plugins ;;
   cleanup) run_cleanup ;;
   *)
     echo "
@@ -473,6 +488,7 @@ case $INSTALL_TYPE in
       sdk - Update SDKMAN tools.
       nodejs - Update NodeJS.
       tfsuite - Terraform and Terragrunt.
+      tmux - Update Tmux Plugin Manager.
       cleanup - Clean up old tools not managed by dotfiles configuration.
     "
   ;;
