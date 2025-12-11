@@ -464,11 +464,11 @@ case $INSTALL_TYPE in
     run_system
     run_dotfiles
     run_tmux_plugins
-    run_ruby
     run_python
     run_sdk
     run_node
     run_tf
+    run_ruby
   ;;
   system) run_system ;;
   dotfiles) run_dotfiles ;;
