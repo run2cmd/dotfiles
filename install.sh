@@ -16,9 +16,9 @@ topic() {
 dependencies() {
   topic 'Install dependencies'
   local dep_pkgs
-  dep_pkgs=(curl wget apt-transport-https build-essential gpg)
+  dep_pkgs=(curl wget build-essential gpg)
   for pkg in "${dep_pkgs[@]}" ;do
-    dpkg -l | grep -q " ${pkg} " || sudo apt install -yqu "${pkg}"
+    dpkg -l | grep -q " ${pkg} " || sudo pacman -Sq --noconfirm "${pkg}"
   done
 }
 
@@ -64,18 +64,15 @@ setup_dotfiles_links() {
 setup_dotfiles_bash() {
   topic 'Setup dotfiles bash configuration'
 
-  if ! grep -q 'dotfiles' "${HOME}/.bashrc" ;then
-   echo '# Laod dotfiles setup' >> "${HOME}/.bashrc"
+  if ! grep -q 'dotfiles' ~/.bashrc ;then
+   echo '# Laod dotfiles setup' >> ~/.bashrc
    # shellcheck disable=SC2016
-   echo 'source /code/dotfiles/bashrc' >> "${HOME}/.bashrc"
+   echo 'source /code/dotfiles/bashrc' >> ~/.bashrc
   fi
 
-  # shellcheck disable=SC2016
-  [ ! -e "${HOME}/.bash_profile" ] && echo '[ -s "$HOME/.profile" ] && source "$HOME/.profile"' > "${HOME}/.bash_profile"
-
   echo 'Load ~/.bashrc'
-  # shellcheck disable=SC1091
-  source "${HOME}/.bashrc"
+  # shellcheck disable=SC1090
+  source ~/.bashrc
 }
 
 setup_dotfiles_ahk() {
@@ -89,7 +86,7 @@ setup_dotfiles_ahk() {
 
 install_neovim() {
   topic 'Update neovim'
-  sudo apt install -yu binutils-dev libunwind8 neovim
+  sudo pacman -Sq --noconfirm binutils-dev libunwind8 neovim
   nvim --version
 }
 
@@ -101,8 +98,8 @@ setup_node() {
 
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh" | bash
 
-  # shellcheck disable=SC1091
-  source "${HOME}/.nvm/nvm.sh"
+  # shellcheck disable=SC1090
+  source ~/.nvm/nvm.sh
 
   nvm install node
   nvm alias default node
@@ -114,7 +111,7 @@ setup_node() {
 nodejs_cleanup() {
   topic "Cleanup nodejs after update"
   nvm cache clear
-  for n in "${HOME}"/.nvm/versions/node/* ;do
+  for n in ~/.nvm/versions/node/* ;do
     if [[ "${n}" != *$(node --version)* ]] ;then
       echo "Remove ${n}"
       rm -rf "${n}"
@@ -127,7 +124,16 @@ setup_pyenv() {
 
   export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
-  [ ! -e "${HOME}/.pyenv" ] && curl -fsSL https://pyenv.run | bash
+  if [ ! -e ~/.pyenv ] ;then
+    curl -fsSL https://pyenv.run | bash
+    #shellcheck disable=SC2016
+    {
+      echo ''
+      echo 'export PYENV_ROOT="$HOME/.pyenv"'
+      echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"'
+      echo 'eval "$(pyenv init - bash)"'
+    } >> ~/.bashrc
+  fi
 
   if ! type pyenv &> /dev/null ;then
     export PATH="$HOME/.pyenv/bin:$PATH"
@@ -160,7 +166,11 @@ update_pip() {
   topic 'Update Python packages'
   pip install --upgrade pip
   pip install ansible twine wheel gita
-  type gita &> /dev/null && wget -O "${HOME}/.bash_completion.d/gita_completion" https://github.com/nosarthur/gita/blob/master/auto-completion/bash/.gita-completion.bash
+  type gita &> /dev/null && wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
+  {
+    echo ''
+    echo 'source ~/.bash_completion.d/gita_completion'
+  } >> ~/.bashrc
 }
 
 install_ansible_galaxy() {
@@ -174,15 +184,15 @@ python_cleanup() {
 
 setup_rvm() {
   topic 'Update rvm'
-  if [ ! -e "${HOME}/.rvm" ] ;then
+  if [ ! -e ~/.rvm ] ;then
     gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     curl -sSL https://get.rvm.io | bash -s stable
   fi
 
   type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
 
-  # shellcheck disable=SC1091
-  source "${HOME}/.rvm/scripts/rvm"
+  # shellcheck disable=SC1090
+  source ~/.rvm/scripts/rvm
 
   rvm get stable
   rvm autolibs enable
@@ -194,8 +204,8 @@ install_rubies() {
 
   type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
 
-  # shellcheck disable=SC1091
-  source "${HOME}/.rvm/scripts/rvm"
+  # shellcheck disable=SC1090
+  source ~/.rvm/scripts/rvm
 
   rbver=3.4.7
 
@@ -217,7 +227,7 @@ rvm_cleanup() {
 
   rvm cleanup all
 
-  for rb in "${HOME}"/.rvm/rubies/* ;do
+  for rb in ~/.rvm/rubies/* ;do
     if [[ "${rb}" != *${default_ruby}* ]] && [[ "${rb}" != *default* ]]  ;then
       echo "Remove ${rb}"
       rm -rf "${rb}"
@@ -228,12 +238,16 @@ rvm_cleanup() {
 setup_sdkman() {
   topic 'Update sdkman'
 
-  if [ ! -e "${HOME}/.sdkman" ] ;then
-   curl -s 'https://get.sdkman.io' | bash
+  if [ ! -e ~/.sdkman ] ;then
+    curl -s 'https://get.sdkman.io' | bash
+    {
+      echo ''
+      echo 'source ~/.sdkman/bin/sdkman-init.sh'
+    } >> ~/.bashrc
   fi
 
-  # shellcheck disable=SC1091
-  source "${HOME}/.sdkman/bin/sdkman-init.sh"
+  # shellcheck disable=SC1090
+  source ~/.sdkman/bin/sdkman-init.sh
   sdk update
 }
 
@@ -251,8 +265,8 @@ install_groovy() {
 
 install_codenarc() {
   topic "Install Codenarc"
-  mkdir -p "${HOME}/.config/codenarc"
-  wget -O "${HOME}/.config/codenarc/StarterRuleSet-AllRules.groovy" https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
+  mkdir -p ~/.config/codenarc
+  wget -O ~/.config/codenarc/StarterRuleSet-AllRules.groovy https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
 }
 
 cleanup_sdk() {
@@ -272,7 +286,7 @@ cleanup_maven() {
   topic "Cleanup maven and gradle"
 
   for app in maven gradle ;do
-    candidates_root=${HOME}/.sdkman/candidates/${app}
+    candidates_root=~/.sdkman/candidates/${app}
     curr_ver=$(readlink "${candidates_root}/current")
     for ver in "${candidates_root}"/* ;do
       base_sdk=$(basename "${ver}")
@@ -286,8 +300,7 @@ cleanup_maven() {
 
 update_os() {
   topic 'Update operating system'
-  sudo apt clean && sudo apt update -q
-  sudo apt upgrade -q -y && sudo apt full-upgrade --allow-downgrades -q -y && sudo apt autoremove -y
+  sudo pacman -Sc --noconfirm && sudo pacman -Syu --noconfirm
 }
 
 install_packages() {
@@ -329,6 +342,7 @@ install_packages() {
     tmux
     tcpdump
     unzip
+    which
     xz-utils
     yq
     zip
@@ -342,7 +356,7 @@ install_packages() {
 
   if [[ -n $to_install ]] ;then
    # shellcheck disable=SC2086
-    sudo apt -q install --allow-downgrades -y $to_install
+    sudo pacman -Sq --noconfirm $to_install
   fi
 }
 
@@ -358,13 +372,18 @@ update_wsl_config() {
 install_tfenv() {
   topic 'Update tfenv'
 
-  mkdir -p "${HOME}/tools"
+  mkdir -p ~/tools
 
-  if [ ! -e "${HOME}/tools/tfenv" ] ;then
-    git clone --depth=1 https://github.com/tfutils/tfenv.git "${HOME}/tools/tfenv"
+  if [ ! -e ~/tools/tfenv ] ;then
+    git clone --depth=1 https://github.com/tfutils/tfenv.git ~/tools/tfenv
+    #shellcheck disable=SC2016
+    {
+      echo ''
+      echo 'export PATH=$HOME/tools/tfenv/bin:$PATH'
+    } >> ~/.bashrc
   else
-    git -C "${HOME}/tools/tfenv" reset --hard
-    git -C "${HOME}/tools/tfenv" pull
+    git -C ~/tools/tfenv reset --hard
+    git -C ~/tools/tfenv pull
   fi
 
   type tfenv &> /dev/null || export PATH=${HOME}/tools/tfenv/bin:$PATH
@@ -375,13 +394,18 @@ install_tfenv() {
 install_tgenv() {
   topic 'Update tgenv'
 
-  mkdir -p "${HOME}/tools"
+  mkdir -p ~/tools
 
-  if [ ! -e "${HOME}/tools/tgenv" ] ;then
-    git clone https://github.com/tgenv/tgenv.git "${HOME}/tools/tgenv"
+  if [ ! -e ~/tools/tgenv ] ;then
+    git clone https://github.com/tgenv/tgenv.git ~/tools/tgenv
+    #shellcheck disable=SC2016
+    {
+      echo ''
+      echo 'export PATH=$HOME/tools/tgenv/bin:$PATH'
+    } >> ~/.bashrc
   else
-    git -C "${HOME}/tools/tgenv" reset --hard
-    git -C "${HOME}/tools/tgenv" pull
+    git -C ~/tools/tgenv reset --hard
+    git -C ~/tools/tgenv pull
   fi
 
   type tgenv &> /dev/null || export PATH=${HOME}/tools/tgenv/bin:$PATH

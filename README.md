@@ -1,6 +1,6 @@
 # run2cmd dotfiles
 
-This is my personal configuration that I use to work day to day. My setup is Windows OS + WSL2(Debian). My setup mostly resides in WSL but there is some Windows integration is use, however it is WSL2 based and only few tools are on Windows so this solution in 100% compatible with any Linux setup.
+This is my personal configuration that I use to work day to day. My setup is Windows OS + WSL2(ArchLinux). My setup mostly resides in WSL but there is some Windows integration is use, however it is WSL2 based and only few tools are on Windows so this solution in 100% compatible with any Linux setup.
 
 ## Workflow 3.0
 
@@ -8,11 +8,23 @@ I'm doing devops(ich) work so my environment is setup to support multiple tools.
 
 ## Installation
 
+Install ArchLinux
+
+```bash
+# In CMD
+wsl --install archLinux
+wsl useradd -m -aG wheel username
+wsl --manage archlinux --set-default-user username
+
+# in WSL
+sudo chmod 0755 /run/systemd/user-generators
+```
+
 Clone this project into WSL2 instance and Run `install.sh all` to install all tools.
 
 After 1st install new `dotfiles-update` link is created to which will be available on PATH. Run `dotfiles-update help` to list available options.
 
-Bare in mind that a lot of tools have Git based installation. Running `dotfiles-update` often might cause timeout from `github.com` page due to connection limit.
+It is Arch Linux optimized.
 
 ## Optimize WSL disk space
 
@@ -21,7 +33,7 @@ This is useful if any of WSL instances reserves a lot of space that was used in 
 ```pwershell
 # vhdx-path:
 # - Docker = C:\Users\[user_name]\AppData\Local\Docker\wsl\data\ext4.vhdx
-# - Debian/Ubuntu = C:\Users\[user_name]\AppData\Local\Packages\[look something with debian or ubuntu]\LocalState\ext4.vhdx
+# - ArchLinux = C:\Users\[user_name]\AppData\Local\Packages\[look something with arch]\LocalState\ext4.vhdx
 optimize-vhd -Path [vhdx-path] -Mode full
 ```
 
