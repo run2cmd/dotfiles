@@ -339,6 +339,9 @@ install_packages() {
    # shellcheck disable=SC2086
     sudo pacman -S --noconfirm $to_install
   fi
+
+  # Podman fix on arch
+  sudo chmod u+s /usr/bin/newuidmap /usr/bin/newgidmap
 }
 
 update_wsl_config() {
