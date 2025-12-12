@@ -15,11 +15,7 @@ topic() {
 
 dependencies() {
   topic 'Install dependencies'
-  local dep_pkgs
-  dep_pkgs=(curl wget)
-  for pkg in "${dep_pkgs[@]}" ;do
-   sudo pacman -Qq "${pkg}" &> /dev/null || sudo pacman -S --noconfirm "${pkg}"
-  done
+  sudo pacman -S --noconfirm --needed wget curl
 }
 
 setup_dotfiles_dirs() {
@@ -117,9 +113,7 @@ nodejs_cleanup() {
 setup_pyenv() {
   topic 'Update pyenv'
 
-  export PYTHON_CONFIGURE_OPTS="--enable-shared"
-
-  if [ ! -e ~/.pyenv ] ;then
+  if ! grep -q pyenv ~/.bashrc ;then
     curl -fsSL https://pyenv.run | bash
     #shellcheck disable=SC2016
     {
@@ -128,44 +122,28 @@ setup_pyenv() {
       echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"'
       echo 'eval "$(pyenv init - bash)"'
     } >> ~/.bashrc
-  fi
 
-  if ! type pyenv &> /dev/null ;then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
   fi
 
+  pyenv install -s 3
+  pyenv global 3
   pyenv update
-}
 
-install_python() {
-  topic 'Install python'
-  local pydefault
-
-  pydefault=3
-
-  if ! type pyenv &> /dev/null ;then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-  fi
-
-  pyenv install -s "${pydefault}"
-
-  export CPPFLAGS="-I/usr/include/openssl"
-  export LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
-  pyenv global "${pydefault}"
-  cd ~/.pyenv && src/configure && make -C src
-}
-
-update_pip() {
-  topic 'Update Python packages'
   pip install --upgrade pip
   pip install twine wheel gita
-  type gita &> /dev/null && wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
-  {
-    echo ''
-    echo 'source ~/.bash_completion.d/gita_completion'
-  } >> ~/.bashrc
+}
+
+setup_gita() {
+  topic 'Setup gita'
+  if ! grep -q gita-completion ~/.bashrc ;then
+    wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
+    {
+      echo ''
+      echo 'source ~/.bash_completion.d/gita_completion'
+    } >> ~/.bashrc
+  fi
 }
 
 install_ansible_galaxy() {
@@ -278,11 +256,12 @@ update_os() {
 
 install_packages() {
   topic "Install packages"
-  local to_install sys_packages
+  local sys_packages
 
   sys_packages=(
     ansible
     augeas
+    base-devel
     bat
     bash-completion
     chromium
@@ -312,14 +291,18 @@ install_packages() {
     neovim
     openbsd-netcat
     nmap
+    pkgconf
     plantuml
     postgresql
     podman
     puppet
+    pyenv
     ripgrep
     rpm
     rpmextract
     sshpass
+    tcl
+    tk
     tmux
     tcpdump
     unzip
@@ -329,16 +312,8 @@ install_packages() {
     zip
   )
 
-  for pkg_name in "${sys_packages[@]}" ;do
-    if ! (pacman -Qq "${pkg_name}" &> /dev/null) ;then
-      to_install="${to_install} ${pkg_name}"
-    fi
-  done
-
-  if [[ -n $to_install ]] ;then
-   # shellcheck disable=SC2086
-    sudo pacman -S --noconfirm $to_install
-  fi
+  # shellcheck disable=SC2068
+  sudo pacman -S --noconfirm --needed ${sys_packages[@]}
 
   # Podman fix on arch
   sudo chmod u+s /usr/bin/newuidmap /usr/bin/newgidmap
@@ -426,7 +401,7 @@ run_ruby() {
 run_python() {
   setup_pyenv
   install_python
-  update_pip
+  setup_gita
   install_ansible_galaxy
 }
 

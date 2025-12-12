@@ -23,9 +23,12 @@ useradd -m -aG wheel username
 wsl --manage archlinux --set-default-user username
 ```
 
-Clone this project into WSL2 instance and Run `install.sh all` to install all tools.
+Clone this project into WSL2 instance and run following commands
 
-After 1st install new `dotfiles-update` link is created to which will be available on PATH. Run `dotfiles-update help` to list available options.
+```bash
+install.sh
+dotfiles-update all
+```
 
 It is Arch Linux optimized.
 
