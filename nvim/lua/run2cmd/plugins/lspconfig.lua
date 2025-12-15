@@ -135,15 +135,13 @@ return {
             mdl = {
               sourceName = "mdl",
               command = "rumdl",
-              args = { "check", "%relativepath" },
-              formatLines = 1,
-              formatPattern = {
-                ".*:(\\d+):(.*)",
-                {
-                  line = 1,
-                  message = { "[mdl]", 2 },
-                },
-              },
+              args = { "check", "--color=never", "-o", "json", "%relativepath" },
+              parseJson = {
+                line = 'line',
+                column = 'column',
+                message = '[rumdl] [${rule}] ${message} ',
+                security = 'severity',
+              }
             },
             erb = {
               sourceName = "erb",
