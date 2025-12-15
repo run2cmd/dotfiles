@@ -129,7 +129,6 @@ setup_pyenv() {
 
   pyenv install -s 3
   pyenv global 3
-  pyenv update
 
   pip install --upgrade pip
   pip install twine wheel gita
@@ -298,7 +297,6 @@ install_packages() {
     puppet
     pyenv
     ripgrep
-    rpm
     rpmextract
     sshpass
     tcl
@@ -373,7 +371,7 @@ install_tgenv() {
 }
 
 tmux_plugins_update() {
-  if [ -e  ~/.tmux/plugins/tpm ] ;then
+  if [ ! -e  ~/.tmux/plugins/tpm ] ;then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   else
     git -C ~/.tmux/plugins/tpm pull
@@ -400,7 +398,6 @@ run_ruby() {
 
 run_python() {
   setup_pyenv
-  install_python
   setup_gita
   install_ansible_galaxy
 }
