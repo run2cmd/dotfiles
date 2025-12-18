@@ -66,7 +66,7 @@ fi
 # Aliases
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias cdc='cd $(fdfind --type directory --full-path --exact-depth 1 . /code | fzf)'
+alias cdc='cd $(fd --type directory --full-path --exact-depth 1 . /code | fzf)'
 alias hst='history | fzf'
 alias vim='nvim'
 
