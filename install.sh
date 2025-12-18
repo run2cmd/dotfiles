@@ -7,14 +7,13 @@ REPODIR=$(dirname "$(readlink -f "${0}")")
 TOOLS_DIR=/usr/local/bin
 INSTALL_TYPE=$1
 
-sudo ln -snf "${REPODIR}/install.sh" "${TOOLS_DIR}/dotfiles-update"
-
 topic() {
   echo "$(tput bold)$(tput setaf 4)${1}$(tput sgr0)"
 }
 
 dependencies() {
   topic 'Install dependencies'
+  sudo ln -snf "${REPODIR}/install.sh" "${TOOLS_DIR}/dotfiles-update"
   sudo pacman -S --noconfirm --needed wget curl
 }
 

@@ -84,25 +84,6 @@ return {
         },
       })
 
-      vim.lsp.config("ansiblels", {
-        settings = {
-          ansible = {
-            ansible = {
-              useFullyQualifiedCollectionNames = false,
-            },
-            python = {
-              interpreterPath = "pyenv",
-            },
-            validation = {
-              lint = {
-                path = "exec",
-                arguments = "ansible-lint",
-              },
-            },
-          },
-        },
-      })
-
       vim.lsp.enable("ruby_lsp")
 
       vim.lsp.config("puppet", { cmd = { "puppet-languageserver", "--stdio", "--puppet-settings=--modulepath,/code" } })
@@ -124,90 +105,6 @@ return {
               enable = false,
               url = "https://www.schemastore.org/api/json/catalog.json",
             },
-          },
-        },
-      })
-
-      vim.lsp.config("diagnosticls", {
-        filetypes = { "xml", "eruby", "lua", "markdown", "groovy", "Jenkinsfile" },
-        init_options = {
-          linters = {
-            mdl = {
-              sourceName = "mdl",
-              command = "rumdl",
-              args = { "check", "--color=never", "-o", "json", "%relativepath" },
-              parseJson = {
-                line = 'line',
-                column = 'column',
-                message = '[rumdl] [${rule}] ${message} ',
-                security = 'severity',
-              }
-            },
-            erb = {
-              sourceName = "erb",
-              command = "erbvalidate",
-              args = { "%relativepath" },
-              isStderr = true,
-              formatLines = 1,
-              formatPattern = {
-                "^-:(\\d+):(.*)$",
-                {
-                  line = 1,
-                  message = { "[erb]", 2 },
-                },
-              },
-            },
-            groovylint = {
-              sourceName = "groovylint",
-              command = "npm-groovy-lint",
-              args = { "--codenarcargs -report=console %relativepath" },
-              rootPatterns = { ".git" },
-              formatLines = 1,
-              formatPattern = {
-                "Violation: Rule=(.*) P=(\\d+) Line=(\\d+) Msg=\\[(.*)\\] Src=",
-                {
-                  security = 2,
-                  line = 3,
-                  message = { "[groovylint]", " [", 1, "] ", 4 },
-                },
-              },
-              securities = {
-                ["1"] = "error",
-                ["2"] = "warning",
-                ["3"] = "info",
-              },
-            },
-            xmllint = {
-              sourceName = "xmllint",
-              command = "xmllint",
-              args = { "--noout", "-" },
-              isStderr = true,
-              formatLines = 1,
-              formatPattern = {
-                "^[^:]+:(\\d+):(.*)$",
-                {
-                  line = 1,
-                  message = { "[xmllint]", 2 },
-                },
-              },
-            },
-          },
-          filetypes = {
-            eruby = "erb",
-            markdown = "mdl",
-            groovy = "groovylint",
-            Jenkinsfile = "groovylint",
-            xml = "xmllint",
-          },
-          formatters = {
-            stylua = {
-              command = "stylua",
-              args = { "--color", "Never", "-" },
-              rootPatterns = { ".git" },
-            },
-          },
-          formatFiletypes = {
-            lua = "stylua",
           },
         },
       })
