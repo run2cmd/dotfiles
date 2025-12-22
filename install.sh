@@ -25,7 +25,6 @@ setup_dotfiles_dirs() {
     "${HOME}/.config/nvim/undo"
     "${HOME}/.config/nvim/tmp"
     "${HOME}/.bash_completion.d"
-    "${HOME}/.tmux/scripts"
     "${HOME}/.tmux/plugins/tpm"
   )
 
@@ -47,7 +46,6 @@ setup_dotfiles_links() {
     "gitattributes .gitattributes"
     "gitconfig .gitconfig"
     "tmux.conf .tmux.conf"
-    "tmux/switch_session_window.sh .tmux/scripts/switch_session_window.sh"
     "gitexclude .gitignore"
     "bash_completion .bash_completion.d/bash_completion"
   )
