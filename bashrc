@@ -47,8 +47,7 @@ export PATH=~/bin:$PATH
 
 # Git nice PS
 [ -e /usr/share/git/completion/git-prompt.sh ] && source /usr/share/git/completion/git-prompt.sh
-# shellcheck disable=SC2025
-export PS1="[\e[34m\]\u@\h \[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]$ "
+export PS1="[\[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]$ "
 
 # SSH Agent
 eval "$(keychain -q --eval)"
@@ -69,6 +68,7 @@ alias grep='grep --color=auto'
 alias cdc='cd $(fd --type directory --full-path --exact-depth 1 . /code | fzf)'
 alias hst='history | fzf'
 alias vim='nvim'
+alias tmux='~/.tmux/sessions/tmux_start.sh'
 
 # Workaround WSL 2 issues with not releasing memory
 # See: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
@@ -79,13 +79,4 @@ ssh() {
   settitle "$*"
   command ssh "$@"
   printf "\033k%s\033\\" "bash"
-}
-
-# Open 1st tmux session in dotfiles
-tmux() {
-  if [ $# -eq 0 ]; then
-    command tmux new-session -A -s dotfiles -c /code/dotfiles
-  else
-    command tmux "$@"
-  fi
 }

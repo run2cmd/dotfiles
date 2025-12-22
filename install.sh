@@ -26,6 +26,7 @@ setup_dotfiles_dirs() {
     "${HOME}/.config/nvim/tmp"
     "${HOME}/.bash_completion.d"
     "${HOME}/.tmux/plugins/tpm"
+    "${HOME}/.tmux/sessions"
   )
 
   for dir in "${create_dirs[@]}" ;do
@@ -48,6 +49,7 @@ setup_dotfiles_links() {
     "tmux.conf .tmux.conf"
     "gitexclude .gitignore"
     "bash_completion .bash_completion.d/bash_completion"
+    "tmux_start.sh .tmux/sessions/tmux_start.sh"
   )
 
   for mlink in "${create_links[@]}" ;do
@@ -373,6 +375,12 @@ tmux_plugins_update() {
   else
     git -C ~/.tmux/plugins/tpm pull
   fi
+}
+
+tmux_sessions() {
+  local session_file
+  session_file=~/.tmux/sessions/start.sh
+  [ ! -e "${session_file}" ] && touch "${session_file}"
 }
 
 run_system() {
