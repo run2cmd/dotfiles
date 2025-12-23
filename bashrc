@@ -57,6 +57,8 @@ export GRADLE_OPTS=-Dorg.gradle.daemon=false
 export JAVA_OPTS='-Xms256m -Xmx2048m'
 export MAVEN_ARGS='-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -Dmaven.resolver.transport=wagon'
 
+export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+
 # Own completion
 if [ -e "${HOME}/bash_completion.d" ] ;then
   source "${HOME}/.bash_completion.d/bash_completion"

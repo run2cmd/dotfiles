@@ -1,12 +1,26 @@
 return {
-  { "b0o/SchemaStore.nvim" },
-
   {
     "neovim/nvim-lspconfig",
     dependencies = {
       "b0o/SchemaStore.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "nvim-lua/lsp-status.nvim",
+      {
+        "nvim-lua/lsp-status.nvim",
+        config = function()
+          local lsp_status = require("lsp-status")
+          lsp_status.register_progress()
+          lsp_status.config({
+            status_symbol = "",
+            indicator_errors = "E",
+            indicator_warnings = "W",
+            indicator_info = "I",
+            indicator_hint = "?",
+            indicator_ok = "OK",
+            select_symbol = false,
+            show_filename = false,
+          })
+        end,
+      },
     },
     config = function()
       local schemas = require("schemastore")
@@ -15,6 +29,11 @@ return {
 
       vim.lsp.config("*", {
         capabilities = cmp_lsp.default_capabilities(vim.tbl_extend("keep", vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
+        on_attach = function(_, bufnr)
+          local opts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        end,
       })
 
       vim.lsp.config("bashls", {

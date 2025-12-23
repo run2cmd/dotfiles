@@ -1,14 +1,30 @@
 return {
-  { "L3MON4D3/LuaSnip" },
-  { "saadparwaiz1/cmp_luasnip" },
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/cmp-buffer" },
-  { "hrsh7th/cmp-path" },
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
       "nvim-lua/lsp-status.nvim",
-      "windwp/nvim-autopairs"
+      {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = true,
+        opts = {
+          check_ts = true,
+        }
+      },
+      { "github/copilot.vim" },
+      {
+        "olimorris/codecompanion.nvim",
+        config = function()
+          require("codecompanion").setup({
+            ignore_warnings = true
+          })
+        end,
+      },
     },
     config = function()
       local cmp = require("cmp")
