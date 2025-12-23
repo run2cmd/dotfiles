@@ -4,8 +4,6 @@
 set -e
 
 REPODIR=$(dirname "$(readlink -f "${0}")")
-TOOLS_DIR=/usr/local/bin
-INSTALL_TYPE=$1
 
 topic() {
   echo "$(tput bold)$(tput setaf 4)${1}$(tput sgr0)"
@@ -13,7 +11,7 @@ topic() {
 
 dependencies() {
   topic 'Install dependencies'
-  sudo ln -snf "${REPODIR}/install.sh" "${TOOLS_DIR}/dotfiles-update"
+  sudo ln -snf "${REPODIR}/install.sh" "/usr/local/bin/dotfiles-update"
   sudo pacman -S --noconfirm --needed wget curl
 }
 
@@ -436,7 +434,7 @@ run_tmux_plugins() {
 
 dependencies
 
-case $INSTALL_TYPE in
+case $1 in
   all)
     run_system
     run_dotfiles
