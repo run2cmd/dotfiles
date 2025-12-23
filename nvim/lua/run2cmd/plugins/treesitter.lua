@@ -18,6 +18,21 @@ return {
       require("gh-actions.tree-sitter").setup()
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
+          'lua',
+          'bash',
+          'python',
+          'ruby',
+          'vimdoc',
+          'yaml',
+          'json',
+          'hcl',
+          'markdown',
+          'markdown_inline',
+          'properties',
+          'puppet',
+          'groovy',
+          'helm',
+          'xml',
           'gh_actions_expressions'
         },
         auto_install = true,
