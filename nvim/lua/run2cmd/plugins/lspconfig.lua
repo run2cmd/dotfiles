@@ -9,22 +9,12 @@ return {
       "nvim-lua/lsp-status.nvim",
     },
     config = function()
-      local mapkey = vim.keymap.set
       local schemas = require("schemastore")
       local lsp_status = require("lsp-status")
       local cmp_lsp = require("cmp_nvim_lsp")
 
       vim.lsp.config("*", {
         capabilities = cmp_lsp.default_capabilities(vim.tbl_extend("keep", vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)),
-        on_attach = function(_, bufnr)
-          local opts = { noremap = true, silent = true, buffer = bufnr }
-          mapkey("n", "<leader>qf", vim.diagnostic.setqflist, opts)
-          mapkey("n", "<leader>bf", vim.lsp.buf.format, opts)
-          mapkey("n", "<leader>br", vim.lsp.buf.rename, opts)
-          mapkey("n", "<leader>vr", vim.lsp.buf.references, opts)
-          mapkey("n", "]d", vim.diagnostic.goto_next, opts)
-          mapkey("n", "[d", vim.diagnostic.goto_prev, opts)
-        end,
       })
 
       vim.lsp.config("bashls", {
