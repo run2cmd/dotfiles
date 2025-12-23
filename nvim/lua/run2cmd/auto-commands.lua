@@ -13,25 +13,5 @@ local autocmds = {
     { event = { "FileType" }, opts = { pattern = "qf", command = "wincmd J" } },
     { event = { "FileType" }, opts = { pattern = "netrw", command = "setlocal bufhidden=wipe" } },
   },
-  register_rule = {
-    {
-      event = { "TextYankPost" },
-      opts = {
-        pattern = "*",
-        callback = function()
-          local yank_reg = helpers.yank_registers
-          table.sort(yank_reg, function(a, b)
-            return a > b
-          end)
-          for idx, reg in ipairs(helpers.yank_registers) do
-            if yank_reg[idx + 1] then
-              vim.cmd("let @" .. reg .. "=@" .. yank_reg[idx + 1])
-            end
-          end
-          vim.cmd('let @a=@"')
-        end,
-      },
-    },
-  },
 }
 helpers.create_autocmds(autocmds)
