@@ -8,6 +8,7 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "nvim-lua/lsp-status.nvim",
+      "windwp/nvim-autopairs"
     },
     config = function()
       local cmp = require("cmp")
