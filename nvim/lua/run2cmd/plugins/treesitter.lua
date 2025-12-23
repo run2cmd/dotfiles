@@ -10,9 +10,10 @@ return {
           require("ts_context_commentstring").setup({})
         end,
       },
-      { "RRethy/nvim-treesitter-endwise" },
-      { "windwp/nvim-ts-autotag" },
-      { "Hdoc1509/gh-actions.nvim" },
+      "nvim-treesitter/nvim-treesitter-context",
+      "RRethy/nvim-treesitter-endwise",
+      "windwp/nvim-ts-autotag",
+      "Hdoc1509/gh-actions.nvim",
     },
     config = function()
       require("gh-actions.tree-sitter").setup()
