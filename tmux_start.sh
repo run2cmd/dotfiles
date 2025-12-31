@@ -10,13 +10,10 @@ detached_session() {
     if [ -n "$windows_list" ]; then
       window_index=0
       for window in $(echo "$windows_list" | tr -s ':' ' '); do
-        title=$(echo "$window" | sed -E 's/\[.*\]//g')
-        cmd=$(echo "$window" | sed -n 's/.*\[\([^]]*\)\].*/\1/p')
-        [ -z "$cmd" ] && cmd="bash"
         if [ $window_index -eq 0 ]; then
-          tmux new-session -d -s "$name" -n "$title" -c "$session_path" "$cmd"
+          tmux new-session -d -s "$name" -n "$window" -c "$session_path"
         else
-          tmux new-window -t "$name:" -n "$title" -c "$session_path" "$cmd"
+          tmux new-window -t "$name:" -n "$window" -c "$session_path"
         fi
         window_index=$((window_index + 1))
       done
@@ -28,8 +25,10 @@ detached_session() {
 
 start_sessions() {
   detached_session "$@"
-  first_session="${1%%:*}"
-  session_name=$(basename "$first_session")
+  active_session=$(echo "$1" | cut -d ':' -f1 | xargs)
+  active_window=$(echo "$1" | cut -d ':' -f2 | xargs)
+  session_name=$(basename "$active_session")
+  tmux select-window -t "$session_name:$active_window"
   tmux attach-session -t "$session_name"
 }
 
