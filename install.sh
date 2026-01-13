@@ -133,7 +133,7 @@ setup_pyenv() {
 
 setup_gita() {
   topic 'Setup gita'
-  if ! grep -q gita-completion ~/.bashrc ;then
+  if ! grep -q gita_completion ~/.bashrc ;then
     wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
     {
       echo ''
