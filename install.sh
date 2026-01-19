@@ -78,61 +78,9 @@ setup_dotfiles_ahk() {
   cp "${REPODIR}/autohotkey"/* "${startup_dir}"
 }
 
-setup_node() {
-  topic 'Update nodejs'
-  local nvm_version
-
-  nvm_version="v0.40.3"
-
-  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh" | bash
-
-  # shellcheck disable=SC1090
-  source ~/.nvm/nvm.sh
-
-  nvm install node
-  nvm alias default node
-  nvm use node
-  npm install -g tree-sitter-cli @devcontainers/cli
-  npm update
-}
-
-nodejs_cleanup() {
-  topic "Cleanup nodejs after update"
-  nvm cache clear
-  for n in ~/.nvm/versions/node/* ;do
-    if [[ "${n}" != *$(node --version)* ]] ;then
-      echo "Remove ${n}"
-      rm -rf "${n}"
-    fi
-  done
-}
-
-setup_pyenv() {
-  topic 'Update pyenv'
-
-  if ! grep -q pyenv ~/.bashrc ;then
-    curl -fsSL https://pyenv.run | bash
-    #shellcheck disable=SC2016
-    {
-      echo ''
-      echo 'export PYENV_ROOT="$HOME/.pyenv"'
-      echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"'
-      echo 'eval "$(pyenv init - bash)"'
-    } >> ~/.bashrc
-
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-  fi
-
-  pyenv install -s 3
-  pyenv global 3
-
-  pip install --upgrade pip
-  pip install twine wheel gita
-}
-
 setup_gita() {
   topic 'Setup gita'
+  sudo pipx install gita --global
   if ! grep -q gita_completion ~/.bashrc ;then
     wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
     {
@@ -165,84 +113,13 @@ setup_rvm() {
 
   rvm get stable
   rvm autolibs enable
-}
-
-install_rubies() {
-  topic 'Install rubies'
-  local rbver
-
-  type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
-
-  # shellcheck disable=SC1090
-  source ~/.rvm/scripts/rvm
-
-  rbver=3.4.7
-
-  rvm install "${rbver}" --default
-  rvm docs generate-ri "${rbver}"
-  rvm docs generate-gems "${rbver}"
-
-  topic "Update default ruby"
-  rvm use "${rbver}"
-  gem update --system
-  gem install bundle ruby-lsp
+  rvm use system --default
 }
 
 rvm_cleanup() {
   topic "Cleanup rvm after update"
   local default_ruby
-
-  default_ruby="$(rvm list default string)"
-
   rvm cleanup all
-
-  for rb in ~/.rvm/rubies/* ;do
-    if [[ "${rb}" != *${default_ruby}* ]] && [[ "${rb}" != *default* ]]  ;then
-      echo "Remove ${rb}"
-      rm -rf "${rb}"
-    fi
-  done
-}
-
-setup_sdkman() {
-  topic 'Update sdkman'
-
-  if [ ! -e ~/.sdkman ] ;then
-    curl -s 'https://get.sdkman.io' | bash
-    {
-      echo ''
-      echo 'source ~/.sdkman/bin/sdkman-init.sh'
-    } >> ~/.bashrc
-  fi
-
-  # shellcheck disable=SC1090
-  source ~/.sdkman/bin/sdkman-init.sh
-  sdk update
-}
-
-install_java() {
-  topic "Install Java"
-  jver="21.0.7-tem"
-  sdk install java "${jver}"
-  ln -snf /etc/ssl/certs/java/cacerts "${HOME}/.sdkman/candidates/java/${jver}/lib/security/cacerts"
-}
-
-install_groovy() {
-  topic "Install Groovy"
-  sdk install groovy 2.4.21
-}
-
-install_codenarc() {
-  topic "Install Codenarc"
-  mkdir -p ~/.config/codenarc
-  wget -O ~/.config/codenarc/StarterRuleSet-AllRules.groovy https://raw.githubusercontent.com/CodeNarc/CodeNarc/master/docs/StarterRuleSet-AllRules.groovy.txt
-}
-
-cleanup_sdk() {
-  topic "Cleanup sdkman after update"
-  sdk flush metadata
-  sdk flush tmp
-  sdk flush version
 }
 
 update_os() {
@@ -273,6 +150,7 @@ install_packages() {
     github-cli
     go
     gradle
+    groovy
     helm
     jq
     keychain
@@ -285,6 +163,8 @@ install_packages() {
     man-db
     maven
     neovim
+    nodejs
+    npm
     openbsd-netcat
     nmap
     pkgconf
@@ -292,13 +172,20 @@ install_packages() {
     postgresql
     podman
     puppet
-    pyenv
+    python
+    python-pip
+    python-pipx
     ripgrep
     rpmextract
+    ruby
+    ruby-lsp
     sshpass
     tcl
+    terraform
+    terragrunt
     tk
     tmux
+    twine
     tcpdump
     unzip
     which
@@ -323,50 +210,6 @@ update_wsl_config() {
   fi
 }
 
-install_tfenv() {
-  topic 'Update tfenv'
-
-  mkdir -p ~/tools
-
-  if [ ! -e ~/tools/tfenv ] ;then
-    git clone --depth=1 https://github.com/tfutils/tfenv.git ~/tools/tfenv
-    #shellcheck disable=SC2016
-    {
-      echo ''
-      echo 'export PATH=$HOME/tools/tfenv/bin:$PATH'
-    } >> ~/.bashrc
-  else
-    git -C ~/tools/tfenv reset --hard
-    git -C ~/tools/tfenv pull
-  fi
-
-  type tfenv &> /dev/null || export PATH=${HOME}/tools/tfenv/bin:$PATH
-  tfenv install latest
-  tfenv use latest
-}
-
-install_tgenv() {
-  topic 'Update tgenv'
-
-  mkdir -p ~/tools
-
-  if [ ! -e ~/tools/tgenv ] ;then
-    git clone https://github.com/tgenv/tgenv.git ~/tools/tgenv
-    #shellcheck disable=SC2016
-    {
-      echo ''
-      echo 'export PATH=$HOME/tools/tgenv/bin:$PATH'
-    } >> ~/.bashrc
-  else
-    git -C ~/tools/tgenv reset --hard
-    git -C ~/tools/tgenv pull
-  fi
-
-  type tgenv &> /dev/null || export PATH=${HOME}/tools/tgenv/bin:$PATH
-  tgenv install latest
-  tgenv use latest
-}
-
 tmux_plugins_update() {
   if [ ! -e  ~/.tmux/plugins/tpm ] ;then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -379,6 +222,11 @@ tmux_sessions() {
   local session_file
   session_file=~/.tmux/sessions/start.sh
   [ ! -e "${session_file}" ] && touch "${session_file}"
+}
+
+github_copilot() {
+  topic "Install GitHub Copilot CLI"
+  curl -fsSL https://gh.io/copilot-install | sudo bash
 }
 
 run_system() {
@@ -394,42 +242,20 @@ run_dotfiles() {
   setup_dotfiles_ahk
 }
 
-run_ruby() {
-  setup_rvm
-  install_rubies
-}
-
-run_python() {
-  setup_pyenv
-  setup_gita
-  install_ansible_galaxy
-}
-
-run_sdk() {
-  setup_sdkman
-  install_java
-  install_groovy
-  install_codenarc
-}
-
-run_node() {
-  setup_node
-}
-
-run_tf() {
-  install_tgenv
-  install_tfenv
-}
-
 run_cleanup() {
   rvm_cleanup
   python_cleanup
-  cleanup_sdk
-  nodejs_cleanup
 }
 
 run_tmux_plugins() {
   tmux_plugins_update
+}
+
+run_tools() {
+  setup_rvm
+  setup_gita
+  install_ansible_galaxy
+  github_copilot
 }
 
 dependencies
@@ -439,21 +265,13 @@ case $1 in
     run_system
     run_dotfiles
     run_tmux_plugins
-    run_python
-    run_sdk
-    run_node
-    run_tf
-    run_ruby
+    run_tools
   ;;
   system) run_system ;;
   dotfiles) run_dotfiles ;;
-  ruby) run_ruby ;;
-  python) run_python ;;
-  sdk) run_sdk ;;
-  nodejs) run_node ;;
-  tfsuite) run_tf ;;
   tmux) run_tmux_plugins ;;
   cleanup) run_cleanup ;;
+  tools) run_tools ;;
   *)
     echo "
     Usage: dotfiles-update [INSTALL_TYPE]
@@ -461,13 +279,9 @@ case $1 in
       all - Run complex installation/update of everything. If this is 1st installtion you need to choose this option.
       system - System OS update.
       dotfiles - Install dotfiles.
-      ruby - Update rubies.
-      python - Update python.
-      sdk - Update SDKMAN tools.
-      nodejs - Update NodeJS.
-      tfsuite - Terraform and Terragrunt.
       tmux - Update Tmux Plugin Manager.
       cleanup - Clean up old tools not managed by dotfiles configuration.
+      tools - Install additional tools like GitHub Copilot CLI, RVM, etc.
     "
   ;;
 esac
