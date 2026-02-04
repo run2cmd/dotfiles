@@ -78,7 +78,7 @@ alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && printf '\n%
 
 # Tmux Wrapper for ssh so it displays hostname in title
 ssh() {
-  settitle "$*"
+  printf "\033k%s\033\\" "$@"
   command ssh "$@"
   printf "\033k%s\033\\" "bash"
 }
