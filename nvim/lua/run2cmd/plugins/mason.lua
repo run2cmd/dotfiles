@@ -60,6 +60,7 @@ return {
             "groovyls",
             "puppet",
             "lemminx",
+            "standardrb",
           },
         })
       end,

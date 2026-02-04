@@ -94,34 +94,6 @@ install_ansible_galaxy() {
   ansible-galaxy collection install community.general
 }
 
-python_cleanup() {
-  topic "Cleanup python after update"
-  pip cache purge
-}
-
-setup_rvm() {
-  topic 'Update rvm'
-  if [ ! -e ~/.rvm ] ;then
-    gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-    curl -sSL https://get.rvm.io | bash -s stable
-  fi
-
-  type rvm &> /dev/null || export PATH="$PATH:$HOME/.rvm/bin"
-
-  # shellcheck disable=SC1090
-  source ~/.rvm/scripts/rvm
-
-  rvm get stable
-  rvm autolibs enable
-  rvm use system --default
-}
-
-rvm_cleanup() {
-  topic "Cleanup rvm after update"
-  local default_ruby
-  rvm cleanup all
-}
-
 update_os() {
   topic 'Update operating system'
   sudo pacman -Sc --noconfirm && sudo pacman -Syu --noconfirm
@@ -178,7 +150,6 @@ install_packages() {
     ripgrep
     rpmextract
     ruby
-    ruby-lsp
     sshpass
     tcl
     terraform
@@ -242,17 +213,11 @@ run_dotfiles() {
   setup_dotfiles_ahk
 }
 
-run_cleanup() {
-  rvm_cleanup
-  python_cleanup
-}
-
 run_tmux_plugins() {
   tmux_plugins_update
 }
 
 run_tools() {
-  setup_rvm
   setup_gita
   install_ansible_galaxy
   github_copilot
@@ -270,7 +235,6 @@ case $1 in
   system) run_system ;;
   dotfiles) run_dotfiles ;;
   tmux) run_tmux_plugins ;;
-  cleanup) run_cleanup ;;
   tools) run_tools ;;
   *)
     echo "
@@ -280,7 +244,6 @@ case $1 in
       system - System OS update.
       dotfiles - Install dotfiles.
       tmux - Update Tmux Plugin Manager.
-      cleanup - Clean up old tools not managed by dotfiles configuration.
       tools - Install additional tools like GitHub Copilot CLI, RVM, etc.
     "
   ;;
