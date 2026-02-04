@@ -93,10 +93,6 @@ return {
         },
       })
 
-      --vim.lsp.enable("ruby_lsp")
-      -- vim.lsp.enable('solargraph')
-      --vim.lsp.enable('sorbet')
-
       vim.lsp.config("puppet", { cmd = { "puppet-languageserver", "--stdio", "--puppet-settings=--modulepath,/code" } })
 
       vim.lsp.config("yamlls", {
