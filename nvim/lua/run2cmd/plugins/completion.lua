@@ -37,7 +37,6 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<c-k>"] = cmp.mapping.select_prev_item(),
           ["<c-j>"] = cmp.mapping.select_next_item(),
-          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
           { name = "copilot", group_index = 2 },
