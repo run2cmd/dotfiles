@@ -96,7 +96,7 @@ install_ansible_galaxy() {
 
 update_os() {
   topic 'Update operating system'
-  sudo pacman -Sc --noconfirm && sudo pacman -Syu --noconfirm
+  sudo pacman -Scc --noconfirm && sudo pacman -Syu --noconfirm
 }
 
 install_packages() {
