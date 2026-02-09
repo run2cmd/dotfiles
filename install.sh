@@ -80,7 +80,11 @@ setup_dotfiles_ahk() {
 
 setup_gita() {
   topic 'Setup gita'
-  sudo pipx install gita --global
+  if type gita &> /dev/null ;then
+    sudo pipx upgrade gita --global
+  else
+    sudo pipx install gita --global
+  fi
   if ! grep -q gita_completion ~/.bashrc ;then
     wget -O ~/.bash_completion.d/gita_completion https://raw.githubusercontent.com/nosarthur/gita/refs/heads/master/auto-completion/bash/.gita-completion.bash
     {
