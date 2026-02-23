@@ -43,3 +43,8 @@ mapkey("n", "]b", ":bnext<CR>zz")
 mapkey("n", "[b", ":bprev<CR>zz")
 
 mapkey("n", "<leader>e", vim.cmd.Ex)
+
+-- Remove " around a word
+-- di"vhp
+-- Surround word with "
+-- viwc(<ESC>p

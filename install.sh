@@ -11,7 +11,10 @@ topic() {
 
 dependencies() {
   topic 'Install dependencies'
-  sudo ln -snf "${REPODIR}/install.sh" "/usr/local/bin/dotfiles-update"
+  if [ ! -e "/usr/local/bin/dotfiles-update" ] ;then
+    sudo ln -snf "${REPODIR}/install.sh" "/usr/local/bin/dotfiles-update"
+    echo 'Tool dotfiles-update installed. Run "dotfiles-update" to setup environment.'
+  fi
   sudo pacman -S --noconfirm --needed wget curl
 }
 
@@ -204,51 +207,19 @@ github_copilot() {
   curl -fsSL https://gh.io/copilot-install | sudo bash
 }
 
-run_system() {
-  update_os
-  install_packages
-  update_wsl_config
-}
-
-run_dotfiles() {
-  setup_dotfiles_dirs
-  setup_dotfiles_links
-  setup_dotfiles_bash
-  setup_dotfiles_ahk
-}
-
-run_tmux_plugins() {
-  tmux_plugins_update
-}
-
-run_tools() {
-  setup_gita
-  install_ansible_galaxy
-  github_copilot
-}
-
 dependencies
 
-case $1 in
-  all)
-    run_system
-    run_dotfiles
-    run_tmux_plugins
-    run_tools
-  ;;
-  system) run_system ;;
-  dotfiles) run_dotfiles ;;
-  tmux) run_tmux_plugins ;;
-  tools) run_tools ;;
-  *)
-    echo "
-    Usage: dotfiles-update [INSTALL_TYPE]
-    Installation types available:
-      all - Run complex installation/update of everything. If this is 1st installtion you need to choose this option.
-      system - System OS update.
-      dotfiles - Install dotfiles.
-      tmux - Update Tmux Plugin Manager.
-      tools - Install additional tools like GitHub Copilot CLI, RVM, etc.
-    "
-  ;;
-esac
+update_os
+install_packages
+update_wsl_config
+
+setup_dotfiles_dirs
+setup_dotfiles_links
+setup_dotfiles_bash
+setup_dotfiles_ahk
+
+tmux_plugins_update
+
+setup_gita
+install_ansible_galaxy
+github_copilot

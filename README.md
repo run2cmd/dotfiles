@@ -27,7 +27,6 @@ Clone this project into WSL2 instance and run following commands
 
 ```bash
 install.sh
-dotfiles-update all
 ```
 
 It is Arch Linux optimized.
