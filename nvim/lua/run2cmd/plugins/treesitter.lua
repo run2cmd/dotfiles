@@ -17,7 +17,8 @@ return {
     },
     config = function()
       require("gh-actions.tree-sitter").setup()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.config").setup({
+        branch = "main",
         ensure_installed = {
           'lua',
           'bash',
