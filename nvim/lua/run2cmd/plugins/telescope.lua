@@ -13,6 +13,9 @@ return {
         defaults = {
           file_ignore_patterns = { ".git/", ".svn/" },
           vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden" },
+          preview = {
+            treesitter = false
+          },
           mappings = {
             i = {
               ["<C-j>"] = actions.move_selection_next,
