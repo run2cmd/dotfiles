@@ -204,7 +204,11 @@ tmux_sessions() {
 
 github_copilot() {
   topic "Install GitHub Copilot CLI"
-  curl -fsSL https://gh.io/copilot-install | sudo bash
+  if type copilot &> /dev/null ;then
+    copilot update
+  else
+    curl -fsSL https://gh.io/copilot-install | sudo bash
+  fi
 }
 
 dependencies
