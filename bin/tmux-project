@@ -1,0 +1,23 @@
+#!/bin/bash
+# Fuzzy project opener - lists /code dirs and opens/switches to a tmux session.
+# Bind in tmux.conf with:
+#   bind p display-popup -E "~/bin/tmux-project"
+
+selected=$(ls -1 /code | fzf \
+    --prompt="project> " \
+    --header="Open project session" \
+    --reverse \
+    --height=100% \
+    --border=none)
+
+[ -z "$selected" ] && exit 0
+
+session_name="$selected"
+project_path="/code/$selected"
+
+if tmux has-session -t "$session_name" 2>/dev/null; then
+    tmux switch-client -t "$session_name"
+else
+    tmux new-session -d -s "$session_name" -c "$project_path"
+    tmux switch-client -t "$session_name"
+fi

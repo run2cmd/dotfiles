@@ -1,0 +1,4 @@
+#!/bin/bash
+# Strip Copilot CLI scrollbar character (┃ U+2503) and trailing spaces,
+# convert to UTF-16LE for Windows clipboard compatibility.
+perl -CS -pe 's/[^\S\n]*\x{2503}[^\S\n]*$//' | iconv -f utf-8 -t utf-16le | /mnt/c/WINDOWS/system32/clip.exe

@@ -1,0 +1,23 @@
+#!/bin/bash
+# Fuzzy window switcher across all sessions using fzf in a tmux popup.
+# Bind in tmux.conf with:
+#   bind s display-popup -E "~/bin/tmux-session-switch"
+
+current=$(tmux display-message -p '[#S] #W')
+
+selected=$(tmux list-windows -a \
+    -F '[#{session_name}] #{window_name}#{?window_active, *,}' \
+  | fzf \
+      --ansi \
+      --prompt="window> " \
+      --header="Current: $current" \
+      --reverse \
+      --height=100% \
+      --border=none)
+
+[ -z "$selected" ] && exit 0
+
+session=$(echo "$selected" | sed 's/^\[\(.*\)\] .*/\1/')
+window=$(echo "$selected" | sed 's/^\[.*\] \(.*\)\( \*\)\?$/\1/' | sed 's/ \*$//')
+
+tmux switch-client -t "$session:$window"

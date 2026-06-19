@@ -28,6 +28,7 @@ setup_dotfiles_dirs() {
     "${HOME}/.bash_completion.d"
     "${HOME}/.tmux/plugins/tpm"
     "${HOME}/.tmux/sessions"
+    "${HOME}/bin"
   )
 
   for dir in "${create_dirs[@]}" ;do
@@ -50,6 +51,9 @@ setup_dotfiles_links() {
     "tmux.conf .tmux.conf"
     "gitexclude .gitignore"
     "bash_completion .bash_completion.d/bash_completion"
+    "bin/tmux-copy bin/tmux-copy"
+    "bin/tmux-session-switch bin/tmux-session-switch"
+    "bin/tmux-project bin/tmux-project"
     "tmux_start.sh .tmux/sessions/tmux_start.sh"
   )
 
