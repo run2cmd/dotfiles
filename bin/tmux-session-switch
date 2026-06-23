@@ -3,10 +3,10 @@
 # Bind in tmux.conf with:
 #   bind s display-popup -E "~/bin/tmux-session-switch"
 
-current=$(tmux display-message -p '[#S] #W')
+current=$(tmux display-message -p '[#S:#I] #W')
 
 selected=$(tmux list-windows -a \
-    -F '[#{session_name}] #{window_name}#{?window_active, *,}' \
+    -F '[#{session_name}:#{window_index}] #{window_name}#{?window_active, *,}' \
   | fzf \
       --ansi \
       --prompt="window> " \
@@ -17,7 +17,6 @@ selected=$(tmux list-windows -a \
 
 [ -z "$selected" ] && exit 0
 
-session=$(echo "$selected" | sed 's/^\[\(.*\)\] .*/\1/')
-window=$(echo "$selected" | sed 's/^\[.*\] \(.*\)\( \*\)\?$/\1/' | sed 's/ \*$//')
+target=$(echo "$selected" | sed 's/^\[\(.*\)\] .*/\1/')
 
-tmux switch-client -t "$session:$window"
+tmux switch-client -t "$target"
