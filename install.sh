@@ -25,6 +25,7 @@ setup_dotfiles_dirs() {
   create_dirs=(
     "${HOME}/.config/nvim/undo"
     "${HOME}/.config/nvim/tmp"
+    "${HOME}/.config/nvim/after/syntax"
     "${HOME}/.bash_completion.d"
     "${HOME}/.tmux/plugins/tpm"
     "${HOME}/.tmux/sessions"
@@ -43,6 +44,7 @@ setup_dotfiles_links() {
   create_links=(
     "nvim/init.lua .config/nvim/init.lua"
     "nvim/syntax .config/nvim/syntax"
+    "nvim/after/syntax/sh.vim .config/nvim/after/syntax/sh.vim"
     "nvim/scripts .config/nvim/scripts"
     "nvim/spell .config/nvim/spell"
     "nvim/lua .config/nvim/lua"

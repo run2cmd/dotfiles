@@ -45,10 +45,20 @@ return {
         'gh_actions_expressions'
       }):wait(600000)
 
+      -- Disable treesitter highlighting for bash: the tree-sitter-bash grammar
+      -- misparses '[' inside parameter expansion defaults (e.g. ${1:-[].name}),
+      -- breaking syntax from that point. Keeping the parser installed still
+      -- provides indentation, text-objects, and context features.
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'bash', 'sh' },
+        callback = function()
+          vim.treesitter.stop()
+        end,
+      })
+
       vim.api.nvim_create_autocmd('FileType', {
         pattern = {
           'lua',
-          'bash',
           'groovy',
           'python',
           'yaml',
