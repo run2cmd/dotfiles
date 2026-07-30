@@ -1,0 +1,8 @@
+#!/bin/bash
+# Shim that runs Ruby 3.2.2 inside a Podman container.
+# Mounts the current directory as the working directory.
+exec podman run --rm -it \
+    -v "$(pwd):$(pwd):z" \
+    -w "$(pwd)" \
+    docker.io/library/ruby:3.2.2 \
+    ruby "$@"

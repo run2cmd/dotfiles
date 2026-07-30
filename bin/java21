@@ -1,0 +1,8 @@
+#!/bin/bash
+# Shim that runs Java 21 (Amazon Corretto) inside a Podman container.
+# Mounts the current directory as the working directory.
+exec podman run --rm -it \
+    -v "$(pwd):$(pwd):z" \
+    -w "$(pwd)" \
+    docker.io/library/maven:3.9.16-amazoncorretto-21 \
+    java "$@"

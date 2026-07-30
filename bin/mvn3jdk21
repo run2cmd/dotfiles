@@ -1,0 +1,9 @@
+#!/bin/bash
+# Shim that runs Maven 3.9.16 with Amazon Corretto JDK 21 inside a Podman container.
+# Mounts the current directory as the working directory and ~/.m2 for local repo/settings.
+exec podman run --rm -it \
+    -v "$(pwd):$(pwd):z" \
+    -w "$(pwd)" \
+    -v "$HOME/.m2:/root/.m2:z" \
+    docker.io/library/maven:3.9.16-amazoncorretto-21 \
+    mvn "$@"

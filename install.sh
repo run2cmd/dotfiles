@@ -56,6 +56,9 @@ setup_dotfiles_links() {
     "bin/tmux-copy bin/tmux-copy"
     "bin/tmux-session-switch bin/tmux-session-switch"
     "bin/tmux-project bin/tmux-project"
+    "bin/java21 bin/java21"
+    "bin/mvn3jdk21 bin/mvn3jdk21"
+    "bin/ruby32 bin/ruby32"
     "tmux_start.sh .tmux/sessions/tmux_start.sh"
   )
 
