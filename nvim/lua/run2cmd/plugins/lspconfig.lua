@@ -115,6 +115,19 @@ return {
           },
         },
       })
+
+      vim.lsp.config("ansiblels", {
+        settings = {
+          ansible = {
+            validation = {
+              enabled = true,
+              lint = {
+                enabled = false,
+              }
+            },
+          },
+        },
+      })
       -- vim.lsp.set_log_level('debug')
     end,
   },
