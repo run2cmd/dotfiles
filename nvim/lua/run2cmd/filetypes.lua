@@ -34,20 +34,32 @@ addtype({ extension = { tfstate = "json" } })
 
 local function set_yaml(bufnr)
   local content = vim.api.nvim_buf_get_lines(bufnr, 1, 10, false)
-  local filename = vim.api.nvim_buf_get_name(bufnr)
-  local matcher = { "^- hosts:", "^- name:" }
-  local type = "yaml"
-  if string.find(filename, "charts") then
-    type = "helm"
-  end
-  for _, m in ipairs(matcher) do
-    for _, c in ipairs(content) do
-      if string.match(c, m) then
-        type = "yaml.ansible"
-      end
+  local is_helm = false
+  local is_ansible = false
+
+  for _, line in ipairs(content) do
+    if (line:match("apiVersion:") or line:match("kind:")) then
+      is_helm = true
+    end
+
+    if (line:match("^%- hosts:") or line:match("^%- name:")) then
+      is_ansible = true
+    end
+
+    if is_helm or is_ansible then
+      break
     end
   end
-  return type
+
+  if is_helm then
+    return "helm"
+  end
+
+  if is_ansible then
+    return "yaml.ansible"
+  end
+
+  return "yaml"
 end
 addtype({
   pattern = {
