@@ -42,6 +42,24 @@ mapkey("n", "[l", ":lprev<CR>zz")
 mapkey("n", "]b", ":bnext<CR>zz")
 mapkey("n", "[b", ":bprev<CR>zz")
 
+mapkey("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end)
+mapkey("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end)
+mapkey("n", "<leader>dd", vim.diagnostic.open_float)
+mapkey("n", "<leader>dq", vim.diagnostic.setqflist)
+
+mapkey("n", "gd", function()
+  vim.cmd("normal! gd")
+  vim.cmd("silent! nohlsearch")
+end)
+
+mapkey("n", "<C-]>", function()
+  local word = vim.fn.expand("<cword>")
+  local ok = pcall(vim.cmd.tag, word)
+  if not ok then
+    vim.cmd("normal gd")
+  end
+end)
+
 mapkey("n", "<leader>e", vim.cmd.Ex)
 
 -- Remove " around a word

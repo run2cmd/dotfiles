@@ -60,15 +60,16 @@ return {
         pattern = {
           'lua',
           'groovy',
+          'Jenkinsfile',
           'python',
           'yaml',
+          'yaml.ansible',
           'ruby',
           'json',
           'hcl',
           'markdown',
           'properties',
           'puppet',
-          'groovy',
           'helm',
           'xml'
         },

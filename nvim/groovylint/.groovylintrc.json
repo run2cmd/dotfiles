@@ -1,0 +1,8 @@
+{
+    "extends": "recommended",
+    "rules": {
+        "formatting.LineLength": "off",
+        "formatting.Indentation": "off",
+        "unnecessary.UnnecessaryGetter": "off"
+    }
+}

@@ -3,13 +3,28 @@ local helpers = require("run2cmd.helper-functions")
 vim.o.cmdheight = 2
 vim.o.laststatus = 2
 
-local function get_lsp_status()
-  local status = "no-lsp"
-  if next(vim.lsp.get_clients()) then
-    status = require("lsp-status").status()
+local function get_lint_status()
+  local counts = vim.diagnostic.count(0)
+  local err = counts[vim.diagnostic.severity.ERROR] or 0
+  local warn = counts[vim.diagnostic.severity.WARN] or 0
+  local info = counts[vim.diagnostic.severity.INFO] or 0
+  local hint = counts[vim.diagnostic.severity.HINT] or 0
+
+  if err == 0 and warn == 0 and info == 0 and hint == 0 then
+    return "OK"
   end
-  return status
+
+  local parts = {}
+  if err > 0 then table.insert(parts, "E " .. err) end
+  if warn > 0 then table.insert(parts, "W " .. warn) end
+  if info > 0 then table.insert(parts, "I " .. info) end
+  if hint > 0 then table.insert(parts, "H " .. hint) end
+  return table.concat(parts, ", ")
 end
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+  callback = function() vim.cmd("redrawstatus") end,
+})
 
 function Status_line()
   return table.concat({
@@ -24,7 +39,7 @@ function Status_line()
     "[%{strlen(&fenc)?&fenc:&enc}a]",
     " %h%m%r%w",
     "[",
-    get_lsp_status(),
+    get_lint_status(),
     "]",
   })
 end

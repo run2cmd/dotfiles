@@ -45,6 +45,11 @@ set -o vi
 export PATH="/usr/local/bin:$PATH"
 export PATH=~/bin:$PATH
 
+# Ruby gem --user-install bin dir
+if command -v ruby &> /dev/null ;then
+  export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
+
 # Git nice PS
 [ -e /usr/share/git/completion/git-prompt.sh ] && source /usr/share/git/completion/git-prompt.sh
 export PS1="[\[\e[32m\]\w\[\e[91m\]\$(__git_ps1)\[\e[00m\]]$ "

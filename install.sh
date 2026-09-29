@@ -29,6 +29,8 @@ setup_dotfiles_dirs() {
     "${HOME}/.bash_completion.d"
     "${HOME}/.tmux/plugins/tpm"
     "${HOME}/.tmux/sessions"
+    "${HOME}/.ctags.d"
+    "${HOME}/.local/share/nvim/tags"
     "${HOME}/bin"
   )
 
@@ -48,6 +50,8 @@ setup_dotfiles_links() {
     "nvim/scripts .config/nvim/scripts"
     "nvim/spell .config/nvim/spell"
     "nvim/lua .config/nvim/lua"
+    "nvim/ctags/custom.ctags .ctags.d/custom.ctags"
+    "nvim/groovylint/.groovylintrc.json .groovylintrc.json"
     "gitattributes .gitattributes"
     "gitconfig .gitconfig"
     "tmux.conf .tmux.conf"
@@ -110,6 +114,11 @@ install_ansible_galaxy() {
   ansible-galaxy collection install community.general
 }
 
+install_gem_tools() {
+  topic 'Install gem-based linters'
+  gem install --user-install puppet-lint
+}
+
 update_os() {
   topic 'Update operating system'
   sudo pacman -Scc --noconfirm && sudo pacman -Syu --noconfirm
@@ -127,6 +136,7 @@ install_packages() {
     bash-completion
     chromium
     cpio
+    ctags
     diffutils
     dos2unix
     dnsutils
@@ -147,6 +157,7 @@ install_packages() {
     libunwind
     llvm
     lua
+    luarocks
     make
     man-db
     maven
@@ -170,6 +181,7 @@ install_packages() {
     tcl
     terraform
     terragrunt
+    tidy
     tk
     tmux
     twine
@@ -235,4 +247,5 @@ tmux_plugins_update
 
 setup_gita
 install_ansible_galaxy
+install_gem_tools
 github_copilot

@@ -1,0 +1,26 @@
+# Custom universal-ctags optlib definitions
+
+# Terraform
+--map-Terraform=+.hcl
+
+# Dockerfile
+--langdef=Dockerfile
+--map-Dockerfile=+.Dockerfile
+--map-Dockerfile=+(Dockerfile)
+--kinddef-Dockerfile=s,stage,build stages
+--kinddef-Dockerfile=a,arg,build arguments
+--kinddef-Dockerfile=e,env,environment variables
+--regex-Dockerfile=/^FROM\s+\S+\s+AS\s+([A-Za-z0-9_-]+)/\1/s/
+--regex-Dockerfile=/^ARG\s+([A-Za-z0-9_]+)/\1/a/
+--regex-Dockerfile=/^ENV\s+([A-Za-z0-9_]+)/\1/e/
+
+# Groovy / Gradle
+--langdef=Groovy
+--map-Groovy=+.groovy
+--map-Groovy=+.gradle
+--kinddef-Groovy=c,class,classes
+--kinddef-Groovy=m,method,methods
+--kinddef-Groovy=t,task,gradle tasks
+--regex-Groovy=/^\s*(class|interface|trait)\s+([A-Za-z0-9_]+)/\2/c/
+--regex-Groovy=/^\s*(def|void|[A-Za-z0-9_<>\[\]]+)\s+([A-Za-z0-9_]+)\s*\(/\2/m/
+--regex-Groovy=/^\s*task\s+([A-Za-z0-9_]+)/\1/t/

@@ -4,10 +4,8 @@ return {
     dependencies = {
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "nvim-lua/lsp-status.nvim",
       {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
@@ -41,7 +39,6 @@ return {
         sources = cmp.config.sources({
           { name = "copilot", group_index = 2 },
           { name = "path" },
-          { name = "nvim_lsp" },
         }, {
           { name = "buffer" },
         }),
