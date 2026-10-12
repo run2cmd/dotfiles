@@ -226,7 +226,7 @@ tmux_sessions() {
 github_copilot() {
   topic "Install GitHub Copilot CLI"
   if type copilot &> /dev/null ;then
-    copilot update
+    sudo copilot update
   else
     curl -fsSL https://gh.io/copilot-install | sudo bash
   fi
