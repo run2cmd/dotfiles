@@ -3,7 +3,7 @@
 # Bind in tmux.conf with:
 #   bind p display-popup -E "~/bin/tmux-project"
 
-selected=$(ls -1 /code | fzf \
+selected=$(ls -1 /code /home | fzf \
     --prompt="project> " \
     --header="Open project session" \
     --reverse \
