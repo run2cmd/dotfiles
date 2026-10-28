@@ -232,6 +232,56 @@ github_copilot() {
   fi
 }
 
+cleanup() {
+  topic 'Cleanup'
+
+  sudo pacman -Scc --noconfirm
+  sudo journalctl --vacuum-size=50M
+  npm cache clean --force
+  rm -rf "${HOME}/.npm/_npx" "${HOME}/.gradle"
+
+  # Caches only. Copilot sessions live in ~/.copilot/session-state and are not touched
+  find "${HOME}/.cache" -mindepth 1 -maxdepth 1 ! -name copilot -exec rm -rf {} +
+
+  # Keep only the newest Copilot CLI version
+  local pkg_dir old_versions version
+  for pkg_dir in "${HOME}/.copilot/pkg/linux-x64" "${HOME}/.cache/copilot/pkg/linux-x64" ;do
+    [ -d "${pkg_dir}" ] || continue
+    old_versions=$(ls -1 "${pkg_dir}" | sort -V | head -n -1)
+    for version in ${old_versions} ;do
+      rm -rf "${pkg_dir:?}/${version}"
+    done
+  done
+
+  # Remove only git-ignored files (build output, caches). Non-git dirs are skipped
+  local repo
+  for repo in /code/*/ ;do
+    [ -e "${repo}.git" ] || continue
+    git -C "${repo}" clean -fdX
+  done
+
+  # Unused images are pulled again by the shims when needed
+  podman system prune --all --force
+}
+
+vhd_instructions() {
+  local vhd_path
+
+  vhd_path=$(powershell.exe -NoProfile -Command "(Get-ChildItem HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Lxss | Where-Object { (Get-ItemProperty \$_.PSPath).DistributionName -eq '${WSL_DISTRO_NAME}' } | Get-ItemProperty).BasePath" 2>/dev/null | tr -d '\r' | sed 's/^\\\\?\\//')
+  if [ -n "${vhd_path}" ] ;then
+    vhd_path="${vhd_path}\\ext4.vhdx"
+  else
+    vhd_path='<path to ext4.vhdx, see README>'
+  fi
+
+  topic 'Additional steps to complete update: shrink WSL disk'
+  cat <<EOT
+Deleted files do not shrink the WSL disk. Paste this in elevated PowerShell:
+
+wsl --shutdown; \$s = New-TemporaryFile; Set-Content \$s 'select vdisk file="${vhd_path}"','attach vdisk readonly','compact vdisk','detach vdisk'; diskpart /s \$s; Remove-Item \$s
+EOT
+}
+
 dependencies
 
 update_os
@@ -249,3 +299,6 @@ setup_gita
 install_ansible_galaxy
 install_gem_tools
 github_copilot
+
+cleanup
+vhd_instructions
