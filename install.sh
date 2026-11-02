@@ -260,8 +260,11 @@ cleanup() {
     git -C "${repo}" clean -fdX
   done
 
+  # Never remove containers (even exited). Images, networks and volumes used by any container are kept.
   # Unused images are pulled again by the shims when needed
-  podman system prune --all --force
+  podman image prune --all --force
+  podman network prune --force
+  podman volume prune --force
 }
 
 vhd_instructions() {
