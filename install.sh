@@ -11,7 +11,7 @@ topic() {
 
 dependencies() {
   topic 'Install dependencies'
-  if [ ! -e "/usr/local/bin/dotfiles-update" ] ;then
+  if [ "$(readlink -f /usr/local/bin/dotfiles-update 2>/dev/null)" != "${REPODIR}/install.sh" ] ;then
     sudo ln -snf "${REPODIR}/install.sh" "/usr/local/bin/dotfiles-update"
     echo 'Tool dotfiles-update installed. Run "dotfiles-update" to setup environment.'
   fi
@@ -76,8 +76,10 @@ setup_dotfiles_bash() {
 
   if ! grep -q 'dotfiles' ~/.bashrc ;then
    echo '# Laod dotfiles setup' >> ~/.bashrc
-   # shellcheck disable=SC2016
-   echo 'source /code/dotfiles/bashrc' >> ~/.bashrc
+   echo "source ${REPODIR}/bashrc" >> ~/.bashrc
+  else
+   # Keep the source line in sync when the repository is moved
+   sed -i "s|^source .*/dotfiles/bashrc\$|source ${REPODIR}/bashrc|" ~/.bashrc
   fi
 
   echo 'Load ~/.bashrc'
@@ -255,7 +257,7 @@ cleanup() {
 
   # Remove only git-ignored files (build output, caches). Non-git dirs are skipped
   local repo
-  for repo in /code/*/ ;do
+  for repo in /code/*/*/ ;do
     [ -e "${repo}.git" ] || continue
     git -C "${repo}" clean -fdX
   done

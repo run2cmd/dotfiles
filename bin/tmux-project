@@ -3,7 +3,16 @@
 # Bind in tmux.conf with:
 #   bind p display-popup -E "~/bin/tmux-project"
 
-selected=$(ls -1 /code /home | fzf \
+list_projects() {
+    # /code/<org>/<repo> shown as "org/repo"; /home entries shown as-is
+    for d in /code/*/*/; do
+        d=${d%/}
+        echo "${d#/code/}"
+    done
+    ls -1 /home
+}
+
+selected=$(list_projects | fzf \
     --prompt="project> " \
     --header="Open project session" \
     --reverse \
@@ -12,12 +21,17 @@ selected=$(ls -1 /code /home | fzf \
 
 [ -z "$selected" ] && exit 0
 
-session_name="$selected"
-project_path="/code/$selected"
+# tmux session names cannot contain '.' or ':'
+session_name=${selected//[.:]/_}
+if [ -d "/code/$selected" ]; then
+    project_path="/code/$selected"
+else
+    project_path="/home/$selected"
+fi
 
-if tmux has-session -t "$session_name" 2>/dev/null; then
-    tmux switch-client -t "$session_name"
+if tmux has-session -t "=$session_name" 2>/dev/null; then
+    tmux switch-client -t "=$session_name"
 else
     tmux new-session -d -s "$session_name" -c "$project_path"
-    tmux switch-client -t "$session_name"
+    tmux switch-client -t "=$session_name"
 fi
